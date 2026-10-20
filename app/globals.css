@@ -1,9 +1,50 @@
 @import "tailwindcss";
-:root{--bg:#f7f5ef;--fg:#111827;color-scheme:light}
+:root{--bg:#f5f3ee;--fg:#202326;--muted:#687078;--line:#dcd9d1;--slate:#526579;--rust:#a35c43;color-scheme:light}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:Arial,Helvetica,sans-serif}
-.dark body{--bg:#111827;--fg:#f7f5ef}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:-.01em}
+.dark body{--bg:#1b1d1f;--fg:#ece9e2;--muted:#a8aaa8;--line:#393b3d;--slate:#aab9c7;--rust:#cf896e}
 .dark{color-scheme:dark}
 button,input,textarea{font:inherit}
 .grid-paper{background-image:linear-gradient(#e7e2d8 1px,transparent 1px),linear-gradient(90deg,#e7e2d8 1px,transparent 1px);background-size:24px 24px}
 .dark .grid-paper{background-image:linear-gradient(#263244 1px,transparent 1px),linear-gradient(90deg,#263244 1px,transparent 1px)}
+.markdown-body{line-height:1.7;overflow-wrap:anywhere}
+.markdown-body h1,.markdown-body h2,.markdown-body h3{font-weight:800;line-height:1.25;margin:1.4em 0 .5em}
+.markdown-body h1{font-size:2rem}.markdown-body h2{font-size:1.5rem}.markdown-body h3{font-size:1.2rem}
+.markdown-body p,.markdown-body ul,.markdown-body ol,.markdown-body blockquote,.markdown-body pre,.markdown-body table{margin:1em 0}
+.markdown-body ul{list-style:disc;padding-left:1.5em}.markdown-body ol{list-style:decimal;padding-left:1.5em}
+.markdown-body a{text-decoration:underline;color:#536b93}.markdown-body blockquote{border-left:3px solid #637da8;padding-left:1em;opacity:.8}
+.markdown-body pre{overflow-x:auto;border-radius:.5rem;background:#1f2937;color:white;padding:1rem}
+.markdown-body code{font-family:ui-monospace,monospace;background:#7772;border-radius:.2rem;padding:.1em .3em}.markdown-body pre code{background:transparent;padding:0}
+.markdown-body table{display:block;max-width:100%;overflow-x:auto;border-collapse:collapse}.markdown-body th,.markdown-body td{border:1px solid #8886;padding:.4rem .7rem}
+.markdown-body img{max-width:100%;height:auto}
+.document-canvas{max-width:48rem;margin-inline:auto}
+.document-canvas .bn-container{font-family:inherit}
+.focus-mode aside,.focus-mode nav,.focus-mode header{display:none!important}
+.focus-mode main{margin-left:0!important}
+.prose-measure{max-width:68ch}
+::selection{background:#a35c4340}
+
+/* ---- Study mode: an editorial reading experience ---- */
+.study-document{max-width:44rem;margin-inline:auto;font-size:1.0625rem;line-height:1.78;color:var(--fg)}
+.study-document>*+*{margin-top:1.15em}
+.study-h{font-weight:700;letter-spacing:-.02em;line-height:1.2;color:var(--fg)}
+h1.study-h{font-family:Georgia,"Times New Roman",ui-serif,serif;font-weight:700;font-size:clamp(2rem,4.4vw,2.6rem);letter-spacing:-.015em;margin-top:1.6em}
+h2.study-h{font-size:clamp(1.5rem,3vw,1.85rem);margin-top:1.8em}
+h3.study-h{font-size:clamp(1.22rem,2.2vw,1.4rem);margin-top:1.5em}
+.study-document>.study-h:first-child{margin-top:0}
+.study-p{line-height:1.78;overflow-wrap:anywhere}
+.study-p p{margin:0}.study-p p+p{margin-top:.8em}
+.study-li{margin-left:1.6em;padding-left:.3em}.study-li p{margin:0;display:inline}
+.study-li+.study-li{margin-top:.35em}
+.study-link{color:var(--slate);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+.study-link:hover{color:var(--rust)}
+.study-pre{overflow-x:auto;border-radius:.75rem;background:#1b2430;color:#e7edf4;padding:1.1rem 1.25rem;font-size:.9rem;line-height:1.6;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;border:1px solid #0003}
+.dark .study-pre{background:#12181f;border-color:#fff1}
+.study-quote{border-left:3px solid var(--rust);padding:.1em 0 .1em 1.15em;font-style:italic;color:var(--muted)}
+.study-quote p{margin:0}
+.study-figure{margin-block:1.6em}
+.study-document code:not(.study-pre code){font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em;background:color-mix(in srgb,var(--rust) 12%,transparent);color:var(--fg);border-radius:.3rem;padding:.12em .4em}
+.study-document table{display:block;max-width:100%;overflow-x:auto;border-collapse:collapse;font-size:.95rem}
+.study-document th,.study-document td{border:1px solid var(--line);padding:.5rem .8rem;text-align:left}
+.study-document th{background:color-mix(in srgb,var(--rust) 10%,transparent);font-weight:600}
+.study-resource{text-decoration:none}

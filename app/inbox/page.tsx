@@ -1,47 +1,8 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
-import { Archive, Plus, Trash2 } from 'lucide-react';
-import { Page, Empty } from '@/components/ui';
-import { createClient } from '@/lib/supabase';
-
-type Item = { id: string; text: string; type: string; archived_at?: string | null; created_at: string };
-const fallbackKey = 'manu-inbox';
-export default function Inbox() {
-  const [items, setItems] = useState<Item[]>([]);
-  const [text, setText] = useState('');
-  const [filter, setFilter] = useState<'active'|'archived'>('active');
-  const client = useMemo(() => createClient(), []);
-  useEffect(() => {
-    let active = true;
-    async function load() {
-      if (client) {
-        const { data } = await client.from('inbox_items').select('*').order('created_at', { ascending: false });
-        if (active && data) setItems(data);
-      } else {
-        const saved = localStorage.getItem(fallbackKey);
-        if (active) setItems(saved ? JSON.parse(saved) : []);
-      }
-    }
-    load(); return () => { active = false; };
-  }, [client]);
-  function persist(next: Item[]) { setItems(next); if (!client) localStorage.setItem(fallbackKey, JSON.stringify(next)); }
-  async function add() {
-    const value = text.trim(); if (!value) return;
-    if (client) {
-      const { data } = await client.from('inbox_items').insert({ text: value, type: 'other' }).select().single();
-      if (data) setItems(current => [data, ...current]);
-    } else persist([{ id: crypto.randomUUID(), text: value, type: 'other', created_at: new Date().toISOString() }, ...items]);
-    setText('');
-  }
-  async function archive(item: Item) {
-    const archived_at = item.archived_at ? null : new Date().toISOString();
-    if (client) await client.from('inbox_items').update({ archived_at }).eq('id', item.id);
-    persist(items.map(x => x.id === item.id ? { ...x, archived_at } : x));
-  }
-  async function remove(item: Item) {
-    if (client) await client.from('inbox_items').delete().eq('id', item.id);
-    persist(items.filter(x => x.id !== item.id));
-  }
-  const visible = items.filter(item => filter === 'archived' ? item.archived_at : !item.archived_at);
-  return <Page eyebrow="Capture and sort" title="Inbox"><div className="mt-8 flex max-w-2xl gap-2"><input value={text} onChange={e=>setText(e.target.value)} onKeyDown={e=>e.key==='Enter'&&add()} placeholder="Capture a thought…" className="min-w-0 flex-1 rounded-lg border bg-transparent p-3"/><button onClick={add} aria-label="Add capture" className="rounded-lg bg-[#ff6b35] px-4 text-white"><Plus size={18}/></button></div><div className="mt-6 flex gap-2 text-sm"><button onClick={()=>setFilter('active')} className={filter==='active'?'font-bold':''}>Active</button><button onClick={()=>setFilter('archived')} className={filter==='archived'?'font-bold':''}>Archived</button></div><div className="mt-4 max-w-2xl space-y-2">{visible.length ? visible.map(item=><article key={item.id} className="flex items-center gap-3 rounded-xl border border-black/10 p-4 dark:border-white/10"><span className="min-w-0 flex-1">{item.text}</span><button onClick={()=>archive(item)} aria-label={item.archived_at?'Restore':'Archive'}><Archive size={17}/></button><button onClick={()=>remove(item)} aria-label="Delete"><Trash2 size={17}/></button></article>) : <Empty title={filter==='active'?'Inbox is clear':'No archived captures'} description="Quick captures, links, and thoughts will land here."/>}</div></Page>;
-}
+import {useEffect,useMemo,useState} from 'react';import {Archive,Plus,Trash2,Pencil} from 'lucide-react';import {Page,Empty} from '@/components/ui';import {createClient} from '@/lib/supabase';
+type Item={id:string;text:string;type:string;archived_at:string|null;created_at:string};const fallbackKey='manu-inbox';const types=['question','learn_later','reminder','idea','research','other'];
+export default function Inbox(){const [items,setItems]=useState<Item[]>([]),[value,setValue]=useState(''),[type,setType]=useState('other'),[filter,setFilter]=useState('active'),[editing,setEditing]=useState<string|null>(null),[error,setError]=useState('');const client=useMemo(()=>createClient(),[]);useEffect(()=>{if(window.location.hash==='#capture')document.getElementById('capture')?.focus()},[]);useEffect(()=>{let active=true;async function load(){if(client){const {data,error:e}=await client.from('inbox_items').select('id,text,type,archived_at,created_at').order('created_at',{ascending:false});if(active){if(e)setError(e.message);else setItems(data??[])}}else{try{const saved=localStorage.getItem(fallbackKey);if(active)setItems(saved?JSON.parse(saved):[])}catch{if(active)setItems([])}}}load();return()=>{active=false}},[client]);function persist(next:Item[]){setItems(next);if(!client)localStorage.setItem(fallbackKey,JSON.stringify(next))}
+ async function save(){const text=value.trim();if(!text)return;setError('');if(client){const {data:{user}}=await client.auth.getUser();if(!user){setError('Sign in required');return}if(editing){const {data,error:e}=await client.from('inbox_items').update({text,type}).eq('id',editing).select('id,text,type,archived_at,created_at').single();if(e){setError(e.message);return}persist(items.map(x=>x.id===editing?data:x))}else{const {data,error:e}=await client.from('inbox_items').insert({user_id:user.id,text,type}).select('id,text,type,archived_at,created_at').single();if(e){setError(e.message);return}persist([data,...items]);await client.from('activity_events').insert({user_id:user.id,event_type:'inbox_created',metadata:{item_id:data.id}})}}else{const item:Item={id:crypto.randomUUID(),text,type,archived_at:null,created_at:new Date().toISOString()};persist(editing?items.map(x=>x.id===editing?{...x,text,type}:x):[item,...items])}setValue('');setType('other');setEditing(null)}
+ async function archive(item:Item){const archived_at=item.archived_at?null:new Date().toISOString();if(client){const {error:e}=await client.from('inbox_items').update({archived_at}).eq('id',item.id);if(e){setError(e.message);return}}persist(items.map(x=>x.id===item.id?{...x,archived_at}:x))}
+ async function remove(item:Item){if(client){const {error:e}=await client.from('inbox_items').delete().eq('id',item.id);if(e){setError(e.message);return}}persist(items.filter(x=>x.id!==item.id))}
+ const visible=items.filter(x=>filter==='all'||(filter==='archived'?x.archived_at:!x.archived_at));return <Page eyebrow="Capture and sort" title="Inbox">{error&&<p role="alert" className="mt-4 text-red-600">{error}</p>}<div className="mt-8 flex max-w-2xl flex-wrap gap-2"><input id="capture" value={value} onChange={e=>setValue(e.target.value)} onKeyDown={e=>e.key==='Enter'&&save()} placeholder="Capture a thought…" className="min-w-0 flex-1 rounded-lg border bg-transparent p-3"/><select aria-label="Capture type" value={type} onChange={e=>setType(e.target.value)} className="rounded-lg border bg-[var(--bg)] p-2">{types.map(x=><option key={x} value={x}>{x.replace('_',' ')}</option>)}</select><button onClick={save} aria-label={editing?'Save edit':'Add capture'} className="rounded-lg bg-[#ff6b35] px-4 text-white"><Plus size={18}/></button></div><div className="mt-6 flex gap-4 text-sm">{['active','archived','all'].map(x=><button key={x} onClick={()=>setFilter(x)} className={filter===x?'font-bold':''}>{x}</button>)}</div><div className="mt-4 max-w-2xl space-y-2">{visible.length?visible.map(item=><article key={item.id} className="flex items-center gap-3 rounded-xl border border-black/10 p-4 dark:border-white/10"><span className="min-w-0 flex-1 break-words">{item.text}<small className="ml-2 opacity-50">{item.type.replace('_',' ')}</small></span><button onClick={()=>{setEditing(item.id);setValue(item.text);setType(item.type);document.getElementById('capture')?.focus()}} aria-label="Edit"><Pencil size={17}/></button><button onClick={()=>archive(item)} aria-label={item.archived_at?'Restore':'Archive'}><Archive size={17}/></button><button onClick={()=>remove(item)} aria-label="Delete"><Trash2 size={17}/></button></article>):<Empty title="Inbox is clear" description="Your captures will appear here."/>}</div></Page>}

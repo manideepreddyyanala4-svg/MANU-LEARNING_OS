@@ -1,3 +1,4 @@
 import nextVitals from 'eslint-config-next/core-web-vitals';
 
-export default [...nextVitals, { ignores: ['.next/**', 'node_modules/**'] }];
+const config = [...nextVitals, { ignores: ['.next/**', 'node_modules/**', 'test-results/**', 'playwright-report/**'] }];
+export default config;
