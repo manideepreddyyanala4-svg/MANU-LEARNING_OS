@@ -10,9 +10,10 @@ import {
   CheckCircle2,
   ChevronRight,
   Focus,
+  ImagePlus,
   Pencil,
 } from 'lucide-react';
-import { DocumentCanvas } from '@/components/document-canvas';
+import { DocumentCanvas, textOf } from '@/components/document-canvas';
 import {
   requireClient,
   requireUser,
@@ -100,6 +101,7 @@ export default function TopicPage() {
   }
 
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     const timer = window.setTimeout(
       () =>
         load().catch((error: unknown) =>
@@ -110,6 +112,16 @@ export default function TopicPage() {
     return () => window.clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subjectSlug, topicSlug]);
+
+  const imageCount = useMemo(() => {
+    return content.filter((b) => b.type === 'image').length;
+  }, [content]);
+
+  const isImageNote = useMemo(() => {
+    if (!content || !content.length) return false;
+    const textChars = textOf(content).trim().length;
+    return imageCount > 0 && textChars < 150;
+  }, [content, imageCount]);
 
   async function saveDocument(next: PartialBlock[], plainText: string) {
     if (!topic) return;
@@ -223,7 +235,7 @@ export default function TopicPage() {
       )}
 
       {topic && subject && (
-        <div className="topic-layout">
+        <div className={`topic-layout ${isImageNote ? 'is-image-note' : ''}`}>
           {/* Topline Bar */}
           <div className="topic-topline">
             <nav className="topic-crumbs" aria-label="Breadcrumb">
@@ -241,6 +253,18 @@ export default function TopicPage() {
             </nav>
 
             <div className="topic-topline-actions">
+              {imageCount > 0 && (
+                <span
+                  className="topic-note-badge"
+                  title={`${imageCount} visual note ${imageCount === 1 ? 'sheet' : 'sheets'}`}
+                >
+                  <ImagePlus size={13} />
+                  <span>
+                    {imageCount} {imageCount === 1 ? 'note sheet' : 'note sheets'}
+                  </span>
+                </span>
+              )}
+
               <span className="topic-mode">
                 {editing ? 'Writing Mode' : 'Study Mode'}
               </span>
@@ -362,6 +386,7 @@ export default function TopicPage() {
               onUpload={uploadAsset}
               doneRequest={doneRequest}
               onDone={() => setEditing(false)}
+              onStartEdit={() => setEditing(true)}
             />
           </div>
 
