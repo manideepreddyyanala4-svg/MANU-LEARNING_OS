@@ -1,4 +1,18 @@
 import {defineConfig,devices} from '@playwright/test';
+import {readFileSync,existsSync} from 'node:fs';
+
+if (existsSync('.env.local')) {
+  for (const line of readFileSync('.env.local', 'utf8').split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (trimmed && !trimmed.startsWith('#') && trimmed.includes('=')) {
+      const idx = trimmed.indexOf('=');
+      const key = trimmed.slice(0, idx).trim();
+      const val = trimmed.slice(idx + 1).trim().replace(/^['"]|['"]$/g, '');
+      if (!process.env[key]) process.env[key] = val;
+    }
+  }
+}
+
 const baseURL=process.env.MANU_BASE_URL??'http://localhost:3000';
 export default defineConfig({testDir:'./tests',use:{baseURL,trace:'on-first-retry'},webServer:{command:`./node_modules/.bin/next dev --port ${new URL(baseURL).port || '3000'}`,url:`${baseURL}/login`,reuseExistingServer:true},projects:[
 {name:'desktop-chromium',use:{...devices['Desktop Chrome'],viewport:{width:1440,height:900}}},

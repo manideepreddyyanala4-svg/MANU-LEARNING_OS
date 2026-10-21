@@ -211,7 +211,7 @@ function SaveBadge({ state }: { state: SaveState }) {
     saving: { label: 'Saving…', icon: <Loader2 size={13} className="animate-spin" />, tone: 'text-[var(--muted)]' },
     unsaved: { label: 'Unsaved changes', icon: <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />, tone: 'text-amber-600' },
     error: { label: 'Save failed — stored locally', icon: <span className="h-1.5 w-1.5 rounded-full bg-red-500" />, tone: 'text-red-600' },
-    recovered: { label: 'Recovered local draft', icon: <Check size={13} />, tone: 'text-[var(--rust)]' },
+    recovered: { label: 'Recovered local draft', icon: <Check size={13} />, tone: 'text-[var(--accent)]' },
   };
   const { label, icon, tone } = map[state];
   return <span className={`inline-flex items-center gap-1.5 text-xs font-medium ${tone}`}>{icon}{label}</span>;
@@ -219,24 +219,84 @@ function SaveBadge({ state }: { state: SaveState }) {
 
 function StudyDocument({ blocks }: { blocks: PartialBlock[] }) {
   const [zoom, setZoom] = useState<{ url: string; alt: string } | null>(null);
+  const [zoomScale, setZoomScale] = useState(1);
   const hasContent = blocks.some((block) => block.type !== 'paragraph' || (Array.isArray(block.content) && block.content.some((part) => inlineText(part).trim())));
+
   useEffect(() => {
     if (!zoom) return;
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setZoom(null);
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [zoom]);
+
   return <>
     <article className="study-document">
       {hasContent
-        ? blocks.map((block, index) => <StudyBlock key={block.id ?? index} block={block} index={index} onZoom={setZoom} />)
-        : <p className="py-16 text-center text-[var(--muted)]">This topic is empty. Switch to Edit to start writing.</p>}
+        ? blocks.map((block, index) => <StudyBlock key={block.id ?? index} block={block} index={index} onZoom={(v) => { setZoom(v); setZoomScale(1); }} />)
+        : <p className="py-20 text-center text-[var(--muted)]">This topic is empty. Switch to Edit mode to start writing.</p>}
     </article>
-    {zoom && <div role="dialog" aria-modal="true" aria-label="Image viewer" className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm" onClick={() => setZoom(null)}>
-      <button aria-label="Close image" className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white transition hover:bg-white/20" onClick={() => setZoom(null)}><X size={20} /></button>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={zoom.url} alt={zoom.alt} className="max-h-[92vh] max-w-[92vw] rounded-lg object-contain" onClick={(e) => e.stopPropagation()} />
-    </div>}
+    {zoom && (
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Image viewer"
+        className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/90 p-4 backdrop-blur-md"
+        onClick={() => setZoom(null)}
+      >
+        <div className="absolute top-4 right-4 flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+          <button
+            aria-label="Zoom out"
+            title="Zoom out"
+            className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-white/20"
+            onClick={() => setZoomScale((s) => Math.max(0.5, s - 0.25))}
+          >
+            -
+          </button>
+          <span className="text-xs text-white/80 font-mono w-12 text-center">{Math.round(zoomScale * 100)}%</span>
+          <button
+            aria-label="Zoom in"
+            title="Zoom in"
+            className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-white/20"
+            onClick={() => setZoomScale((s) => Math.min(3, s + 0.25))}
+          >
+            +
+          </button>
+          <button
+            aria-label="Reset zoom"
+            title="Reset zoom"
+            className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-white/20"
+            onClick={() => setZoomScale(1)}
+          >
+            Fit
+          </button>
+          <button
+            aria-label="Close image"
+            title="Close"
+            className="ml-2 rounded-lg bg-white/15 p-1.5 text-white transition hover:bg-white/25"
+            onClick={() => setZoom(null)}
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        <div className="flex-1 flex items-center justify-center overflow-auto p-4 w-full" onClick={() => setZoom(null)}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={zoom.url}
+            alt={zoom.alt}
+            style={{ transform: `scale(${zoomScale})`, transition: 'transform 0.15s ease' }}
+            className="max-h-[82vh] max-w-[88vw] rounded-lg object-contain shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+
+        {zoom.alt && zoom.alt !== 'Topic image' && (
+          <p className="mt-2 text-center text-xs text-white/70 max-w-xl truncate px-4">
+            {zoom.alt}
+          </p>
+        )}
+      </div>
+    )}
   </>;
 }
 
