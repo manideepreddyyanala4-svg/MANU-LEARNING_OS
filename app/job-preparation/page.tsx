@@ -943,6 +943,23 @@ export default function JobPreparation() {
       {/* TAB 4: INTERVIEW PREPARATION */}
       {activeTab === 'interview' && (
         <div className="mt-6 space-y-6">
+          <a
+            href="/job-preparation/ase-day-1"
+            className="flex items-center justify-between gap-4 rounded-2xl border border-[var(--accent-border)] bg-[var(--accent-subtle)] p-5 transition hover:brightness-[0.98]"
+          >
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--accent)]">
+                ASE Interview · Start Here
+              </p>
+              <h3 className="mt-1 text-lg font-extrabold text-[var(--fg)]">
+                Open Day 1 — Q1–Q40 with Answers
+              </h3>
+              <p className="mt-1 text-xs text-[var(--muted)]">
+                Project foundations, full project pipeline, and ASE basics.
+              </p>
+            </div>
+            <span className="text-xl text-[var(--accent)]">→</span>
+          </a>
           <AseDay1InterviewPrep />
           <div className="grid gap-4 md:grid-cols-2">
             {notes.map((n) => {
