@@ -26,6 +26,7 @@ import {
   Eye,
 } from 'lucide-react';
 import { Page, Card, Empty } from '@/components/ui';
+import { AseDay1InterviewPrep } from '@/components/ase-day1-interview-prep';
 import { createClient } from '@/lib/supabase';
 import { requireUser } from '@/lib/learning';
 
@@ -942,6 +943,7 @@ export default function JobPreparation() {
       {/* TAB 4: INTERVIEW PREPARATION */}
       {activeTab === 'interview' && (
         <div className="mt-6 space-y-6">
+          <AseDay1InterviewPrep />
           <div className="grid gap-4 md:grid-cols-2">
             {notes.map((n) => {
               const cat = categories.find((c) => c.id === n.category_id);
