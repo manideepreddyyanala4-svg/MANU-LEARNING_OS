@@ -9,8 +9,16 @@ import { requireClient, subjects, topics, type Subject, type Topic } from '@/lib
 import type { PartialBlock } from '@blocknote/core';
 
 type Props = { children: React.ReactNode };
-const accents = ['#D66F4A', '#4D73B8', '#35847A', '#7558A6', '#B4822C', '#557D55', '#B65A6C'];
+const accents = ['#ad7964', '#748fa0', '#6d948b', '#8a7f9f', '#a8946d', '#7f9a7c', '#ae7c88'];
 const accentFor = (subject: Subject) => accents[[...subject.id].reduce((sum, char) => sum + char.charCodeAt(0), 0) % accents.length];
+const headingsFrom = (blocks: PartialBlock[]) => blocks.map((block, index) => ({ block, index }))
+  .filter(({ block }) => block.type === 'heading')
+  .map(({ block, index }) => ({
+    index,
+    text: typeof block.content === 'string' ? block.content : Array.isArray(block.content)
+      ? block.content.map((item) => typeof item === 'string' ? item : (item as { text?: string }).text ?? '').join('')
+      : `Section ${index + 1}`,
+  }));
 
 export function LearningShell({ children }: Props) {
   const pathname = usePathname();
@@ -48,16 +56,18 @@ export function LearningShell({ children }: Props) {
     Promise.resolve(requireClient().from('topic_documents').select('content_json').eq('topic_id', currentTopic.id).maybeSingle())
       .then(({ data }) => {
         const blocks = (data?.content_json as PartialBlock[] | null) ?? [];
-        setHeadings(blocks.map((block, index) => ({ block, index }))
-          .filter(({ block }) => block.type === 'heading')
-          .map(({ block, index }) => ({
-            index,
-            text: Array.isArray(block.content)
-              ? block.content.map((item) => typeof item === 'string' ? item : (item as { text?: string }).text ?? '').join('')
-              : `Section ${index + 1}`,
-          })));
+        setHeadings(headingsFrom(blocks));
       })
       .catch(() => setHeadings([]));
+  }, [currentTopic]);
+
+  useEffect(() => {
+    const saved = (event: Event) => {
+      const detail = (event as CustomEvent<{ topicId: string; content: PartialBlock[] }>).detail;
+      if (detail.topicId === currentTopic?.id) setHeadings(headingsFrom(detail.content));
+    };
+    window.addEventListener('manuos:learning-document-saved', saved);
+    return () => window.removeEventListener('manuos:learning-document-saved', saved);
   }, [currentTopic]);
 
   useEffect(() => {

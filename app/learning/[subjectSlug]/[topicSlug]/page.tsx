@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { Page } from '@/components/ui';
+import { Check, Focus, Pencil } from 'lucide-react';
 import { DocumentCanvas } from '@/components/document-canvas';
 import { requireClient, requireUser, subjects, topics, statuses, type Subject, type Topic } from '@/lib/learning';
 import type { PartialBlock } from '@blocknote/core';
@@ -18,13 +18,18 @@ export default function TopicPage() {
   const [content, setContent] = useState<PartialBlock[]>(emptyDocument);
   const [message, setMessage] = useState('');
   const [editing, setEditing] = useState(false);
+  const [doneRequest, setDoneRequest] = useState(0);
+  const [titleEditing, setTitleEditing] = useState(false);
+  const [titleDraft, setTitleDraft] = useState('');
+  const [focused, setFocused] = useState(false);
+  useEffect(() => () => document.documentElement.classList.remove('focus-mode'), []);
   const [activeHeading, setActiveHeading] = useState<number | null>(null);
   const outline = useMemo(() => content
     .map((block, index) => ({ block, index }))
     .filter(({ block }) => block.type === 'heading')
     .map(({ block, index }) => ({
       index,
-      text: Array.isArray(block.content)
+      text: typeof block.content === 'string' ? block.content : Array.isArray(block.content)
         ? block.content.map((item) => typeof item === 'string' ? item : (item as { text?: string }).text ?? '').join('')
         : `Section ${index + 1}`,
     })), [content]);
@@ -44,7 +49,7 @@ export default function TopicPage() {
       if (legacy.error) throw legacy.error;
       next = (legacy.data ?? []).filter((block) => block.block_type === 'text' && block.text_content).map((block) => ({ type: 'paragraph' as const, content: block.text_content ?? '' }));
     }
-    setSubject(currentSubject); setSiblings(allTopics); setTopic(currentTopic); setContent(next?.length ? next : emptyDocument);
+    setSubject(currentSubject); setSiblings(allTopics); setTopic(currentTopic); setTitleDraft(currentTopic.title); setContent(next?.length ? next : emptyDocument);
     localStorage.setItem('manuos:last-learning-topic', JSON.stringify({ subjectSlug, topicSlug }));
   }
   useEffect(() => {
@@ -75,6 +80,7 @@ export default function TopicPage() {
     }, { onConflict: 'topic_id' });
     if (error) throw error;
     setContent(next);
+    window.dispatchEvent(new CustomEvent('manuos:learning-document-saved', { detail: { topicId: topic.id, content: next } }));
   }
   async function uploadAsset(file: File) {
     if (!topic || file.size > 50 * 1024 * 1024) throw new Error('Choose a file up to 50 MB.');
@@ -97,24 +103,25 @@ export default function TopicPage() {
     return `/api/learning-assets?path=${encodeURIComponent(path)}`;
   }
   const index = siblings.findIndex((item) => item.id === topic?.id);
-  return <Page eyebrow={`${subject?.title??'Learning'} / Study`} title={topic?.title ?? 'Topic'} actions={topic&&<span className="text-sm text-[var(--muted)]">{editing?'Editing':'Study mode'}</span>}>
+  async function saveTitle() {
+    if (!topic) return;
+    const title = titleDraft.trim();
+    if (!title || title === topic.title) { setTitleDraft(topic.title); setTitleEditing(false); return; }
+    const { error } = await requireClient().from('topics').update({ title }).eq('id', topic.id);
+    if (error) { setMessage(error.message); return; }
+    setTopic({ ...topic, title }); setTitleEditing(false);
+  }
+  return <div className={`topic-page ${focused ? 'topic-focused' : ''}`}>
     {message && <p role="alert" className="mt-4 text-sm text-red-600">{message}</p>}
-    {topic && subject && <div className="mx-auto max-w-4xl">
-      <div className="min-w-0">
-      <div className="mt-4 flex flex-wrap items-center gap-4 text-sm">
-        <Link href={`/learning/${subject.slug}`} className="underline">← {subject.title}</Link>
-        <label>Status <select aria-label="Topic status" value={topic.status} onChange={async (event) => {
+    {topic && subject && <div className="topic-layout">
+      <div className="topic-topline"><Link href={`/learning/${subject.slug}`} className="topic-breadcrumb">← {subject.title}</Link><span className="topic-topline-actions"><span className="topic-mode">{editing ? 'Writing' : 'Reading'}</span><button className="topic-icon-button" type="button" title={focused ? 'Exit focus mode' : 'Focus mode'} aria-label={focused ? 'Exit focus mode' : 'Focus mode'} onClick={() => { setFocused((v) => !v); document.documentElement.classList.toggle('focus-mode'); }}><Focus size={17} /></button><button className="topic-primary-button" type="button" onClick={() => editing ? setDoneRequest((n) => n + 1) : setEditing(true)}>{editing ? <><Check size={16} /> Done</> : <><Pencil size={15} /> Edit</>}</button></span></div>
+      <header className="topic-header"><p className="topic-eyebrow">{subject.title} <span>·</span> Lesson {index + 1}</p>{titleEditing ? <input aria-label="Topic title" autoFocus className="topic-title-input" value={titleDraft} onChange={(event) => setTitleDraft(event.target.value)} onBlur={() => void saveTitle()} onKeyDown={(event) => { if (event.key === 'Enter') void saveTitle(); if (event.key === 'Escape') { setTitleDraft(topic.title); setTitleEditing(false); } }} /> : <h1 className="topic-title">{topic.title}{editing && <button type="button" title="Edit topic title" aria-label="Edit topic title" className="topic-title-edit" onClick={() => setTitleEditing(true)}><Pencil size={18} /></button>}</h1>}</header>
+      <div className="topic-meta"><label>Status <select aria-label="Topic status" value={topic.status} onChange={async (event) => {
           const value = event.target.value as Topic['status']; const { error } = await requireClient().from('topics').update({ status: value }).eq('id', topic.id);
           if (error) setMessage(error.message); else setTopic({ ...topic, status: value });
-        }} className="ml-2 rounded-lg border bg-[var(--bg)] p-2">{statuses.map((value) => <option key={value} value={value}>{value.replace('_', ' ')}</option>)}</select></label>
-        <span className="opacity-60">{editing ? 'Editing document' : 'Study mode'}</span>
-        <button className="rounded-lg border px-3 py-1.5" onClick={() => setEditing((value) => !value)}>{editing ? 'Done' : 'Edit'}</button>
-      </div>
-      <div className="mt-4 flex gap-5 text-sm">{index > 0 && <Link href={`/learning/${subject.slug}/${siblings[index - 1].slug}`}>← Previous</Link>}{index >= 0 && index < siblings.length - 1 && <Link href={`/learning/${subject.slug}/${siblings[index + 1].slug}`}>Next →</Link>}</div>
-      <div className={`mt-8 border border-[var(--line)] bg-white/35 p-5 dark:bg-white/[.03] sm:p-10 ${editing ? 'min-h-[60vh]' : ''}`}>
-        <DocumentCanvas key={topic.id} topicId={topic.id} initialContent={content} editable={editing} onSave={saveDocument} onUpload={uploadAsset} />
-      </div>
-      </div>
+        }}>{statuses.map((value) => <option key={value} value={value}>{value.replace('_', ' ')}</option>)}</select></label><span className="topic-meta-separator">·</span><span>{editing ? 'Your private notebook' : 'Study mode'}</span></div>
+      <div className={`topic-paper ${editing ? 'is-editing' : ''}`}><DocumentCanvas key={topic.id} topicId={topic.id} initialContent={content} editable={editing} onSave={saveDocument} onUpload={uploadAsset} doneRequest={doneRequest} onDone={() => setEditing(false)} /></div>
+      <nav className="topic-pagination" aria-label="Lessons">{index > 0 && <Link href={`/learning/${subject.slug}/${siblings[index - 1].slug}`}>← Previous lesson</Link>}{index >= 0 && index < siblings.length - 1 && <Link href={`/learning/${subject.slug}/${siblings[index + 1].slug}`}>Next lesson →</Link>}</nav>
     </div>}
-  </Page>;
+  </div>;
 }
