@@ -7,6 +7,7 @@ import type { PartialBlock } from '@blocknote/core';
 const email = process.env.MANU_TEST_EMAIL;
 const password = process.env.MANU_TEST_PASSWORD;
 test.skip(!email || !password, 'Set MANU_TEST_EMAIL and MANU_TEST_PASSWORD locally to run the authenticated owner flow.');
+test.skip(process.env.MANU_SECTIONS_READY !== '1', 'Run migration 008 and set MANU_SECTIONS_READY=1 before live section tests.');
 
 test('owner can persist the current BlockNote learning flow', async ({ page }) => {
   test.setTimeout(240000);
@@ -47,7 +48,11 @@ test('owner can persist the current BlockNote learning flow', async ({ page }) =
     await expect(page).toHaveURL(new RegExp(`/learning/[^/]+$`));
     await capture('subject');
 
-    await page.getByRole('button', { name: 'New topic' }).click();
+    await page.getByRole('button', { name: 'New section' }).click();
+    await page.getByRole('textbox', { name: 'Section name' }).fill('Noise');
+    await page.getByRole('button', { name: 'Create section' }).click();
+    await expect(page.getByRole('heading', { name: 'Noise' })).toBeVisible();
+    await page.getByRole('button', { name: 'Add topic to Noise' }).click();
     await page.getByRole('textbox', { name: 'Topic name' }).fill(topicTitle);
     await page.getByRole('button', { name: 'Create topic' }).click();
     const topicUrl = new RegExp(`/learning/[^/]+/[^/]+$`);
@@ -57,6 +62,7 @@ test('owner can persist the current BlockNote learning flow', async ({ page }) =
       await page.getByRole('link', { name: topicTitle }).click();
     }
     await expect(page).toHaveURL(topicUrl);
+    await expect(page.getByRole('navigation', { name: 'Breadcrumb' }).getByRole('link', { name: 'Noise', exact: true })).toBeVisible();
     await capture('study-empty');
 
     await page.getByRole('button', { name: 'Edit' }).click();
@@ -149,9 +155,9 @@ test('owner can persist the current BlockNote learning flow', async ({ page }) =
     await page.goto('/learning');
     await expect(page.getByText('Continue learning')).toBeVisible();
     await expect(page.getByRole('link', { name: 'Continue →' })).toBeVisible();
-    await page.getByPlaceholder('Search subjects, topics or notes').fill(firstPhrase);
+    await page.getByPlaceholder('Search subjects, sections, topics or notes').fill(firstPhrase);
     await page.getByRole('button', { name: 'Search', exact: true }).click();
-    await expect(page.getByText(`${topicTitle} · Topic`).first()).toBeVisible();
+    await expect(page.getByRole('link', { name: new RegExp(topicTitle) }).first()).toBeVisible();
   } finally {
     const env = Object.fromEntries(readFileSync('.env.local', 'utf8').split(/\r?\n/).filter((line) => line.includes('=') && !line.startsWith('#')).map((line) => { const i = line.indexOf('='); return [line.slice(0, i), line.slice(i + 1).replace(/^['"]|['"]$/g, '')]; }));
     const client = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY);

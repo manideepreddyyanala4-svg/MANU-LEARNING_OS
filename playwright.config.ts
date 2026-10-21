@@ -1,6 +1,6 @@
 import {defineConfig,devices} from '@playwright/test';
 const baseURL=process.env.MANU_BASE_URL??'http://localhost:3000';
-export default defineConfig({testDir:'./tests',use:{baseURL,trace:'on-first-retry'},webServer:{command:'./node_modules/.bin/next dev',url:`${baseURL}/login`,reuseExistingServer:true},projects:[
+export default defineConfig({testDir:'./tests',use:{baseURL,trace:'on-first-retry'},webServer:{command:`./node_modules/.bin/next dev --port ${new URL(baseURL).port || '3000'}`,url:`${baseURL}/login`,reuseExistingServer:true},projects:[
 {name:'desktop-chromium',use:{...devices['Desktop Chrome'],viewport:{width:1440,height:900}}},
 {name:'tablet-chromium',use:{...devices['Desktop Chrome'],viewport:{width:768,height:1024}}},
 {name:'desktop-webkit',use:{...devices['Desktop Safari'],viewport:{width:1024,height:768}}},

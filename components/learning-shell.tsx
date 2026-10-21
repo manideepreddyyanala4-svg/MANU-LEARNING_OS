@@ -1,119 +1,35 @@
 'use client';
-
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, BookOpen, Menu, Moon, Search, Sun, X } from 'lucide-react';
-import { useTheme } from 'next-themes';
-import { requireClient, subjects, topics, type Subject, type Topic } from '@/lib/learning';
-import type { PartialBlock } from '@blocknote/core';
+import {usePathname} from 'next/navigation';
+import {useEffect,useMemo,useRef,useState} from 'react';
+import {ArrowLeft,BookOpen,ChevronDown,ChevronRight,Menu,Moon,Plus,Search,Sun,X} from 'lucide-react';
+import {useTheme} from 'next-themes';
+import {requireClient,subjects,topics,sections,orderedTopics,type Subject,type Section,type Topic} from '@/lib/learning';
+import type {PartialBlock} from '@blocknote/core';
 
-type Props = { children: React.ReactNode };
-const accents = ['#ad7964', '#748fa0', '#6d948b', '#8a7f9f', '#a8946d', '#7f9a7c', '#ae7c88'];
-const accentFor = (subject: Subject) => accents[[...subject.id].reduce((sum, char) => sum + char.charCodeAt(0), 0) % accents.length];
-const headingsFrom = (blocks: PartialBlock[]) => blocks.map((block, index) => ({ block, index }))
-  .filter(({ block }) => block.type === 'heading')
-  .map(({ block, index }) => ({
-    index,
-    text: typeof block.content === 'string' ? block.content : Array.isArray(block.content)
-      ? block.content.map((item) => typeof item === 'string' ? item : (item as { text?: string }).text ?? '').join('')
-      : `Section ${index + 1}`,
-  }));
+type Heading={index:number;text:string;level:number};
+const headingsFrom=(blocks:PartialBlock[]):Heading[]=>blocks.map((block,index)=>({block,index})).filter(({block})=>block.type==='heading'&&Number((block.props as {level?:number}|undefined)?.level??2)>=2).map(({block,index})=>({index,level:Number((block.props as {level?:number}|undefined)?.level??2),text:typeof block.content==='string'?block.content:Array.isArray(block.content)?block.content.map(item=>typeof item==='string'?item:(item as {text?:string}).text??'').join(''):`Heading ${index+1}`}));
+const accents=['#ad7964','#748fa0','#6d948b','#8a7f9f','#a8946d','#7f9a7c','#ae7c88'];
+export function LearningShell({children}:{children:React.ReactNode}){
+ const pathname=usePathname(),{theme,setTheme}=useTheme();
+ const [subjectList,setSubjectList]=useState<Subject[]>([]),[sectionList,setSectionList]=useState<Section[]>([]),[topicList,setTopicList]=useState<Topic[]>([]),[headings,setHeadings]=useState<Heading[]>([]),[activeHeading,setActiveHeading]=useState<number|null>(null);
+ const [query,setQuery]=useState(''),[open,setOpen]=useState(false),[switcher,setSwitcher]=useState(false),[expanded,setExpanded]=useState<Record<string,boolean>>({});
+ const activeRef=useRef<HTMLAnchorElement|null>(null),segments=pathname.split('/').filter(Boolean),subjectSlug=segments[1],topicSlug=segments[2];
+ const subject=subjectList.find(x=>x.slug===subjectSlug),currentTopic=topicList.find(x=>x.slug===topicSlug),currentSection=sectionList.find(x=>x.id===currentTopic?.section_id);
+ const accent=subject?accents[[...subject.id].reduce((sum,char)=>sum+char.charCodeAt(0),0)%accents.length]:'var(--rust)';
+ useEffect(()=>{void subjects().then(setSubjectList).catch(()=>setSubjectList([]))},[pathname]);
+ useEffect(()=>{const timer=window.setTimeout(()=>{if(!subject){setSectionList([]);setTopicList([]);return}void Promise.all([sections(subject.id),topics(subject.id)]).then(([ss,ts])=>{setSectionList(ss);setTopicList(ts)}).catch(()=>{setSectionList([]);setTopicList([])})},0);return()=>window.clearTimeout(timer)},[subject,pathname]);
+ useEffect(()=>{if(!currentSection)return;const timer=window.setTimeout(()=>setExpanded(previous=>({...previous,[currentSection.id]:true})),0);return()=>window.clearTimeout(timer)},[currentSection]);
+ useEffect(()=>{const reload=()=>{if(!subject)return;void Promise.all([sections(subject.id),topics(subject.id)]).then(([ss,ts])=>{setSectionList(ss);setTopicList(ts)})};window.addEventListener('manuos:learning-structure-changed',reload);return()=>window.removeEventListener('manuos:learning-structure-changed',reload)},[subject]);
+ useEffect(()=>{const timer=window.setTimeout(()=>{if(!currentTopic){setHeadings([]);return}void Promise.resolve(requireClient().from('topic_documents').select('content_json').eq('topic_id',currentTopic.id).maybeSingle()).then(({data})=>setHeadings(headingsFrom((data?.content_json as PartialBlock[]|null)??[]))).catch(()=>setHeadings([]))},0);return()=>window.clearTimeout(timer)},[currentTopic]);
+ useEffect(()=>{const saved=(event:Event)=>{const detail=(event as CustomEvent<{topicId:string;content:PartialBlock[]}>).detail;if(detail.topicId===currentTopic?.id)setHeadings(headingsFrom(detail.content))};window.addEventListener('manuos:learning-document-saved',saved);return()=>window.removeEventListener('manuos:learning-document-saved',saved)},[currentTopic]);
+ useEffect(()=>{if(!headings.length)return;const elements=headings.map(x=>document.getElementById(`topic-heading-${x.index}`)).filter((x):x is HTMLElement=>Boolean(x));if(!elements.length)return;const observer=new IntersectionObserver(entries=>{const visible=entries.filter(x=>x.isIntersecting).sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top)[0];if(visible)setActiveHeading(Number(visible.target.id.replace('topic-heading-','')))},{rootMargin:'-12% 0px -67% 0px'});elements.forEach(x=>observer.observe(x));return()=>observer.disconnect()},[headings,pathname]);
+ useEffect(()=>{activeRef.current?.scrollIntoView({block:'nearest',behavior:'smooth'})},[currentTopic?.id,activeHeading]);
 
-export function LearningShell({ children }: Props) {
-  const pathname = usePathname();
-  const { theme, setTheme } = useTheme();
-  const [subjectList, setSubjectList] = useState<Subject[]>([]);
-  const [topicList, setTopicList] = useState<Topic[]>([]);
-  const [headings, setHeadings] = useState<{ index: number; text: string }[]>([]);
-  const [activeHeading, setActiveHeading] = useState<number | null>(null);
-  const [topicQuery, setTopicQuery] = useState('');
-  const [open, setOpen] = useState(false);
-
-  const segments = pathname.split('/').filter(Boolean);
-  const subjectSlug = segments[1];
-  const topicSlug = segments[2];
-  const subject = subjectList.find((item) => item.slug === subjectSlug);
-  const currentTopic = topicList.find((item) => item.slug === topicSlug);
-
-  useEffect(() => {
-    subjects().then(setSubjectList).catch(() => setSubjectList([]));
-  }, []);
-
-  useEffect(() => {
-    if (!subject) {
-      Promise.resolve().then(() => setTopicList([]));
-      return;
-    }
-    Promise.resolve(topics(subject.id)).then(setTopicList).catch(() => setTopicList([]));
-  }, [subject]);
-
-  useEffect(() => {
-    if (!currentTopic) {
-      Promise.resolve().then(() => setHeadings([]));
-      return;
-    }
-    Promise.resolve(requireClient().from('topic_documents').select('content_json').eq('topic_id', currentTopic.id).maybeSingle())
-      .then(({ data }) => {
-        const blocks = (data?.content_json as PartialBlock[] | null) ?? [];
-        setHeadings(headingsFrom(blocks));
-      })
-      .catch(() => setHeadings([]));
-  }, [currentTopic]);
-
-  useEffect(() => {
-    const saved = (event: Event) => {
-      const detail = (event as CustomEvent<{ topicId: string; content: PartialBlock[] }>).detail;
-      if (detail.topicId === currentTopic?.id) setHeadings(headingsFrom(detail.content));
-    };
-    window.addEventListener('manuos:learning-document-saved', saved);
-    return () => window.removeEventListener('manuos:learning-document-saved', saved);
-  }, [currentTopic]);
-
-  useEffect(() => {
-    if (!headings.length) return;
-    const elements = headings.map((heading) => document.getElementById(`topic-heading-${heading.index}`)).filter((item): item is HTMLElement => Boolean(item));
-    if (!elements.length) return;
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-      if (visible) setActiveHeading(Number(visible.target.id.replace('topic-heading-', '')));
-    }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
-    elements.forEach((element) => observer.observe(element));
-    return () => observer.disconnect();
-  }, [headings]);
-
-  const progress = useMemo(() => {
-    const complete = topicList.filter((item) => item.status === 'mastered').length;
-    return topicList.length ? Math.round((complete / topicList.length) * 100) : 0;
-  }, [topicList]);
-  const visibleTopics = topicList.filter((item) => item.title.toLowerCase().includes(topicQuery.toLowerCase()));
-  const accent = subject ? accentFor(subject) : 'var(--rust)';
-
-  return <div className="learning-context min-h-screen bg-[var(--bg)] text-[var(--fg)]">
-    <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-[var(--line)] bg-[var(--bg)]/95 px-4 backdrop-blur md:px-6">
-      <div className="flex items-center gap-3">
-        <button className="lg:hidden" aria-label={open ? 'Close learning navigation' : 'Open learning navigation'} onClick={() => setOpen((value) => !value)}>{open ? <X size={18} /> : <Menu size={18} />}</button>
-        <Link href="/" className="flex items-center gap-2 text-sm font-semibold"><ArrowLeft size={15} /><span className="hidden sm:inline">ManuOS</span></Link>
-        <span className="h-4 w-px bg-[var(--line)]" />
-        <Link href="/learning" className="flex items-center gap-2 text-sm font-bold tracking-wide"><BookOpen size={16} className="text-[var(--rust)]" /> MANU LEARN</Link>
-      </div>
-      <div className="flex items-center gap-3 text-[var(--muted)]">
-        <Link href="/learning" aria-label="Search learning"><Search size={17} /></Link>
-        <button aria-label="Toggle theme" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>{theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}</button>
-      </div>
-    </header>
-    <div className="flex">
-      <aside className={`${open ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-14 left-0 z-20 w-[min(86vw,285px)] overflow-y-auto border-r border-[var(--line)] bg-[var(--bg)] transition-transform lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] lg:w-[270px] lg:shrink-0 lg:translate-x-0`}>
-        <div className="p-5">
-          <Link href="/learning" className="text-xs font-bold uppercase tracking-[.18em] text-[var(--rust)]">Learning library</Link>
-          {subject && <div className="mt-7"><p className="text-xs font-bold uppercase tracking-[.16em]" style={{ color: accent }}>{subject.title}</p><p className="mt-2 text-xs text-[var(--muted)]">{topicList.filter((item) => item.status === 'mastered').length} / {topicList.length} topics complete</p><div className="mt-3 h-1 bg-[var(--line)]"><div className="h-full" style={{ width: `${progress}%`, backgroundColor: accent }} /></div><input aria-label="Search this subject" value={topicQuery} onChange={(event) => setTopicQuery(event.target.value)} placeholder="Search this subject…" className="mt-5 w-full border-b border-[var(--line)] bg-transparent py-2 text-xs outline-none placeholder:text-[var(--muted)]" /></div>}
-          {subject && <nav className="mt-4 space-y-1" aria-label="Subject topics">{visibleTopics.map((item) => { const index = topicList.findIndex((topic) => topic.id === item.id); return <Link onClick={() => setOpen(false)} key={item.id} href={`/learning/${subject.slug}/${item.slug}`} className={`flex items-center gap-3 border-l-2 px-3 py-2 text-sm ${item.id === currentTopic?.id ? 'bg-[var(--rust)]/10 font-semibold' : 'border-transparent text-[var(--muted)] hover:bg-black/5 hover:text-[var(--fg)]'}`} style={item.id === currentTopic?.id ? { borderColor: accent, color: accent } : undefined}><span className="w-5 text-[11px]" style={{ color: accent }}>{String(index + 1).padStart(2, '0')}</span><span className="truncate">{item.title}</span>{item.status === 'mastered' && <span className="ml-auto" style={{ color: accent }}>✓</span>}</Link>; })}</nav>}
-          {currentTopic && headings.length > 0 && <nav className="mt-9 border-t border-[var(--line)] pt-6" aria-label="On this page"><p className="text-[10px] font-bold uppercase tracking-[.18em] text-[var(--rust)]">On this page</p><div className="mt-3 space-y-1">{headings.map((heading) => <a onClick={() => setOpen(false)} key={heading.index} href={`#topic-heading-${heading.index}`} className={`block truncate border-l-2 px-2 py-1 text-xs ${activeHeading === heading.index ? 'border-[var(--rust)] font-semibold text-[var(--rust)]' : 'border-transparent text-[var(--muted)] hover:text-[var(--fg)]'}`}>{heading.text || `Section ${heading.index + 1}`}</a>)}</div></nav>}
-          {!subject && <p className="mt-8 text-sm text-[var(--muted)]">Choose a subject to see its topics.</p>}
-        </div>
-      </aside>
-      {open && <button aria-label="Close learning navigation" className="fixed inset-14 z-10 bg-black/30 lg:hidden" onClick={() => setOpen(false)} />}
-      <main className="min-w-0 flex-1">{children}</main>
-    </div>
-  </div>;
+ const ordered=useMemo(()=>orderedTopics(sectionList,topicList),[sectionList,topicList]);
+ const lower=query.trim().toLowerCase(),visibleSections=sectionList.filter(x=>!lower||x.title.toLowerCase().includes(lower)||topicList.some(t=>t.section_id===x.id&&t.title.toLowerCase().includes(lower)));
+ function topicLink(item:Topic){const active=item.id===currentTopic?.id,index=ordered.findIndex(t=>t.id===item.id);return <div key={item.id}><Link ref={active?activeRef:undefined} onClick={()=>setOpen(false)} href={`/learning/${subject!.slug}/${item.slug}`} className={`learning-side-topic ${active?'is-active':''}`} style={active?{borderColor:accent,color:accent}:undefined} aria-current={active?'page':undefined}><span>{String(index+1).padStart(2,'0')}</span><span>{item.title}</span>{item.status==='mastered'&&<span aria-label="Mastered">✓</span>}</Link>{active&&headings.length>0&&<nav className="learning-side-headings" aria-label="Current topic headings">{headings.map(h=><a key={h.index} href={`#topic-heading-${h.index}`} className={`${activeHeading===h.index?'is-active':''} ${h.level===3?'is-h3':''}`} onClick={e=>{e.preventDefault();document.getElementById(`topic-heading-${h.index}`)?.scrollIntoView({behavior:'smooth',block:'start'});setOpen(false)}} style={activeHeading===h.index?{color:accent}:undefined}>{h.text}</a>)}</nav>}</div>}
+ return <div className="learning-context min-h-screen bg-[var(--bg)] text-[var(--fg)]"><header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-[var(--line)] bg-[var(--bg)]/95 px-4 backdrop-blur md:px-6"><div className="flex items-center gap-3"><button className="lg:hidden" aria-label={open?'Close learning navigation':'Open learning navigation'} onClick={()=>setOpen(x=>!x)}>{open?<X size={18}/>:<Menu size={18}/>}</button><Link href="/" className="flex items-center gap-2 text-sm font-semibold"><ArrowLeft size={15}/><span className="hidden sm:inline">ManuOS</span></Link><span className="h-4 w-px bg-[var(--line)]"/><Link href="/learning" className="flex items-center gap-2 text-sm font-bold tracking-wide"><BookOpen size={16} className="text-[var(--rust)]"/> MANU LEARN</Link></div><div className="flex items-center gap-3 text-[var(--muted)]"><Link href="/learning" aria-label="Search learning"><Search size={17}/></Link><button aria-label="Toggle theme" onClick={()=>setTheme(theme==='dark'?'light':'dark')}>{theme==='dark'?<Sun size={17}/>:<Moon size={17}/>}</button></div></header>
+ <div className="flex"><aside className={`${open?'translate-x-0':'-translate-x-full'} learning-sidebar fixed inset-y-14 left-0 z-20 w-[min(86vw,300px)] overflow-y-auto border-r border-[var(--line)] bg-[var(--sidebar)] transition-transform lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] lg:w-[290px] lg:shrink-0 lg:translate-x-0`}><div className="learning-side-sticky"><div className="learning-switcher-wrap"><button className="learning-switcher" aria-label="Switch subject" aria-expanded={switcher} onClick={()=>setSwitcher(x=>!x)}><span>{subject?.title??'Learning library'}</span><ChevronDown size={16}/></button>{switcher&&<div className="learning-switcher-menu"><Link href="/learning" onClick={()=>setSwitcher(false)}>Learning home</Link>{subjectList.map(s=><Link href={`/learning/${s.slug}`} key={s.id} onClick={()=>{setSwitcher(false);setOpen(false)}}>{s.title}</Link>)}<Link href="/learning?new=subject" onClick={()=>setSwitcher(false)}><Plus size={14}/> New subject</Link></div>}</div>{subject&&<input aria-label="Search this subject" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search this subject…" className="learning-side-search"/>}</div>
+ {subject?<nav className="learning-side-tree" aria-label="Subject navigation">{visibleSections.map(section=>{const group=topicList.filter(x=>x.section_id===section.id&&(!lower||x.title.toLowerCase().includes(lower)||section.title.toLowerCase().includes(lower)));const expandedNow=lower?true:expanded[section.id]??false;return <div key={section.id} className="learning-side-section"><button className="learning-side-section-toggle" aria-expanded={expandedNow} aria-label={`${expandedNow?'Collapse':'Expand'} ${section.title}`} onClick={()=>setExpanded(x=>({...x,[section.id]:!expandedNow}))}>{expandedNow?<ChevronDown size={15}/>:<ChevronRight size={15}/>}<span>{section.title}</span><small>{group.length}</small></button>{expandedNow&&<div className="learning-side-items">{group.map(topicLink)}<Link className="learning-side-add" href={`/learning/${subject.slug}?newTopic=${section.id}`} onClick={()=>setOpen(false)}><Plus size={13}/> Topic</Link></div>}</div>})}{topicList.some(x=>!x.section_id)&&<div className="learning-side-section"><p className="learning-side-other">Other topics</p><div className="learning-side-items">{topicList.filter(x=>!x.section_id&&(!lower||x.title.toLowerCase().includes(lower))).map(topicLink)}<Link className="learning-side-add" href={`/learning/${subject.slug}?newTopic=unsectioned`} onClick={()=>setOpen(false)}><Plus size={13}/> Topic</Link></div></div>}<Link className="learning-side-new" href={`/learning/${subject.slug}?newSection=1`} onClick={()=>setOpen(false)}><Plus size={15}/> New section</Link></nav>:<div className="learning-side-empty"><p>Choose a subject to see its sections and topics.</p><Link href="/learning">Open learning home →</Link></div>}</aside>{open&&<button aria-label="Close learning navigation" className="fixed inset-x-0 bottom-0 top-14 z-10 bg-black/30 lg:hidden" onClick={()=>setOpen(false)}/>}<main className="min-w-0 flex-1">{children}</main></div></div>
 }

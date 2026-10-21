@@ -1,0 +1,30 @@
+import {test,expect} from '@playwright/test';
+import {mkdirSync} from 'node:fs';
+const email=process.env.MANU_TEST_EMAIL,password=process.env.MANU_TEST_PASSWORD;
+test.skip(!email||!password,'Owner credentials required for protected route visual test.');
+test('hierarchy is readable across desktop, tablet and mobile',async({page})=>{
+ test.setTimeout(120000);
+ await page.goto('/login');await page.getByPlaceholder('Email address').fill(email!);await page.getByPlaceholder('Password').fill(password!);await page.getByRole('button',{name:'Continue'}).click();await expect(page).toHaveURL('/');
+ const subject={id:'11111111-1111-4111-8111-111111111111',user_id:'owner',title:'Image Processing',slug:'image-processing-visual',description:null,order_index:0,created_at:'2026-01-01',updated_at:'2026-01-01'};
+ const sectionNames=['Noise','Filtering','Edge Detection'];const sectionRows=sectionNames.map((title,i)=>({id:`22222222-2222-4222-8222-22222222222${i}`,user_id:'owner',subject_id:subject.id,title,order_index:i,created_at:'2026-01-01',updated_at:'2026-01-01'}));
+ const names=[['What is Noise?',0],['Gaussian Noise',0],['Salt & Pepper Noise',0],['Mean Filter',1],['Gaussian Filter',1],['Median Filter',1],['Bilateral Filter',1],['Sobel',2],['Scharr',2],['Laplacian',2],['Canny',2]] as const;
+ const topicRows=names.map(([title,group],i)=>({id:`33333333-3333-4333-8333-3333333333${String(i).padStart(2,'0')}`,user_id:'owner',subject_id:subject.id,section_id:sectionRows[group].id,title,slug:`topic-${i}`,status:'learning',order_index:i,created_at:'2026-01-01',updated_at:'2026-01-01'}));
+ await page.route('**/rest/v1/**',async route=>{const url=new URL(route.request().url());const data=url.pathname.endsWith('/subjects')?[subject]:url.pathname.endsWith('/learning_sections')?sectionRows:url.pathname.endsWith('/topics')?topicRows:url.pathname.endsWith('/topic_documents')?[{content_json:[{type:'heading',props:{level:2},content:'What it looks like'},{type:'paragraph',content:'Gaussian noise adds random variation to image pixels.'},{type:'heading',props:{level:3},content:'Pixel example'}]}]:null;if(data===null)return route.continue();const single=route.request().headers()['accept']?.includes('object');await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(single?data[0]??null:data)});
+ });
+ await page.goto(`/learning/${subject.slug}/${topicRows[1].slug}`);
+ await expect(page.getByRole('navigation',{name:'Breadcrumb'})).toContainText('Noise');
+ await expect(page.getByRole('button',{name:'Collapse Noise'})).toBeVisible();
+ await expect(page.getByRole('navigation',{name:'Current topic headings'}).getByText('Pixel example')).toBeVisible();
+ await page.getByRole('button',{name:'Switch subject'}).click();
+ await expect(page.getByRole('link',{name:'Learning home'})).toBeVisible();
+ await page.getByRole('button',{name:'Switch subject'}).click();
+ await page.getByRole('textbox',{name:'Search this subject'}).fill('Canny');
+ await expect(page.getByRole('button',{name:'Collapse Edge Detection'})).toBeVisible();
+ await expect(page.getByRole('link',{name:/Canny/})).toBeVisible();
+ await page.getByRole('textbox',{name:'Search this subject'}).fill('');
+ mkdirSync('/tmp/manu-hierarchy-mock',{recursive:true});
+ for(const [label,width,height] of [['desktop',1440,900],['small-desktop',1024,768],['tablet',768,1024],['mobile',390,844]] as const){await page.setViewportSize({width,height});if(width<1024)await page.getByRole('button',{name:'Open learning navigation'}).click();await page.screenshot({path:`/tmp/manu-hierarchy-mock/${label}.png`,fullPage:true});if(width<1024)await page.getByRole('banner').getByRole('button',{name:'Close learning navigation'}).click();expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false)}
+ await page.setViewportSize({width:1440,height:900});await page.getByRole('button',{name:'Collapse Noise'}).click();await expect(page.getByRole('link',{name:/Gaussian Noise/})).toBeHidden();await page.getByRole('button',{name:'Expand Noise'}).click();await expect(page.getByRole('link',{name:/Gaussian Noise/})).toBeVisible();
+ await page.getByRole('link',{name:'Next lesson →'}).click();await expect(page.getByRole('heading',{name:'Salt & Pepper Noise'})).toBeVisible();
+ await page.goto(`/learning/${subject.slug}`);await expect(page.getByRole('heading',{name:'Filtering'})).toBeVisible();await page.screenshot({path:'/tmp/manu-hierarchy-mock/subject-desktop.png',fullPage:true});
+});
