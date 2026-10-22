@@ -7,6 +7,11 @@ type StudyQa = {
   example?: string;
   connection?: string;
   deeper?: string;
+  simpleRule?: string;
+  numericExample?: string;
+  whyItHelps?: string;
+  trainingVsInference?: string;
+  commonMistake?: string;
   interview: string;
   stop?: string;
 };
@@ -46,7 +51,7 @@ const questions: StudyQa[] = [
   { number:71, question:'Why use pooling?', understand:'We use pooling mainly to make feature maps smaller while keeping important responses. Smaller maps require less memory and computation.', example:'If a 2×2 pooling operation halves width and height, a 224×224 map can become about 112×112. The next layers now process far fewer values.', connection:'For image models, this helps gradually compress spatial information while deeper layers focus more on important patterns than exact pixel positions.', interview:'Pooling reduces the size of feature maps, which lowers computation and keeps the most useful local information. It can also make features a little less sensitive to very small position changes.', stop:'Remember: “smaller map + less computation + keep useful response.”' },
   { number:72, question:'What is ReLU?', understand:'ReLU is an activation function that outputs zero for negative values and keeps positive values.', example:'ReLU(-3)=0, ReLU(5)=5.', deeper:'Its main interview-level purpose is to add nonlinearity while remaining simple and efficient.', interview:'ReLU is an activation function that sets negative values to zero and keeps positive values, adding nonlinearity to the network.', stop:'No need to study activation-function families.' },
   { number:73, question:'Why do neural networks need nonlinear activation?', understand:'Without nonlinear activations, stacking many linear layers would still behave like one large linear transformation and could not model complex relationships well.', example:'Nonlinearity lets the network build more complex decision functions from simple layers.', deeper:'This is the key reason activation functions matter—not simply because “everyone uses ReLU.”', interview:'Nonlinear activations allow the network to learn complex relationships. Without them, many stacked linear layers would still collapse into an overall linear mapping.', stop:'No proof needed.' },
-  { number:74, question:'What is batch normalization at an intuitive level?', understand:'Batch normalization helps keep the numbers flowing between layers in a more stable range during training. This makes it easier for the network to learn.', example:'If one layer suddenly produces values with a very different scale, the next layer has a harder job. Batch normalization standardizes those activations and then lets the network learn the best scale and shift.', deeper:'During training, BN uses batch statistics. During inference, it uses stored running statistics. The interview-level takeaway is: BN stabilizes intermediate activations and often makes optimization easier.', interview:'Batch normalization keeps intermediate activations on a more stable scale during training and then applies learned scaling and shifting. This often makes training more stable and efficient.', stop:'Think “BN = keep intermediate values stable during training.” No equation needed.' },
+  { number:74, question:'What is batch normalization at an intuitive level?', understand:'Batch Normalization (BN) works on the numbers INSIDE the neural network after a layer. Its job is to keep those intermediate values from becoming too large, too small, or wildly different in scale while the model is training.', simpleRule:'Very simple idea: Layer produces numbers → BN puts those numbers into a more controlled scale → next layer receives more stable values.', example:'Imagine one layer is giving values around 2, 4, 6, 8. Later, after weights change, it may suddenly give values around 20, 40, 60, 80. The next layer now receives a very different scale. BN reduces this problem by normalizing the activations before they continue forward.', numericExample:'Toy example with one feature across 4 samples: before BN = [2, 4, 6, 8]. Mean = 5. BN first centers them around the mean, giving [-3, -1, 1, 3], then scales them so the spread is more standard. The normalized values are roughly [-1.34, -0.45, 0.45, 1.34]. After that, BN still has learned scale and shift values, so the network can move or stretch them again if that is useful.', whyItHelps:'Why this helps: the next layers receive values with a more predictable scale. That usually makes optimization easier and training more stable. It can also let the model train efficiently with less sensitivity to changing activation scales.', trainingVsInference:'During TRAINING, BN calculates mean and variance from the current mini-batch and also keeps running averages. During INFERENCE, weights are not updated and BN does not depend on the new test batch; it uses the stored running mean and variance learned during training.', commonMistake:'Do NOT confuse Batch Normalization with input normalization. Input normalization happens to the image BEFORE it enters the network. Batch Normalization happens to intermediate activations INSIDE the network. Also, BN does not simply force every value to stay at zero forever—the layer has learned scale and shift parameters after normalization.', deeper:'You only need this mental flow: Convolution/Layer → BatchNorm → ReLU → next layer. In many CNN blocks, BN is placed after a convolution and before the activation, although exact ordering depends on the architecture.', connection:'For your interview, you do not need BN equations. You only need to understand what values it acts on, why training becomes easier, and the difference between training and inference.', interview:'Batch normalization normalizes intermediate activations inside the network so their scale stays more stable during training. It then applies learned scaling and shifting. This usually makes optimization easier and training more stable. During inference, it uses stored running statistics from training.', stop:'STOP HERE for ASE interview preparation: remember 4 things — BN works INSIDE the network, it stabilizes intermediate activations, training uses batch statistics, and inference uses stored running statistics. No derivation is needed.' },
   { number:75, question:'What is a fully connected layer?', understand:'In a fully connected layer, every input number is connected to every output neuron through a learned weight.', example:'If the previous layer gives a feature vector, a fully connected layer can combine all those features to produce class scores or another vector.', interview:'A fully connected layer combines all input features using learned connections to produce its outputs.', stop:'Think “every input talks to every output.” Do not assume every model must use one for the final embedding.' },
   { number:76, question:'What is a backbone/network architecture?', understand:'Think of the architecture as the blueprint of the whole neural network. The backbone is the main body of that network that extracts features from the input image.', example:'Two models can solve the same task but use different blueprints, such as ResNet, MobileNet, or LAWNet-style blocks.', connection:'Later, when you explain LAWNet, you will describe its backbone/architecture. Today you only need these words to be clear.', interview:'The network architecture is the blueprint showing how layers and blocks are arranged. The backbone is the main feature-extraction part of that architecture.', stop:'Think “architecture = blueprint, backbone = main feature extractor.”' },
 
@@ -155,6 +160,36 @@ export function AseDay2InterviewPrep() {
                     <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3">
                       <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--muted)]">Simple example / mental picture</p>
                       <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{item.example}</p>
+                    </div>
+                  )}
+                  {item.simpleRule && (
+                    <div className="rounded-xl border border-cyan-500/20 bg-cyan-500/5 p-3">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-cyan-600 dark:text-cyan-400">Very simple rule</p>
+                      <p className="mt-1 text-sm font-semibold leading-6 text-[var(--fg)]">{item.simpleRule}</p>
+                    </div>
+                  )}
+                  {item.numericExample && (
+                    <div className="rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-3">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-indigo-600 dark:text-indigo-400">Tiny number example</p>
+                      <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{item.numericExample}</p>
+                    </div>
+                  )}
+                  {item.whyItHelps && (
+                    <div className="rounded-xl border border-teal-500/20 bg-teal-500/5 p-3">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-teal-600 dark:text-teal-400">Why it helps</p>
+                      <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{item.whyItHelps}</p>
+                    </div>
+                  )}
+                  {item.trainingVsInference && (
+                    <div className="rounded-xl border border-orange-500/20 bg-orange-500/5 p-3">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-orange-600 dark:text-orange-400">Training vs inference</p>
+                      <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{item.trainingVsInference}</p>
+                    </div>
+                  )}
+                  {item.commonMistake && (
+                    <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-3">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-red-600 dark:text-red-400">Do not confuse this</p>
+                      <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{item.commonMistake}</p>
                     </div>
                   )}
                   {item.deeper && (
