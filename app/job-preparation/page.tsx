@@ -960,6 +960,23 @@ export default function JobPreparation() {
             </div>
             <span className="text-xl text-[var(--accent)]">→</span>
           </a>
+          <a
+            href="/job-preparation/ase-day-2"
+            className="flex items-center justify-between gap-4 rounded-2xl border border-purple-500/20 bg-purple-500/5 p-5 transition hover:brightness-[0.98]"
+          >
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-purple-600 dark:text-purple-400">
+                ASE Interview · Day 2
+              </p>
+              <h3 className="mt-1 text-lg font-extrabold text-[var(--fg)]">
+                Open Day 2 — Q41–Q123 with Answers
+              </h3>
+              <p className="mt-1 text-xs text-[var(--muted)]">
+                Neural networks, CNNs, generalization, wafer/CP/FT, hardware interfaces, and ATE.
+              </p>
+            </div>
+            <span className="text-xl text-purple-600 dark:text-purple-400">→</span>
+          </a>
           <AseDay1InterviewPrep />
           <div className="grid gap-4 md:grid-cols-2">
             {notes.map((n) => {
