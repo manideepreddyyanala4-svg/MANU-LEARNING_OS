@@ -944,6 +944,23 @@ export default function JobPreparation() {
       {activeTab === 'interview' && (
         <div className="mt-6 space-y-6">
           <a
+            href="/job-preparation/ase-final-interview-bank"
+            className="flex items-center justify-between gap-4 rounded-2xl border border-red-500/25 bg-red-500/5 p-5 transition hover:brightness-[0.98]"
+          >
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-red-600 dark:text-red-400">
+                ASE FINAL INTERVIEW · NEW PRIMARY BANK
+              </p>
+              <h3 className="mt-1 text-lg font-extrabold text-[var(--fg)]">
+                Open Final Interview Bank — Q1–Q388 with Answers
+              </h3>
+              <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
+                Separate from the older technical study pages: story, resume defense, project defense, ASE/PTE, HR, behavioral, language, traps, and closing questions.
+              </p>
+            </div>
+            <span className="text-xl text-red-600 dark:text-red-400">→</span>
+          </a>
+          <a
             href="/job-preparation/ase-day-1"
             className="flex items-center justify-between gap-4 rounded-2xl border border-[var(--accent-border)] bg-[var(--accent-subtle)] p-5 transition hover:brightness-[0.98]"
           >
