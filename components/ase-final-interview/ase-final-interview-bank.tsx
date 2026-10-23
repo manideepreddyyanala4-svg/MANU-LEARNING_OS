@@ -210,7 +210,7 @@ export function AseFinalInterviewBank() {
       <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
         <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--accent)]">Interview use</p>
         <p className="mt-2 text-sm leading-6 text-[var(--fg)]">
-          Do not memorize 388 scripts. Master the CORE answers aloud, use PREPARE for the second pass, and keep BACKUP only as protection if a manager goes deeper.
+          Do not memorize 397 scripts. Master the CORE answers aloud, use PREPARE for the second pass, and keep BACKUP only as protection if a manager goes deeper.
         </p>
       </div>
     </section>
