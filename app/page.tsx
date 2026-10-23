@@ -165,6 +165,30 @@ export default function Home() {
         </p>
       )}
 
+      <Link href="/roadmap/production-ai" className="group mb-6 block">
+        <div className="flex flex-col gap-4 rounded-2xl border border-[var(--accent)]/35 bg-[var(--accent-subtle)]/25 p-5 transition hover:-translate-y-0.5 hover:shadow-sm sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-3">
+            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[var(--accent)] text-white">
+              <Sparkles size={18} />
+            </div>
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[var(--accent)]">
+                Pinned Career Roadmap
+              </p>
+              <h2 className="mt-1 text-lg font-extrabold text-[var(--fg)]">
+                Dorsal Project → Production AI
+              </h2>
+              <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
+                PyTorch → ONNX → FastAPI → SQL → Docker → AWS → MLOps → Security. Includes your separate LLM + RAG project.
+              </p>
+            </div>
+          </div>
+          <div className="flex shrink-0 items-center gap-1.5 text-xs font-extrabold text-[var(--accent)]">
+            Open roadmap <ArrowRight size={14} className="transition group-hover:translate-x-0.5" />
+          </div>
+        </div>
+      </Link>
+
       {/* Top Mission & Direction Hero */}
       <section className="mb-8 overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-6 md:p-8 shadow-xs">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
