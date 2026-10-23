@@ -952,7 +952,7 @@ export default function JobPreparation() {
                 ASE FINAL INTERVIEW · NEW PRIMARY BANK
               </p>
               <h3 className="mt-1 text-lg font-extrabold text-[var(--fg)]">
-                Open Final Interview Bank — Q1–Q388 with Answers
+                Open Final Interview Bank — Q1–Q397 with Answers
               </h3>
               <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
                 Separate from the older technical study pages: story, resume defense, project defense, ASE/PTE, HR, behavioral, language, traps, and closing questions.
