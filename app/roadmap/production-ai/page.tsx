@@ -14,7 +14,6 @@ import {
   LockKeyhole,
   Rocket,
   Server,
-  Sparkles,
 } from 'lucide-react';
 import { Card, Page } from '@/components/ui';
 
