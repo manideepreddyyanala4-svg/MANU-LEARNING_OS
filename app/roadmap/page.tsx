@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Check, CheckCircle2, ChevronRight, Compass, Sparkles, Target } from 'lucide-react';
+import { Check, ChevronRight, Sparkles, Target } from 'lucide-react';
 import { Page, Card } from '@/components/ui';
 import { loadRoadmap, type RoadmapItem } from '@/lib/store';
 
@@ -18,13 +18,43 @@ export default function RoadmapPage() {
     <Page
       eyebrow="Milestone Sequence"
       title="Technical Roadmap"
-      subtitle="Step-by-step milestones to secure your technical internship."
+      subtitle="Step-by-step milestones to secure your technical internship and build a high-value production AI profile."
     >
       {error && (
         <p role="alert" className="mb-6 rounded-xl bg-red-500/10 border border-red-500/20 p-3.5 text-xs text-red-600">
           {error}
         </p>
       )}
+
+      <Link href="/roadmap/production-ai" className="group mb-6 block">
+        <Card className="border-[var(--accent)]/35 bg-[var(--accent-subtle)]/20 transition group-hover:-translate-y-0.5 group-hover:shadow-sm">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-4">
+              <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[var(--accent)] text-white">
+                <Sparkles size={20} />
+              </div>
+              <div>
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[var(--accent)]">
+                  Pinned career track
+                </p>
+                <h2 className="mt-1 text-xl font-extrabold text-[var(--fg)]">
+                  Dorsal Project → Production AI
+                </h2>
+                <p className="mt-1.5 max-w-3xl text-sm leading-6 text-[var(--muted)]">
+                  PyTorch/CV → clean inference → ONNX → FastAPI → SQL → Docker → MLOps → AWS → Kubernetes → security → TensorRT.
+                  Includes the separate LLM + RAG portfolio project.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex shrink-0 items-center gap-2 text-xs font-extrabold text-[var(--accent)]">
+              <Target size={16} />
+              Open roadmap
+              <ChevronRight size={15} className="transition group-hover:translate-x-0.5" />
+            </div>
+          </div>
+        </Card>
+      </Link>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {items.map((item, i) => {
