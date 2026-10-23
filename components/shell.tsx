@@ -47,6 +47,7 @@ const navGroups: NavGroup[] = [
     items: [
       { href: '/', label: 'Home', icon: LayoutDashboard, subtext: 'Overview & Mission' },
       { href: '/learning', label: 'Learning', icon: BookOpen, subtext: 'Technical Curriculum' },
+      { href: '/roadmap', label: 'Roadmap', icon: Target, subtext: 'Dorsal → Production AI' },
       { href: '/job-preparation', label: 'Job Preparation', icon: Briefcase, subtext: 'Internship Pipeline' },
     ],
   },
@@ -228,7 +229,7 @@ export function Shell({ children }: { children: ReactNode }) {
               </p>
               <nav className="space-y-0.5">
                 {group.items.map(({ href, label, icon: Icon }) => {
-                  const active = path === href;
+                  const active = path === href || (href !== '/' && path.startsWith(`${href}/`));
                   return (
                     <Link
                       key={href}
@@ -326,7 +327,7 @@ export function Shell({ children }: { children: ReactNode }) {
               <span>MANU OS</span>
               <span>/</span>
               <span className="text-[var(--fg)] font-bold capitalize">
-                {allNavItems.find((n) => n.href === path)?.label ?? 'Workspace'}
+                {allNavItems.find((n) => path === n.href || (n.href !== '/' && path.startsWith(`${n.href}/`)))?.label ?? 'Workspace'}
               </span>
             </div>
           </div>
@@ -409,7 +410,7 @@ export function Shell({ children }: { children: ReactNode }) {
                   </p>
                   <nav className="space-y-1">
                     {group.items.map(({ href, label, icon: Icon }) => {
-                      const active = path === href;
+                      const active = path === href || (href !== '/' && path.startsWith(`${href}/`));
                       return (
                         <Link
                           key={href}
