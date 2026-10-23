@@ -5,6 +5,7 @@ import { interviewCategoriesPart1 } from './data-part1';
 import { interviewCategoriesPart2 } from './data-part2';
 import { interviewCategoriesPart3 } from './data-part3';
 import { interviewCategoriesPart4 } from './data-part4';
+import { interviewCategoriesPart5 } from './data-part5';
 import type { InterviewPriority } from './types';
 
 const categories = [
@@ -12,6 +13,7 @@ const categories = [
   ...interviewCategoriesPart2,
   ...interviewCategoriesPart3,
   ...interviewCategoriesPart4,
+  ...interviewCategoriesPart5,
 ];
 
 const priorityStyles: Record<InterviewPriority, string> = {
@@ -124,6 +126,24 @@ export function AseFinalInterviewBank() {
 
       <div className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm leading-6 text-[var(--muted)]">
         <strong className="text-[var(--fg)]">Truth rule:</strong> Some answers contain a verification reminder because your final resume/research facts are still being corrected. Never replace uncertainty with an invented claim. For questions about shifts, family, salary, or availability, use your real situation on interview day.
+      </div>
+
+      <div className="grid gap-3 lg:grid-cols-3">
+        <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4">
+          <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[var(--accent)]">Tell me about yourself</p>
+          <p className="mt-2 text-sm font-bold text-[var(--fg)]">PRESENT → PROOF → FIT</p>
+          <p className="mt-2 text-xs leading-5 text-[var(--muted)]">Who you are now → one strong piece of evidence → why PTE/ASE is the logical next step. Default target: about 45–60 seconds.</p>
+        </div>
+        <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4">
+          <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[var(--accent)]">Behavioral question</p>
+          <p className="mt-2 text-sm font-bold text-[var(--fg)]">STAR — keep ACTION biggest</p>
+          <p className="mt-2 text-xs leading-5 text-[var(--muted)]">Situation/Task briefly → what YOU did → result/learning. Do not spend one minute explaining background before your action.</p>
+        </div>
+        <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4">
+          <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[var(--accent)]">Short-event rule</p>
+          <p className="mt-2 text-sm font-bold text-[var(--fg)]">ANSWER → EXAMPLE → STOP</p>
+          <p className="mt-2 text-xs leading-5 text-[var(--muted)]">Do not dump every technical detail. Let the manager pull you deeper with follow-up questions.</p>
+        </div>
       </div>
 
       {visible.map((category) => (
