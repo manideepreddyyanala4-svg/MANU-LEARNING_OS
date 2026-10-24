@@ -30,11 +30,11 @@ type Stage = {
 const stages: Stage[] = [
   {
     id: 'research',
-    title: '1. Research foundation',
-    tools: 'PyTorch • OpenCV • NumPy',
-    learn: 'Keep your current CV/ML fundamentals strong. Clean preprocessing, embeddings, cosine similarity, thresholds and evaluation.',
-    dorsal: 'ROI/preprocess → model → embedding → similarity → verified / not verified. Keep EER, FAR and TAR as the research metrics.',
-    done: 'You can explain the full verification pipeline without opening the training notebook.',
+    title: '1. Understand the model deeply',
+    tools: 'PyTorch • CNN fundamentals • LAWNet • Verification',
+    learn: 'Before deployment, understand the model you are changing: tensors, channels, convolution, stride, downsampling, residual paths, activations, normalization, embeddings, loss, backpropagation and optimization.',
+    dorsal: 'Be able to trace ROI/preprocess → every important LAWNet stage → embedding → cosine similarity → threshold → verification result, and explain why each architecture change is being tested.',
+    done: 'You can explain the important layers, tensor changes, training flow, verification metrics and current architecture hypotheses without depending on generated code or notes.',
     phase: 'Core',
   },
   {
@@ -139,15 +139,16 @@ const stages: Stage[] = [
 ];
 
 const ragFlow = [
-  'Choose one useful document set',
-  'Chunk documents',
-  'Create embeddings',
-  'Store in PostgreSQL + pgvector',
-  'Retrieve relevant chunks',
-  'Send context to an LLM API',
-  'Evaluate answer quality',
-  'FastAPI + Docker + AWS',
-  'Add authentication + logging',
+  'Build a simple baseline RAG yourself',
+  'Create a benchmark with known questions and expected evidence',
+  'Store embeddings in PostgreSQL + pgvector',
+  'Compare chunking, hybrid retrieval and reranking',
+  'Measure retrieval, groundedness, citations, hallucination, latency and cost',
+  'Add SQL/API tools and tool calling',
+  'Turn the system into an AI agent only after RAG works',
+  'Measure tool-selection and task-success accuracy',
+  'Add prompt-injection, permission and data-leakage tests',
+  'FastAPI + Docker + AWS + logging',
 ];
 
 const storageKey = 'manu-production-ai-roadmap-v1';
@@ -187,8 +188,8 @@ export default function ProductionAIRoadmapPage() {
   return (
     <Page
       eyebrow="Career Track"
-      title="Dorsal Project → Production AI"
-      subtitle="One project that takes your existing CV research from model training to a real, deployable and secure AI system."
+      title="Project 1 — Dorsal → Production AI"
+      subtitle="Two-project career plan. Go deep on this research-to-production system first; Project 2 is Agent Reliability Lab. Do not start a third project."
       actions={
         <Link
           href="/roadmap"
@@ -343,19 +344,19 @@ export default function ProductionAIRoadmapPage() {
             <div className="flex items-center gap-2">
               <BrainCircuit size={18} className="text-[var(--accent)]" />
               <h2 className="text-sm font-extrabold text-[var(--fg)]">
-                Project 2 — LLM + RAG
+                Project 2 — Agent Reliability Lab
               </h2>
             </div>
             <p className="mt-2 text-xs leading-5 text-[var(--muted)]">
-              Build one separate RAG project after the dorsal deployment is working. Do not force RAG into the biometric system.
+              Build one separate RAG + agent evaluation system after the dorsal research is stable and its production path is underway. Do not force RAG into the biometric system, and do not add another portfolio project.
             </p>
 
             <div className="mt-4 rounded-xl border border-[var(--line)] bg-[var(--bg)]/50 p-3.5">
               <p className="text-xs font-extrabold text-[var(--fg)]">
-                AI/CV Research Knowledge Assistant
+                RAG + Agent Reliability & Security Platform
               </p>
               <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
-                Ask questions over your own research notes, technical documents and selected project material with citations to the retrieved source chunks.
+                First build a real RAG system, then test and improve it. Add tool-using agents only after the RAG works. The main value is measuring retrieval quality, groundedness, citations, hallucinations, tool accuracy, latency, cost and security failures.
               </p>
             </div>
 
@@ -375,7 +376,7 @@ export default function ProductionAIRoadmapPage() {
                 Learn
               </p>
               <p className="mt-1.5 text-xs leading-5 text-[var(--fg)]">
-                LLM API • embeddings • chunking • pgvector • retrieval • prompting • RAG evaluation • FastAPI • Docker
+                LLM APIs • embeddings • chunking • pgvector • hybrid retrieval • reranking • tool calling • agents • RAG evaluation • AI security • FastAPI • Docker • AWS
               </p>
             </div>
           </Card>
