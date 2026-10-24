@@ -38,8 +38,17 @@ const stages: Stage[] = [
     phase: 'Core',
   },
   {
+    id: 'architecture-research',
+    title: '2. Finish the research architecture',
+    tools: 'LAWNet • Architecture experiments • Ablations • EER/TAR/FAR',
+    learn: 'Research thinking: identify a weakness, form a hypothesis, make one controlled architecture change, predict what it should affect, run the experiment and interpret the result.',
+    dorsal: 'For every modification, record what changed, why it may help cross-condition verification, tensor/channel effects, parameter or compute impact, experiment result and what you learned.',
+    done: 'You have a defensible final architecture and can explain baseline → hypothesis → modification → result → decision for the important experiments.',
+    phase: 'Core',
+  },
+  {
     id: 'inference',
-    title: '2. Clean inference script',
+    title: '3. Clean inference script',
     tools: 'Python • PyTorch',
     learn: 'Practical Python: functions, files, paths, JSON, exceptions, logging and simple testing.',
     dorsal: 'Create one inference.py that loads the final checkpoint, accepts two images, returns similarity, decision and latency.',
@@ -48,7 +57,7 @@ const stages: Stage[] = [
   },
   {
     id: 'onnx',
-    title: '3. Export for production',
+    title: '4. Export for production',
     tools: 'ONNX • ONNX Runtime',
     learn: 'torch.onnx.export, input/output shapes, CPU/GPU inference and parity checking.',
     dorsal: '.pt → .onnx → ONNX Runtime. Compare embeddings and similarity with PyTorch, then benchmark latency.',
@@ -57,7 +66,7 @@ const stages: Stage[] = [
   },
   {
     id: 'api',
-    title: '4. Turn the model into an API',
+    title: '5. Turn the model into an API',
     tools: 'FastAPI • REST • JSON • Gradio',
     learn: 'HTTP basics, POST requests, request validation, JSON responses and error handling.',
     dorsal: 'Build /health, /enroll and /verify. Add one simple Gradio upload page only for the demo.',
@@ -66,7 +75,7 @@ const stages: Stage[] = [
   },
   {
     id: 'database',
-    title: '5. Save real inference data',
+    title: '6. Save real inference data',
     tools: 'SQL • PostgreSQL',
     learn: 'SELECT, WHERE, GROUP BY, JOIN, INSERT, UPDATE, primary keys and basic indexes.',
     dorsal: 'Store timestamp, image/user ID, similarity, threshold, decision, latency and model version.',
@@ -75,7 +84,7 @@ const stages: Stage[] = [
   },
   {
     id: 'git-linux',
-    title: '6. Work like an engineer',
+    title: '7. Work like an engineer',
     tools: 'Linux • Git • GitHub',
     learn: 'Ubuntu terminal, processes, permissions, environment variables, SSH, branches, commits and pull requests.',
     dorsal: 'Run the API on Linux, keep secrets out of Git, and maintain a clean repository with README and setup steps.',
@@ -84,7 +93,7 @@ const stages: Stage[] = [
   },
   {
     id: 'docker',
-    title: '7. Containerize it',
+    title: '8. Containerize it',
     tools: 'Docker • Docker Compose',
     learn: 'Dockerfile, images, containers, ports, volumes, environment variables and logs.',
     dorsal: 'Package FastAPI + ONNX Runtime + OpenCV + model dependencies into one reproducible container.',
@@ -93,7 +102,7 @@ const stages: Stage[] = [
   },
   {
     id: 'mlops',
-    title: '8. Add MLOps discipline',
+    title: '9. Add MLOps discipline',
     tools: 'MLflow • pytest • GitHub Actions',
     learn: 'Experiment tracking, model versions, automated tests and a basic CI pipeline.',
     dorsal: 'Track EER/FAR/TAR, seeds and checkpoints in MLflow. On every push: test → build Docker → verify the app.',
@@ -102,7 +111,7 @@ const stages: Stage[] = [
   },
   {
     id: 'cloud',
-    title: '9. Deploy to cloud',
+    title: '10. Deploy to cloud',
     tools: 'AWS S3 • EC2 • ECR • IAM • CloudWatch',
     learn: 'One cloud only. Learn storage, compute, container registry, permissions and logs.',
     dorsal: 'Store model artifacts in S3, Docker image in ECR, run the API on EC2 and inspect logs in CloudWatch.',
@@ -111,7 +120,7 @@ const stages: Stage[] = [
   },
   {
     id: 'k8s',
-    title: '10. Learn basic orchestration',
+    title: '11. Learn basic orchestration',
     tools: 'Kubernetes • kubectl',
     learn: 'Pod, Deployment, Service, ConfigMap, Secret, replicas, logs and basic troubleshooting.',
     dorsal: 'Run the Dockerized verification API as a Kubernetes Deployment with a Service and 2 replicas.',
@@ -120,7 +129,7 @@ const stages: Stage[] = [
   },
   {
     id: 'security',
-    title: '11. Secure the AI deployment',
+    title: '12. Secure the AI deployment',
     tools: 'IAM • API Auth • Secrets • RBAC • Trivy',
     learn: 'Least privilege, API keys/JWT concepts, secrets management, container scanning and basic RBAC.',
     dorsal: 'Protect /verify, remove credentials from code, restrict S3/model access and scan the Docker image before deployment.',
@@ -129,7 +138,7 @@ const stages: Stage[] = [
   },
   {
     id: 'optimize',
-    title: '12. Optional high-value optimization',
+    title: '13. Optional high-value optimization',
     tools: 'TensorRT • FP16/INT8 • basic C++',
     learn: 'Inference optimization and the speed/accuracy trade-off. C++ only at a basic deployment level.',
     dorsal: 'ONNX → TensorRT. Compare FP32 vs FP16/INT8 for latency, memory and EER/TAR impact.',
@@ -328,7 +337,7 @@ export default function ProductionAIRoadmapPage() {
               <div>
                 <p className="font-extrabold text-[var(--fg)]">Before graduation</p>
                 <p className="mt-1 leading-5 text-[var(--muted)]">
-                  Stages 1–9. These create the main job-ready portfolio signal.
+                  Stages 1–10. Understand and finish the research first, then build the main job-ready production signal.
                 </p>
               </div>
               <div>
