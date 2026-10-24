@@ -165,29 +165,118 @@ export default function Home() {
         </p>
       )}
 
-      <Link href="/roadmap/production-ai" className="group mb-6 block">
-        <div className="flex flex-col gap-4 rounded-2xl border border-[var(--accent)]/35 bg-[var(--accent-subtle)]/25 p-5 transition hover:-translate-y-0.5 hover:shadow-sm sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-start gap-3">
-            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[var(--accent)] text-white">
-              <Sparkles size={18} />
+      {/* Career Focus Lock — intentionally the first thing visible on Home */}
+      <section className="mb-8 overflow-hidden rounded-3xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-[var(--surface)] to-violet-500/10 shadow-sm">
+        <div className="border-b border-amber-500/20 bg-amber-500/10 px-5 py-4 md:px-7">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-3">
+              <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-amber-500 text-white shadow-sm">
+                <Target size={20} />
+              </div>
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-amber-700 dark:text-amber-300">
+                  Career Focus Lock
+                </p>
+                <h2 className="mt-1 text-2xl font-black tracking-tight text-[var(--fg)] md:text-3xl">
+                  TWO PROJECTS ONLY. GO DEEP. DO NOT START A THIRD.
+                </h2>
+                <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-[var(--muted)]">
+                  The decision is finished. Stop searching for new project ideas. Your advantage will come from deep understanding, strong experiments, and production-quality execution — not project quantity.
+                </p>
+              </div>
             </div>
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[var(--accent)]">
-                Pinned Career Roadmap
-              </p>
-              <h2 className="mt-1 text-lg font-extrabold text-[var(--fg)]">
-                Dorsal Project → Production AI
-              </h2>
-              <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
-                PyTorch → ONNX → FastAPI → SQL → Docker → AWS → MLOps → Security. Includes your separate LLM + RAG project.
-              </p>
-            </div>
-          </div>
-          <div className="flex shrink-0 items-center gap-1.5 text-xs font-extrabold text-[var(--accent)]">
-            Open roadmap <ArrowRight size={14} className="transition group-hover:translate-x-0.5" />
+            <span className="shrink-0 rounded-full border border-amber-500/30 bg-amber-500/15 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-amber-700 dark:text-amber-300">
+              Depth &gt; Quantity
+            </span>
           </div>
         </div>
-      </Link>
+
+        <div className="grid gap-4 p-5 md:grid-cols-2 md:p-7">
+          <Link
+            href="/roadmap/production-ai"
+            className="group rounded-2xl border border-sky-500/30 bg-gradient-to-br from-sky-500/12 to-emerald-500/8 p-5 transition hover:-translate-y-0.5 hover:border-sky-500/50 hover:shadow-md"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-sky-500 text-white">
+                <Layers size={18} />
+              </div>
+              <span className="rounded-full bg-sky-500/15 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-sky-700 dark:text-sky-300">
+                Project 1
+              </span>
+            </div>
+            <h3 className="mt-4 text-xl font-black text-[var(--fg)]">
+              Dorsal-Hand Verification → Production AI
+            </h3>
+            <p className="mt-2 text-xs font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300">
+              Research depth + real engineering
+            </p>
+            <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
+              First understand every important part of the model and every architecture change. Finish the research properly, then take the final model through clean inference, ONNX, FastAPI, PostgreSQL, Docker, testing, CI/CD and AWS.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              {['Understand', 'Research', 'ONNX', 'API', 'SQL', 'Docker', 'AWS'].map((item) => (
+                <span key={item} className="rounded-lg border border-sky-500/20 bg-sky-500/8 px-2 py-1 text-[10px] font-bold text-[var(--fg)]">
+                  {item}
+                </span>
+              ))}
+            </div>
+            <p className="mt-4 flex items-center gap-1.5 text-xs font-extrabold text-sky-700 dark:text-sky-300">
+              Open full roadmap <ArrowRight size={13} className="transition group-hover:translate-x-0.5" />
+            </p>
+          </Link>
+
+          <div className="rounded-2xl border border-violet-500/30 bg-gradient-to-br from-violet-500/12 to-fuchsia-500/8 p-5">
+            <div className="flex items-start justify-between gap-3">
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-violet-500 text-white">
+                <Sparkles size={18} />
+              </div>
+              <span className="rounded-full bg-violet-500/15 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-violet-700 dark:text-violet-300">
+                Project 2
+              </span>
+            </div>
+            <h3 className="mt-4 text-xl font-black text-[var(--fg)]">
+              Agent Reliability Lab
+            </h3>
+            <p className="mt-2 text-xs font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300">
+              RAG + Agents + Evaluation + AI Security
+            </p>
+            <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
+              Build the RAG system yourself first, improve and compare retrieval versions, then add tool-calling agents. Your differentiator is proving when the system works or fails using groundedness, citations, hallucination, tool accuracy, latency, cost and security tests.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              {['RAG', 'pgvector', 'Agents', 'Tools', 'Evaluation', 'Security', 'Deploy'].map((item) => (
+                <span key={item} className="rounded-lg border border-violet-500/20 bg-violet-500/8 px-2 py-1 text-[10px] font-bold text-[var(--fg)]">
+                  {item}
+                </span>
+              ))}
+            </div>
+            <p className="mt-4 text-xs font-extrabold text-violet-700 dark:text-violet-300">
+              Start only after Project 1 research is stable and the production path is underway.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid gap-3 border-t border-[var(--line)] bg-[var(--bg)]/45 px-5 py-4 text-xs md:grid-cols-3 md:px-7">
+          <div className="flex items-start gap-2">
+            <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-emerald-500" />
+            <p className="leading-5 text-[var(--fg)]">
+              <strong>Understand before adding:</strong> know what each layer, tool and technology actually does.
+            </p>
+          </div>
+          <div className="flex items-start gap-2">
+            <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-emerald-500" />
+            <p className="leading-5 text-[var(--fg)]">
+              <strong>Build before collecting:</strong> no random courses, frameworks or certificates without a project need.
+            </p>
+          </div>
+          <div className="flex items-start gap-2">
+            <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-emerald-500" />
+            <p className="leading-5 text-[var(--fg)]">
+              <strong>New idea rule:</strong> capture it in Inbox if needed, but do not change these two flagship projects.
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* Top Mission & Direction Hero */}
       <section className="mb-8 overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-6 md:p-8 shadow-xs">
