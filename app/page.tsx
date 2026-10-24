@@ -165,6 +165,49 @@ export default function Home() {
         </p>
       )}
 
+      {/* North Star — fixed long-term goal */}
+      <section className="mb-6 overflow-hidden rounded-3xl border border-emerald-500/30 bg-gradient-to-r from-emerald-500/15 via-sky-500/10 to-fuchsia-500/15 shadow-sm">
+        <div className="grid gap-5 p-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:p-7">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-emerald-700 dark:text-emerald-300">
+              <Target size={13} />
+              North Star
+            </div>
+            <h2 className="mt-4 text-3xl font-black tracking-tight text-[var(--fg)] md:text-5xl">
+              ₹1 CRORE / YEAR
+            </h2>
+            <p className="mt-2 text-base font-extrabold text-[var(--fg)] md:text-lg">
+              Reach this earning level within 5–7 years.
+            </p>
+            <p className="mt-3 max-w-2xl text-sm font-semibold leading-6 text-[var(--muted)]">
+              Every career decision should move toward deep technical skill, strong engineering experience, international mobility and higher-value AI roles.
+            </p>
+          </div>
+
+          <div className="grid min-w-[250px] grid-cols-3 gap-2">
+            {[
+              ['HEALTH', 'Protect it'],
+              ['FOOD', 'Fuel yourself'],
+              ['STUDY', 'Keep growing'],
+            ].map(([title, note]) => (
+              <div
+                key={title}
+                className="rounded-2xl border border-[var(--line)] bg-[var(--surface)]/80 px-3 py-4 text-center shadow-2xs backdrop-blur"
+              >
+                <p className="text-xs font-black tracking-wider text-[var(--fg)]">{title}</p>
+                <p className="mt-1 text-[10px] font-semibold text-[var(--muted)]">{note}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="border-t border-[var(--line)] bg-[var(--surface)]/55 px-5 py-3 text-center md:px-7">
+          <p className="text-xs font-black uppercase tracking-[0.12em] text-[var(--fg)]">
+            Everything else can come and go. Health • Food • Study stay the foundation.
+          </p>
+        </div>
+      </section>
+
       {/* Career Focus Lock — intentionally the first thing visible on Home */}
       <section className="mb-8 overflow-hidden rounded-3xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-[var(--surface)] to-violet-500/10 shadow-sm">
         <div className="border-b border-amber-500/20 bg-amber-500/10 px-5 py-4 md:px-7">
