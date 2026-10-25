@@ -35,4 +35,4 @@ Candidate facts, project results, contribution boundaries and model status come 
 - `./node_modules/.bin/next build`: passed; route generated, prior study routes retained.
 - `git diff --check`: passed.
 - Local mobile/browser QA unavailable: managed preview passed Vite-style `--host`/`--strictPort` flags to Next.js and exited. No app/authentication changes made to compensate.
-- Existing production route redirects this browser to the owner sign-in page. Authenticated interaction and mobile visual verification remain unverified until a session is available.
+- Vercel confirmed successful deployment of commit 9eaa7f53b08266b64e94c867ba25de3465cd4840. After secure owner sign-in, the existing route displayed 397 questions and 67 CORE. Live checks passed: CORE filter (67), numeric search (Q129), updated BatchNorm answer, memory-mode hide/reveal, facts filter (37), category L (25), and failed-experiment story filter (15). The revised Q65 answer was verified in the live DOM. Desktop page width did not exceed the viewport. Mobile visual verification remains unverified; no supported viewport-emulation control was available.
