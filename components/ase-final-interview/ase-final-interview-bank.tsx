@@ -223,7 +223,7 @@ export function AseFinalInterviewBank() {
                     <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-emerald-600 dark:text-emerald-400">
                       {item.number >= 380 && item.number <= 388 ? "Ask the interviewer" : item.answer.includes("[") ? "Fill your facts first" : "Say this naturally"}
                     </p>
-                    <p className="mt-2 text-sm font-medium leading-6 text-[var(--fg)]">{item.answer}</p>
+                    <p className="mt-2 whitespace-pre-line text-sm font-medium leading-7 text-[var(--fg)]">{item.answer}</p>
                   </div>
 
                   </details>
