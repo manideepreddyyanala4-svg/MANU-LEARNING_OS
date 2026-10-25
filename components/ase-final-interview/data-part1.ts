@@ -11,28 +11,28 @@ export const interviewCategoriesPart1: InterviewCategory[] = [
         "number": 1,
         "priority": "CORE",
         "question": "Tell me about yourself.",
-        "answer": "Good morning. I am Manideep Reddy from India, and I am doing my Master's in Computer Science and Information Engineering at Asia University. My research uses hand photos to check a person's identity. I write the code, run experiments, and study why results change under different conditions. This has helped me build skills in Python, data analysis, and debugging. I am interested in PTE at ASE because I want to use these skills in semiconductor testing and learn the test hardware.",
-        "memory": "STUDENT → RESEARCH → DATA → PTE",
+        "answer": "Good morning. I am Manideep Reddy from India. I am currently pursuing my Master's in Computer Science and Information Engineering at Asia University, and I expect to graduate in July 2027. I am also working as a Research Assistant on an NSTC-funded RGB dorsal-hand biometric project. The data collection was done as a team, and for my assigned research I mainly handle the coding, experiments, evaluation, and result analysis. We also wrote a paper based on this research. The paper has been accepted, and I will present it at a conference in Japan this December. Through this work, I have developed strong skills in Python, data analysis, controlled experiments, and problem solving. I am interested in Product Test Engineering at ASE because I want to apply these skills to test data, debugging, and semiconductor product problems while learning the test and hardware domain.",
+        "memory": "MS → NSTC → MY WORK → PAPER/JAPAN → PTE",
         "story": "introduction",
-        "seconds": "35–45 sec"
+        "seconds": "50–60 sec"
       },
       {
         "number": 2,
         "priority": "PREPARE",
         "question": "Please introduce yourself in 30–45 seconds.",
-        "answer": "I am Manideep Reddy from India. I am doing my Master's in CSIE at Asia University. My research uses hand photos to check a person's identity. I handle the coding, experiments, and result analysis for my assigned work. I want to join ASE as a PTE because the role connects testing and problem solving with my Python and data skills.",
-        "memory": "NAME → STUDY → WORK → FIT",
+        "answer": "I am Manideep Reddy from India. I am doing my Master's in CSIE at Asia University and expect to graduate in July 2027. I work as a Research Assistant on an NSTC-funded RGB dorsal-hand biometric project, where I mainly handle the coding, experiments, evaluation, and analysis for my assigned work. Our paper from this research has been accepted, and I will present it at a conference in Japan this December. I am interested in ASE PTE because I want to apply my Python, data-analysis, and problem-solving skills to semiconductor testing.",
+        "memory": "MS → NSTC → PAPER/JAPAN → PTE",
         "story": "introduction",
-        "seconds": "30–35 sec"
+        "seconds": "35–45 sec"
       },
       {
         "number": 3,
         "priority": "PREPARE",
         "question": "Can you introduce yourself in one minute?",
-        "answer": "I am Manideep Reddy from India. I completed my B.Tech in Computer Science with AI and Machine Learning, and I am now doing my Master's at Asia University. My research uses photos of the back of a hand to check identity. We collected the data as a team. I handle the coding, model tests, and analysis for my assigned work. I found that results become worse when capture conditions change, so I am testing possible improvements. This work has strengthened my Python and debugging skills. I want to use them in PTE and learn semiconductor testing.",
-        "memory": "PAST → PRESENT → PROOF → PTE",
+        "answer": "I am Manideep Reddy from India. I completed my B.Tech in Computer Science with AI and Machine Learning, and I am now pursuing my Master's in CSIE at Asia University. I also work as a Research Assistant on an NSTC-funded RGB dorsal-hand biometric project. The data collection was a team effort, while for my assigned research I mainly handle the coding, experiments, evaluation, and analysis. One main problem I study is why verification performance becomes worse when capture conditions change. We also wrote a paper from this research, and it has been accepted; I will present it at a conference in Japan this December. This work has strengthened my Python, data-analysis, and debugging skills, and I want to apply them in Product Test Engineering at ASE while learning the semiconductor test domain.",
+        "memory": "PAST → NSTC → PROBLEM → PAPER/JAPAN → PTE",
         "story": "introduction",
-        "seconds": "45–55 sec"
+        "seconds": "55–65 sec"
       },
       {
         "number": 4,
