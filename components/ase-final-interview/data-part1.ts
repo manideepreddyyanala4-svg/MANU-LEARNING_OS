@@ -1,127 +1,999 @@
 import type { InterviewCategory } from './types';
 
 export const interviewCategoriesPart1: InterviewCategory[] = [
-{
-  id:'story', title:'A. Story / Opening / Simple Questions', subtitle:'The fast first-impression questions for a short interview.', range:'Q1–Q25',
-  items:[
-{number:1,priority:'CORE',question:'Tell me about yourself.',answer:'Good morning. I am Manideep Reddy from India. I am doing my M.S. in Computer Science and Information Engineering at Asia University. My research is RGB dorsal-hand biometric verification, and I mainly work with Python, computer vision, experiments, and data analysis. I am interested in PTE because I like testing systems, finding problems, and using data to understand why something fails.',note:'About 40–50 seconds. Remember: PRESENT → RESEARCH → SKILLS → PTE.'},
-{number:2,priority:'CORE',question:'Please introduce yourself in 30–45 seconds.',answer:'I am Manideep Reddy, an M.S. CSIE student at Asia University. I work on RGB dorsal-hand biometric verification, where I handle coding, experiments, evaluation, and analysis for my assigned work. My main strengths are Python, data analysis, and problem solving. I am interested in ASE PTE because I want to use those skills in semiconductor testing.',note:'Short version for a fast interview.'},
-{number:3,priority:'PREPARE',question:'Can you introduce yourself in one minute?',answer:'I completed my B.Tech in Computer Science with AI and Machine Learning in India, and now I am doing my M.S. in CSIE at Asia University. My current research is RGB dorsal-hand biometric verification. The data collection was done as a team, while I handle the coding, ROI pipeline, model experiments, evaluation, and analysis for my assigned work. The main problem I study is why performance becomes worse across different capture sessions. This work has made me stronger in Python, experiments, and debugging, which is why I am interested in PTE.',note:'Keep it under about one minute.'},
-{number:4,priority:'CORE',question:'What are you studying now?',answer:'I am doing an M.S. in Computer Science and Information Engineering at Asia University in Taiwan.'},
-{number:5,priority:'CORE',question:'Which university are you studying at?',answer:'I am studying at Asia University in Taichung, Taiwan.'},
-{number:6,priority:'CORE',question:'What is your Master’s specialization?',answer:'My program is Computer Science and Information Engineering. My current research is mainly in computer vision and biometric verification.'},
-{number:7,priority:'CORE',question:'When will you graduate?',answer:'I currently expect to graduate in July 2027.',note:'Keep this consistent with your university record.'},
-{number:8,priority:'CORE',question:'What position are you applying for?',answer:'My first choice is Product Test Engineer, or PTE. I am also open to a suitable Process Engineer role if it fits my background and the training is suitable.'},
-{number:9,priority:'CORE',question:'Why are you interested in PTE?',answer:'I like testing systems, analyzing data, and finding why something fails. PTE also involves test results, yield, validation, and problem solving. My software and data skills can help me, while I learn the semiconductor-test side.'},
-{number:10,priority:'CORE',question:'Why do you want to join ASE?',answer:'ASE is a major semiconductor packaging and testing company. I am interested in the testing side because it uses data, validation, and problem solving. I think ASE is a good place for me to learn semiconductor testing and use my software and analysis skills.'},
-{number:11,priority:'CORE',question:'Why semiconductor after studying CS/AI?',answer:'I do not see it as leaving CS. I want to use programming and data analysis on real engineering problems. Semiconductor testing has a lot of measurable data and debugging, so it fits the way I like to work.'},
-{number:12,priority:'CORE',question:'Why did you come to Taiwan?',answer:'I came to Taiwan for my Master’s because Taiwan has a strong technology and semiconductor industry. I also wanted international study and research experience. If I find the right opportunity, I would like to build my technical career here.'},
-{number:13,priority:'PREPARE',question:'Why did you choose Asia University?',answer:'Asia University offered the CSIE Master’s program and gave me the chance to work on applied computer-vision research with an advisor in Taiwan.'},
-{number:14,priority:'PREPARE',question:'What are your strongest skills?',answer:'My strongest skills are Python, computer vision, image processing, data analysis, and experiments. I am especially comfortable breaking a technical problem into smaller tests and comparing the results.'},
-{number:15,priority:'PREPARE',question:'What have you been focusing on during your Master’s?',answer:'I have mainly focused on RGB dorsal-hand biometric verification. I work on extracting a stable hand region, testing lightweight models, and studying why performance becomes worse across sessions and capture conditions.'},
-{number:16,priority:'PREPARE',question:'What is the most important thing you learned during graduate school?',answer:'I learned that one good result is not enough. I need to keep the test fair, check the data, compare methods under the same conditions, and make claims only when the results support them.'},
-{number:17,priority:'PREPARE',question:'What achievement are you most proud of?',answer:'I am most proud of my Master’s research. Our work was accepted for a conference presentation. I am proud because I learned how to solve technical problems, run experiments, and keep improving when the results were not good.',note:'Memory: research → conference → problems → experiments → improve.'},
-{number:18,priority:'PREPARE',question:'How would you describe yourself in three words?',answer:'Analytical, persistent, and willing to learn. I like to understand why something failed instead of just trying the same thing again.'},
-{number:19,priority:'PREPARE',question:'What makes you different from other candidates?',answer:'My background is different from a traditional EE candidate. My strengths are Python, data analysis, computer vision, and experiments. I know I have more to learn about semiconductor hardware, and I am ready to learn it.'},
-{number:20,priority:'CORE',question:'Why should we hire you?',answer:'My main strength is solving problems with data. In my research, when performance became worse, I checked the pipeline, compared the conditions, and tested one idea at a time instead of guessing. I can bring the same Python, analysis, and debugging skills to PTE while learning the semiconductor-test side.',note:'Value → one real example → role fit.'},
-{number:21,priority:'CORE',question:'Why should we hire a CS student instead of an EE student?',answer:'An EE student may start with stronger electronics knowledge. My strength is different: Python, data analysis, experiments, automation, and software debugging. I can bring those skills to the team while learning the hardware and test knowledge needed for PTE.'},
-{number:22,priority:'PREPARE',question:'Recommend yourself to me.',answer:'I am analytical, willing to learn, and careful with data. I can write Python, run experiments, and explain why a result changed instead of guessing. PTE is a new domain for me, but I am serious about learning it.'},
-{number:23,priority:'PREPARE',question:'What value can you bring to our team?',answer:'I can bring strong Python and data-analysis skills, a careful debugging habit, and experience comparing technical results. I can also learn from documentation and existing systems instead of needing everything explained from the beginning.'},
-{number:24,priority:'BACKUP',question:'What do you usually do outside your studies?',answer:'Most of my time now goes to my Master’s research and career preparation. For relaxation, I like walking, watching movies or useful videos, and spending time with friends.'},
-{number:25,priority:'BACKUP',question:'What are your hobbies?',answer:'I like watching movies, learning about technology, walking, and spending time with friends. I prefer to keep this answer simple and honest.'}
-]},
-
-{
-  id:'resume', title:'B. Resume Defense', subtitle:'Every important resume line must survive follow-up questions.', range:'Q26–Q64',
-  items:[
-{number:26,priority:'CORE',question:'Walk me through your resume.',answer:'I would summarize it in three parts. First, I am an M.S. CSIE student at Asia University. Second, my strongest recent experience is my RGB dorsal-hand research, where I handle the coding, experiments, evaluation, and analysis for my assigned work. Third, my main skills are Python, PyTorch, OpenCV, and data analysis, and I have conference work accepted for presentation. These are the main reasons I am interested in PTE.',note:'Do not read every line. Give a short map of the resume.'},
-{number:27,priority:'CORE',question:'Which part of your resume best represents you?',answer:'My current research best represents me. It combines coding, experiments, data analysis, debugging, and explaining results clearly. It is also my most recent and strongest technical work.'},
-{number:28,priority:'CORE',question:'What is your current research?',answer:'My current research is RGB dorsal-hand biometric verification. I focus on lightweight models and better performance when capture sessions and conditions change.'},
-{number:29,priority:'CORE',question:'What exactly did YOU personally do?',answer:'The dataset collection was done as a team. For my assigned research, I personally built the ROI and image-processing pipeline, reproduced and tested LAWNet as the main lightweight baseline, built the evaluation workflow, ran experiments, and analyzed the results. LAWNet itself is an existing model, not my invention.',note:'Shared data collection. Your work = coding, experiments, evaluation, analysis.'},
-{number:30,priority:'CORE',question:'What did your professor/advisor do versus what did you do?',answer:'My advisor gives the overall research direction, technical guidance, and reviews the work. Data collection was shared by the team. For my assigned work, I personally do the coding, implementation, experiments, evaluation, and result analysis.'},
-{number:31,priority:'CORE',question:'Are you a Research Assistant?',answer:'Yes. I am a research assistant in the Department of Computer Science and Information Engineering at Asia University, working on a dorsal-hand biometrics project.',note:'Use the official title that matches your appointment.'},
-{number:32,priority:'PREPARE',question:'What are your responsibilities as a Research Assistant?',answer:'I help with team data collection and work on the technical pipeline. My tasks include ROI and image processing, baseline-model testing, evaluation, experiments, result analysis, and preparing research outputs under my advisor.'},
-{number:33,priority:'PREPARE',question:'What is the NSTC project?',answer:'It is a research project related to RGB dorsal-hand biometrics. My part mainly focuses on hand-region processing, verification experiments, and analysis.'},
-{number:34,priority:'PREPARE',question:'Did you obtain the NSTC funding yourself?',answer:'No. I work on an NSTC-funded project under my advisor and lab. I did not personally obtain the grant.'},
-{number:35,priority:'CORE',question:'What programming language are you strongest in?',answer:'Python is my strongest programming language. I use it regularly for image processing, PyTorch experiments, data analysis, evaluation scripts, and automation.'},
-{number:36,priority:'CORE',question:'How do you actually use Python?',answer:'I use Python to read and process images, run model experiments, calculate verification metrics, analyze similarity scores, compare results, and automate repeated evaluation steps.'},
-{number:37,priority:'PREPARE',question:'Give me an example of a Python script you wrote.',answer:'One example is an evaluation script that loads model features or scores, creates genuine and impostor comparisons, calculates verification metrics, and summarizes results across different conditions. I also wrote scripts for ROI extraction and result analysis.'},
-{number:38,priority:'PREPARE',question:'How have you used Pandas or NumPy?',answer:'I use NumPy for arrays, embeddings, similarity calculations, and numerical operations. I use Pandas for CSV or table data when I need filtering, grouping, comparison, or summary statistics.'},
-{number:39,priority:'PREPARE',question:'Where have you used SQL?',answer:'I have used SQL for basic structured-data queries. I am comfortable with things such as SELECT, WHERE, GROUP BY, and basic joins.',note:'Be ready with one real SQL example.'},
-{number:40,priority:'PREPARE',question:'What have you done with PyTorch?',answer:'I use PyTorch to work with neural-network models, prepare data pipelines, run training or evaluation experiments, extract embeddings, load checkpoints, and compare model results.'},
-{number:41,priority:'PREPARE',question:'What have you done with OpenCV?',answer:'I use OpenCV for reading images, resizing, cropping, geometric transformations, ROI processing, preprocessing, and checking image results.'},
-{number:42,priority:'PREPARE',question:'What have you done with MediaPipe?',answer:'I use MediaPipe to get hand landmarks. My own code then uses selected landmarks to locate and align the dorsal-hand ROI. I did not train MediaPipe itself.'},
-{number:43,priority:'PREPARE',question:'How comfortable are you with Linux?',answer:'I am comfortable with normal Linux research work such as moving through files, running Python experiments, managing environments, checking processes, and using a GPU server. I would not claim advanced system-administration skills.'},
-{number:44,priority:'PREPARE',question:'How do you use Git?',answer:'I use Git to track code changes, make commits, compare versions, and keep a history so I can recover or understand changes later.'},
-{number:45,priority:'PREPARE',question:'Which technical skill on your resume are you strongest at?',answer:'Python is my strongest single skill, especially when I use it with image processing and experiment or data analysis.'},
-{number:46,priority:'PREPARE',question:'Which skill are you least confident about?',answer:'Compared with my software and data skills, semiconductor electronics and production-test equipment are newer for me. I am learning the PTE basics because I know they are important for the role.'},
-{number:47,priority:'CORE',question:'Your old resume says MobileNetV3. Are you still using it?',answer:'No. MobileNetV3 was part of earlier work. My current main lightweight baseline is LAWNet. I reproduced and tested LAWNet, and my current research is developing a new lightweight model rather than using MobileNetV3 as the thesis model.'},
-{number:48,priority:'CORE',question:'What model are you actually using now?',answer:'LAWNet is my main current baseline. It is not my final proposed model. I use it because it is a small RGB wrist and hand biometric model and it is close to my lightweight research goal.'},
-{number:49,priority:'CORE',question:'Did you create LAWNet?',answer:'No. LAWNet was created by other researchers. My work is to reproduce and test it under my protocol, study where it works and fails on my data, and use those results as a baseline for my own model work.'},
-{number:50,priority:'CORE',question:'What is the difference between LAWNet and your proposed model?',answer:'LAWNet is the existing baseline. My own model work is still ongoing. The goal is to stay lightweight while improving performance when capture conditions change.'},
-{number:51,priority:'CORE',question:'Is your proposed model completed?',answer:'No. It is still under development. I can explain the problem and the direction I am testing, but I would not say the final model is completed.'},
-{number:52,priority:'CORE',question:'Has your proposed model improved the results?',answer:'I cannot claim that yet. I will only claim an improvement after I have a completed and verified experiment that shows it clearly.'},
-{number:53,priority:'PREPARE',question:'Why does your old resume mention ONNX?',answer:'ONNX came from an earlier deployment experiment. It was useful engineering work, but it is not my current thesis model or main research direction.'},
-{number:54,priority:'PREPARE',question:'Is your model deployed?',answer:'No, not in production. I previously tested local ONNX inference as a prototype, but I would not say my current research system is deployed.'},
-{number:55,priority:'PREPARE',question:'What was the ONNX work for?',answer:'It was to check whether a trained model could be exported and run correctly in ONNX Runtime for local inference. It was an earlier engineering experiment.'},
-{number:56,priority:'CORE',question:'Tell me about your accepted conference work.',answer:'The accepted work is about landmark-guided ROI extraction for RGB dorsal-hand imaging. I would explain the problem, what I personally worked on, and the exact status: it has been accepted for conference presentation.'},
-{number:57,priority:'CORE',question:'Is it accepted, presented, or published?',answer:'It is accepted for conference presentation. I will not call it published or presented until that has actually happened.'},
-{number:58,priority:'PREPARE',question:'What was your personal contribution to that conference work?',answer:'My contribution was in the technical work I actually implemented and analyzed, such as ROI extraction and alignment, experiments, evaluation, and result analysis. I would clearly separate my work from my advisor and team contributions.',note:'Keep this consistent with the real paper contribution.'},
-{number:59,priority:'BACKUP',question:'Tell me about your 2023 GAN paper.',answer:'It was an earlier undergraduate research project using adversarial networks for 3D exploration. If asked, I would explain it briefly, but my current Master’s research is much more relevant to this interview.'},
-{number:60,priority:'BACKUP',question:'What was your contribution to that paper?',answer:'I would explain only the parts I actually worked on in that project. I would not claim work that I cannot clearly defend.'},
-{number:61,priority:'CORE',question:'Why is your current Master’s research more relevant than your undergraduate projects?',answer:'My Master’s research is more complete and more recent. I work on the full technical process: coding, baseline testing, controlled experiments, evaluation, failure analysis, and ongoing model development under my advisor.'},
-{number:62,priority:'PREPARE',question:'Which undergraduate project would you choose to explain if I asked for one?',answer:'I would choose the project I can explain most clearly and that shows data analysis or machine-learning problem solving. I would keep it brief because my Master’s research is my strongest work.'},
-{number:63,priority:'PREPARE',question:'Your CGPA is 8.34/10. What subjects were you strongest in?',answer:'My strongest areas were computer science and AI or machine-learning subjects. I would mention two real courses that I did well in and explain them briefly.',note:'Choose two real subjects before interview day.'},
-{number:64,priority:'BACKUP',question:'Were there any subjects you struggled with?',answer:'Yes. Like most students, I found some subjects harder than others. I would give one real example, explain how I improved, and avoid blaming the teacher or course.'}
-]},
-
-{
- id:'project-manager', title:'C. Project Defense — Simple Manager Level', subtitle:'Explain your research clearly to HR or a non-CV engineering manager.', range:'Q65–Q109',
- items:[
-{number:65,priority:'CORE',question:'Tell me about your research.',answer:'My research checks whether two RGB images of the back of a hand belong to the same person. I work on extracting a stable hand region, testing a lightweight model, and studying why performance becomes worse when capture sessions or conditions change. My new lightweight model work is still ongoing.'},
-{number:66,priority:'CORE',question:'Explain your research to someone who does not know computer vision.',answer:'I use normal color photos of the back of a hand as a biometric. The system takes the useful hand area, turns it into a group of numbers, and compares two samples. My main problem is making that comparison reliable when the image conditions change.'},
-{number:67,priority:'CORE',question:'What problem are you trying to solve?',answer:'I am trying to make verification more reliable when the same person is captured in different sessions or conditions. The current baseline works much better when the conditions are similar.'},
-{number:68,priority:'CORE',question:'Why is this problem useful/important?',answer:'A biometric system must still work when real capture conditions change. If accuracy drops badly because of lighting, pose, or alignment, the system is not reliable enough for practical use.'},
-{number:69,priority:'CORE',question:'What is dorsal-hand biometrics?',answer:'Dorsal-hand biometrics uses visual information from the back of the hand to recognize or verify a person.'},
-{number:70,priority:'PREPARE',question:'Why use the back of the hand?',answer:'The back of the hand has useful shape, knuckle, skin, and other visual patterns. It can also be captured without contact using a normal RGB camera. I would not say it is always better than face or fingerprint.'},
-{number:71,priority:'CORE',question:'What is biometric verification?',answer:'Verification checks whether two biometric samples belong to the same identity. In my case, I compare a hand image with a reference and decide same person or different person.'},
-{number:72,priority:'PREPARE',question:'Identification vs verification?',answer:'Identification asks, “Who is this?” and usually compares one sample with many identities. Verification asks, “Is this the same person?” and compares with a claimed or reference identity.'},
-{number:73,priority:'PREPARE',question:'Verification vs classification?',answer:'Classification chooses one class from a fixed set. Verification compares two feature representations and decides whether they belong to the same identity.'},
-{number:74,priority:'CORE',question:'Walk me through your project from input to final decision.',answer:'RGB hand image → detect landmarks → extract and align the hand ROI → resize and preprocess → model creates an embedding → compare embeddings with cosine similarity → use a threshold → same person or different person.'},
-{number:75,priority:'CORE',question:'What happens after you capture the hand image?',answer:'First I find the hand and useful landmarks. Then I extract and align a consistent dorsal-hand region, prepare it for the model, and pass it through the network to get features for comparison.'},
-{number:76,priority:'CORE',question:'What is ROI?',answer:'ROI means Region of Interest. It is the useful part of the full image that I want the model to analyze. In my project, it is the dorsal-hand area.'},
-{number:77,priority:'CORE',question:'Why do you need ROI extraction?',answer:'The full image has background and different hand positions. ROI extraction removes much of that unwanted variation and gives the model a more consistent hand area.'},
-{number:78,priority:'CORE',question:'Why do you need alignment?',answer:'Alignment makes the hand region more consistent in position and angle. Without it, the same person can look shifted or rotated, which can change the model features.'},
-{number:79,priority:'PREPARE',question:'What does MediaPipe do?',answer:'MediaPipe detects hand landmarks. I use those landmark coordinates as reference points in my own ROI extraction and alignment code.'},
-{number:80,priority:'PREPARE',question:'What does OpenCV do in your pipeline?',answer:'OpenCV handles image operations such as reading, cropping, resizing, geometric changes, preprocessing, and checking the extracted ROI.'},
-{number:81,priority:'CORE',question:'What does the neural network do?',answer:'The network acts as a feature extractor. It turns the aligned hand image into a compact numerical representation that should keep useful identity information.'},
-{number:82,priority:'CORE',question:'What does the network output?',answer:'It outputs an embedding, which is a numerical feature vector used to compare hand images.'},
-{number:83,priority:'CORE',question:'What is an embedding in simple language?',answer:'An embedding is a compact list of numbers that represents important features of an image. Images from the same person should have more similar embeddings.'},
-{number:84,priority:'CORE',question:'How do you compare two hand images?',answer:'I pass both images through the same model to get two embeddings, then I calculate cosine similarity between them.'},
-{number:85,priority:'CORE',question:'What is cosine similarity in simple language?',answer:'Cosine similarity tells me how similar two feature vectors are. A higher value usually means the two images are more likely to belong to the same person.'},
-{number:86,priority:'CORE',question:'How do you decide same person or different person?',answer:'I compare the cosine-similarity score with a threshold. If the score is above the threshold, I accept the pair as the same identity. Otherwise, I reject it.'},
-{number:87,priority:'PREPARE',question:'What does the threshold do?',answer:'The threshold turns the similarity score into a yes or no decision. Changing the threshold changes the balance between false accepts and false rejects.'},
-{number:88,priority:'CORE',question:'What is the biggest problem in your current system?',answer:'The biggest problem is cross-session generalization. The error becomes much higher when the same identity is compared across different capture sessions than within similar conditions.'},
-{number:89,priority:'CORE',question:'What do you mean by cross-session?',answer:'Cross-session means the two samples were captured in different sessions. This can bring changes in lighting, pose, hand position, camera conditions, or the environment.'},
-{number:90,priority:'CORE',question:'Why does performance become worse across sessions?',answer:'The same person can look different across sessions because of lighting, pose, alignment, hand position, or camera and environment changes. If the model is sensitive to these changes, same-person similarity becomes lower.'},
-{number:91,priority:'CORE',question:'Is lighting the proven reason?',answer:'No. Lighting may be one cause, but I cannot say it is the only cause. Pose, alignment, camera conditions, session changes, and model sensitivity may also affect the result.'},
-{number:92,priority:'CORE',question:'What factors could affect performance?',answer:'Lighting, hand pose, alignment, ROI location, camera or environment conditions, session differences, preprocessing, and model sensitivity can all affect performance.'},
-{number:93,priority:'CORE',question:'What have you tried so far?',answer:'I built the ROI and alignment pipeline, reproduced and tested LAWNet, built controlled evaluation workflows, tested preprocessing methods, ran architecture experiments, and analyzed same-session and cross-session results. These results guide my own lightweight model work.'},
-{number:94,priority:'CORE',question:'What is your current baseline?',answer:'LAWNet is my main current baseline. It is an existing lightweight RGB wrist and hand biometric model that I reproduced and tested as the reference for my dorsal-hand research.'},
-{number:95,priority:'CORE',question:'Why are you using LAWNet?',answer:'I use LAWNet because it was made for RGB wrist and hand verification, it is very small at about 0.45 million parameters, and it reported strong cross-session results on NTUST-IW. It is close to my lightweight research goal, so it is a good baseline to reproduce, test, and learn from.',note:'LAWNet = baseline, not your final contribution.'},
-{number:96,priority:'CORE',question:'What have you learned from reproducing LAWNet?',answer:'It gave me a strong lightweight reference before proposing anything new. It also showed me that the biggest problem on my target data is keeping same-person features stable when capture conditions change.'},
-{number:97,priority:'CORE',question:'What are you trying to improve now?',answer:'I am trying to improve performance across changing capture conditions while keeping the model lightweight.'},
-{number:98,priority:'CORE',question:'What is your proposed research direction?',answer:'My direction is a lightweight RGB dorsal-hand verification model or modification that works better across sessions and conditions. The work is still ongoing, so I would not claim a final successful model yet.'},
-{number:99,priority:'CORE',question:'What is completed versus still ongoing?',answer:'The ROI pipeline, team data collection, LAWNet reproduction, evaluation workflows, preprocessing tests, and architecture experiments are completed. My new sub-0.6M-parameter model work is still ongoing, so I do not claim it already beats LAWNet.'},
-{number:100,priority:'CORE',question:'What exactly is YOUR contribution?',answer:'Data collection was shared by the team. For my assigned research, I personally handled the coding, ROI and preprocessing work, LAWNet reproduction, evaluation pipeline, experiments, and result analysis. LAWNet is an existing model, and my advisor guides the research direction.'},
-{number:101,priority:'CORE',question:'What was the hardest part of the project?',answer:'The hardest part was understanding why performance drops so much across sessions. A bad number alone is not enough. I have to check the pipeline, separate possible causes, test them fairly, and avoid making claims without evidence.'},
-{number:102,priority:'CORE',question:'Tell me about one experiment that failed.',answer:'I tested a preprocessing or model change that looked useful in some conditions, but it did not improve consistently across the full evaluation. I did not keep it just because one result looked good. I returned to the stronger baseline and used the failure to plan the next test.'},
-{number:103,priority:'CORE',question:'What did you learn from that failure?',answer:'I learned that one good result is not enough. An improvement should work consistently under the full evaluation, and a failed experiment is still useful because it shows which idea may be wrong.'},
-{number:104,priority:'PREPARE',question:'What result surprised you?',answer:'The large gap between same-session and cross-session performance surprised me. It showed that the hardest problem is not separating different people, but keeping the same person stable when conditions change.'},
-{number:105,priority:'PREPARE',question:'What would you do next if you had more time?',answer:'I would keep testing the main causes of variation one at a time, try lightweight model changes, and check any improvement across multiple runs and cross-session conditions before making a claim.'},
-{number:106,priority:'PREPARE',question:'How do you know your experimental result is trustworthy?',answer:'I check the data and test setup, keep the comparison fair, use the same evaluation rules, and look at more than one run or fold when needed. I make sure the conclusion matches the full result, not one good number.'},
-{number:107,priority:'PREPARE',question:'How do you compare different experiments fairly?',answer:'I keep the data split, evaluation method, preprocessing, training rules, and metrics the same, and change only the factor I want to test whenever possible.'},
-{number:108,priority:'PREPARE',question:'How does your research show problem-solving ability relevant to PTE?',answer:'The process is similar. First I check the measurement, find where the problem appears, split the data by condition, test one idea at a time, compare the result, and record what really improved. That way of debugging can also help with test and yield problems.'},
-{number:109,priority:'CORE',question:'Why should a semiconductor test manager care about this research?',answer:'The application is different, but the skills are useful for PTE: Python, data analysis, controlled tests, finding root causes, comparing conditions, and making decisions from evidence instead of guessing.'}
-]}
+  {
+    "id": "story",
+    "title": "A. Story / Opening / Simple Questions",
+    "subtitle": "The fast first-impression questions for a short interview.",
+    "range": "Q1–Q25",
+    "items": [
+      {
+        "number": 1,
+        "priority": "CORE",
+        "question": "Tell me about yourself.",
+        "answer": "Good morning. I am Manideep Reddy from India, and I am doing my Master's in Computer Science and Information Engineering at Asia University. My research uses hand photos to check a person's identity. I write the code, run experiments, and study why results change under different conditions. This has helped me build skills in Python, data analysis, and debugging. I am interested in PTE at ASE because I want to use these skills in semiconductor testing and learn the test hardware.",
+        "memory": "STUDENT → RESEARCH → DATA → PTE",
+        "story": "introduction",
+        "seconds": "35–45 sec"
+      },
+      {
+        "number": 2,
+        "priority": "PREPARE",
+        "question": "Please introduce yourself in 30–45 seconds.",
+        "answer": "I am Manideep Reddy from India. I am doing my Master's in CSIE at Asia University. My research uses hand photos to check a person's identity. I handle the coding, experiments, and result analysis for my assigned work. I want to join ASE as a PTE because the role connects testing and problem solving with my Python and data skills.",
+        "memory": "NAME → STUDY → WORK → FIT",
+        "story": "introduction",
+        "seconds": "30–35 sec"
+      },
+      {
+        "number": 3,
+        "priority": "PREPARE",
+        "question": "Can you introduce yourself in one minute?",
+        "answer": "I am Manideep Reddy from India. I completed my B.Tech in Computer Science with AI and Machine Learning, and I am now doing my Master's at Asia University. My research uses photos of the back of a hand to check identity. We collected the data as a team. I handle the coding, model tests, and analysis for my assigned work. I found that results become worse when capture conditions change, so I am testing possible improvements. This work has strengthened my Python and debugging skills. I want to use them in PTE and learn semiconductor testing.",
+        "memory": "PAST → PRESENT → PROOF → PTE",
+        "story": "introduction",
+        "seconds": "45–55 sec"
+      },
+      {
+        "number": 4,
+        "priority": "PREPARE",
+        "question": "What are you studying now?",
+        "answer": "I am doing an M.S. in Computer Science and Information Engineering at Asia University in Taiwan.",
+        "memory": "MS → CSIE → ASIA",
+        "story": "introduction",
+        "seconds": "5–10 sec"
+      },
+      {
+        "number": 5,
+        "priority": "PREPARE",
+        "question": "Which university are you studying at?",
+        "answer": "I am studying at Asia University in Taichung, Taiwan.",
+        "memory": "ASIA → TAICHUNG",
+        "story": "introduction",
+        "seconds": "5–10 sec"
+      },
+      {
+        "number": 6,
+        "priority": "PREPARE",
+        "question": "What is your Master’s specialization?",
+        "answer": "My program is Computer Science and Information Engineering. My current research is mainly in computer vision and biometric verification.",
+        "memory": "CSIE → VISION → BIOMETRICS",
+        "story": "introduction",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 7,
+        "priority": "CORE",
+        "question": "When will you graduate?",
+        "answer": "I currently expect to graduate in July 2027.",
+        "note": "Keep this consistent with your university record.",
+        "memory": "JULY 2027",
+        "story": "availability",
+        "seconds": "5–10 sec"
+      },
+      {
+        "number": 8,
+        "priority": "CORE",
+        "question": "What position are you applying for?",
+        "answer": "My first choice is Product Test Engineer, or PTE. I am also open to a suitable Process Engineer role if it fits my background and the training is suitable.",
+        "memory": "PTE FIRST → PE POSSIBLE",
+        "story": "role-fit",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 9,
+        "priority": "CORE",
+        "question": "Why are you interested in PTE?",
+        "answer": "I like PTE because it involves test data, debugging, and finding why results change. In my research, I compare experiments and study failures step by step. I still need to learn the test hardware, but this way of solving problems fits my strengths.",
+        "memory": "DATA → DEBUG → LEARN HARDWARE",
+        "story": "role-fit",
+        "seconds": "20–25 sec"
+      },
+      {
+        "number": 10,
+        "priority": "CORE",
+        "question": "Why do you want to join ASE?",
+        "answer": "ASE works in chip packaging and testing, including wafer test and final test. That makes it relevant to the test career I want. My research has given me practice in Python, data analysis, and checking failures. I want to use these skills while learning real semiconductor testing.",
+        "memory": "ASE TESTING → SKILLS → LEARN",
+        "story": "role-fit",
+        "seconds": "20–25 sec"
+      },
+      {
+        "number": 11,
+        "priority": "PREPARE",
+        "question": "Why semiconductor after studying CS/AI?",
+        "answer": "I do not see it as leaving CS. I want to use programming and data analysis on real engineering problems. Semiconductor testing has a lot of measurable data and debugging, so it fits the way I like to work.",
+        "memory": "CS SKILLS → ENGINEERING DATA",
+        "story": "role-fit",
+        "seconds": "20–25 sec"
+      },
+      {
+        "number": 12,
+        "priority": "PREPARE",
+        "question": "Why did you come to Taiwan?",
+        "answer": "I came to Taiwan for my Master’s because Taiwan has a strong technology and semiconductor industry. I also wanted international study and research experience. If I find the right opportunity, I would like to build my technical career here.",
+        "memory": "MASTER'S → TECHNOLOGY → CAREER",
+        "story": "introduction",
+        "seconds": "20–25 sec"
+      },
+      {
+        "number": 13,
+        "priority": "PREPARE",
+        "question": "Why did you choose Asia University?",
+        "answer": "Asia University offered the CSIE Master’s program and gave me the chance to work on applied computer-vision research with an advisor in Taiwan.",
+        "memory": "CSIE → ADVISOR → RESEARCH",
+        "story": "introduction",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 14,
+        "priority": "PREPARE",
+        "question": "What are your strongest skills?",
+        "answer": "My strongest skills are Python, computer vision, image processing, data analysis, and experiments. I am especially comfortable breaking a technical problem into smaller tests and comparing the results.",
+        "memory": "PYTHON → VISION → EXPERIMENTS",
+        "story": "strength",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 15,
+        "priority": "PREPARE",
+        "question": "What have you been focusing on during your Master’s?",
+        "answer": "I have mainly focused on RGB dorsal-hand biometric verification. I work on extracting a stable hand region, testing lightweight models, and studying why performance becomes worse across sessions and capture conditions.",
+        "memory": "HAND ROI → SMALL MODEL → SESSIONS",
+        "story": "introduction",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 16,
+        "priority": "PREPARE",
+        "question": "What is the most important thing you learned during graduate school?",
+        "answer": "I learned that one good result is not enough. I need to keep the test fair, check the data, compare methods under the same conditions, and make claims only when the results support them.",
+        "memory": "FAIR TEST → FULL RESULTS",
+        "story": "failed-experiment",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 17,
+        "priority": "PREPARE",
+        "question": "What achievement are you most proud of?",
+        "answer": "I am most proud of my Master’s research. Our work was accepted for a conference presentation. I am proud because I learned how to solve technical problems, run experiments, and keep improving when the results were not good.",
+        "memory": "RESEARCH → CONFERENCE → LEARNING",
+        "story": "strength",
+        "seconds": "20–25 sec"
+      },
+      {
+        "number": 18,
+        "priority": "PREPARE",
+        "question": "How would you describe yourself in three words?",
+        "answer": "Careful, persistent, and curious. I like checking the evidence and understanding why a result changed.",
+        "memory": "CAREFUL → PERSISTENT → CURIOUS",
+        "story": "strength",
+        "seconds": "5–10 sec"
+      },
+      {
+        "number": 19,
+        "priority": "PREPARE",
+        "question": "What makes you different from other candidates?",
+        "answer": "My background is different from a traditional EE candidate. My strengths are Python, data analysis, computer vision, and experiments. I know I have more to learn about semiconductor hardware, and I am ready to learn it.",
+        "memory": "SOFTWARE STRENGTH → HARDWARE GAP",
+        "story": "role-fit",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 20,
+        "priority": "CORE",
+        "question": "Why should we hire you?",
+        "answer": "My main strength is solving problems with data. In my research, when performance became worse, I checked the pipeline, compared the conditions, and tested one idea at a time instead of guessing. I can bring the same Python, analysis, and debugging skills to PTE while learning the semiconductor-test side.",
+        "memory": "DATA → REAL EXAMPLE → PTE",
+        "story": "role-fit",
+        "seconds": "25–30 sec"
+      },
+      {
+        "number": 21,
+        "priority": "PREPARE",
+        "question": "Why should we hire a CS student instead of an EE student?",
+        "answer": "An EE student may start with stronger electronics knowledge. My strength is different: Python, data analysis, experiments, automation, and software debugging. I can bring those skills to the team while learning the hardware and test knowledge needed for PTE.",
+        "memory": "EE HARDWARE → MY DATA SKILLS",
+        "story": "role-fit",
+        "seconds": "20–25 sec"
+      },
+      {
+        "number": 22,
+        "priority": "PREPARE",
+        "question": "Recommend yourself to me.",
+        "answer": "I am analytical, willing to learn, and careful with data. I can write Python, run experiments, and explain why a result changed instead of guessing. PTE is a new domain for me, but I am serious about learning it.",
+        "memory": "CAREFUL → PYTHON → READY TO LEARN",
+        "story": "role-fit",
+        "seconds": "20–25 sec"
+      },
+      {
+        "number": 23,
+        "priority": "PREPARE",
+        "question": "What value can you bring to our team?",
+        "answer": "I can help with Python scripts, data analysis, and checking unusual results. My research has taught me to compare tests carefully and record what I find. I would first learn the team's tools and procedures.",
+        "memory": "SCRIPTS → DATA → TEAM PROCEDURES",
+        "story": "role-fit",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 24,
+        "priority": "BACKUP",
+        "question": "What do you usually do outside your studies?",
+        "answer": "I like watching movies. They help me relax after study and research.",
+        "memory": "MOVIES → RELAX",
+        "seconds": "5–10 sec"
+      },
+      {
+        "number": 25,
+        "priority": "BACKUP",
+        "question": "What are your hobbies?",
+        "answer": "I enjoy watching movies and learning about technology.",
+        "memory": "MOVIES → TECHNOLOGY",
+        "seconds": "5–10 sec"
+      }
+    ]
+  },
+  {
+    "id": "resume",
+    "title": "B. Resume Defense",
+    "subtitle": "Every important resume line must survive follow-up questions.",
+    "range": "Q26–Q64",
+    "items": [
+      {
+        "number": 26,
+        "priority": "CORE",
+        "question": "Walk me through your resume.",
+        "answer": "I completed my B.Tech in Computer Science with AI and Machine Learning in 2024. I am now doing my Master's at Asia University. My main work is hand-image verification research, where I handle coding, experiments, and analysis. I use Python, PyTorch, and OpenCV, and our work has been accepted for a conference presentation. I want to bring my data and debugging skills into PTE.",
+        "memory": "DEGREE → RESEARCH → SKILLS → FIT",
+        "story": "introduction",
+        "seconds": "30–35 sec"
+      },
+      {
+        "number": 27,
+        "priority": "PREPARE",
+        "question": "Which part of your resume best represents you?",
+        "answer": "My current research best represents me. It combines coding, experiments, data analysis, debugging, and explaining results clearly. It is also my most recent and strongest technical work.",
+        "memory": "RESEARCH → CODE → ANALYSIS",
+        "story": "introduction",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 28,
+        "priority": "PREPARE",
+        "question": "What is your current research?",
+        "answer": "I use photos of the back of a hand to check identity. My focus is a small model that works more reliably when capture conditions change.",
+        "memory": "HAND PHOTOS → IDENTITY → CONDITIONS",
+        "story": "research",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 29,
+        "priority": "CORE",
+        "question": "What exactly did YOU personally do?",
+        "answer": "We collected the images as a team. I personally wrote the ROI and image-processing code, tested the published LAWNet baseline, built the evaluation workflow, and ran and analyzed experiments. My advisor guides the research. I did not invent LAWNet.",
+        "memory": "TEAM DATA → MY CODE → ADVISOR",
+        "story": "contribution",
+        "seconds": "20–25 sec"
+      },
+      {
+        "number": 30,
+        "priority": "PREPARE",
+        "question": "What did your professor/advisor do versus what did you do?",
+        "answer": "My advisor gives the overall research direction, technical guidance, and reviews the work. Data collection was shared by the team. For my assigned work, I personally do the coding, implementation, experiments, evaluation, and result analysis.",
+        "memory": "ADVISOR GUIDES → I IMPLEMENT",
+        "story": "contribution",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 31,
+        "priority": "PREPARE",
+        "question": "Are you a Research Assistant?",
+        "answer": "I work on a dorsal-hand biometrics research project under my advisor at Asia University.",
+        "needsFact": "Confirm the official appointment title before using Research Assistant on a resume.",
+        "memory": "RESEARCH PROJECT → CONFIRM TITLE",
+        "story": "introduction",
+        "seconds": "5–10 sec"
+      },
+      {
+        "number": 32,
+        "priority": "PREPARE",
+        "question": "What are your responsibilities as a Research Assistant?",
+        "answer": "I help with team data collection and work on the technical pipeline. My tasks include ROI and image processing, baseline-model testing, evaluation, experiments, result analysis, and preparing research outputs under my advisor.",
+        "memory": "COLLECT → CODE → TEST → ANALYZE",
+        "story": "contribution",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 33,
+        "priority": "PREPARE",
+        "question": "What is the NSTC project?",
+        "answer": "It is an NSTC-funded research project on RGB dorsal-hand biometrics. My part is image processing, model experiments, and result analysis under my advisor.",
+        "memory": "NSTC → BIOMETRICS → MY TASKS",
+        "story": "contribution",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 34,
+        "priority": "PREPARE",
+        "question": "Did you obtain the NSTC funding yourself?",
+        "answer": "No. I work on an NSTC-funded project under my advisor and lab. I did not personally obtain the grant.",
+        "memory": "LAB GRANT → NOT MY GRANT",
+        "story": "contribution",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 35,
+        "priority": "CORE",
+        "question": "What programming language are you strongest in?",
+        "answer": "Python is my strongest programming language. I use it regularly for image processing, PyTorch experiments, data analysis, evaluation scripts, and automation.",
+        "memory": "PYTHON → DAILY RESEARCH",
+        "story": "strength",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 36,
+        "priority": "PREPARE",
+        "question": "How do you actually use Python?",
+        "answer": "I use Python to read and process images, run model experiments, calculate verification metrics, analyze similarity scores, compare results, and automate repeated evaluation steps.",
+        "memory": "IMAGES → METRICS → ANALYSIS",
+        "story": "strength",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 37,
+        "priority": "PREPARE",
+        "question": "Give me an example of a Python script you wrote.",
+        "answer": "I wrote a Python script to compare model scores for matching and non-matching hand images. It calculates verification errors and summarizes results for different capture conditions.",
+        "memory": "MATCH SCORES → ERRORS → SUMMARY",
+        "story": "strength",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 38,
+        "priority": "PREPARE",
+        "question": "How have you used Pandas or NumPy?",
+        "answer": "I use NumPy for arrays, embeddings, similarity calculations, and numerical operations. I use Pandas for CSV or table data when I need filtering, grouping, comparison, or summary statistics.",
+        "memory": "NUMPY ARRAYS → PANDAS TABLES",
+        "story": "strength",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 39,
+        "priority": "PREPARE",
+        "question": "Where have you used SQL?",
+        "answer": "I know basic SQL, including SELECT, WHERE, GROUP BY, and joins. My main research work uses Python.",
+        "needsFact": "Prepare a real SQL example you can explain. Do not claim professional database experience.",
+        "memory": "SQL BASICS → REAL EXAMPLE",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 40,
+        "priority": "PREPARE",
+        "question": "What have you done with PyTorch?",
+        "answer": "I use PyTorch to work with neural-network models, prepare data pipelines, run training or evaluation experiments, extract embeddings, load checkpoints, and compare model results.",
+        "memory": "PYTORCH → MODEL → EXPERIMENTS",
+        "story": "strength",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 41,
+        "priority": "PREPARE",
+        "question": "What have you done with OpenCV?",
+        "answer": "I use OpenCV for reading images, resizing, cropping, geometric transformations, ROI processing, preprocessing, and checking image results.",
+        "memory": "OPENCV → CROP → TRANSFORM",
+        "story": "contribution",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 42,
+        "priority": "PREPARE",
+        "question": "What have you done with MediaPipe?",
+        "answer": "I use MediaPipe to get hand landmarks. My own code then uses selected landmarks to locate and align the dorsal-hand ROI. I did not train MediaPipe itself.",
+        "memory": "LANDMARKS → MY ROI CODE",
+        "story": "contribution",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 43,
+        "priority": "PREPARE",
+        "question": "How comfortable are you with Linux?",
+        "answer": "I use Linux to run Python experiments, manage environments, check files and processes, and work on the lab GPU server.",
+        "memory": "FILES → ENVIRONMENTS → GPU",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 44,
+        "priority": "PREPARE",
+        "question": "How do you use Git?",
+        "answer": "I use Git to track code changes, make commits, compare versions, and keep a history so I can recover or understand changes later.",
+        "memory": "TRACK → COMMIT → COMPARE",
+        "story": "contribution",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 45,
+        "priority": "PREPARE",
+        "question": "Which technical skill on your resume are you strongest at?",
+        "answer": "Python is my strongest single skill, especially when I use it with image processing and experiment or data analysis.",
+        "memory": "PYTHON → PROCESS → ANALYZE",
+        "story": "strength",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 46,
+        "priority": "PREPARE",
+        "question": "Which skill are you least confident about?",
+        "answer": "Compared with my software and data skills, semiconductor electronics and production-test equipment are newer for me. I am learning the PTE basics because I know they are important for the role.",
+        "memory": "HARDWARE GAP → LEARNING",
+        "story": "learning-gap",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 47,
+        "priority": "PREPARE",
+        "question": "Your old resume says MobileNetV3. Are you still using it?",
+        "answer": "MobileNetV3 was earlier work. LAWNet is now my main lightweight baseline. My own model is still under development.",
+        "memory": "OLD MOBILENET → CURRENT LAWNET",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 48,
+        "priority": "CORE",
+        "question": "What model are you actually using now?",
+        "answer": "LAWNet is my main baseline. It is a published lightweight model for RGB wrist-vein verification. I test it on dorsal-hand images as a reference for my own model work.",
+        "memory": "PUBLISHED WRIST MODEL → BASELINE",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 49,
+        "priority": "PREPARE",
+        "question": "Did you create LAWNet?",
+        "answer": "No. LAWNet was created by other researchers. My work is to reproduce and test it under my protocol, study where it works and fails on my data, and use those results as a baseline for my own model work.",
+        "memory": "REPRODUCE → TEST → NOT INVENT",
+        "story": "contribution",
+        "seconds": "20–25 sec"
+      },
+      {
+        "number": 50,
+        "priority": "PREPARE",
+        "question": "What is the difference between LAWNet and your proposed model?",
+        "answer": "LAWNet is an existing published model. My own model is still being developed. I want to keep it below about 0.6 million parameters and improve performance when capture conditions change.",
+        "memory": "EXISTING BASELINE → ONGOING MODEL",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 51,
+        "priority": "PREPARE",
+        "question": "Is your proposed model completed?",
+        "answer": "No. My own lightweight model is still under development. I have run experiments, but I do not have a final validated model yet.",
+        "memory": "EXPERIMENTS DONE → FINAL MODEL ONGOING",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 52,
+        "priority": "PREPARE",
+        "question": "Has your proposed model improved the results?",
+        "answer": "I cannot claim that yet. I will only claim an improvement after I have a completed and verified experiment that shows it clearly.",
+        "memory": "NO CLAIM → VERIFY FIRST",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 53,
+        "priority": "BACKUP",
+        "question": "Why does your old resume mention ONNX?",
+        "answer": "ONNX was part of an earlier local inference experiment. It is a model format, not my current thesis architecture.",
+        "memory": "ONNX FORMAT → EARLIER WORK",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 54,
+        "priority": "BACKUP",
+        "question": "Is your model deployed?",
+        "answer": "No, not in production. I previously tested local ONNX inference as a prototype, but I would not say my current research system is deployed.",
+        "memory": "LOCAL PROTOTYPE → NO PRODUCTION",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 55,
+        "priority": "BACKUP",
+        "question": "What was the ONNX work for?",
+        "answer": "It was to check whether a trained model could be exported and run correctly in ONNX Runtime for local inference. It was an earlier engineering experiment.",
+        "memory": "EXPORT → LOCAL INFERENCE",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 56,
+        "priority": "CORE",
+        "question": "Tell me about your accepted conference work.",
+        "answer": "Our work has been accepted for a conference presentation. It is about extracting a consistent region from RGB photos of the back of a hand. My work included the image-processing code, experiments, and analysis.",
+        "needsFact": "Confirm the exact paper title, conference name/date, and current publication status.",
+        "memory": "ROI WORK → ACCEPTED PRESENTATION",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 57,
+        "priority": "PREPARE",
+        "question": "Is it accepted, presented, or published?",
+        "answer": "It has been accepted for a conference presentation.",
+        "memory": "ACCEPTED FOR PRESENTATION",
+        "seconds": "5–10 sec"
+      },
+      {
+        "number": 58,
+        "priority": "PREPARE",
+        "question": "What was your personal contribution to that conference work?",
+        "answer": "I worked on the ROI extraction and alignment code, experiments, evaluation, and analysis. Data collection was a team effort, and my advisor supervised the research.",
+        "needsFact": "Check this against the actual paper contribution statement.",
+        "memory": "MY CODE → TEAM DATA",
+        "story": "contribution",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 59,
+        "priority": "BACKUP",
+        "question": "Tell me about your 2023 GAN paper.",
+        "answer": "It was an earlier undergraduate project involving GANs and 3D work. My current Master's research is the work I can explain in the most detail.",
+        "needsFact": "Confirm the undergraduate paper title, date, venue, and topic before describing details.",
+        "memory": "OLD GAN WORK → CHECK DETAILS",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 60,
+        "priority": "BACKUP",
+        "question": "What was your contribution to that paper?",
+        "answer": "My specific contribution was [your actual task]. I used [method or tool] and checked [actual result].",
+        "needsFact": "Add your actual undergraduate paper contribution and one defensible result.",
+        "memory": "MY TASK → TOOL → RESULT",
+        "seconds": "Time after filling facts"
+      },
+      {
+        "number": 61,
+        "priority": "PREPARE",
+        "question": "Why is your current Master’s research more relevant than your undergraduate projects?",
+        "answer": "My Master’s research is more complete and more recent. I work on the full technical process: coding, baseline testing, controlled experiments, evaluation, failure analysis, and ongoing model development under my advisor.",
+        "memory": "RECENT → COMPLETE → CONTROLLED",
+        "story": "strength",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 62,
+        "priority": "PREPARE",
+        "question": "Which undergraduate project would you choose to explain if I asked for one?",
+        "answer": "One undergraduate project was credit-card fraud detection. It involved imbalanced data and SMOTE. I can explain my part, the evaluation, and what I learned.",
+        "needsFact": "Confirm your personal tasks, dataset, evaluation, and how SMOTE was limited to training data.",
+        "memory": "FRAUD → IMBALANCE → SMOTE",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 63,
+        "priority": "PREPARE",
+        "question": "Your CGPA is 8.34/10. What subjects were you strongest in?",
+        "answer": "My CGPA was 8.34 out of 10. Two subjects I did well in were [subject one] and [subject two]. They helped me with [real example].",
+        "needsFact": "Add two real subjects from your transcript.",
+        "memory": "8.34 → TWO REAL SUBJECTS",
+        "seconds": "Time after filling facts"
+      },
+      {
+        "number": 64,
+        "priority": "BACKUP",
+        "question": "Were there any subjects you struggled with?",
+        "answer": "I found [course] difficult because [specific reason]. I improved by [what you actually did], and learned [result].",
+        "needsFact": "Add one real difficult course and what you did.",
+        "memory": "REAL COURSE → ACTION → LESSON",
+        "seconds": "Time after filling facts"
+      }
+    ]
+  },
+  {
+    "id": "project-manager",
+    "title": "C. Project Defense — Simple Manager Level",
+    "subtitle": "Explain your research clearly to HR or a non-CV engineering manager.",
+    "range": "Q65–Q109",
+    "items": [
+      {
+        "number": 65,
+        "priority": "CORE",
+        "question": "Tell me about your research.",
+        "answer": "My research uses normal color photos of the back of a hand to check a person's identity. I wrote code to extract and align the useful hand area, then tested a small published model. It worked much worse when the capture sessions changed. I am studying that problem and testing improvements while keeping the model small. My final model is still under development.",
+        "memory": "HAND PHOTOS → TEST → SESSION GAP",
+        "story": "research",
+        "seconds": "30–35 sec"
+      },
+      {
+        "number": 66,
+        "priority": "PREPARE",
+        "question": "Explain your research to someone who does not know computer vision.",
+        "answer": "Imagine checking whether a new hand photo matches a saved one. My system crops the useful hand area and compares the two images using a small model. The challenge is making this reliable when lighting or hand position changes. I am still working on that problem.",
+        "memory": "NEW PHOTO → REFERENCE → CONDITIONS",
+        "story": "research",
+        "seconds": "20–25 sec"
+      },
+      {
+        "number": 67,
+        "priority": "PREPARE",
+        "question": "What problem are you trying to solve?",
+        "answer": "I am trying to make verification more reliable when the same person is captured in different sessions or conditions. The current baseline works much better when the conditions are similar.",
+        "memory": "RELIABLE MATCH → CHANGING CONDITIONS",
+        "story": "session-gap",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 68,
+        "priority": "PREPARE",
+        "question": "Why is this problem useful/important?",
+        "answer": "A biometric system must still work when real capture conditions change. If accuracy drops badly because of lighting, pose, or alignment, the system is not reliable enough for practical use.",
+        "memory": "REAL CONDITIONS → RELIABLE SYSTEM",
+        "story": "session-gap",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 69,
+        "priority": "PREPARE",
+        "question": "What is dorsal-hand biometrics?",
+        "answer": "Dorsal-hand biometrics uses visual information from the back of the hand to recognize or verify a person.",
+        "memory": "BACK OF HAND → BIOMETRIC",
+        "story": "research",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 70,
+        "priority": "PREPARE",
+        "question": "Why use the back of the hand?",
+        "answer": "It has useful skin and knuckle patterns, and we can capture it without contact using a normal color camera. Whether it works better than another biometric depends on the data and conditions.",
+        "memory": "PATTERNS → CONTACTLESS RGB",
+        "story": "research",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 71,
+        "priority": "PREPARE",
+        "question": "What is biometric verification?",
+        "answer": "Verification checks whether a sample matches a claimed identity. In my project, I compare a hand image with a reference and accept or reject the match.",
+        "memory": "CLAIMED IDENTITY → MATCH CHECK",
+        "story": "research",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 72,
+        "priority": "PREPARE",
+        "question": "Identification vs verification?",
+        "answer": "Identification asks, “Who is this?” and usually compares one sample with many identities. Verification asks, “Is this the same person?” and compares with a claimed or reference identity.",
+        "memory": "WHO? → SAME IDENTITY?",
+        "story": "research",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 73,
+        "priority": "PREPARE",
+        "question": "Verification vs classification?",
+        "answer": "Classification chooses one class from a fixed set. Verification compares two feature representations and decides whether they belong to the same identity.",
+        "memory": "FIXED CLASS → PAIR MATCH",
+        "story": "research",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 74,
+        "priority": "CORE",
+        "question": "Walk me through your project from input to final decision.",
+        "answer": "I start with a color hand photo. I find landmarks, crop and align the hand region, and prepare the image. The model turns it into a feature vector. I compare that vector with a reference using cosine similarity, then use a threshold to accept or reject the match.",
+        "memory": "IMAGE → ROI → FEATURES → SCORE",
+        "story": "research",
+        "seconds": "20–25 sec"
+      },
+      {
+        "number": 75,
+        "priority": "PREPARE",
+        "question": "What happens after you capture the hand image?",
+        "answer": "First I find the hand and useful landmarks. Then I extract and align a consistent dorsal-hand region, prepare it for the model, and pass it through the network to get features for comparison.",
+        "memory": "LANDMARKS → ALIGN → MODEL",
+        "story": "contribution",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 76,
+        "priority": "CORE",
+        "question": "What is ROI?",
+        "answer": "ROI means Region of Interest. It is the useful part of the full image that I want the model to analyze. In my project, it is the dorsal-hand area.",
+        "memory": "ROI → USEFUL HAND AREA",
+        "story": "contribution",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 77,
+        "priority": "PREPARE",
+        "question": "Why do you need ROI extraction?",
+        "answer": "The full image has background and different hand positions. ROI extraction removes much of that unwanted variation and gives the model a more consistent hand area.",
+        "memory": "LESS BACKGROUND → CONSISTENT CROP",
+        "story": "contribution",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 78,
+        "priority": "PREPARE",
+        "question": "Why do you need alignment?",
+        "answer": "Alignment makes the hand region more consistent in position and angle. Without it, the same person can look shifted or rotated, which can change the model features.",
+        "memory": "POSITION → ANGLE → CONSISTENCY",
+        "story": "contribution",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 79,
+        "priority": "PREPARE",
+        "question": "What does MediaPipe do?",
+        "answer": "MediaPipe detects hand landmarks. I use those landmark coordinates as reference points in my own ROI extraction and alignment code.",
+        "memory": "MEDIAPIPE → LANDMARK COORDINATES",
+        "story": "contribution",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 80,
+        "priority": "PREPARE",
+        "question": "What does OpenCV do in your pipeline?",
+        "answer": "OpenCV handles image operations such as reading, cropping, resizing, geometric changes, preprocessing, and checking the extracted ROI.",
+        "memory": "OPENCV → IMAGE OPERATIONS",
+        "story": "contribution",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 81,
+        "priority": "PREPARE",
+        "question": "What does the neural network do?",
+        "answer": "The network acts as a feature extractor. It turns the aligned hand image into a compact numerical representation that should keep useful identity information.",
+        "memory": "IMAGE → IDENTITY FEATURES",
+        "story": "research",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 82,
+        "priority": "PREPARE",
+        "question": "What does the network output?",
+        "answer": "It outputs an embedding, which is a numerical feature vector used to compare hand images.",
+        "memory": "OUTPUT → FEATURE VECTOR",
+        "story": "research",
+        "seconds": "5–10 sec"
+      },
+      {
+        "number": 83,
+        "priority": "CORE",
+        "question": "What is an embedding in simple language?",
+        "answer": "An embedding is a compact list of numbers that represents important features of an image. Images from the same person should have more similar embeddings.",
+        "memory": "IMAGE → COMPACT NUMBERS",
+        "story": "research",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 84,
+        "priority": "PREPARE",
+        "question": "How do you compare two hand images?",
+        "answer": "I pass both images through the same model to get two embeddings, then I calculate cosine similarity between them.",
+        "memory": "SAME MODEL → TWO VECTORS → COSINE",
+        "story": "research",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 85,
+        "priority": "CORE",
+        "question": "What is cosine similarity in simple language?",
+        "answer": "Cosine similarity compares the direction of two feature vectors. A higher score means their directions are more alike. In my system, that supports a same-identity match, but it is not a probability.",
+        "memory": "VECTOR DIRECTION → SIMILARITY",
+        "story": "research",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 86,
+        "priority": "PREPARE",
+        "question": "How do you decide same person or different person?",
+        "answer": "I accept a match if its similarity score meets the chosen threshold. Otherwise, I reject it. The threshold controls the balance between false accepts and false rejects.",
+        "memory": "SCORE → THRESHOLD → DECISION",
+        "story": "research",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 87,
+        "priority": "PREPARE",
+        "question": "What does the threshold do?",
+        "answer": "The threshold turns the similarity score into a yes or no decision. Changing the threshold changes the balance between false accepts and false rejects.",
+        "memory": "THRESHOLD → ERROR TRADE-OFF",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 88,
+        "priority": "CORE",
+        "question": "What is the biggest problem in your current system?",
+        "answer": "The biggest problem is cross-session generalization. The error becomes much higher when the same identity is compared across different capture sessions than within similar conditions.",
+        "memory": "CROSS-SESSION → HIGHER ERROR",
+        "story": "session-gap",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 89,
+        "priority": "PREPARE",
+        "question": "What do you mean by cross-session?",
+        "answer": "Cross-session means the two samples were captured in different sessions. This can bring changes in lighting, pose, hand position, camera conditions, or the environment.",
+        "memory": "DIFFERENT CAPTURE SESSIONS",
+        "story": "session-gap",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 90,
+        "priority": "PREPARE",
+        "question": "Why does performance become worse across sessions?",
+        "answer": "Capture conditions can change the image even for the same hand. Lighting, hand position, alignment, and camera differences are possible factors. My results show lower same-identity similarity across sessions, but they do not prove one cause.",
+        "memory": "CAPTURE CHANGES → POSSIBLE FACTORS",
+        "story": "session-gap",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 91,
+        "priority": "PREPARE",
+        "question": "Is lighting the proven reason?",
+        "answer": "No. Lighting is one possible factor. Alignment, hand position, camera changes, and model sensitivity may also matter. I have not proved that lighting alone caused the drop.",
+        "memory": "LIGHTING POSSIBLE → NOT PROVEN",
+        "story": "session-gap",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 92,
+        "priority": "PREPARE",
+        "question": "What factors could affect performance?",
+        "answer": "Lighting, hand pose, alignment, ROI location, camera or environment conditions, session differences, preprocessing, and model sensitivity can all affect performance.",
+        "memory": "LIGHT → POSE → ALIGNMENT → MODEL",
+        "story": "session-gap",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 93,
+        "priority": "PREPARE",
+        "question": "What have you tried so far?",
+        "answer": "I built the ROI and alignment pipeline, reproduced and tested LAWNet, built controlled evaluation workflows, tested preprocessing methods, ran architecture experiments, and analyzed same-session and cross-session results. These results guide my own lightweight model work.",
+        "memory": "ROI → BASELINE → TESTS → ANALYSIS",
+        "story": "research",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 94,
+        "priority": "PREPARE",
+        "question": "What is your current baseline?",
+        "answer": "LAWNet is my main baseline. It is a published lightweight RGB wrist-vein model that I reproduce and test on my dorsal-hand task.",
+        "memory": "LAWNET → PUBLISHED BASELINE",
+        "story": "research",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 95,
+        "priority": "CORE",
+        "question": "Why are you using LAWNet?",
+        "answer": "LAWNet is a small published model for RGB wrist-vein verification, which makes it a useful starting point. Its lightweight design fits my goal. I test it carefully on dorsal-hand images before claiming any improvement from my own work.",
+        "memory": "SMALL RGB MODEL → FAIR REFERENCE",
+        "story": "research",
+        "seconds": "20–25 sec"
+      },
+      {
+        "number": 96,
+        "priority": "PREPARE",
+        "question": "What have you learned from reproducing LAWNet?",
+        "answer": "It gave me a strong lightweight reference before proposing anything new. It also showed me that the biggest problem on my target data is keeping same-person features stable when capture conditions change.",
+        "memory": "REFERENCE → UNSTABLE MATCHING",
+        "story": "research",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 97,
+        "priority": "PREPARE",
+        "question": "What are you trying to improve now?",
+        "answer": "I am trying to improve performance across changing capture conditions while keeping the model lightweight.",
+        "memory": "CONDITION CHANGES → SMALL MODEL",
+        "story": "research",
+        "seconds": "5–10 sec"
+      },
+      {
+        "number": 98,
+        "priority": "PREPARE",
+        "question": "What is your proposed research direction?",
+        "answer": "I am developing a small model for RGB dorsal-hand verification. My aim is better results across capture conditions with fewer than about 0.6 million parameters. It is ongoing research.",
+        "memory": "UNDER 0.6M → ONGOING",
+        "story": "research",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 99,
+        "priority": "PREPARE",
+        "question": "What is completed versus still ongoing?",
+        "answer": "I have built the ROI and evaluation pipelines and run LAWNet, preprocessing, and architecture experiments. We collected the images as a team. The final model and proof of improvement are still ongoing.",
+        "memory": "PIPELINES DONE → MODEL ONGOING",
+        "story": "research",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 100,
+        "priority": "CORE",
+        "question": "What exactly is YOUR contribution?",
+        "answer": "Data collection was shared by the team. For my assigned research, I personally handled the coding, ROI and preprocessing work, LAWNet reproduction, evaluation pipeline, experiments, and result analysis. LAWNet is an existing model, and my advisor guides the research direction.",
+        "memory": "TEAM DATA → MY TECHNICAL WORK",
+        "story": "contribution",
+        "seconds": "20–25 sec"
+      },
+      {
+        "number": 101,
+        "priority": "PREPARE",
+        "question": "What was the hardest part of the project?",
+        "answer": "The hardest part is understanding the large drop across capture sessions. I compared scores and tested possible causes under fixed rules. That gave me a clearer problem to work on, but I have not fully solved it.",
+        "memory": "SESSION GAP → CHECK → TEST",
+        "story": "session-gap",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 102,
+        "priority": "CORE",
+        "question": "Tell me about one experiment that failed.",
+        "answer": "I tested preprocessing changes to improve verification. Some helped in certain conditions but hurt others. I compared all the results using the rule set before the tests, rather than choosing the best single number. The changes did not meet that rule, so I kept the original baseline. I learned to judge an idea by the full evaluation.",
+        "memory": "MIXED RESULTS → RULE → KEEP BASELINE",
+        "story": "failed-experiment",
+        "seconds": "25–35 sec"
+      },
+      {
+        "number": 103,
+        "priority": "PREPARE",
+        "question": "What did you learn from that failure?",
+        "answer": "I learned that one good result is not enough. An improvement should work consistently under the full evaluation, and a failed experiment is still useful because it shows which idea may be wrong.",
+        "memory": "FULL EVALUATION → LEARN",
+        "story": "failed-experiment",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 104,
+        "priority": "PREPARE",
+        "question": "What result surprised you?",
+        "answer": "The size of the cross-session error surprised me. Same-identity scores dropped, showing that keeping a match stable across conditions is a major weakness in this evaluation.",
+        "memory": "SESSION GAP → SAME-IDENTITY SCORES",
+        "story": "session-gap",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 105,
+        "priority": "PREPARE",
+        "question": "What would you do next if you had more time?",
+        "answer": "I would keep testing the main causes of variation one at a time, try lightweight model changes, and check any improvement across multiple runs and cross-session conditions before making a claim.",
+        "memory": "ONE FACTOR → REPEAT → VERIFY",
+        "story": "session-gap",
+        "seconds": "15–20 sec"
+      },
+      {
+        "number": 106,
+        "priority": "PREPARE",
+        "question": "How do you know your experimental result is trustworthy?",
+        "answer": "I check the data and test setup, keep the comparison fair, use the same evaluation rules, and look at more than one run or fold when needed. I make sure the conclusion matches the full result, not one good number.",
+        "memory": "DATA → RULES → FULL RESULTS",
+        "story": "failed-experiment",
+        "seconds": "20–25 sec"
+      },
+      {
+        "number": 107,
+        "priority": "PREPARE",
+        "question": "How do you compare different experiments fairly?",
+        "answer": "I keep the data split, evaluation method, preprocessing, training rules, and metrics the same, and change only the factor I want to test whenever possible.",
+        "memory": "SAME SETUP → ONE CHANGE",
+        "story": "failed-experiment",
+        "seconds": "10–15 sec"
+      },
+      {
+        "number": 108,
+        "priority": "PREPARE",
+        "question": "How does your research show problem-solving ability relevant to PTE?",
+        "answer": "The process is similar. First I check the measurement, find where the problem appears, split the data by condition, test one idea at a time, compare the result, and record what really improved. That way of debugging can also help with test and yield problems.",
+        "memory": "CHECK → COMPARE → TEST → RECORD",
+        "story": "failed-experiment",
+        "seconds": "20–25 sec"
+      },
+      {
+        "number": 109,
+        "priority": "PREPARE",
+        "question": "Why should a semiconductor test manager care about this research?",
+        "answer": "The application is different, but the skills are useful for PTE: Python, data analysis, controlled tests, finding root causes, comparing conditions, and making decisions from evidence instead of guessing.",
+        "memory": "DIFFERENT TASK → TRANSFERABLE SKILLS",
+        "story": "role-fit",
+        "seconds": "15–20 sec"
+      }
+    ]
+  }
 ];

@@ -6,6 +6,10 @@ export type InterviewItem = {
   priority: InterviewPriority;
   answer: string;
   note?: string;
+  memory: string;
+  story?: string;
+  seconds: string;
+  needsFact?: string;
 };
 
 export type InterviewCategory = {

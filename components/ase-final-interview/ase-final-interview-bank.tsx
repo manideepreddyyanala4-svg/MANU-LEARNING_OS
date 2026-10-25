@@ -7,6 +7,7 @@ import { interviewCategoriesPart3 } from './data-part3';
 import { interviewCategoriesPart4 } from './data-part4';
 import { interviewCategoriesPart5 } from './data-part5';
 import type { InterviewPriority } from './types';
+import { coreStories, researchSources } from './stories';
 
 const categories = [
   ...interviewCategoriesPart1,
@@ -26,6 +27,9 @@ export function AseFinalInterviewBank() {
   const [query, setQuery] = useState('');
   const [priority, setPriority] = useState<'ALL' | InterviewPriority>('ALL');
   const [activeCategory, setActiveCategory] = useState('all');
+  const [story, setStory] = useState('all');
+  const [needsFactsOnly, setNeedsFactsOnly] = useState(false);
+  const [recallMode, setRecallMode] = useState(false);
 
   const total = categories.reduce((sum, cat) => sum + cat.items.length, 0);
   const coreCount = categories.flatMap((c) => c.items).filter((i) => i.priority === 'CORE').length;
@@ -42,12 +46,13 @@ export function AseFinalInterviewBank() {
             !q ||
             item.question.toLowerCase().includes(q) ||
             item.answer.toLowerCase().includes(q) ||
+            item.memory.toLowerCase().includes(q) ||
             String(item.number) === q;
-          return priorityOk && queryOk;
+          return priorityOk && queryOk && (story === 'all' || item.story === story) && (!needsFactsOnly || Boolean(item.needsFact));
         }),
       }))
       .filter((cat) => cat.items.length > 0);
-  }, [query, priority, activeCategory]);
+  }, [query, priority, activeCategory, story, needsFactsOnly]);
 
   return (
     <section className="space-y-5">
@@ -77,18 +82,35 @@ export function AseFinalInterviewBank() {
         </div>
       </div>
 
+      <details className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4">
+        <summary className="cursor-pointer font-bold text-[var(--fg)]">Learn 12 core stories — adapt them to the question</summary>
+        <p className="mt-2 text-sm leading-6 text-[var(--muted)]">Practice one story at a time. The technical questions are short facts, not extra life stories. A behavioral answer needs a real example.</p>
+        <div className="mt-3 grid gap-3 md:grid-cols-2">
+          {coreStories.map((entry) => (
+            <div key={entry.id} className="rounded-xl border border-[var(--line)] p-4">
+              <h3 className="font-bold text-[var(--fg)]">{entry.title}</h3>
+              <p className="mt-2 text-xs font-bold leading-5 text-[var(--accent)]">{entry.memory}</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{entry.guide}</p>
+              <button className="mt-3 text-sm font-bold text-[var(--accent)] underline" onClick={() => { setStory(entry.id); setQuery(''); setPriority('ALL'); setActiveCategory('all'); setNeedsFactsOnly(false); }}>Study related questions (start Q{entry.question})</button>
+            </div>
+          ))}
+        </div>
+      </details>
+
       <div className="sticky top-2 z-20 rounded-2xl border border-[var(--line)] bg-[var(--surface)]/95 p-4 shadow-sm backdrop-blur">
         <div className="grid gap-3 lg:grid-cols-[1fr_auto]">
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search question, answer, or number…"
+            aria-label="Search interview questions"
+            placeholder="Search question, answer, memory, or number…"
             className="w-full rounded-xl border border-[var(--line)] bg-[var(--bg)] px-4 py-2.5 text-sm text-[var(--fg)] outline-none focus:border-[var(--accent)]"
           />
           <div className="flex flex-wrap gap-2">
             {(['ALL', 'CORE', 'PREPARE', 'BACKUP'] as const).map((p) => (
               <button
                 key={p}
+                aria-pressed={priority === p}
                 onClick={() => setPriority(p)}
                 className={`rounded-xl border px-3 py-2 text-xs font-bold transition ${
                   priority === p
@@ -101,6 +123,18 @@ export function AseFinalInterviewBank() {
             ))}
           </div>
         </div>
+        <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-[var(--fg)]">
+          <label className="flex min-w-0 items-center gap-2">Story
+            <select aria-label="Filter by core story" value={story} onChange={(e) => setStory(e.target.value)} className="min-w-0 max-w-48 rounded-lg border border-[var(--line)] bg-[var(--bg)] p-2">
+              <option value="all">All stories</option>
+              {coreStories.map((entry) => <option key={entry.id} value={entry.id}>{entry.title}</option>)}
+            </select>
+          </label>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={needsFactsOnly} onChange={(e) => setNeedsFactsOnly(e.target.checked)} />Facts to confirm</label>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={recallMode} onChange={(e) => setRecallMode(e.target.checked)} />Memory practice</label>
+          <button className="text-[var(--accent)] underline" onClick={() => {setQuery(''); setPriority('ALL'); setActiveCategory('all'); setStory('all'); setNeedsFactsOnly(false);}}>Reset filters</button>
+        </div>
+        <p aria-live="polite" className="mt-2 text-xs text-[var(--muted)]">{visible.reduce((sum, category) => sum + category.items.length, 0)} of {total} questions</p>
         <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
           <button
             onClick={() => setActiveCategory('all')}
@@ -125,7 +159,7 @@ export function AseFinalInterviewBank() {
       </div>
 
       <div className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm leading-6 text-[var(--muted)]">
-        <strong className="text-[var(--fg)]">Truth rule:</strong> Some answers contain a verification reminder because your final resume/research facts are still being corrected. Never replace uncertainty with an invented claim. For questions about shifts, family, salary, or availability, use your real situation on interview day.
+        <strong className="text-[var(--fg)]">Confirm your facts:</strong> Use “Facts to confirm” to finish missing details. Brackets are preparation templates, not finished answers to memorize. Time labels estimate speaking at 105–130 words per minute; practice aloud and stop when the question is answered.
       </div>
 
       <div className="grid gap-3 lg:grid-cols-3">
@@ -162,7 +196,7 @@ export function AseFinalInterviewBank() {
 
           <div className="divide-y divide-[var(--line-subtle)]">
             {category.items.map((item) => (
-              <details key={item.number} className="group p-5">
+              <details key={`${item.number}-${recallMode}`} id={`question-${item.number}`} className="group p-4 sm:p-5">
                 <summary className="flex cursor-pointer list-none items-start gap-3">
                   <span className="grid h-8 min-w-8 place-items-center rounded-lg bg-[var(--accent-subtle)] text-[11px] font-extrabold text-[var(--accent)]">
                     {item.number}
@@ -178,18 +212,26 @@ export function AseFinalInterviewBank() {
                   <span className="mt-1 text-xs text-[var(--muted)] transition group-open:rotate-180">⌄</span>
                 </summary>
 
-                <div className="ml-11 mt-4 space-y-3">
+                <div className="mt-4 space-y-3 sm:ml-11">
+                  <p className="text-xs text-[var(--muted)]">Estimated answer time: {item.seconds}</p>
+                  <p className="text-sm font-bold leading-6 text-[var(--accent)]">Memory: {item.memory}</p>
+                  {item.story && <button className="text-left text-xs text-[var(--muted)] underline" onClick={() => {setStory(item.story!); setActiveCategory('all'); setQuery(''); setPriority('ALL'); setNeedsFactsOnly(false);}}>Related core story: {coreStories.find((entry) => entry.id === item.story)?.title}</button>}
+                  {item.needsFact && <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-sm leading-6 text-[var(--fg)]"><strong>Confirm before using:</strong> {item.needsFact}</div>}
+                  <details open={!recallMode} className="rounded-xl border border-[var(--line)] p-3">
+                    <summary className="cursor-pointer text-xs font-bold text-[var(--muted)]">{recallMode ? 'Say it aloud, then reveal the answer' : 'Simple interview answer'}</summary>
                   <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
                     <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-emerald-600 dark:text-emerald-400">
-                      Clear interview answer
+                      {item.number >= 380 && item.number <= 388 ? "Ask the interviewer" : item.answer.includes("[") ? "Fill your facts first" : "Say this naturally"}
                     </p>
                     <p className="mt-2 text-sm font-medium leading-6 text-[var(--fg)]">{item.answer}</p>
                   </div>
 
+                  </details>
+
                   {item.note && (
                     <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-3">
                       <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-amber-700 dark:text-amber-400">
-                        Important
+                        Follow-up / study note
                       </p>
                       <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{item.note}</p>
                     </div>
@@ -210,9 +252,16 @@ export function AseFinalInterviewBank() {
       <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
         <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--accent)]">Interview use</p>
         <p className="mt-2 text-sm leading-6 text-[var(--fg)]">
-          Do not memorize 397 scripts. Master the CORE answers aloud, use PREPARE for the second pass, and keep BACKUP only as protection if a manager goes deeper.
+          Start with the 12 core stories. Practice CORE answers aloud, then use PREPARE for coverage and BACKUP for deeper questions. Short factual answers can take less than 10 seconds. Do not add words just to reach a time target.
         </p>
       </div>
+      <details className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
+        <summary className="cursor-pointer text-sm font-bold text-[var(--fg)]">Audit sources and limits · October 25, 2026</summary>
+        <p className="mt-3 text-sm leading-6 text-[var(--muted)]">All 397 questions reviewed; 146 spoken answers revised. Priorities are study recommendations, not predictions of exact questions. Short-event format comes from your reported experience; public sources do not confirm a fixed duration. Research results and personal contributions use the profile you supplied, not an independent review of experiment logs or your final resume.</p>
+        <ul className="mt-3 space-y-3 text-sm leading-6">
+          {researchSources.map((source) => <li key={source.url}><a className="font-bold text-[var(--accent)] underline" href={source.url} target="_blank" rel="noreferrer">{source.title}</a><p className="text-[var(--muted)]">{source.note}</p></li>)}
+        </ul>
+      </details>
     </section>
   );
 }
