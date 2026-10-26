@@ -17,6 +17,8 @@ import {
   Layers,
   ChevronRight,
   Check,
+  Heart,
+  ShieldCheck,
 } from 'lucide-react';
 import { Page, Card, Empty } from '@/components/ui';
 import { createClient } from '@/lib/supabase';
@@ -159,6 +161,84 @@ export default function Home() {
       title="Workspace Overview"
       subtitle="Execution engine for technical mastery, career preparation, and engineering study."
     >
+      {/* Personal Why — must be the first major section on Home */}
+      <section className="relative mb-8 overflow-hidden rounded-[2rem] border border-rose-500/25 bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white shadow-xl">
+        <div className="pointer-events-none absolute -left-16 -top-24 h-64 w-64 rounded-full bg-rose-500/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -right-16 h-72 w-72 rounded-full bg-sky-500/20 blur-3xl" />
+
+        <div className="relative px-6 py-8 md:px-10 md:py-11 lg:px-12 lg:py-12">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-rose-100 backdrop-blur">
+            <Heart size={13} />
+            Why I am here
+          </div>
+
+          <div className="mt-5 max-w-5xl">
+            <p className="text-sm font-extrabold uppercase tracking-[0.2em] text-sky-300">
+              Taiwan → Build → Earn → Return Stronger
+            </p>
+            <h2 className="mt-3 text-4xl font-black leading-[1.02] tracking-tight sm:text-5xl lg:text-6xl">
+              I CAME HERE TO BUILD A LIFE —
+              <span className="block bg-gradient-to-r from-rose-300 via-amber-200 to-sky-300 bg-clip-text text-transparent">
+                NOT TO WASTE ONE.
+              </span>
+            </h2>
+            <p className="mt-5 max-w-4xl text-sm font-semibold leading-7 text-slate-300 md:text-base">
+              I came to Taiwan to build my career, earn well, become independent, and go back to India stronger — to be with my mother, father, sister, and family with something real to show for these years.
+            </p>
+          </div>
+
+          <div className="mt-7 grid gap-4 lg:grid-cols-2">
+            <div className="rounded-2xl border border-rose-300/20 bg-white/[0.07] p-5 backdrop-blur">
+              <div className="flex items-center gap-2 text-rose-200">
+                <Heart size={17} />
+                <p className="text-[11px] font-black uppercase tracking-[0.16em]">
+                  My family is the reason
+                </p>
+              </div>
+              <p className="mt-3 text-2xl font-black tracking-tight text-white">
+                MOTHER • FATHER • SISTER • FAMILY
+              </p>
+              <p className="mt-2 text-sm font-medium leading-6 text-slate-300">
+                The goal is not to look successful. The goal is to build a career, financial strength, and freedom that lets me take care of the people who matter most.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-emerald-300/25 bg-emerald-400/[0.08] p-5 backdrop-blur">
+              <div className="flex items-center gap-2 text-emerald-200">
+                <ShieldCheck size={17} />
+                <p className="text-[11px] font-black uppercase tracking-[0.16em]">
+                  My promise from today
+                </p>
+              </div>
+              <p className="mt-3 text-3xl font-black tracking-tight text-white">
+                NO ALCOHOL. NO EXCUSES.
+              </p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-slate-300">
+                From today, I do not drink. My focus, health, money, work, and future come first. No wasted nights. No self-sabotage.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-7 flex flex-col gap-5 border-t border-white/10 pt-6 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="max-w-3xl text-xl font-black leading-8 text-white md:text-2xl">
+                “I can celebrate later. First, I build the life I came here for.”
+              </p>
+              <p className="mt-3 text-xs font-black uppercase tracking-[0.18em] text-slate-400">
+                Career • Money • Family • Freedom
+              </p>
+            </div>
+
+            <Link
+              href="/job-preparation"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 text-xs font-black uppercase tracking-[0.12em] text-slate-950 shadow-lg transition hover:-translate-y-0.5 hover:bg-slate-100"
+            >
+              Start today&apos;s work <ArrowRight size={15} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {error && (
         <p role="alert" className="mb-6 rounded-xl bg-red-50 p-4 text-xs font-medium text-red-600 dark:bg-red-950/20">
           {error}
