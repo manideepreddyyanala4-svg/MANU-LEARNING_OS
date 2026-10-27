@@ -23,12 +23,14 @@ import {
   LogOut,
   User,
   Lightbulb,
+  Zap,
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { loadRoadmap, type RoadmapItem } from '@/lib/store';
 import { subjects, requireClient, type Subject, type Section, type Topic } from '@/lib/learning';
 import type { Route } from 'next';
 import { LearningShell } from '@/components/learning-shell';
+import { SHOW_ASE_QUICK_PREP } from '@/lib/feature-flags';
 
 type NavItem = {
   href: string;
@@ -47,6 +49,9 @@ const navGroups: NavGroup[] = [
     title: 'Execution Workspace',
     items: [
       { href: '/', label: 'Home', icon: LayoutDashboard, subtext: 'Overview & Mission' },
+      ...(SHOW_ASE_QUICK_PREP
+        ? [{ href: '/ase-quick-prep', label: 'ASE Quick Prep', icon: Zap, subtext: 'Interview Quick Revision' }]
+        : []),
       { href: '/learning', label: 'Learning', icon: BookOpen, subtext: 'Technical Curriculum' },
       { href: '/roadmap', label: 'Roadmap', icon: Target, subtext: 'Dorsal → Production AI' },
       { href: '/job-preparation', label: 'Job Preparation', icon: Briefcase, subtext: 'Internship Pipeline' },
@@ -237,6 +242,7 @@ export function Shell({ children }: { children: ReactNode }) {
               <nav className="space-y-0.5">
                 {group.items.map(({ href, label, icon: Icon }) => {
                   const active = path === href || (href !== '/' && path.startsWith(`${href}/`));
+                  const quickPrep = href === '/ase-quick-prep';
                   return (
                     <Link
                       key={href}
@@ -244,16 +250,38 @@ export function Shell({ children }: { children: ReactNode }) {
                       className={`group flex items-center justify-between rounded-xl px-2.5 py-2 text-xs font-semibold transition ${
                         active
                           ? 'bg-[var(--accent)] text-white shadow-xs font-bold'
-                          : 'text-[var(--muted)] hover:bg-black/5 hover:text-[var(--fg)] dark:hover:bg-white/5'
+                          : quickPrep
+                            ? 'border border-[var(--accent-border)] bg-[var(--accent-subtle)]/70 text-[var(--accent)] hover:bg-[var(--accent-subtle)]'
+                            : 'text-[var(--muted)] hover:bg-black/5 hover:text-[var(--fg)] dark:hover:bg-white/5'
                       }`}
                     >
-                      <span className="flex items-center gap-2.5 truncate">
-                        <Icon size={16} className={active ? 'text-white' : 'text-[var(--muted)] group-hover:text-[var(--fg)]'} />
+                      <span className="flex min-w-0 items-center gap-2.5 truncate">
+                        <Icon
+                          size={16}
+                          className={
+                            active
+                              ? 'text-white'
+                              : quickPrep
+                                ? 'text-[var(--accent)]'
+                                : 'text-[var(--muted)] group-hover:text-[var(--fg)]'
+                          }
+                        />
                         <span className="truncate">{label}</span>
                       </span>
-                      {active && (
-                        <span className="h-1.5 w-1.5 rounded-full bg-white/90" />
-                      )}
+                      <span className="flex shrink-0 items-center gap-1.5">
+                        {quickPrep && (
+                          <span
+                            className={`rounded-full px-1.5 py-0.5 text-[8px] font-black uppercase tracking-wider ${
+                              active
+                                ? 'bg-white/20 text-white'
+                                : 'bg-[var(--surface)] text-[var(--accent)]'
+                            }`}
+                          >
+                            Interview
+                          </span>
+                        )}
+                        {active && <span className="h-1.5 w-1.5 rounded-full bg-white/90" />}
+                      </span>
                     </Link>
                   );
                 })}
@@ -418,18 +446,34 @@ export function Shell({ children }: { children: ReactNode }) {
                   <nav className="space-y-1">
                     {group.items.map(({ href, label, icon: Icon }) => {
                       const active = path === href || (href !== '/' && path.startsWith(`${href}/`));
+                      const quickPrep = href === '/ase-quick-prep';
                       return (
                         <Link
                           key={href}
                           href={href as Route}
-                          className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-semibold transition ${
+                          className={`flex items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-xs font-semibold transition ${
                             active
                               ? 'bg-[var(--accent)] text-white font-bold'
-                              : 'text-[var(--muted)] hover:bg-black/5 hover:text-[var(--fg)] dark:hover:bg-white/5'
+                              : quickPrep
+                                ? 'border border-[var(--accent-border)] bg-[var(--accent-subtle)]/70 text-[var(--accent)]'
+                                : 'text-[var(--muted)] hover:bg-black/5 hover:text-[var(--fg)] dark:hover:bg-white/5'
                           }`}
                         >
-                          <Icon size={16} />
-                          <span>{label}</span>
+                          <span className="flex items-center gap-3">
+                            <Icon size={16} />
+                            <span>{label}</span>
+                          </span>
+                          {quickPrep && (
+                            <span
+                              className={`rounded-full px-1.5 py-0.5 text-[8px] font-black uppercase tracking-wider ${
+                                active
+                                  ? 'bg-white/20 text-white'
+                                  : 'bg-[var(--surface)] text-[var(--accent)]'
+                              }`}
+                            >
+                              Interview
+                            </span>
+                          )}
                         </Link>
                       );
                     })}
