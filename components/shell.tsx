@@ -22,6 +22,7 @@ import {
   Target,
   LogOut,
   User,
+  Lightbulb,
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { loadRoadmap, type RoadmapItem } from '@/lib/store';
