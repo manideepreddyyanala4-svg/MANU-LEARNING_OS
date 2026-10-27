@@ -3,139 +3,135 @@ import type { InterviewCategory } from './types';
 export const interviewCategoriesPart4: InterviewCategory[] = [
   {
     "id": "language",
-    "title": "J. Language / International-Student Questions",
-    "subtitle": "Short, honest answers for English, Mandarin, and communication fit.",
+    "title": "J. One-Day Chinese Survival for ASE",
+    "subtitle": "Learn these only: introduction, basic interview questions, rescue phrases, and simple work-fit answers. Chinese + pinyin + English meaning.",
     "range": "Q316–Q329",
     "items": [
       {
         "number": 316,
         "priority": "CORE",
-        "question": "How good is your Chinese?",
-        "answer": "My Mandarin is still basic. I can handle simple daily communication and introductions, but technical discussion is still difficult for me in Chinese. I can explain technical work more clearly in English, and I am continuing to study Mandarin.",
-        "memory": "BASIC MANDARIN → TECHNICAL ENGLISH",
-        "story": "availability",
-        "seconds": "20–25 sec"
+        "question": "30-second Chinese introduction — learn this first",
+        "answer": "中文：您好，我叫 Manideep。我來自印度。我現在在亞洲大學讀碩士。我二零二七年七月畢業。我想應徵產品測試工程師。我的中文還在學習，謝謝您。\n\nPinyin: Nín hǎo, wǒ jiào Manideep. Wǒ láizì Yìndù. Wǒ xiànzài zài Yàzhōu Dàxué dú shuòshì. Wǒ èr líng èr qī nián qī yuè bìyè. Wǒ xiǎng yìngzhēng chǎnpǐn cèshì gōngchéngshī. Wǒ de Zhōngwén hái zài xuéxí. Xièxie nín.\n\nEnglish: Hello, my name is Manideep. I am from India. I am studying for my Master's at Asia University. I graduate in July 2027. I want to apply for Product Test Engineer. I am still learning Chinese. Thank you.\n\nKey words: nín hǎo = hello (polite) | láizì = come from | dú shuòshì = study Master's | bìyè = graduate | yìngzhēng = apply for a job | chǎnpǐn cèshì gōngchéngshī = Product Test Engineer | hái zài xuéxí = still learning",
+        "memory": "NAME → INDIA → ASIA U → JUL 2027 → PTE → LEARNING CHINESE",
+        "story": "introduction",
+        "seconds": "25–35 sec"
       },
       {
         "number": 317,
-        "priority": "PREPARE",
-        "question": "Do you have Chinese B1?",
-        "answer": "No. My Mandarin is basic, around A1 or A2 level. I do not have B1 certification.",
-        "memory": "A1/A2 → NO B1 CERTIFICATE",
+        "priority": "CORE",
+        "question": "How good is your Chinese? / 你的中文怎麼樣？",
+        "answer": "Question pinyin: Nǐ de Zhōngwén zěnmeyàng?\n\n中文回答：我會一點簡單的中文，現在還在學習。\nPinyin: Wǒ huì yìdiǎn jiǎndān de Zhōngwén, xiànzài hái zài xuéxí.\nEnglish: I can speak a little simple Chinese, and I am still learning.\n\nKey words: huì = can/know how to | yìdiǎn = a little | jiǎndān = simple | xiànzài = now | xuéxí = learn/study",
+        "memory": "A LITTLE CHINESE → STILL LEARNING",
         "story": "availability",
-        "seconds": "5–10 sec"
+        "seconds": "10–15 sec"
       },
       {
         "number": 318,
-        "priority": "PREPARE",
-        "question": "Do you have a TOEIC score?",
-        "answer": "My English-test status is [test name and exact score, or no score]. I can also explain my research in English during this interview.",
-        "needsFact": "Confirm whether you have a TOEIC or other official English score; no score is assumed.",
-        "memory": "CONFIRM SCORE → SHOW ENGLISH",
-        "story": "availability",
-        "seconds": "Time after filling facts"
+        "priority": "CORE",
+        "question": "What is your name? / 你叫什麼名字？",
+        "answer": "Question pinyin: Nǐ jiào shénme míngzi?\n\n中文回答：我叫 Manideep。\nPinyin: Wǒ jiào Manideep.\nEnglish: My name is Manideep.\n\nKey words: jiào = be called / name is | shénme = what | míngzi = name",
+        "memory": "WǑ JIÀO MANIDEEP",
+        "story": "introduction",
+        "seconds": "5 sec"
       },
       {
         "number": 319,
-        "priority": "PREPARE",
-        "question": "Can you communicate at work in Chinese?",
-        "answer": "I can handle simple daily Chinese. For technical details, I would use English, written information, and translation support when needed. I would also confirm that I understood the instruction correctly.",
-        "memory": "SIMPLE CHINESE → CONFIRM TECHNICAL DETAILS",
-        "story": "availability",
-        "seconds": "15–20 sec"
+        "priority": "CORE",
+        "question": "Which country are you from? / 你是哪國人？",
+        "answer": "Question pinyin: Nǐ shì nǎ guó rén?\n\n中文回答：我是印度人。\nPinyin: Wǒ shì Yìndù rén.\nEnglish: I am Indian.\n\nKey words: nǎ guó = which country | rén = person | Yìndù = India",
+        "memory": "WǑ SHÌ YÌNDÙ RÉN",
+        "story": "introduction",
+        "seconds": "5 sec"
       },
       {
         "number": 320,
         "priority": "CORE",
-        "question": "What will you do if you do not understand a Chinese instruction?",
-        "answer": "I would not guess. I would ask the person to repeat more slowly, use English or writing if needed, and repeat back what I understood before I act.",
-        "memory": "DO NOT GUESS → REPEAT BACK",
-        "story": "availability",
-        "seconds": "15–20 sec"
+        "question": "Where do you study? / 你在哪裡讀書？",
+        "answer": "Question pinyin: Nǐ zài nǎlǐ dúshū?\n\n中文回答：我在亞洲大學讀碩士。\nPinyin: Wǒ zài Yàzhōu Dàxué dú shuòshì.\nEnglish: I am studying for my Master's at Asia University.\n\nKey words: zài = at/in | nǎlǐ = where | dúshū = study | Yàzhōu Dàxué = Asia University | shuòshì = Master's",
+        "memory": "ASIA UNIVERSITY → MASTER'S",
+        "story": "introduction",
+        "seconds": "5–10 sec"
       },
       {
         "number": 321,
         "priority": "PREPARE",
-        "question": "Can you work using English?",
-        "answer": "Yes. I use English for research papers, coding documentation, presentations, and most technical learning. I can explain my project and technical reasoning in English.",
-        "memory": "PAPERS → CODE → ENGLISH",
-        "story": "availability",
-        "seconds": "10–15 sec"
+        "question": "What do you study? / 你學什麼？",
+        "answer": "Question pinyin: Nǐ xué shénme?\n\n中文回答：我的專業是資訊工程。\nPinyin: Wǒ de zhuānyè shì zīxùn gōngchéng.\nEnglish: My major is Computer Science / Information Engineering.\n\nKey words: xué = study/learn | zhuānyè = major | zīxùn gōngchéng = information/computer engineering",
+        "memory": "MAJOR → ZĪXÙN GŌNGCHÉNG",
+        "story": "introduction",
+        "seconds": "5–10 sec"
       },
       {
         "number": 322,
-        "priority": "PREPARE",
-        "question": "Can you introduce yourself in English?",
-        "answer": "I am Manideep Reddy from India, studying for my Master's in CSIE at Asia University. My research uses hand photos to check identity. I write code, run experiments, and analyze the results. I am interested in PTE because I want to use my Python and debugging skills in semiconductor testing.",
-        "memory": "NAME → STUDY → RESEARCH → PTE",
-        "story": "introduction",
-        "seconds": "25–30 sec"
+        "priority": "CORE",
+        "question": "When do you graduate? / 你什麼時候畢業？",
+        "answer": "Question pinyin: Nǐ shénme shíhou bìyè?\n\n中文回答：我二零二七年七月畢業。\nPinyin: Wǒ èr líng èr qī nián qī yuè bìyè.\nEnglish: I graduate in July 2027.\n\nKey words: shénme shíhou = when | nián = year | yuè = month | bìyè = graduate",
+        "memory": "2027 → JULY → GRADUATE",
+        "story": "availability",
+        "seconds": "5–10 sec"
       },
       {
         "number": 323,
-        "priority": "PREPARE",
-        "question": "Can you explain your research in English?",
-        "answer": "Yes. My research checks whether two RGB images of the back of a hand belong to the same person. I work on extracting a stable hand region, testing a lightweight model, and studying why performance becomes worse across different capture sessions. I am now testing ways to improve that generalization.",
-        "memory": "HAND MATCHING → CONDITIONS → IMPROVE",
-        "story": "research",
-        "seconds": "25–30 sec"
+        "priority": "CORE",
+        "question": "What position are you applying for? / 你想應徵什麼職位？",
+        "answer": "Question pinyin: Nǐ xiǎng yìngzhēng shénme zhíwèi?\n\n中文回答：我想應徵產品測試工程師。\nPinyin: Wǒ xiǎng yìngzhēng chǎnpǐn cèshì gōngchéngshī.\nEnglish: I want to apply for Product Test Engineer.\n\nKey words: xiǎng = want | yìngzhēng = apply for a job | zhíwèi = position | chǎnpǐn = product | cèshì = test | gōngchéngshī = engineer",
+        "memory": "PTE = CHǍNPǏN CÈSHÌ GŌNGCHÉNGSHĪ",
+        "story": "role-fit",
+        "seconds": "5–10 sec"
       },
       {
         "number": 324,
         "priority": "PREPARE",
-        "question": "Can you introduce yourself in Chinese?",
-        "answer": "您好，我叫 Manideep，來自印度。目前我在亞洲大學讀資訊工程碩士。我的研究是電腦視覺和手部影像辨識。我的中文還在學習，謝謝。",
-        "note": "Say it slowly. Do not add difficult Chinese you cannot understand.",
-        "memory": "姓名 → 印度 → 亞洲大學 → 研究",
-        "story": "availability",
-        "seconds": "15–30 sec (practice aloud)"
+        "question": "Why do you want Product Test Engineering? / 為什麼想做產品測試？",
+        "answer": "Question pinyin: Wèishéme xiǎng zuò chǎnpǐn cèshì?\n\n中文回答：我喜歡資料分析和解決問題，也想學半導體測試。\nPinyin: Wǒ xǐhuān zīliào fēnxī hé jiějué wèntí, yě xiǎng xué bàndǎotǐ cèshì.\nEnglish: I like data analysis and solving problems, and I also want to learn semiconductor testing.\n\nKey words: wèishéme = why | xǐhuān = like | zīliào fēnxī = data analysis | jiějué wèntí = solve problems | bàndǎotǐ = semiconductor",
+        "memory": "DATA ANALYSIS → SOLVE PROBLEMS → LEARN SEMICONDUCTOR",
+        "story": "role-fit",
+        "seconds": "10–15 sec"
       },
       {
         "number": 325,
-        "priority": "PREPARE",
-        "question": "Can you explain your research area in simple Chinese?",
-        "answer": "我的研究是電腦視覺和手部影像辨識。我使用影像和人工智慧來比較是不是同一個人。",
-        "note": "Meaning: My research is computer vision and hand-image recognition. I use images and AI to compare whether it is the same person.",
-        "memory": "電腦視覺 → 手部影像 → 比較",
+        "priority": "CORE",
+        "question": "Can you work in Kaohsiung? / 可以去高雄工作嗎？",
+        "answer": "Question pinyin: Kěyǐ qù Gāoxióng gōngzuò ma?\n\n中文回答：可以，我願意去高雄工作。\nPinyin: Kěyǐ, wǒ yuànyì qù Gāoxióng gōngzuò.\nEnglish: Yes, I am willing to work in Kaohsiung.\n\nKey words: kěyǐ = can/okay | qù = go | Gāoxióng = Kaohsiung | gōngzuò = work | yuànyì = willing",
+        "memory": "KĚYǏ → WILLING → KAOHSIUNG",
         "story": "availability",
-        "seconds": "15–30 sec (practice aloud)"
+        "seconds": "5–10 sec"
       },
       {
         "number": 326,
         "priority": "PREPARE",
-        "question": "How are you improving your Mandarin?",
-        "answer": "I am working on practical Mandarin for daily life and common workplace instructions. I still need support for detailed technical discussions.",
-        "needsFact": "Add your actual study method or frequency only if true.",
-        "memory": "PRACTICAL MANDARIN → KEEP LEARNING",
+        "question": "Can you work overtime? / 可以加班嗎？",
+        "answer": "Question pinyin: Kěyǐ jiābān ma?\n\n中文回答：可以，如果工作需要。\nPinyin: Kěyǐ, rúguǒ gōngzuò xūyào.\nEnglish: Yes, if the work requires it.\n\nKey words: jiābān = overtime | rúguǒ = if | xūyào = need/require\n\nAlso recognize: lúnbān (輪班) = rotating shift | yèbān (夜班) = night shift",
+        "memory": "JIĀBĀN = OVERTIME → IF NEEDED",
         "story": "availability",
-        "seconds": "10–15 sec"
+        "seconds": "5–10 sec"
       },
       {
         "number": 327,
-        "priority": "PREPARE",
-        "question": "What would you say if you need the interviewer to repeat the question?",
-        "answer": "I can say: “不好意思，可以說慢一點，再說一次嗎？” Or in English: “Sorry, could you please repeat that a little more slowly?”",
-        "memory": "REPEAT → MORE SLOWLY",
+        "priority": "CORE",
+        "question": "What do you say if you do not understand Chinese?",
+        "answer": "1) 中文：不好意思，請說慢一點。\nPinyin: Bù hǎoyìsi, qǐng shuō màn yìdiǎn.\nEnglish: Sorry, please speak a little slower.\n\n2) 中文：請再說一次。\nPinyin: Qǐng zài shuō yí cì.\nEnglish: Please say it again.\n\n3) 中文：可以用英文說嗎？\nPinyin: Kěyǐ yòng Yīngwén shuō ma?\nEnglish: Can you say it in English?\n\nKey words: bù hǎoyìsi = sorry/excuse me | qǐng = please | màn yìdiǎn = a little slower | zài = again | Yīngwén = English",
+        "memory": "SLOWER → AGAIN → ENGLISH",
         "story": "availability",
-        "seconds": "10–15 sec"
+        "seconds": "Practice until automatic"
       },
       {
         "number": 328,
         "priority": "PREPARE",
-        "question": "What would you do if a coworker speaks only Chinese?",
-        "answer": "I would use simple Chinese, ask for written instructions, and repeat back what I understood. For technical or safety details, I would get help from an approved bilingual colleague before acting.",
-        "memory": "SIMPLE WORDS → APPROVED HELP → CONFIRM",
+        "question": "Are you willing to continue learning Chinese? / 你願意繼續學中文嗎？",
+        "answer": "Question pinyin: Nǐ yuànyì jìxù xué Zhōngwén ma?\n\n中文回答：願意，我會繼續學習。\nPinyin: Yuànyì, wǒ huì jìxù xuéxí.\nEnglish: Yes, I am willing. I will continue learning.\n\nKey words: yuànyì = willing | jìxù = continue | xuéxí = learn/study",
+        "memory": "YES → CONTINUE LEARNING",
         "story": "availability",
-        "seconds": "15–20 sec"
+        "seconds": "5–10 sec"
       },
       {
         "number": 329,
-        "priority": "PREPARE",
-        "question": "Are you willing to take company language training?",
-        "answer": "Yes. I would be happy to take company language training because better workplace Mandarin would help me communicate more independently with the team.",
-        "memory": "LANGUAGE TRAINING → MORE INDEPENDENT",
-        "story": "availability",
-        "seconds": "10–15 sec"
+        "priority": "CORE",
+        "question": "How do you end the interview politely in Chinese?",
+        "answer": "中文：謝謝您給我這個面試機會。\nPinyin: Xièxie nín gěi wǒ zhège miànshì jīhuì.\nEnglish: Thank you for giving me this interview opportunity.\n\nShort version: 謝謝您。 / Xièxie nín. / Thank you.\n\nKey words: xièxie = thank you | gěi wǒ = give me | miànshì = interview | jīhuì = opportunity",
+        "memory": "THANK YOU → INTERVIEW OPPORTUNITY",
+        "story": "closing",
+        "seconds": "5–10 sec"
       }
     ]
   },
