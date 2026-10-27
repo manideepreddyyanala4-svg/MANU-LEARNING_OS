@@ -52,6 +52,12 @@ const navGroups: NavGroup[] = [
     ],
   },
   {
+    title: 'Idea Vault',
+    items: [
+      { href: '/ideas', label: 'Ideas', icon: Lightbulb, subtext: 'Content & Future Ideas' },
+    ],
+  },
+  {
     title: 'System & Utilities',
     items: [
       { href: '/files', label: 'Files', icon: FolderOpen, subtext: 'Documents & Storage' },
