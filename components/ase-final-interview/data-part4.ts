@@ -11,7 +11,7 @@ export const interviewCategoriesPart4: InterviewCategory[] = [
         "number": 316,
         "priority": "CORE",
         "question": "30-second Chinese introduction — learn this first",
-        "answer": "中文：您好，我叫 Manideep。我來自印度。我現在在亞洲大學讀碩士。我二零二七年七月畢業。我想應徵產品測試工程師。我的中文還在學習，謝謝您。\n\nPinyin: Nín hǎo, wǒ jiào Manideep. Wǒ láizì Yìndù. Wǒ xiànzài zài Yàzhōu Dàxué dú shuòshì. Wǒ èr líng èr qī nián qī yuè bìyè. Wǒ xiǎng yìngzhēng chǎnpǐn cèshì gōngchéngshī. Wǒ de Zhōngwén hái zài xuéxí. Xièxie nín.\n\nEnglish: Hello, my name is Manideep. I am from India. I am studying for my Master's at Asia University. I graduate in July 2027. I want to apply for Product Test Engineer. I am still learning Chinese. Thank you.\n\nKey words: nín hǎo = hello (polite) | láizì = come from | dú shuòshì = study Master's | bìyè = graduate | yìngzhēng = apply for a job | chǎnpǐn cèshì gōngchéngshī = Product Test Engineer | hái zài xuéxí = still learning",
+        "answer": "中文：您好，我叫 Manideep。我來自印度。我現在在亞洲大學讀碩士。我二零二七年七月畢業。我想應徵產品測試工程師。我現在還在學中文，謝謝您。\n\nPinyin: Nín hǎo, wǒ jiào Manideep. Wǒ láizì Yìndù. Wǒ xiànzài zài Yàzhōu Dàxué dú shuòshì. Wǒ èr líng èr qī nián qī yuè bìyè. Wǒ xiǎng yìngzhēng chǎnpǐn cèshì gōngchéngshī. Wǒ xiànzài hái zài xué Zhōngwén. Xièxie nín.\n\nEnglish: Hello, my name is Manideep. I am from India. I am studying for my Master's at Asia University. I graduate in July 2027. I want to apply for Product Test Engineer. I am still learning Chinese. Thank you.\n\nKey words: nín hǎo = hello (polite) | láizì = come from | dú shuòshì = study Master's | bìyè = graduate | yìngzhēng = apply for a job | chǎnpǐn cèshì gōngchéngshī = Product Test Engineer | hái zài xué = still learning",
         "memory": "NAME → INDIA → ASIA U → JUL 2027 → PTE → LEARNING CHINESE",
         "story": "introduction",
         "seconds": "25–35 sec"
@@ -20,7 +20,7 @@ export const interviewCategoriesPart4: InterviewCategory[] = [
         "number": 317,
         "priority": "CORE",
         "question": "How good is your Chinese? / 你的中文怎麼樣？",
-        "answer": "Question pinyin: Nǐ de Zhōngwén zěnmeyàng?\n\n中文回答：我會一點簡單的中文，現在還在學習。\nPinyin: Wǒ huì yìdiǎn jiǎndān de Zhōngwén, xiànzài hái zài xuéxí.\nEnglish: I can speak a little simple Chinese, and I am still learning.\n\nKey words: huì = can/know how to | yìdiǎn = a little | jiǎndān = simple | xiànzài = now | xuéxí = learn/study",
+        "answer": "Question pinyin: Nǐ de Zhōngwén zěnmeyàng?\n\n中文回答：我會說一點中文，現在還在學。\nPinyin: Wǒ huì shuō yìdiǎn Zhōngwén, xiànzài hái zài xué.\nEnglish: I can speak a little Chinese, and I am still learning.\n\nKey words: huì shuō = can speak | yìdiǎn = a little | xiànzài = now | hái zài xué = still learning",
         "memory": "A LITTLE CHINESE → STILL LEARNING",
         "story": "availability",
         "seconds": "10–15 sec"
