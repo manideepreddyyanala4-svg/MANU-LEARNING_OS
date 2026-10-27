@@ -544,6 +544,14 @@ export const interviewCategoriesPart3: InterviewCategory[] = [
         "story": "role-fit",
         "seconds": "5 sec"
       }
+    ]
+  },
+  {
+    "id": "behavioral",
+    "title": "I. Behavioral / Weakness-Repair Questions",
+    "subtitle": "Use real stories. Never invent a dramatic success just to sound impressive.",
+    "range": "Q286–Q315",
+    "items": [
       {
         "number": 286,
         "priority": "CORE",
