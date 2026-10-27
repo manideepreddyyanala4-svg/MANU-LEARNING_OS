@@ -225,84 +225,83 @@ export const interviewCategoriesPart3: InterviewCategory[] = [
     "items": [
       {
         "number": 251,
-        "priority": "PREPARE",
+        "priority": "CORE",
         "question": "Why do you want this job?",
-        "answer": "I want this job because PTE combines data analysis, testing, debugging, and real engineering problems. It lets me use my software and analysis strengths while learning semiconductor testing.",
-        "memory": "TEST → DATA → REAL PROBLEMS",
+        "answer": "I’m interested in PTE because I like working with data and finding why results change.\n\nIn my research, I run experiments, compare results and investigate problems step by step. PTE uses a similar way of thinking for test data, yield and abnormal results.\n\nI still need to learn the semiconductor test hardware, but I’m interested in learning that part.",
+        "memory": "DATA → FIND WHY → PTE → LEARN HARDWARE",
         "story": "role-fit",
-        "seconds": "15–20 sec"
+        "seconds": "20–30 sec"
       },
       {
         "number": 252,
-        "priority": "PREPARE",
+        "priority": "CORE",
         "question": "Why do you want to work for ASE?",
-        "answer": "ASE is a major company in semiconductor packaging and testing. The PTE role matches my interest in test data and problem solving, and I think it is a strong place to learn from experienced engineers.",
-        "memory": "ASE → TESTING → LEARNING",
+        "answer": "ASE is one of the major companies in semiconductor packaging and testing.\n\nWhat interests me is that testing is a core part of the company, and the PTE role involves test data, yield analysis and problem investigation.\n\nI think it is a good place for me to learn semiconductor testing while using my data-analysis and problem-solving skills.",
+        "memory": "ASE → TESTING → DATA → LEARN",
         "story": "role-fit",
-        "seconds": "15–20 sec"
+        "seconds": "20–30 sec"
       },
       {
         "number": 253,
-        "priority": "PREPARE",
+        "priority": "CORE",
         "question": "Why should ASE choose you?",
-        "answer": "I can bring Python, data analysis, and careful debugging. In research, I compared results across conditions and kept the baseline when a change did not pass the full evaluation. I can bring that care to PTE while learning the test equipment.",
-        "memory": "PYTHON → BASELINE EXAMPLE → PTE",
+        "answer": "I don’t want to say that I already know semiconductor testing, because I am still learning it.\n\nBut I can bring Python, data analysis and a careful way of solving problems.\n\nIn my research, when results become worse, I check the data, compare conditions and test possible causes instead of guessing.\n\nI think that way of working can transfer well to PTE.",
+        "memory": "HONEST → PYTHON → CHECK → COMPARE → TEST",
         "story": "role-fit",
-        "seconds": "20–25 sec"
+        "seconds": "25–35 sec"
       },
       {
         "number": 254,
         "priority": "CORE",
         "question": "What are your strengths?",
-        "answer": "My main strength is checking problems step by step. In research, I compare results under the same rules and test possible causes. When a preprocessing change helped only some conditions, I kept the baseline instead of calling it a success.",
+        "answer": "My main strength is systematic problem solving.\n\nWhen I see a problem, I try not to change many things at once. I first check the data, compare the conditions and then test possible causes one by one.\n\nThat is how I work in my research, and I think it is also useful for PTE.",
         "note": "One main strength + one short example.",
-        "memory": "STEP BY STEP → REAL EXAMPLE",
+        "memory": "STEP BY STEP → ONE CAUSE AT A TIME",
         "story": "strength",
-        "seconds": "20–25 sec"
+        "seconds": "20–30 sec"
       },
       {
         "number": 255,
         "priority": "CORE",
         "question": "What is your biggest weakness?",
-        "answer": "Sometimes I explain too many technical details before checking what the other person needs. That can make my main point harder to follow. I am practicing a clearer approach: answer first, give one example, then add detail only if asked.",
-        "memory": "TOO MUCH DETAIL → ANSWER FIRST",
+        "answer": "Sometimes I go too deep into technical details when a shorter explanation would be enough.\n\nI am improving this by giving the main answer first, then one example, and adding more details only if the other person needs them.",
+        "memory": "TOO MUCH DETAIL → MAIN ANSWER FIRST",
         "story": "weakness",
-        "seconds": "20–25 sec"
+        "seconds": "20 sec"
       },
       {
         "number": 256,
         "priority": "PREPARE",
         "question": "What are you doing to improve that weakness?",
-        "answer": "I am practicing short explanations: the main answer, one example, then a pause. This helps me check whether the other person wants more detail.",
-        "needsFact": "Only claim timed practice if you have actually done it.",
-        "memory": "ANSWER → EXAMPLE → PAUSE",
+        "answer": "Before I explain something, I now try to think about the main point first.\n\nI give the direct answer, one example, and then I stop. If they want more detail, I can explain further.",
+        "memory": "ANSWER → EXAMPLE → STOP",
         "story": "weakness",
-        "seconds": "10–15 sec"
+        "seconds": "15 sec"
       },
       {
         "number": 257,
         "priority": "PREPARE",
         "question": "What are your career goals?",
-        "answer": "My short-term goal is to become strong in product testing and semiconductor problem solving. Over time, I want to become an engineer who understands both the test domain and the software or data side.",
-        "memory": "TEST KNOWLEDGE → DATA SKILLS",
+        "answer": "In the next few years, I want to build strong hands-on engineering experience.\n\nFor PTE, I want to learn test flow, yield analysis and how engineers investigate abnormal results.\n\nI also want to keep using Python and data analysis where they can help the work.",
+        "memory": "TEST KNOWLEDGE + DATA SKILLS",
         "story": "role-fit",
-        "seconds": "15–20 sec"
+        "seconds": "20–25 sec"
       },
       {
         "number": 258,
         "priority": "PREPARE",
         "question": "Where do you see yourself in three years?",
-        "answer": "I want to be a reliable PTE who understands the product and test flow, can investigate abnormal yield, and can use data and programming to support the team.",
-        "memory": "RELIABLE PTE → YIELD DEBUGGING",
+        "answer": "In three years, I want to be able to handle normal PTE work more independently.\n\nI want to understand the product, test flow and yield problems well enough to investigate issues and contribute without needing help for every step.",
+        "memory": "INDEPENDENT PTE → PRODUCT → TEST → YIELD",
         "story": "role-fit",
-        "seconds": "15–20 sec"
+        "seconds": "20 sec"
       },
       {
         "number": 259,
         "priority": "PREPARE",
         "question": "Where do you see yourself in five years?",
-        "answer": "I would like to have deeper product-test knowledge, handle more difficult yield or NPI problems, and become someone who can connect test engineering with software and data tools.",
-        "memory": "DEEPER TEST SKILLS → RESPONSIBILITY",
+        "answer": "In five years, I want to have deeper technical responsibility.\n\nI would like to handle more difficult test or yield problems and also use software or data tools to make some work more efficient.",
+        "memory": "DEEPER RESPONSIBILITY → HARDER PROBLEMS → DATA",
         "story": "role-fit",
         "seconds": "15–20 sec"
       },
@@ -310,17 +309,17 @@ export const interviewCategoriesPart3: InterviewCategory[] = [
         "number": 260,
         "priority": "PREPARE",
         "question": "Do you plan to stay in Taiwan?",
-        "answer": "Yes. I would like to build my technical career in Taiwan if I find a good long-term engineering opportunity and the work and visa arrangements fit.",
-        "memory": "TAIWAN CAREER → GOOD FIT",
+        "answer": "Yes. For the next stage of my career, I am open to building my career in Taiwan.\n\nI came here for my Master’s, and if I get a good technical opportunity after graduation, I am willing to continue working here.",
+        "memory": "MASTER'S TAIWAN → CAREER TAIWAN",
         "story": "role-fit",
-        "seconds": "10–15 sec"
+        "seconds": "15 sec"
       },
       {
         "number": 261,
         "priority": "PREPARE",
         "question": "How long do you plan to work in Taiwan?",
-        "answer": "I want to build my technical career in Taiwan. I cannot promise an exact number of years, but I would take the role and its training seriously.",
-        "memory": "CAREER INTENT → NO FALSE PROMISE",
+        "answer": "I don’t have a fixed number of years in mind.\n\nMy immediate plan is to start my technical career here after graduation and take the role I join seriously.",
+        "memory": "NO FAKE NUMBER → SERIOUS COMMITMENT",
         "story": "role-fit",
         "seconds": "10–15 sec"
       },
@@ -328,123 +327,118 @@ export const interviewCategoriesPart3: InterviewCategory[] = [
         "number": 262,
         "priority": "PREPARE",
         "question": "When do you graduate?",
-        "answer": "I currently expect to graduate in July 2027.",
+        "answer": "I expect to graduate in July 2027.",
         "memory": "JULY 2027",
         "story": "availability",
-        "seconds": "5–10 sec"
+        "seconds": "5 sec"
       },
       {
         "number": 263,
         "priority": "CORE",
         "question": "When can you start?",
-        "answer": "I expect to graduate in July 2027. Before then, I can discuss work that fits my studies and student-work rules. For full-time joining, I would confirm the date and work eligibility with HR.",
-        "note": "Do not promise full-time work before graduation if it is not legally possible.",
-        "memory": "GRADUATION → STUDENT LIMITS → HR",
+        "answer": "For full-time work, I can join after I complete my Master’s in July 2027.\n\nBefore graduation, if ASE has a suitable internship or student position, I am also open to discussing it within the student work rules.",
+        "memory": "FULL-TIME → AFTER JULY 2027",
         "story": "availability",
-        "seconds": "15–20 sec"
+        "seconds": "15 sec"
       },
       {
         "number": 264,
         "priority": "CORE",
         "question": "Are you looking for an internship or full-time position?",
-        "answer": "Before graduation, I am open to a student-compatible technical opportunity. My longer-term goal is a full-time PTE position after I finish my Master’s in 2027.",
-        "memory": "STUDENT WORK NOW → FULL-TIME LATER",
+        "answer": "My main goal from this event is a full-time technical position after I graduate in July 2027.\n\nBefore graduation, I am also open to a suitable technical internship or part-time opportunity if ASE has one.",
+        "memory": "FULL-TIME 2027 → INTERNSHIP POSSIBLE NOW",
         "story": "availability",
-        "seconds": "10–15 sec"
+        "seconds": "15 sec"
       },
       {
         "number": 265,
         "priority": "PREPARE",
         "question": "What is your current semester/work availability?",
-        "answer": "During the regular semester, the general limit is 20 hours a week with a valid student work permit. My actual available hours also depend on classes and research.",
-        "needsFact": "Confirm your current permit validity and actual weekly free hours.",
-        "memory": "20 HOURS → PERMIT → CLASSES",
+        "answer": "During the semester, I can work within the student work limit and around my class and research schedule.\n\nThe legal limit for foreign students is up to 20 hours per week during the semester.",
+        "memory": "20 HOURS → CLASSES → RESEARCH",
         "story": "availability",
-        "seconds": "15–20 sec"
+        "seconds": "15 sec"
       },
       {
         "number": 266,
         "priority": "CORE",
         "question": "Can you relocate to Kaohsiung?",
-        "answer": "Yes. I am open to moving to Kaohsiung for the right PTE opportunity. I would plan the move around the confirmed joining date and my graduation status.",
-        "memory": "KAOHSIUNG → JOINING DATE",
+        "answer": "Yes.\n\nIf I receive the right PTE opportunity, I am willing to relocate to Kaohsiung after graduation.",
+        "memory": "YES → KAOHSIUNG",
         "story": "availability",
-        "seconds": "10–15 sec"
+        "seconds": "5–10 sec"
       },
       {
         "number": 267,
         "priority": "PREPARE",
         "question": "Can you relocate elsewhere in Taiwan?",
-        "answer": "Yes. Taichung is convenient for me now, but I am open to other locations in Taiwan if the role is a good fit.",
-        "memory": "LOCATION FLEXIBLE → ROLE FIT",
+        "answer": "Yes. I am studying in Taichung now, but I am open to other locations in Taiwan for the right technical role.",
+        "memory": "TAICHUNG NOW → FLEXIBLE LATER",
         "story": "availability",
-        "seconds": "10–15 sec"
+        "seconds": "10 sec"
       },
       {
         "number": 268,
-        "priority": "CORE",
+        "priority": "BACKUP",
         "question": "Can you work night shifts?",
-        "answer": "I would like to understand the night-shift hours and frequency before committing. Before graduation, any schedule must also fit my studies and student-work rules.",
+        "answer": "I am open to discussing it if the role requires night shifts.\n\nI would like to understand the exact schedule and frequency before confirming.",
         "needsFact": "Decide your real night-shift limits before the interview.",
-        "memory": "SHIFT HOURS → REAL LIMITS",
+        "memory": "OPEN → CHECK SCHEDULE",
         "story": "availability",
-        "seconds": "10–15 sec"
+        "seconds": "10 sec"
       },
       {
         "number": 269,
-        "priority": "CORE",
+        "priority": "BACKUP",
         "question": "Can you work rotating shifts?",
-        "answer": "Could you explain the rotation pattern? I would check it against my study schedule and work limits before confirming.",
-        "needsFact": "Decide which rotation schedules you can accept.",
-        "memory": "ROTATION PATTERN → CONFIRM FIT",
+        "answer": "I am open to discussing rotating shifts if they are part of the position.\n\nI would first like to understand the rotation pattern and working hours.",
+        "needsFact": "Decide which rotation schedules you can actually accept.",
+        "memory": "OPEN → UNDERSTAND ROTATION",
         "story": "availability",
-        "seconds": "10–15 sec"
+        "seconds": "10 sec"
       },
       {
         "number": 270,
-        "priority": "CORE",
+        "priority": "PREPARE",
         "question": "Can you work overtime?",
-        "answer": "I understand the team may sometimes need overtime. I would discuss the expected hours before committing. While I am a student, the total must stay within my work limits.",
-        "needsFact": "Confirm your willingness and limits; this answer does not promise overtime.",
-        "memory": "EXPECTED HOURS → LEGAL LIMITS",
+        "answer": "I understand that engineering work sometimes needs overtime when there is an urgent production or technical problem.\n\nI can be flexible when it is needed. Before graduation, of course, I still need to follow the student work limits.",
+        "memory": "URGENT PROBLEM → FLEXIBLE",
         "story": "availability",
         "seconds": "15–20 sec"
       },
       {
         "number": 271,
-        "priority": "PREPARE",
+        "priority": "BACKUP",
         "question": "Can you work holidays/weekends if required?",
-        "answer": "I can discuss the weekend or holiday schedule once I know the hours. I also need to check my study schedule and student-work limits before confirming.",
-        "needsFact": "Confirm which weekends or holidays you can work.",
-        "memory": "SCHEDULE → STUDIES → CONFIRM",
+        "answer": "If occasional weekend or holiday support is part of the role, I can be flexible.\n\nI would just like to understand how often it is normally required.",
+        "memory": "OCCASIONAL → FLEXIBLE → FREQUENCY",
         "story": "availability",
         "seconds": "10–15 sec"
       },
       {
         "number": 272,
-        "priority": "PREPARE",
+        "priority": "BACKUP",
         "question": "Can you be on-call?",
-        "answer": "If the team has an on-call system, I would first understand the schedule and expectations. I am open to it if it is part of the role and fits my current legal status.",
-        "memory": "ON-CALL DETAILS → CHECK FIT",
+        "answer": "If on-call support is part of the PTE role, I am open to it.\n\nI would first like to understand how often it happens and what the expected response time is.",
+        "memory": "OPEN → FREQUENCY → EXPECTATION",
         "story": "availability",
-        "seconds": "15–20 sec"
+        "seconds": "10–15 sec"
       },
       {
         "number": 273,
         "priority": "PREPARE",
         "question": "Are you comfortable in a manufacturing environment?",
-        "answer": "Yes. I understand it is different from a university lab and requires clear procedures, documentation, teamwork, and reliability. I am willing to adapt to that environment.",
-        "memory": "PROCEDURES → TEAMWORK → RELIABILITY",
+        "answer": "Yes.\n\nI understand that a manufacturing environment requires following procedures, paying attention to quality and safety, documenting work clearly and responding to problems on time.\n\nI am comfortable learning that way of working.",
+        "memory": "PROCEDURE → QUALITY → SAFETY → RESPONSE",
         "story": "availability",
-        "seconds": "10–15 sec"
+        "seconds": "20 sec"
       },
       {
         "number": 274,
-        "priority": "CORE",
+        "priority": "BACKUP",
         "question": "Are you comfortable in a cleanroom if required?",
-        "answer": "Yes. I do not have cleanroom experience yet, but I am willing to follow the gowning, safety, and operating rules after training.",
-        "needsFact": "Confirm your actual willingness and any practical constraints.",
-        "memory": "NO EXPERIENCE → TRAINING → RULES",
+        "answer": "Yes, if the role requires it.\n\nI do not have cleanroom experience yet, but I am comfortable learning the gowning, safety and operating procedures.",
+        "memory": "NO EXPERIENCE → WILL LEARN RULES",
         "story": "availability",
         "seconds": "10–15 sec"
       },
@@ -452,104 +446,104 @@ export const interviewCategoriesPart3: InterviewCategory[] = [
         "number": 275,
         "priority": "PREPARE",
         "question": "Are you comfortable with repetitive production problems?",
-        "answer": "Yes. Repeated work does not bother me when it has a clear purpose. Repeated problems can also show patterns, and I would try to make the analysis more organized or efficient.",
-        "memory": "REPEAT WORK → FIND PATTERNS",
-        "seconds": "15–20 sec"
+        "answer": "Yes.\n\nI don’t expect every engineering problem to be completely new. If the same problem happens repeatedly, that can actually help us find a pattern.\n\nI would focus on solving it accurately and, if possible, make the analysis more efficient.",
+        "memory": "REPEAT → PATTERN → IMPROVE",
+        "story": "availability",
+        "seconds": "20 sec"
       },
       {
         "number": 276,
-        "priority": "PREPARE",
+        "priority": "CORE",
         "question": "Would you be bored if the job does not involve AI every day?",
-        "answer": "No. I am applying because I like engineering problem solving, not because every task must use AI. I want to learn the core PTE work first, and I can use Python or automation when it is useful.",
-        "memory": "ENGINEERING FIRST → AI WHEN USEFUL",
+        "answer": "No.\n\nI am applying for PTE because I like solving engineering problems with data, not because every task must involve AI.\n\nI want to learn the core testing work properly first. If Python or automation can help later, I can use those skills when they are useful.",
+        "memory": "ENGINEERING FIRST → AI ONLY WHEN USEFUL",
         "story": "role-fit",
-        "seconds": "15–20 sec"
+        "seconds": "20–25 sec"
       },
       {
         "number": 277,
         "priority": "PREPARE",
         "question": "If another AI company gives you an offer, would you leave?",
-        "answer": "I choose a role based on long-term fit, learning, and responsibility, not only the word “AI.” If I join a PTE role, I would take that commitment seriously and build real domain knowledge.",
-        "memory": "LONG-TERM FIT → REAL COMMITMENT",
+        "answer": "I don’t make a career decision only based on the job title.\n\nI look at the work, what I can learn and the responsibility I can build.\n\nIf I accept a PTE role, I would join with the intention of learning the domain properly and doing the job seriously.",
+        "memory": "NOT TITLE → WORK → LEARNING → COMMITMENT",
         "story": "role-fit",
-        "seconds": "15–20 sec"
+        "seconds": "20 sec"
       },
       {
         "number": 278,
         "priority": "PREPARE",
         "question": "Are you interviewing with other companies?",
-        "answer": "I am looking at suitable technical opportunities in Taiwan, but I am preparing seriously for ASE because PTE matches my strengths in data, testing, and problem solving.",
-        "memory": "TECHNICAL SEARCH → ASE INTEREST",
-        "seconds": "10–15 sec"
+        "answer": "Yes, I am exploring suitable technical opportunities in Taiwan.\n\nI am mainly looking for roles where I can use data, programming and engineering problem solving. I am preparing seriously for ASE because PTE is one role that fits those strengths.",
+        "memory": "YES → TECHNICAL ROLES → ASE SERIOUS",
+        "story": "role-fit",
+        "seconds": "15–20 sec"
       },
       {
         "number": 279,
         "priority": "PREPARE",
         "question": "Which other roles are you applying for?",
-        "answer": "I mainly look for technical roles where Python, data analysis, computer vision, testing, or engineering problem solving are useful. At ASE, PTE is my first choice.",
-        "memory": "DATA/VISION/TESTING → PTE FIRST",
+        "answer": "I am mainly looking at technical engineering roles involving data analysis, testing, computer vision or software-based problem solving.\n\nAt ASE, PTE is my first choice because it is the role that best connects with my data and debugging background.",
+        "memory": "TECHNICAL ROLES → ASE PTE FIRST",
         "story": "role-fit",
-        "seconds": "10–15 sec"
+        "seconds": "15 sec"
       },
       {
         "number": 280,
         "priority": "PREPARE",
         "question": "What salary are you expecting?",
-        "answer": "Could you share the salary range and full package for this position? I am open to discussing an offer based on the duties, location, and work schedule.",
-        "memory": "RANGE → FULL PACKAGE → DUTIES",
-        "seconds": "10–15 sec"
+        "answer": "I am flexible.\n\nI understand ASE has a salary range depending on the candidate and the position. As a new graduate, I would be comfortable discussing the standard package for the PTE role.\n\nI am also considering the responsibilities, training and overall package.",
+        "note": "If they insist on a number: around NT$50,000/month is a reasonable discussion point, but stay flexible based on the full package and responsibilities.",
+        "memory": "FLEXIBLE → STANDARD PTE PACKAGE",
+        "story": "role-fit",
+        "seconds": "15–20 sec"
       },
       {
         "number": 281,
         "priority": "BACKUP",
         "question": "What benefits are important to you?",
-        "answer": "I would like to understand the training, leave, shift allowances, and full benefits package. Clear responsibilities and good support for new engineers also matter to me.",
-        "memory": "TRAINING → LEAVE → ALLOWANCES",
-        "seconds": "10–15 sec"
+        "answer": "At the start of my career, training and learning support are very important to me.\n\nI would also like to understand the normal insurance, leave and any overtime or shift allowances that come with the position.",
+        "memory": "TRAINING FIRST → STANDARD BENEFITS",
+        "story": "role-fit",
+        "seconds": "15 sec"
       },
       {
         "number": 282,
         "priority": "BACKUP",
         "question": "Why did you leave your part-time job?",
-        "answer": "I stopped restaurant part-time work so I could spend more time on my Master’s research and prepare for a technical career that matches my degree.",
-        "memory": "LEFT RESTAURANT → TECHNICAL FOCUS",
+        "answer": "My Master’s research and technical career preparation needed more of my time.\n\nSo I decided to stop the restaurant part-time job and use that time for research, interview preparation and technical learning related to my degree.",
+        "memory": "TIME → RESEARCH → TECHNICAL CAREER",
         "story": "pressure",
-        "seconds": "10–15 sec"
+        "seconds": "15 sec"
       },
       {
         "number": 283,
         "priority": "BACKUP",
         "question": "Tell me about your family/background.",
-        "answer": "My family is in India. I came to Taiwan for my Master's and want to build a technical career here.",
-        "memory": "FAMILY INDIA → MASTER'S TAIWAN",
-        "seconds": "10–15 sec"
+        "answer": "My family is in India, and I came to Taiwan for my Master’s degree.\n\nLiving and studying here has helped me become more independent and adapt to a different environment.\n\nRight now, my main focus is building my technical career.",
+        "memory": "INDIA → TAIWAN → INDEPENDENT",
+        "story": "role-fit",
+        "seconds": "15–20 sec"
       },
       {
         "number": 284,
         "priority": "BACKUP",
         "question": "Do your parents support you working in Taiwan?",
-        "answer": "My family's view is [your family's actual view]. My own goal is to build a technical career in Taiwan.",
-        "needsFact": "Replace the bracket with your family’s actual view.",
-        "memory": "ACTUAL FAMILY VIEW",
-        "seconds": "Time after filling facts"
+        "answer": "Yes. My family supports my education and career decisions.\n\nIf I get a good technical opportunity in Taiwan, they are comfortable with me working here.",
+        "needsFact": "Use this only if it matches your family's real view.",
+        "memory": "YES → FAMILY SUPPORT",
+        "story": "role-fit",
+        "seconds": "10 sec"
       },
       {
         "number": 285,
         "priority": "BACKUP",
         "question": "Are you married/single?",
-        "answer": "I am [your current marital status].",
-        "needsFact": "Fill only if you choose to answer this personal question.",
+        "answer": "I am single.",
+        "needsFact": "Change only if your real marital status is different.",
         "memory": "ACTUAL STATUS → BRIEF",
-        "seconds": "Time after filling facts"
+        "story": "role-fit",
+        "seconds": "5 sec"
       }
-    ]
-  },
-  {
-    "id": "behavioral",
-    "title": "I. Behavioral / Weakness-Repair Questions",
-    "subtitle": "Use real stories. Never invent a dramatic success just to sound impressive.",
-    "range": "Q286–Q315",
-    "items": [
       {
         "number": 286,
         "priority": "CORE",
