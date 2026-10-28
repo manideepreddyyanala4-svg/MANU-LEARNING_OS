@@ -227,47 +227,47 @@ const raw = [
       ],
       [
         "Why does a chip need packaging?",
-        "Packaging protects the die, gives it electrical connections and helps it be assembled into a larger electronic product. It can also help manage heat."
+        "A bare silicon die is small and easy to damage. Packaging protects it and gives it electrical connections so it can be used in a phone, computer, or another product. Packaging can also help move heat away from the chip."
       ],
       [
         "What are ATE, a prober and a probe card?",
-        "ATE is Automatic Test Equipment; it applies electrical tests and measures responses. A prober positions a wafer, and a probe card makes temporary contact with each die during wafer test."
+        "ATE means Automatic Test Equipment. It sends test signals and measures how the chip responds. At wafer test, a prober moves the wafer to the correct position, and a probe card makes electrical contact with the die."
       ],
       [
         "What are a handler, socket and load board?",
-        "A handler moves packaged devices into test positions. A socket contacts the device pins. A load board connects that test interface to the ATE."
+        "A handler moves packaged chips into the test position. A socket holds the chip and makes electrical contact. A load board connects the socket and chip to the ATE. They work together during final testing."
       ],
       [
         "What do DUT and binning mean?",
-        "DUT is Device Under Test. Binning means sorting tested devices into categories based on their results, for example passing, failing or different performance bins."
+        "DUT means Device Under Test. It is the chip being tested. Binning means sorting chips into groups based on their test results, such as pass, fail, or different performance categories."
       ],
       [
         "What is a test program, and what can ATE test?",
-        "A test program tells ATE which measurements to run and what limits to apply. Depending on the chip, tests may include continuity, voltage, current, timing or functional behavior."
+        "A test program tells the ATE which tests to run and what the passing limits are. Depending on the product, it can test things like voltage, current, timing, and whether the chip works correctly."
       ],
       [
         "What is semiconductor yield? Calculate 950 passes out of 1,000.",
-        "Yield is the number of good units divided by total tested units, times 100. Here it is 950 divided by 1,000, so yield is 95%."
+        "Yield means the percentage of tested chips that pass. The formula is good units divided by total tested units, times 100. If 950 out of 1,000 chips pass, the yield is 95%."
       ],
       [
         "If yield drops from 95% to 80%, what would you do?",
-        "First I would verify the test data and calculation. Then I would locate when and where the drop happened and compare failure bins, lots, wafers, testers and sites. I would check recent changes, escalate if needed, run approved comparisons and verify the result."
+        "First, I would confirm that the yield number and test data are correct. Then I would check when the drop started and which lots, wafers, testers, sites, or failure bins are affected. I would look for recent changes, inform the responsible engineer, and help test possible causes using the approved procedure. After that, I would check whether the yield improves."
       ],
       [
         "Why compare lots, wafers, testers, sites and failure bins?",
-        "These comparisons help locate a pattern. For example, if failures occur mostly on one tester site, the team can investigate that site instead of assuming every chip is defective."
+        "Because they help us find where the problem is happening. For example, if most failures come from one tester or one test site, we should check that setup. If they happen only on one wafer or lot, the cause may be somewhere else. We use the pattern to decide what to investigate next."
       ],
       [
         "How can you tell whether a failure is caused by the device or test setup?",
-        "I would not guess from one result. I would check repeatability, failure patterns, tester/site information, setup changes and approved retests or comparisons, then involve experienced test engineers."
+        "I would first check the failure data and whether the same problem happens repeatedly. Then I would compare results from other testers or sites and check the setup and recent changes. With approval, the team could repeat a test under controlled conditions. I would not decide that the chip is bad before checking the test setup."
       ],
       [
         "What is NPI?",
-        "NPI means New Product Introduction. It is the process of bringing a new product into manufacturing and validating that the required production and test processes are ready."
+        "NPI means New Product Introduction. It is when a new chip or product is prepared for manufacturing. For testing, engineers need to check that the test program, equipment, limits, and process are ready before normal production."
       ],
       [
         "What does a Product Test Engineer do at ASE?",
-        "A PTE works with product test data, test flow, yield and abnormal test results. The engineer helps check problems, validate changes, coordinate with teams and make sure products meet required test specifications."
+        "A Product Test Engineer helps make sure semiconductor products are tested correctly. The work can include checking test programs and test equipment, analyzing yield and failure data, investigating abnormal results, and supporting new product testing. A PTE also works with other engineers to solve problems and improve the test process."
       ]
     ]
   },
@@ -279,8 +279,8 @@ const raw = [
     "rows": [
       [
         "Qǐng zìwǒ jièshào. — Please introduce yourself.",
-        "Nín hǎo, wǒ jiào Manideep. Wǒ láizì Yìndù. Wǒ xiànzài zài Yàzhōu Dàxué dú shuòshì. Wǒ èr líng èr qī nián qī yuè bìyè. Wǒ xiǎng yìngzhēng chǎnpǐn cèshì gōngchéngshī. Wǒ xiànzài hái zài xué Zhōngwén. Xièxie nín.",
-        "Hello, I am Manideep. I am from India. I am studying for a Master's at Asia University. I graduate in July 2027. I want to apply for Product Test Engineer. I am still learning Chinese. Thank you."
+        "Nín hǎo, wǒ jiào Manideep. Wǒ láizì Yìndù. Wǒ xiànzài zài Yàzhōu Dàxué dú shuòshì. Wǒ èr líng èr qī nián qī yuè bìyè. Wǒ xiǎng yìngzhēng chǎnpǐn cèshì gōngchéngshī. Wǒ hái zài xué Zhōngwén. Xièxie nín.",
+        "Hello. My name is Manideep. I am from India. I am studying for a Master's degree at Asia University. I graduate in July 2027. I want to apply for Product Test Engineer. I am still learning Chinese. Thank you."
       ],
       [
         "Nǐ jiào shénme míngzi? — What is your name?",
@@ -304,7 +304,7 @@ const raw = [
       ],
       [
         "Nǐ xué shénme? — What do you study?",
-        "Wǒ de zhuānyè shì zīxùn gōngchéng.",
+        "Wǒ xué zīxùn gōngchéng.",
         "My major is information engineering."
       ],
       [
@@ -314,8 +314,8 @@ const raw = [
       ],
       [
         "Nǐ huì shuō Zhōngwén ma? — Can you speak Chinese?",
-        "Wǒ huì shuō yìdiǎn Zhōngwén, xiànzài hái zài xué.",
-        "I speak a little Chinese and am still learning."
+        "Wǒ huì shuō yìdiǎn Zhōngwén. Wǒ hái zài xué.",
+        "I can speak a little Chinese. I am still learning."
       ],
       [
         "Nǐ kěyǐ qù Gāoxióng gōngzuò ma? — Can you work in Kaohsiung?",
@@ -324,12 +324,12 @@ const raw = [
       ],
       [
         "Nǐ kěyǐ jiābān ma? — Can you work overtime?",
-        "Kěyǐ, rúguǒ gōngzuò xūyào.",
-        "Yes, if work needs it. In English, ask for details of the actual schedule if necessary."
+        "Rúguǒ gōngzuò xūyào, wǒ kěyǐ pèihé.",
+        "If the job needs it, I can cooperate with the working schedule. Only say this if it is true for you."
       ],
       [
         "Nǐ tīng bù dǒng zěnme bàn? — What if you cannot understand?",
-        "Bù hǎoyìsi, qǐng shuō màn yìdiǎn. / Qǐng zài shuō yí cì. / Kěyǐ yòng Yīngwén shuō ma?",
+        "Bù hǎoyìsi, qǐng shuō màn yìdiǎn. Qǐng zài shuō yí cì. Kěyǐ yòng Yīngwén shuō ma?",
         "Sorry, please speak more slowly. / Please repeat. / Can you say it in English?"
       ]
     ]
@@ -342,15 +342,15 @@ const raw = [
     "rows": [
       [
         "What is the difference between Python and C?",
-        "Python is a higher-level language with simpler syntax and automatic memory management. C is compiled, closer to hardware and requires more manual memory handling. Python is my current strong language; I learned basic C in B.Tech."
+        "Python is easier to write and is useful for scripts and data analysis. C gives more direct control over memory and is often used closer to hardware. I use Python regularly in my research. I learned basic C at university but have not used it much recently."
       ],
       [
         "You wrote C (basic). What did you learn in C during B.Tech?",
-        "I studied data types, conditions, loops, functions, arrays, pointers and structures. I have not used C recently, so I would need to refresh the syntax before working on a C codebase."
+        "In my B.Tech, I learned basic C programming, like variables, conditions, loops, functions, and arrays. I know the basic ideas, but I have not used C recently, so I would need to practice again before using it for work."
       ],
       [
         "What is the difference between an array and a pointer in C?",
-        "An array stores a sequence of elements. A pointer stores a memory address. In many expressions the array name can be used like a pointer to its first element, but an array and a pointer are not exactly the same thing."
+        "An array stores several values of the same type, like five numbers. A pointer stores a memory address. In C, pointers can be used to access array elements, but an array and a pointer are not exactly the same thing."
       ],
       [
         "What are NumPy and pandas? Where did you use them?",
