@@ -62,7 +62,7 @@
 | Q20 | What exactly did YOU do in this research? | MUST | Revised | No specific correction required from available evidence |
 | Q21 | How did you collect the images? Did you collect all the data yourself? | HIGH | Revised | No specific correction required from available evidence |
 | Q22 | What do 3,134 usable images and 314 identities mean? | HIGH | Revised | Removed unsupported raw-image/participant totals; kept supported 3,134 and 314 |
-| Q23 | Why does your accepted paper use 1,600 images from 80 volunteers instead? | MEDIUM | Revised | Removed paper sample-count claims not corroborated by attached resume |
+| Q23 | Why is the ROI paper dataset different from the broader recognition dataset? | MEDIUM | Revised | Removed paper sample-count claims not corroborated by attached resume |
 | Q24 | What is ROI, and why do you need ROI extraction? | HIGH | Retained after review | No specific correction required from available evidence |
 | Q25 | How does your ROI extraction work using MediaPipe and OpenCV? | HIGH | Retained after review | No specific correction required from available evidence |
 | Q26 | What is IoU, and what does 0.857 mean? | MUST | Revised | IoU is ROI overlap, not biometric accuracy; 0.857 from attached resume |
