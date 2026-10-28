@@ -354,51 +354,51 @@ const raw = [
       ],
       [
         "What are NumPy and pandas? Where did you use them?",
-        "NumPy works with numerical arrays and calculations. pandas helps manage table-like data. I used them in Python research scripts for processing data, collecting results and comparing experiment metrics."
+        "NumPy is a Python library for working with numbers and arrays. pandas is useful for tables, like CSV results. I used them in my research to process data and compare results from experiments."
       ],
       [
         "What is the difference between SQL and SQLite?",
-        "SQL is a language used to query relational databases. SQLite is a small database engine that understands SQL and usually stores the database in one local file."
+        "SQL is the language used to ask questions of a database, like selecting or filtering rows. SQLite is a small database system that uses SQL and usually keeps the data in one local file. I used SQLite for local biometric embedding storage."
       ],
       [
         "What is an embedding, and what does it represent?",
-        "An embedding is a vector of numbers produced by a model. It represents learned features of an image. We compare embeddings to estimate whether two hand images belong to the same identity."
+        "An embedding is a list of numbers made by a model to describe important features of an image. In our project, we compare two hand-image embeddings. If they are similar enough, the images may belong to the same hand identity."
       ],
       [
         "How do you store and retrieve an embedding using SQLite?",
-        "A local program writes the feature vector with an identity or template reference to SQLite, then reads it back for matching. The exact column names and array encoding depend on my implemented schema; I would show the actual code rather than guess."
+        "In our local test, the model generated an embedding and SQLite stored it as a biometric template. When we needed to compare a new image, the program could load the stored template and calculate similarity. I would use my actual code to explain the exact table columns and how the numbers are saved."
       ],
       [
         "What is the difference between PyTorch and ONNX Runtime?",
-        "PyTorch is the framework used for building and training our model. ONNX is a model exchange format. ONNX Runtime runs the exported model for inference without needing the full PyTorch training workflow."
+        "I use PyTorch to build and train models. ONNX is a format for exporting a model. ONNX Runtime is software that runs the exported model to get predictions or embeddings. I used it to test inference outside the PyTorch training setup."
       ],
       [
         "What does checking PyTorch-to-ONNX consistency mean?",
-        "Run the same input through the PyTorch and exported ONNX models, compare the output embedding tensors and check that any numerical differences are small enough for the intended use. It does not mean bit-for-bit identical numbers."
+        "It means giving the same image to the PyTorch model and the exported ONNX model, then comparing their output embeddings. I want to check that the export has not changed the results in an important way. Small numerical differences can happen, so I check consistency rather than saying every value is exactly the same."
       ],
       [
         "What is cosine similarity?",
-        "Cosine similarity compares the direction of two vectors. With normalized embeddings, a larger cosine similarity usually means the learned representations are more alike."
+        "Cosine similarity tells us how similar two vectors are by comparing their direction. In our project, two embeddings with a higher cosine similarity are treated as more similar. We compare that score with a threshold to decide if there is a match."
       ],
       [
         "What is a CNN, and why use a lightweight model?",
-        "A Convolutional Neural Network learns visual features from images. A lightweight model uses fewer resources, which matters if a future system should run on phones or other limited hardware."
+        "CNN means Convolutional Neural Network. It learns useful image patterns, such as shapes and textures. We want a lightweight model because the final goal includes running on devices with limited memory and processing power, like phones."
       ],
       [
         "What is overfitting?",
-        "Overfitting happens when a model performs well on training data but does not generalize well to different or unseen data."
+        "Overfitting is when a model learns the training images too closely and does not work well on new images. For example, it may perform well on the images it saw during training but badly on a new person's hand."
       ],
       [
         "What is the difference between training, validation and testing?",
-        "Training data updates the model. Validation data helps select settings and compare models. Test data is kept separate for the final evaluation, so we do not select a model using the test results."
+        "Training data is used to teach the model. Validation data is used to compare models and choose settings. Test data is kept separate so we can check performance fairly at the end. We should not keep changing the model based on the final test results."
       ],
       [
         "What are a verification threshold, FAR, FRR and EER?",
-        "The threshold decides when a similarity score is accepted. FAR is the false acceptance rate; FRR is the false rejection rate. EER is the operating point where the two error rates are equal."
+        "A threshold is the similarity score we use to decide if two samples match. FAR means False Acceptance Rate, when the wrong identity is accepted. FRR means False Rejection Rate, when the correct identity is rejected. EER is the point where FAR and FRR are equal. Lower EER is better."
       ],
       [
         "What are Git and Linux, and how did you use them?",
-        "Git tracks code changes and versions. Linux is the operating environment used for much of my Python research workflow. I used them while organizing scripts, running experiments and working with project files."
+        "Git helps track changes in code, so I can see different versions of my scripts. Linux is the operating system I use for much of my Python research work, including running experiments and checking files."
       ]
     ]
   },
@@ -410,55 +410,55 @@ const raw = [
     "rows": [
       [
         "Why start in PTE instead of AI/ML engineering?",
-        "I am interested in applying my strengths to real production testing, where measurements and abnormal results matter. I understand the domain is different, and I want to learn the semiconductor side rather than claim I am already an expert."
+        "I still like AI and machine learning, but I am also interested in engineering work where results must be tested carefully. PTE involves data, testing, and solving problems in real production. I want to learn this field and use the skills I already have in Python and analysis."
       ],
       [
         "What can your CS background not yet provide for PTE?",
-        "I do not yet have practical ATE or semiconductor hardware experience. I need to learn those tools, electrical concepts and company procedures. I can bring software, data analysis and careful testing skills from the start."
+        "I do not yet have hands-on semiconductor ATE or electronics testing experience. I would need to learn the test equipment, electrical basics, and company procedures. What I can bring now is Python, data analysis, and experience checking results carefully."
       ],
       [
         "What if your supervisor gives you a task you have never done?",
-        "I would clarify the expected result, read the relevant instructions, try a small safe step and ask questions before making risky changes. I would give progress updates and document what I learn."
+        "I would first ask what the expected result is and what procedure I should follow. Then I would read the instructions and try to understand the steps. If something is unclear or could affect production, I would ask my supervisor before making changes."
       ],
       [
         "What if the same test keeps failing after you try to fix it?",
-        "I would stop repeating random changes. I would check whether the failure is repeatable, review the logs and recent changes, compare with a working condition and ask the responsible engineers for help."
+        "I would first check the error and the test data again, instead of trying random changes. Then I would compare it with a working case and look at recent changes. If the failure continues, I would ask a more experienced engineer and share what I already checked."
       ],
       [
         "What if you notice suspicious test results but another engineer says they are fine?",
-        "I would explain the data and why I am concerned, then ask for a second check. If product quality or safety may be affected, I would follow the team's escalation procedure rather than ignore the concern."
+        "I would politely show the result and explain why it worries me. I might be missing some information, so I would ask the other engineer to help check it. If there is still a possible quality problem, I would follow the team procedure and report it to the responsible person."
       ],
       [
         "Tell me about working with your professor or research teammates.",
-        "The data collection was team work, while I handled assigned coding and experiments. My professor guides the research direction and reviews results. I try to communicate clearly when an experiment fails or needs a decision."
+        "In our research, we collected data as a team and discussed experiment results with our professor. I worked mainly on my assigned code and evaluations. When I found a problem, I tried to show the result clearly so we could decide what to check next."
       ],
       [
         "How do you manage several tasks with deadlines?",
-        "I list what is important, choose what must be done first, break it into smaller tasks and track the results. If something may be late, I communicate early."
+        "I first list my tasks and their deadlines. Then I start with the work that is most important or has to be completed first. I break bigger tasks into smaller steps. If I see that I may be late, I tell the team early."
       ],
       [
         "What if you made a mistake in an experiment or report?",
-        "I would report the mistake, check which results were affected, correct the analysis and document the change. Hiding it would make later conclusions unreliable."
+        "I would tell my supervisor or team, check how much work was affected, and correct the mistake. In research, one wrong setting can change the result of an experiment, so it is important to be clear about errors and repeat the work when needed."
       ],
       [
         "Why do you want to work in Taiwan?",
-        "I am studying in Taiwan and want to develop my engineering career here. Taiwan has a strong semiconductor industry, and I want to learn in that environment."
+        "I came to Taiwan for my Master's degree, and I would like to start my engineering career here. Taiwan has a strong semiconductor industry, so I see it as a good place to learn and develop my skills."
       ],
       [
         "Where do you see yourself in three years?",
-        "I want to become a reliable engineer who understands the test process, can analyze data independently and help investigate product-testing problems. First I need a strong foundation in semiconductor testing."
+        "In three years, I hope to be a Product Test Engineer who understands the test process well and can handle more problems independently. I want to become good at test-data analysis, debugging, and working with other engineers."
       ],
       [
         "Are you seeking an internship before graduation or full-time afterward?",
-        "My Master's program ends in July 2027. I am open to an appropriate student or internship opportunity before then and mainly a full-time role after graduation, subject to the actual role and applicable rules."
+        "I am still studying, and I expect to graduate in July 2027. If ASE has a suitable internship before graduation, I am interested in discussing it. For a full-time position, I would mainly be available after I finish my Master's."
       ],
       [
         "What are voltage, current, resistance, open and short circuits?",
-        "Voltage is electrical potential, current is the flow of charge and resistance opposes current. Ohm's law is V = I × R. An open circuit is a broken path; a short is an unintended low-resistance connection."
+        "Voltage is the electrical push, current is the flow of electric charge, and resistance makes the flow harder. Ohm's law is V equals I times R. An open circuit has a broken connection. A short circuit has an unwanted low-resistance connection."
       ],
       [
         "Do you have any questions for us?",
-        "Yes, thank you. For a new graduate joining your PTE team, what training is provided during the first few months? Also, would this position focus more on test-data analysis, test-program support or production troubleshooting?"
+        "Yes, thank you. I would like to know what the training is like for a new graduate joining the Product Test Engineer team. Also, what would be the main work in this position: test programs, test-data analysis, or production problem-solving?"
       ]
     ]
   }
