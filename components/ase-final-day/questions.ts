@@ -119,55 +119,55 @@ const raw = [
       ],
       [
         "What is IoU, and what does 0.857 mean?",
-        "IoU means Intersection over Union. It measures how much a predicted ROI overlaps the manually marked ground-truth ROI. A mean IoU of 0.857 means good average overlap, not 85.7% recognition accuracy."
+        "IoU means Intersection over Union. It measures how much our predicted hand region overlaps the correct region marked by a person. A value closer to 1 is better. Our paper reported a mean IoU of 0.857 on held-out subjects. This is ROI localization quality, not biometric recognition accuracy."
       ],
       [
         "What were the main ROI failure cases?",
-        "Some difficult cases included severe hand occlusion, large out-of-plane rotation and motion blur. In these situations MediaPipe landmarks could be inaccurate, which affected the extracted ROI."
+        "The harder images were ones with a partly hidden hand, a hand tilted strongly away from the camera, or motion blur. Sometimes MediaPipe placed the landmarks incorrectly. Then our selected hand area was not aligned properly, so we inspected those cases."
       ],
       [
         "Tell me about one abnormal result you found and how you investigated it.",
-        "A major abnormal result was the drop in verification performance across capture sessions. I compared the score distributions, checked possible ROI and preprocessing issues and tested changes under controlled conditions. I have not proved one single cause."
+        "One problem we found was that verification results became much worse when images were taken in a different session. I first checked the scores and evaluation conditions. Then I looked at things such as ROI alignment and preprocessing and compared possible changes. We are still working on improving that result."
       ],
       [
         "Which lightweight baseline model did you use, and why?",
-        "The main baseline is LAWNet, a published lightweight model from earlier work in my professor's research group. We used it as a reference point because our goal is lightweight recognition and better robustness."
+        "For my current verification experiments, the main baseline is LAWNet. It is an existing published lightweight biometric model, not a model I invented. We reproduced and tested it so we had a clear reference before trying our own changes."
       ],
       [
         "Did you develop LAWNet yourself?",
-        "No. LAWNet was already published. I reproduced and benchmarked it for my research. My own current architecture experiments are separate and still ongoing."
+        "No. LAWNet is a published model from earlier research. My work was to reproduce and evaluate it on our data. I am also studying changes and lightweight model candidates, but I should not claim LAWNet is my own design."
       ],
       [
         "What happened to performance when the capture session changed?",
-        "Same-session verification was much better. In an earlier frozen target evaluation, EER was about 3.53% indoors and 5.33% outdoors, but about 14.57% across sessions. These are baseline evaluation numbers, not a result for my unfinished final model."
+        "The error rate became much higher when the capture session changed. In one earlier baseline evaluation, EER was about 3.53% for indoor same-session testing, 5.33% for outdoor same-session testing, and 14.57% across sessions. So the same model struggled when the conditions changed."
       ],
       [
         "How did you measure the performance drop? What are EER and similarity scores?",
-        "The model produces feature vectors. We compare them using similarity scores for genuine and different-identity pairs. EER is the error rate at the point where false acceptance and false rejection rates are equal. Higher EER is worse."
+        "We use the model to make an embedding, or feature vector, for each image. Then we compare two embeddings using similarity scores. We test genuine pairs and different-person pairs. EER means Equal Error Rate. A lower EER is better, and it helps us compare how the model performs in different conditions."
       ],
       [
         "What changes did you compare, and how did you decide if they helped?",
-        "I compared preprocessing and lightweight architecture changes under the same evaluation conditions. I checked more than one metric because an improvement in one number can come with a worse result elsewhere. I did not accept every good-looking result."
+        "I compared image-preprocessing methods and lightweight model changes. To make the comparison fair, I used the same dataset splits and evaluation rules. I checked several results, not just one good number. Some changes did not help, so the final model is still being selected."
       ],
       [
         "Why are you still developing the final model? What is left to finish?",
-        "We have completed important parts such as ROI processing, baseline evaluation and controlled experiments. We are still working on robustness and lightweight architecture selection. Final recognition performance and full mobile integration are not finished."
+        "The ROI and evaluation parts are working, and we have already tested published baseline models. But performance still drops when the capture conditions change. We are testing lightweight model ideas to improve that. We also need to finish choosing the model and integrating the full recognition system on a mobile device."
       ],
       [
         "Why did you use ONNX before finalizing the model?",
-        "I already had a trained embedding model to test with. I exported that working model to ONNX and checked its output using ONNX Runtime. This helped validate the local inference path separately from the unfinished final architecture."
+        "We already had a trained model, even though the final model was not chosen. I used that model to test whether we could export it from PyTorch to ONNX and run it with ONNX Runtime. I also compared the outputs. This let me check the inference process early, without saying the final model was ready."
       ],
       [
         "What did you use SQLite for in the biometric system?",
-        "I used SQLite-backed local storage for biometric embeddings or templates so they could be loaded again for matching. It was part of a local test workflow, not a finished production deployment. I would check my actual code before claiming an exact table schema."
+        "SQLite is a small database that works locally. In our local biometric test, it was used to store the feature vectors, called embeddings or templates, so we could load them again and compare them during matching. It was a test setup, not a finished production system."
       ],
       [
         "Did you deploy the final model on a smartphone?",
-        "No. The team has used a phone app for collecting images, and I have worked with local inference and mobile-oriented validation. But the complete final recognition system has not been deployed as a finished smartphone app."
+        "Not yet. We already used a mobile application to collect hand pictures, and we have tested an inference pipeline using ONNX Runtime. But the complete recognition model has not been integrated and finished as a mobile application. Mobile deployment is our next goal."
       ],
       [
         "Tell me about your AIAT 2026 paper and your contribution.",
-        "The accepted paper is 'Landmark-Based Dorsal Hand Vein ROI Extraction from Unconstrained RGB Images.' I am a co-author and will present it in Tokyo in December 2026. My work included ROI implementation, evaluation and checking results. It is accepted, not yet presented."
+        "The paper is called 'Landmark-Based Dorsal Hand Vein ROI Extraction from Unconstrained RGB Images.' It explains how we find a consistent region on the back of the hand from ordinary RGB photos. I worked on the processing and evaluation side. I am a co-author, and the paper is accepted for presentation at AIAT 2026 in Tokyo this December."
       ]
     ]
   },
@@ -183,47 +183,47 @@ const raw = [
       ],
       [
         "What does OSAT stand for?",
-        "OSAT means Outsourced Semiconductor Assembly and Test. Chip companies can use specialized companies such as ASE for packaging and testing services."
+        "OSAT means Outsourced Semiconductor Assembly and Test. It means a company like ASE provides packaging and testing services for semiconductor customers."
       ],
       [
         "Explain the complete semiconductor flow from design to shipment.",
-        "First the chip is designed, then manufactured on a silicon wafer. The dies may go through wafer probing or CP. The wafer is cut, selected dies are packaged, and the packaged devices go through final test or FT. Good units are packed and shipped."
+        "First, a company designs the chip. Then a foundry makes many chips on a silicon wafer. The dies may be tested while still on the wafer; this is CP or wafer probe. Next the wafer is cut into dies. The selected dies are packaged, and the packaged chips go through FT, or final test. Passing devices are packed and shipped."
       ],
       [
         "What is the difference between a wafer, die and packaged chip?",
-        "A wafer is the large round silicon disk. A die is one small chip area cut from the wafer. A packaged chip is the die protected and connected inside a package."
+        "A wafer is a large round silicon disk with many chips on it. A die is one small chip on that wafer. After the die is put into a protective package with electrical connections, we call it a packaged chip."
       ],
       [
         "What is the difference between a chip-design company, foundry and ASE?",
-        "The design company creates the circuit design. The foundry manufactures it on silicon wafers. ASE mainly provides assembly and testing services. Exact services vary by customer and product."
+        "The design company decides what the chip should do and designs the circuits. The foundry manufactures those circuits on a silicon wafer. ASE mainly takes care of packaging and testing, depending on what the customer needs."
       ],
       [
         "When a processed wafer arrives at ASE, what happens next?",
-        "Depending on the customer flow, ASE may perform wafer probing, identify passing dies, separate the dies, package them, run final tests, then pack and ship the good devices."
+        "It depends on which services the customer orders. In a common flow, ASE can test the dies on the wafer using CP, then the wafer is cut, good dies are packaged, and the packaged chips go through final test. Passing products are then packed and shipped."
       ],
       [
         "What is CP or wafer probing?",
-        "CP, also called wafer probe or wafer sort, electrically tests dies while they are still on the wafer. A prober, probe card and ATE are commonly used."
+        "CP means Chip Probe, often called wafer probe or wafer sort. It means testing each die before cutting and packaging it. A prober positions the wafer, a probe card touches the die, and ATE runs the electrical tests."
       ],
       [
         "What is FT or final test?",
-        "Final test is electrical testing after the semiconductor has been packaged. The handler positions the device in a socket or test interface, and ATE runs tests and collects results."
+        "FT means Final Test. It happens after the chip is packaged. A handler moves the devices to the test position, and ATE runs electrical tests to see whether each chip meets the required limits."
       ],
       [
         "What is the difference between CP and FT?",
-        "CP is before packaging and tests dies on the wafer through a probe card. FT is after packaging and tests packaged devices through sockets and test hardware."
+        "CP tests the die while it is still on the wafer, before packaging. FT tests the chip after it has been packaged. An easy way to remember it is: CP before packaging, FT after packaging."
       ],
       [
         "What is wafer dicing?",
-        "Dicing cuts the wafer into individual silicon dies so selected dies can continue to assembly."
+        "Dicing means cutting the large silicon wafer into separate small dies. After that, good dies can move to the packaging stage."
       ],
       [
         "Explain the main packaging steps.",
-        "A simple example is die preparation, die attach, wire bonding or flip chip, molding or protection, possible plating and marking, then trim/form where needed. The exact steps depend on the package."
+        "A simple packaging flow is: prepare the die, attach it to a base, connect it using tiny wires or flip-chip bumps, protect it with molding, and do marking and any required finishing steps such as plating or trim and form. Then it can go for final testing. The exact steps depend on the package type."
       ],
       [
         "What is the difference between wire bonding and flip chip?",
-        "Wire bonding uses tiny wires to connect a die to the package. Flip chip places the die face-down and uses small bumps to make the connections."
+        "With wire bonding, tiny metal wires connect the die to the package. With flip chip, the die is turned face-down and connected through small bumps. Both methods make electrical connections, but they do it in different ways."
       ],
       [
         "Why does a chip need packaging?",
