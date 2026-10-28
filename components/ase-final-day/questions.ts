@@ -11,63 +11,63 @@ const raw = [
     "rows": [
       [
         "Tell me about yourself.",
-        "Good morning. I am Manideep from India, and I am studying for my Master's in Computer Science and Information Engineering at Asia University. I expect to graduate in July 2027. My research is on RGB dorsal-hand biometric verification. I work with Python, testing, data analysis and debugging. I am interested in ASE's Product Test Engineer role because I want to use those skills while learning semiconductor testing."
+        "Good morning. My name is Manideep Reddy, and I am from India. I am doing my Master's in Computer Science and Information Engineering at Asia University in Taiwan. I expect to graduate in July 2027. I also work on a dorsal-hand biometric research project. My work mainly involves Python, image processing, testing models, checking results, and finding problems. Our research paper has been accepted for presentation at AIAT 2026 in Japan. I want to join ASE as a Product Test Engineer because I enjoy testing, analyzing data, and solving problems, and I want to learn the semiconductor field."
       ],
       [
         "Walk me through your resume.",
-        "My education is in Computer Science and AI. My main experience is my ongoing research at Asia University. I worked on hand-image processing, model evaluation, abnormal results and a local ONNX/SQLite inference workflow. I also co-authored an accepted AIAT 2026 paper. My current strengths are Python, careful testing and data analysis."
+        "I completed my B.Tech in Computer Science with AI and Machine Learning in India. Now I am doing my Master's at Asia University. My main experience is my dorsal-hand biometric research, where I work on image processing, Python experiments, model testing, and analysis. I have also worked with ONNX Runtime and SQLite for a local inference test. One paper from this work was accepted for presentation. That is why I am interested in applying my testing and analysis skills to ASE."
       ],
       [
         "Why do you want to join ASE?",
-        "ASE is a major semiconductor assembly and test company. Testing is an important part of its work. I want to learn semiconductor testing and use my experience with data, experiments and debugging in a real engineering environment."
+        "ASE is known for semiconductor packaging and testing. I am interested in the testing side because I already enjoy checking results and solving problems in my research. I also want to learn how real semiconductor products are tested in a factory. ASE would be a good place for me to learn from experienced engineers and grow in this field."
       ],
       [
         "Why do you want to become a Product Test Engineer?",
-        "I like testing a system, checking results and finding out why something changed. In my research I compare experiments and investigate abnormal results. PTE also works with test data, yield and problems, so the way of working interests me."
+        "I like working with test results. In my research, I run experiments, compare the results, and check why something goes wrong. I understand that a Product Test Engineer works with test programs, test data, product yield, and abnormal results. The hardware will be new to me, but I am interested in learning it."
       ],
       [
         "You studied CS and AI. Why are you applying for a semiconductor testing role?",
-        "The hardware is new to me, but the testing approach is familiar. I already use Python, analyze data, compare conditions and debug unexpected results. I want to build on those skills and learn semiconductor test equipment and procedures."
+        "My degree is in CS and AI, but my research involves a lot of testing and problem-solving. I use Python, compare data, check errors, and test changes step by step. Those skills are useful in product testing too. I know I still have to learn semiconductor hardware and ATE, and I am ready to do that."
       ],
       [
         "Why should we hire you instead of an EE graduate?",
-        "An EE graduate may know more electronics. My strength is software, data analysis and repeatable testing. I can contribute those skills while learning the hardware and company test process. I would not claim that I already know everything in semiconductor testing."
+        "My background is different from an Electrical Engineering graduate's. I can bring strong Python, data analysis, and testing skills. In my research, I have learned to investigate unexpected results carefully. I still need training in semiconductor equipment and electronics, but I can learn that while contributing on the software and data side."
       ],
       [
         "What do you know about ASE?",
-        "ASE mainly provides outsourced semiconductor assembly and testing. After wafers or dies are made, ASE can test dies, package them and perform final testing to check the customer's requirements before shipment."
+        "ASE stands for Advanced Semiconductor Engineering. It is mainly known for semiconductor assembly, packaging, and testing. After a foundry manufactures the wafer, ASE can test the dies, package them, and test the finished devices before they are shipped. ASE also offers other advanced packaging and test services."
       ],
       [
         "What are your main strengths?",
-        "My strength is systematic problem solving. When a result looks wrong, I first check the data and conditions, then compare possible causes and test changes one by one."
+        "One of my strengths is that I do not give up when a result looks wrong. In my research, we saw a big performance drop when images were taken in different sessions. I checked the results, compared conditions, and tested possible improvements. I like finding problems step by step instead of guessing."
       ],
       [
         "What is your biggest weakness?",
-        "Sometimes I explain too many technical details. I am working on answering the main question first, giving one example and stopping unless the interviewer wants more details."
+        "Sometimes I spend too much time checking small details, especially when an experiment gives an unexpected result. I am learning to manage my time better by deciding which checks are most important first and keeping a clear deadline for each task."
       ],
       [
         "What achievement are you most proud of?",
-        "I am proud that our dorsal-hand ROI work was accepted as a conference paper and that I contributed to the implementation and evaluation. It took careful testing and checking difficult cases, not just running code."
+        "I am proud of contributing to our dorsal-hand ROI research paper, which has been accepted for presentation at AIAT 2026. I worked on the image-processing and evaluation side. Seeing our work reach a conference was a big achievement for me because it came from many rounds of testing and improvement."
       ],
       [
         "Tell me about a difficult problem you faced and how you handled it.",
-        "In our research, verification results became much worse when capture conditions changed. I compared same-session and cross-session results, checked scores and possible preprocessing or alignment issues, and tested changes under controlled conditions. The final robustness problem is still being studied."
+        "In my research, a model worked better when images came from the same session, but its performance dropped with images from another session. I checked the evaluation results, compared the conditions, and tested different preprocessing and model changes. The problem is not fully solved yet, but it taught me how to investigate a difficult result carefully."
       ],
       [
         "What do you do when you do not know how to solve a problem?",
-        "I first make sure I understand the problem. Then I check the data, read documentation, try a small test and ask my professor or teammates when I need guidance. I record what I tried."
+        "First, I try to understand what the problem really is. Then I check the data or error message, read the documentation, and try a small test. If I am still stuck, I ask my professor or teammates and explain what I already tried. That helps me learn and avoid repeating the same mistakes."
       ],
       [
         "When will you graduate, and when can you start working?",
-        "I expect to graduate in July 2027. I would mainly be available for full-time work after graduation. Before then, I am open to discussing a suitable student or internship arrangement if it follows the university and work rules."
+        "I expect to finish my Master's in July 2027. For a full-time job, I would normally be available after graduation. If ASE has a suitable internship or student opportunity before that, I would be happy to discuss it."
       ],
       [
         "Are you willing to relocate to Kaohsiung?",
-        "Yes. I am open to relocating to Kaohsiung for the right Product Test Engineer opportunity."
+        "Yes, I am willing to relocate to Kaohsiung if I get a suitable opportunity at ASE."
       ],
       [
         "Are you willing to work overtime or rotating shifts?",
-        "I understand semiconductor operations may need overtime or shift support. I am open to discussing the team's actual schedule and requirements, and I would like to understand how frequently shifts or overtime are needed."
+        "I understand that semiconductor testing may sometimes need shifts or overtime. I am open to the job requirements. I would also like to understand the actual working schedule so I can prepare properly."
       ]
     ]
   },
@@ -79,43 +79,43 @@ const raw = [
     "rows": [
       [
         "Explain your research project in simple English.",
-        "Our research uses normal RGB images of the back of the hand to check whether two samples belong to the same identity. We locate and align the hand area, extract features using a lightweight model and compare their similarity. A main challenge is that results become worse when pictures are taken in different conditions."
+        "Our research is about recognizing people using pictures of the back of their hands. We use normal RGB cameras, like phone cameras, instead of special sensors. First, we find and align the hand area. Then a model extracts features, and we compare those features to check whether two samples match. The biggest challenge is getting reliable results when lighting or capture conditions change."
       ],
       [
         "Why did your professor start this research? What problem are you trying to solve?",
-        "Many biometric approaches need special cameras. Our project studies whether ordinary RGB cameras can support contactless dorsal-hand biometrics with a lightweight system that could be used on resource-limited devices in the future."
+        "The main goal is to see whether we can use a normal RGB camera for contactless hand biometrics. Many vein-recognition systems use special infrared cameras. We want to study a more accessible method and eventually make it lightweight enough for a phone or similar device. I cannot say the final mobile system is finished yet."
       ],
       [
         "What is the difference between biometric verification and identification?",
-        "Verification checks whether a sample matches a claimed identity, usually one-to-one. Identification asks whose sample it is, usually searching among many enrolled identities. My current baseline experiments focus on verification."
+        "Verification means checking a claimed identity: 'Is this the same person?' Identification means searching for the identity: 'Who is this?' Verification usually compares one person with a reference, while identification searches across many enrolled identities. Our current experiments mainly evaluate verification."
       ],
       [
         "Why use normal RGB smartphone images instead of special infrared cameras?",
-        "Ordinary phone cameras are easier to access and do not need a separate infrared sensor. But RGB images are more affected by lighting, pose and capture changes, so recognition is challenging."
+        "The main advantage is that normal RGB cameras are already available on phones, so we do not need a separate infrared camera. The challenge is that normal pictures change a lot with lighting, background, and hand position, so we need good preprocessing and careful testing."
       ],
       [
         "What exactly did YOU do in this research?",
-        "I worked on Python code for the ROI pipeline, preprocessing, model and verification experiments, evaluation and debugging. Data collection was done by the team. My professor guided the research direction and reviewed the work."
+        "My main work is on the software and experiments. I worked on extracting and aligning the hand region, running models, checking their results, and comparing performance under different capture conditions. I also tested a local inference workflow using ONNX Runtime and SQLite. The data collection was team work, not something I did alone."
       ],
       [
         "How did you collect the images? Did you collect all the data yourself?",
-        "We collected dorsal-hand pictures in indoor and outdoor conditions as a team. The broader project used a smartphone capture application. I did not collect every image alone."
+        "We collected pictures of the back of both hands using smartphones, with indoor and outdoor capture sessions. The team worked together on data collection, and the images were stored for research. I worked on my assigned processing and evaluation tasks too. I did not collect every image myself."
       ],
       [
         "What do 3,134 usable images and 314 identities mean?",
-        "These are the broader research data: 3,140 raw RGB images, of which 3,134 were usable, across 314 hand identities. The two hands are treated as separate biometric identities. This is not the same as the paper-specific dataset."
+        "In the broader research dataset, we had 3,140 raw images and 3,134 usable images. There were 157 volunteers, and we treated each left hand and right hand as a separate identity. That gives 314 hand identities. So 314 does not mean 314 different people."
       ],
       [
         "Why does your accepted paper use 1,600 images from 80 volunteers instead?",
-        "That paper used a specific annotated dataset for evaluating the ROI extraction method. The broader research dataset has 3,134 usable images and 314 hand identities. They are different evaluation scopes, so I keep the numbers separate."
+        "The 1,600 images from 80 volunteers belong to the ROI extraction paper's own evaluation dataset. The 3,134 usable images and 314 hand identities belong to our broader recognition research. We used different data scopes for different experiments, so I keep these numbers separate."
       ],
       [
         "What is ROI, and why do you need ROI extraction?",
-        "ROI means Region of Interest. For us it is the useful area on the back of the hand. Extracting and aligning it helps the model compare the same hand region instead of background or inconsistent image positions."
+        "ROI means Region of Interest. In our project, it is the useful area on the back of the hand. We cut out that area and align it so the model sees a more similar region across images. Otherwise, different hand positions and backgrounds can make comparisons difficult."
       ],
       [
         "How does your ROI extraction work using MediaPipe and OpenCV?",
-        "MediaPipe finds hand landmarks. We use the landmark positions to estimate the dorsal-hand region and its orientation. OpenCV helps with geometric alignment and perspective transformation so we get more consistent ROI images."
+        "First, MediaPipe detects landmarks on the hand. We use selected landmarks to locate the area on the back of the hand and estimate its direction. Then OpenCV helps rotate or transform that region into a standard crop. This gives the model a more consistent input."
       ],
       [
         "What is IoU, and what does 0.857 mean?",
