@@ -11,19 +11,19 @@ const raw = [
     "rows": [
       [
         "Tell me about yourself.",
-        "Good morning. My name is Manideep Reddy, and I am from India. I am doing my Master's in Computer Science and Information Engineering at Asia University in Taiwan. I expect to graduate in July 2027. I also work on a dorsal-hand biometric research project. My work mainly involves Python, image processing, testing models, checking results, and finding problems. Our research paper has been accepted for presentation at AIAT 2026 in Japan. I want to join ASE as a Product Test Engineer because I enjoy testing, analyzing data, and solving problems, and I want to learn the semiconductor field."
+        "Good morning. My name is Manideep Reddy, and I am from India. I am doing my Master's in Computer Science and Information Engineering at Asia University in Taiwan, and I expect to graduate in July 2027. I work as a research assistant on a project using RGB images of the back of the hand for biometric verification. My work includes Python, image processing, controlled model tests, and checking unexpected results. Our ROI research paper has been accepted for presentation at AIAT 2026. I am interested in ASE's Product Test Engineer role because I enjoy testing, analyzing results, and finding practical solutions."
       ],
       [
         "Walk me through your resume.",
-        "I completed my B.Tech in Computer Science with AI and Machine Learning in India. Now I am doing my Master's at Asia University. My main experience is my dorsal-hand biometric research, where I work on image processing, Python experiments, model testing, and analysis. I have also worked with ONNX Runtime and SQLite for a local inference test. One paper from this work was accepted for presentation. That is why I am interested in applying my testing and analysis skills to ASE."
+        "I studied Computer Science with AI and Machine Learning in India. Now I am studying for my Master's at Asia University and working as a research assistant. In my research I develop image-processing code, test published models, compare results, and investigate failures. I have also tested ONNX inference and used SQLite to store biometric embeddings locally. These experiences taught me a careful way of working with data, which I hope to apply in semiconductor product testing."
       ],
       [
         "Why do you want to join ASE?",
-        "ASE is known for semiconductor packaging and testing. I am interested in the testing side because I already enjoy checking results and solving problems in my research. I also want to learn how real semiconductor products are tested in a factory. ASE would be a good place for me to learn from experienced engineers and grow in this field."
+        "ASE is an important semiconductor packaging and testing company. I learned that its work includes wafer probing, package assembly, and final testing. I am especially interested in product testing because I enjoy comparing test results, finding unusual results, and solving problems step by step. I want to learn semiconductor test equipment while using my Python and data-analysis skills."
       ],
       [
         "Why do you want to become a Product Test Engineer?",
-        "I like working with test results. In my research, I run experiments, compare the results, and check why something goes wrong. I understand that a Product Test Engineer works with test programs, test data, product yield, and abnormal results. The hardware will be new to me, but I am interested in learning it."
+        "I like finding out why a test result is different from what we expected. In my research, I compare experiments, check the data, and look for possible causes when a model performs badly. I learned that PTE work includes monitoring yield, checking test results, helping with test validation, and investigating failures. That is the kind of practical engineering work I want to learn."
       ],
       [
         "You studied CS and AI. Why are you applying for a semiconductor testing role?",
@@ -31,15 +31,15 @@ const raw = [
       ],
       [
         "Why should we hire you instead of an EE graduate?",
-        "My background is different from an Electrical Engineering graduate's. I can bring strong Python, data analysis, and testing skills. In my research, I have learned to investigate unexpected results carefully. I still need training in semiconductor equipment and electronics, but I can learn that while contributing on the software and data side."
+        "An electrical engineering graduate may know more electronics at the start. I can add Python, data analysis, and experience with careful testing. For example, I investigated why our biometric model performed worse across capture sessions by comparing conditions and results. I can use that same problem-solving approach while learning ASE's test tools and procedures."
       ],
       [
         "What do you know about ASE?",
-        "ASE stands for Advanced Semiconductor Engineering. It is mainly known for semiconductor assembly, packaging, and testing. After a foundry manufactures the wafer, ASE can test the dies, package them, and test the finished devices before they are shipped. ASE also offers other advanced packaging and test services."
+        "ASE stands for Advanced Semiconductor Engineering. It is an outsourced semiconductor assembly and test company. Depending on the customer's needs, it can provide wafer probing, packaging, final test, and other test services. A foundry manufactures the circuits on wafers; ASE mainly supports the assembly and testing stages."
       ],
       [
         "What are your main strengths?",
-        "One of my strengths is that I do not give up when a result looks wrong. In my research, we saw a big performance drop when images were taken in different sessions. I checked the results, compared conditions, and tested possible improvements. I like finding problems step by step instead of guessing."
+        "I am patient when I work on a difficult problem, and I try to use evidence instead of guessing. In my research, verification performance dropped when we tested images from another capture session. I compared the results and tested possible changes step by step. I learned to keep clear records and not jump to a conclusion."
       ],
       [
         "What is your biggest weakness?",
@@ -47,11 +47,11 @@ const raw = [
       ],
       [
         "What achievement are you most proud of?",
-        "I am proud of contributing to our dorsal-hand ROI research paper, which has been accepted for presentation at AIAT 2026. I worked on the image-processing and evaluation side. Seeing our work reach a conference was a big achievement for me because it came from many rounds of testing and improvement."
+        "I am proud of helping with our dorsal-hand ROI research paper. I worked on the image-processing and evaluation work, and the paper was accepted for presentation at AIAT 2026. It means a lot to me because we needed repeated testing and improvements to get the work ready."
       ],
       [
         "Tell me about a difficult problem you faced and how you handled it.",
-        "In my research, a model worked better when images came from the same session, but its performance dropped with images from another session. I checked the evaluation results, compared the conditions, and tested different preprocessing and model changes. The problem is not fully solved yet, but it taught me how to investigate a difficult result carefully."
+        "Our biometric model gave much worse results when images came from a different capture session. I compared the test conditions and similarity results, checked image processing, and tried changes under the same evaluation setup. We have not solved the problem completely yet, but the work taught me to investigate unexpected results carefully instead of guessing."
       ],
       [
         "What do you do when you do not know how to solve a problem?",
@@ -79,11 +79,11 @@ const raw = [
     "rows": [
       [
         "Explain your research project in simple English.",
-        "Our research is about recognizing people using pictures of the back of their hands. We use normal RGB cameras, like phone cameras, instead of special sensors. First, we find and align the hand area. Then a model extracts features, and we compare those features to check whether two samples match. The biggest challenge is getting reliable results when lighting or capture conditions change."
+        "Our research checks whether normal RGB photos of the back of a hand can be used for biometric verification. We collect hand photos, find and align the useful hand region, and use a model to make feature vectors called embeddings. Then we compare the embeddings to decide whether two samples match. One big challenge is keeping the results reliable across different capture sessions."
       ],
       [
         "Why did your professor start this research? What problem are you trying to solve?",
-        "The main goal is to see whether we can use a normal RGB camera for contactless hand biometrics. Many vein-recognition systems use special infrared cameras. We want to study a more accessible method and eventually make it lightweight enough for a phone or similar device. I cannot say the final mobile system is finished yet."
+        "We want to study contactless hand verification using an ordinary RGB camera, including a smartphone camera. Special near-infrared equipment is not part of our normal image capture. We are researching whether the visible hand patterns contain useful information and how robust the method is when capture conditions change. A lightweight mobile recognition system is a future goal."
       ],
       [
         "What is the difference between biometric verification and identification?",
@@ -95,19 +95,19 @@ const raw = [
       ],
       [
         "What exactly did YOU do in this research?",
-        "My main work is on the software and experiments. I worked on extracting and aligning the hand region, running models, checking their results, and comparing performance under different capture conditions. I also tested a local inference workflow using ONNX Runtime and SQLite. The data collection was team work, not something I did alone."
+        "I worked on hand-region extraction and alignment using Python, OpenCV, and MediaPipe. I also reproduced a published model, ran controlled tests, compared results, and checked difficult cases. I tested ONNX Runtime inference and local embedding storage with SQLite. Image collection was team work, while these processing and evaluation tasks were part of my own research work."
       ],
       [
         "How did you collect the images? Did you collect all the data yourself?",
-        "We collected pictures of the back of both hands using smartphones, with indoor and outdoor capture sessions. The team worked together on data collection, and the images were stored for research. I worked on my assigned processing and evaluation tasks too. I did not collect every image myself."
+        "Our team used smartphones to collect RGB photos of the back of people's left and right hands during indoor and outdoor sessions. We used a mobile image-collection application. I took part in team collection and worked on my own data-processing and evaluation tasks. I did not collect every photo myself."
       ],
       [
         "What do 3,134 usable images and 314 identities mean?",
-        "In the broader research dataset, we had 3,140 raw images and 3,134 usable images. There were 157 volunteers, and we treated each left hand and right hand as a separate identity. That gives 314 hand identities. So 314 does not mean 314 different people."
+        "The broader recognition research dataset has 3,134 usable RGB hand images and 314 biometric hand identities. We treat a person's left hand and right hand as different hand identities, so the identity count is not the same as the number of people. This broader dataset is separate from the dataset used for our ROI paper."
       ],
       [
         "Why does your accepted paper use 1,600 images from 80 volunteers instead?",
-        "The 1,600 images from 80 volunteers belong to the ROI extraction paper's own evaluation dataset. The 3,134 usable images and 314 hand identities belong to our broader recognition research. We used different data scopes for different experiments, so I keep these numbers separate."
+        "The paper tests hand-region extraction, while the broader dataset supports our ongoing biometric verification experiments. They have different purposes and data scopes, so their image totals should not be mixed. I can check the paper's exact sample count if the interviewer asks for it."
       ],
       [
         "What is ROI, and why do you need ROI extraction?",
@@ -119,7 +119,7 @@ const raw = [
       ],
       [
         "What is IoU, and what does 0.857 mean?",
-        "IoU means Intersection over Union. It measures how much our predicted hand region overlaps the correct region marked by a person. A value closer to 1 is better. Our paper reported a mean IoU of 0.857 on held-out subjects. This is ROI localization quality, not biometric recognition accuracy."
+        "IoU means Intersection over Union. It measures how much the detected hand region overlaps the manually marked reference region. A score of 1 would mean perfect overlap. Our accepted ROI paper reports a mean IoU of 0.857 on held-out subjects. That measures ROI localization, not biometric verification accuracy."
       ],
       [
         "What were the main ROI failure cases?",
@@ -127,23 +127,23 @@ const raw = [
       ],
       [
         "Tell me about one abnormal result you found and how you investigated it.",
-        "One problem we found was that verification results became much worse when images were taken in a different session. I first checked the scores and evaluation conditions. Then I looked at things such as ROI alignment and preprocessing and compared possible changes. We are still working on improving that result."
+        "One important result was that our verification model performed much worse when images came from different capture sessions. I checked the evaluation conditions, compared similarity results, reviewed ROI alignment, and tested changes using the same evaluation setup. The exact cause and the best solution are still being studied."
       ],
       [
         "Which lightweight baseline model did you use, and why?",
-        "For my current verification experiments, the main baseline is LAWNet. It is an existing published lightweight biometric model, not a model I invented. We reproduced and tested it so we had a clear reference before trying our own changes."
+        "LAWNet is a published lightweight model originally developed for RGB wrist-vein verification. I used it as a baseline in our dorsal-hand research so we could compare experiments against an existing method. I reproduced and evaluated the model; I did not design the original LAWNet."
       ],
       [
         "Did you develop LAWNet yourself?",
-        "No. LAWNet is a published model from earlier research. My work was to reproduce and evaluate it on our data. I am also studying changes and lightweight model candidates, but I should not claim LAWNet is my own design."
+        "No. LAWNet is an existing published model. My contribution was reproducing and testing it on our dorsal-hand data and comparing results. I am also working on other lightweight model ideas, but the final architecture is still being studied."
       ],
       [
         "What happened to performance when the capture session changed?",
-        "The error rate became much higher when the capture session changed. In one earlier baseline evaluation, EER was about 3.53% for indoor same-session testing, 5.33% for outdoor same-session testing, and 14.57% across sessions. So the same model struggled when the conditions changed."
+        "The verification error became much higher when the capture session changed. That tells us a model that works on familiar capture conditions may be less reliable on new conditions. I compare the same-session and cross-session results to measure that gap. The final model and final performance numbers are still under study."
       ],
       [
         "How did you measure the performance drop? What are EER and similarity scores?",
-        "We use the model to make an embedding, or feature vector, for each image. Then we compare two embeddings using similarity scores. We test genuine pairs and different-person pairs. EER means Equal Error Rate. A lower EER is better, and it helps us compare how the model performs in different conditions."
+        "The model gives each image a feature vector, called an embedding. We compare two embeddings using similarity scores, including pairs from the same hand and different hands. We calculate error rates at different thresholds. EER is the error rate where false acceptance and false rejection are roughly equal. Lower EER means better verification performance under that test setup."
       ],
       [
         "What changes did you compare, and how did you decide if they helped?",
@@ -151,11 +151,11 @@ const raw = [
       ],
       [
         "Why are you still developing the final model? What is left to finish?",
-        "The ROI and evaluation parts are working, and we have already tested published baseline models. But performance still drops when the capture conditions change. We are testing lightweight model ideas to improve that. We also need to finish choosing the model and integrating the full recognition system on a mobile device."
+        "The ROI extraction and testing workflow are working, and we have tested published baseline models. However, verification becomes less reliable when capture sessions change. We are comparing ways to improve that while keeping the model lightweight. Choosing the final model and completing the mobile recognition application are still future work."
       ],
       [
         "Why did you use ONNX before finalizing the model?",
-        "We already had a trained model, even though the final model was not chosen. I used that model to test whether we could export it from PyTorch to ONNX and run it with ONNX Runtime. I also compared the outputs. This let me check the inference process early, without saying the final model was ready."
+        "I used an existing trained model to check the export and inference process early. I exported it from PyTorch to ONNX, ran it with ONNX Runtime, and compared the outputs with PyTorch. This helped us test one part of a future deployment workflow before selecting the final recognition model."
       ],
       [
         "What did you use SQLite for in the biometric system?",
@@ -163,11 +163,11 @@ const raw = [
       ],
       [
         "Did you deploy the final model on a smartphone?",
-        "Not yet. We already used a mobile application to collect hand pictures, and we have tested an inference pipeline using ONNX Runtime. But the complete recognition model has not been integrated and finished as a mobile application. Mobile deployment is our next goal."
+        "We have used a mobile application to collect RGB hand images, and I tested an ONNX Runtime inference workflow. The completed biometric recognition model has not yet been integrated into a finished smartphone application. Mobile deployment is one of our research goals."
       ],
       [
         "Tell me about your AIAT 2026 paper and your contribution.",
-        "The paper is called 'Landmark-Based Dorsal Hand Vein ROI Extraction from Unconstrained RGB Images.' It explains how we find a consistent region on the back of the hand from ordinary RGB photos. I worked on the processing and evaluation side. I am a co-author, and the paper is accepted for presentation at AIAT 2026 in Tokyo this December."
+        "Our paper is called 'Landmark-Based Dorsal Hand Vein ROI Extraction from Unconstrained RGB Images.' It explains how we detect and align a useful hand region in normal RGB photos. I worked on image processing and evaluation and am a co-author and scheduled presenter. The paper has been accepted for presentation at AIAT 2026 in Tokyo in December; the presentation has not happened yet."
       ]
     ]
   },
@@ -179,7 +179,7 @@ const raw = [
     "rows": [
       [
         "What does ASE do?",
-        "ASE is mainly a semiconductor assembly and test company. After wafers or dies are manufactured, ASE can perform wafer testing, package the good dies, and then perform final testing on the packaged chips. ASE checks whether the devices meet the customer's specifications before shipment."
+        "ASE mainly provides semiconductor assembly and testing services. After a foundry makes the wafer, ASE may perform wafer probing, package the selected dies, and test the packaged chips. The exact steps depend on the services the customer orders. The goal is to check that products meet the required test specifications."
       ],
       [
         "What does OSAT stand for?",
@@ -187,7 +187,7 @@ const raw = [
       ],
       [
         "Explain the complete semiconductor flow from design to shipment.",
-        "First, a company designs the chip. Then a foundry makes many chips on a silicon wafer. The dies may be tested while still on the wafer; this is CP or wafer probe. Next the wafer is cut into dies. The selected dies are packaged, and the packaged chips go through FT, or final test. Passing devices are packed and shipped."
+        "First, engineers design the chip. A foundry makes the circuits on a silicon wafer. In a common flow, wafer probing checks the dies before dicing, then the wafer is separated into dies. The selected dies are packaged, and packaged devices go through final test. Passing devices are then prepared for shipment. Some products have extra steps, and the exact flow depends on the package."
       ],
       [
         "What is the difference between a wafer, die and packaged chip?",
@@ -199,19 +199,19 @@ const raw = [
       ],
       [
         "When a processed wafer arrives at ASE, what happens next?",
-        "It depends on which services the customer orders. In a common flow, ASE can test the dies on the wafer using CP, then the wafer is cut, good dies are packaged, and the packaged chips go through final test. Passing products are then packed and shipped."
+        "It depends on the customer's order. For wafer sort, a prober and probe card connect dies on the wafer to test equipment. After testing, the wafer can be diced and selected dies move to packaging. Packaged devices are then tested at final test if that service is included."
       ],
       [
         "What is CP or wafer probing?",
-        "CP means Chip Probe, often called wafer probe or wafer sort. It means testing each die before cutting and packaging it. A prober positions the wafer, a probe card touches the die, and ATE runs the electrical tests."
+        "CP is also called wafer probing or wafer sort. It tests individual dies while they are still on the wafer, before packaging. A prober positions the wafer, a probe card makes electrical contact with the die pads or bumps, and ATE runs the required tests."
       ],
       [
         "What is FT or final test?",
-        "FT means Final Test. It happens after the chip is packaged. A handler moves the devices to the test position, and ATE runs electrical tests to see whether each chip meets the required limits."
+        "FT means Final Test. It usually happens after packaging. A handler brings the packaged device to the test socket or contact area, and ATE checks its electrical or functional behavior against the test limits."
       ],
       [
         "What is the difference between CP and FT?",
-        "CP tests the die while it is still on the wafer, before packaging. FT tests the chip after it has been packaged. An easy way to remember it is: CP before packaging, FT after packaging."
+        "CP, or wafer probe, tests dies while they are still on the wafer. FT tests packaged devices after assembly. Both help find defects, but the contact equipment and test conditions are different."
       ],
       [
         "What is wafer dicing?",
@@ -219,7 +219,7 @@ const raw = [
       ],
       [
         "Explain the main packaging steps.",
-        "A simple packaging flow is: prepare the die, attach it to a base, connect it using tiny wires or flip-chip bumps, protect it with molding, and do marking and any required finishing steps such as plating or trim and form. Then it can go for final testing. The exact steps depend on the package type."
+        "The flow depends on the package. For a common wire-bond package, the die is prepared and attached to a support, tiny wires make electrical connections, and the assembly is protected by molding. Marking, plating, trim-and-form, and other finishing steps may follow where needed. Flip-chip packages connect the die through bumps and use a different assembly flow. Final test checks the packaged device."
       ],
       [
         "What is the difference between wire bonding and flip chip?",
@@ -231,19 +231,19 @@ const raw = [
       ],
       [
         "What are ATE, a prober and a probe card?",
-        "ATE means Automatic Test Equipment. It sends test signals and measures how the chip responds. At wafer test, a prober moves the wafer to the correct position, and a probe card makes electrical contact with the die."
+        "ATE means Automatic Test Equipment. It applies electrical signals and measures the device's response. At wafer sort, a prober positions the wafer and a probe card contacts the die. The prober and probe card connect the die to the tester; they are not the tester themselves."
       ],
       [
         "What are a handler, socket and load board?",
-        "A handler moves packaged chips into the test position. A socket holds the chip and makes electrical contact. A load board connects the socket and chip to the ATE. They work together during final testing."
+        "A handler moves packaged devices into position for testing. A socket makes electrical contact with the packaged chip. A load board is the interface board connecting the socket or other contacts to the ATE. Together they support the final-test setup."
       ],
       [
         "What do DUT and binning mean?",
-        "DUT means Device Under Test. It is the chip being tested. Binning means sorting chips into groups based on their test results, such as pass, fail, or different performance categories."
+        "DUT means Device Under Test: the device currently being measured. Binning means putting tested units into categories based on results. Some bins indicate passing performance grades and others indicate failures. A failure bin tells us which test failed, but not always the physical root cause."
       ],
       [
         "What is a test program, and what can ATE test?",
-        "A test program tells the ATE which tests to run and what the passing limits are. Depending on the product, it can test things like voltage, current, timing, and whether the chip works correctly."
+        "A test program controls which measurements the ATE runs, the order of those tests, and the pass/fail limits. Depending on the chip, tests may check voltage, current, leakage, timing, and function. Engineers validate and maintain the program so the measurements are reliable."
       ],
       [
         "What is semiconductor yield? Calculate 950 passes out of 1,000.",
@@ -251,23 +251,23 @@ const raw = [
       ],
       [
         "If yield drops from 95% to 80%, what would you do?",
-        "First, I would confirm that the yield number and test data are correct. Then I would check when the drop started and which lots, wafers, testers, sites, or failure bins are affected. I would look for recent changes, inform the responsible engineer, and help test possible causes using the approved procedure. After that, I would check whether the yield improves."
+        "I would first confirm the yield calculation and find out when the drop started. Then I would compare lots, wafers, testers, test sites, and failure bins to see the pattern. I would report the issue quickly, check approved logs and recent changes, and work with the responsible engineer on controlled checks. I would not change production limits without authorization."
       ],
       [
         "Why compare lots, wafers, testers, sites and failure bins?",
-        "Because they help us find where the problem is happening. For example, if most failures come from one tester or one test site, we should check that setup. If they happen only on one wafer or lot, the cause may be somewhere else. We use the pattern to decide what to investigate next."
+        "These comparisons help us narrow down where the failure is happening. A problem concentrated on one tester or site can point toward the test setup, while a problem limited to certain lots or wafers may have a different cause. The pattern tells us what to check first; it does not prove the root cause."
       ],
       [
         "How can you tell whether a failure is caused by the device or test setup?",
-        "I would first check the failure data and whether the same problem happens repeatedly. Then I would compare results from other testers or sites and check the setup and recent changes. With approval, the team could repeat a test under controlled conditions. I would not decide that the chip is bad before checking the test setup."
+        "I would compare failures across testers, sites, and lots and review recent changes to the setup. A bad contact or test setting can make a good device appear to fail. With approval, engineers may repeat a test or compare with a known good setup. The test pattern is a clue, not final proof that the chip or tester is defective."
       ],
       [
         "What is NPI?",
-        "NPI means New Product Introduction. It is when a new chip or product is prepared for manufacturing. For testing, engineers need to check that the test program, equipment, limits, and process are ready before normal production."
+        "NPI means New Product Introduction. When a new device is prepared for production, the team checks that its test program, test hardware, limits, and data collection are ready. The test process must be validated before moving into regular production."
       ],
       [
         "What does a Product Test Engineer do at ASE?",
-        "A Product Test Engineer helps make sure semiconductor products are tested correctly. The work can include checking test programs and test equipment, analyzing yield and failure data, investigating abnormal results, and supporting new product testing. A PTE also works with other engineers to solve problems and improve the test process."
+        "An ASE Product Test Engineer helps monitor test yield, analyze test data, investigate abnormal results, validate new-product test processes, and work with other teams on improvements. Depending on the assignment, the engineer may also support test programs and test equipment. The focus is reliable, repeatable product testing in production."
       ]
     ]
   },
@@ -366,7 +366,7 @@ const raw = [
       ],
       [
         "How do you store and retrieve an embedding using SQLite?",
-        "In our local test, the model generated an embedding and SQLite stored it as a biometric template. When we needed to compare a new image, the program could load the stored template and calculate similarity. I would use my actual code to explain the exact table columns and how the numbers are saved."
+        "In our local test, the model created an embedding for a hand image, and SQLite stored it as a reference biometric template. When another image was checked, the program loaded the stored template and compared the embeddings. It was a local research test, not a completed production database system."
       ],
       [
         "What is the difference between PyTorch and ONNX Runtime?",
@@ -394,7 +394,7 @@ const raw = [
       ],
       [
         "What are a verification threshold, FAR, FRR and EER?",
-        "A threshold is the similarity score we use to decide if two samples match. FAR means False Acceptance Rate, when the wrong identity is accepted. FRR means False Rejection Rate, when the correct identity is rejected. EER is the point where FAR and FRR are equal. Lower EER is better."
+        "A threshold is the similarity score used to accept or reject a claimed match. FAR is the rate at which samples from the wrong identity are accepted. FRR is the rate at which genuine samples are rejected. EER is the approximate error rate at a threshold where FAR and FRR are equal. Lower EER is better; it is not the same as accuracy."
       ],
       [
         "What are Git and Linux, and how did you use them?",
@@ -461,6 +461,66 @@ const raw = [
         "Yes, thank you. I would like to know what the training is like for a new graduate joining the Product Test Engineer team. Also, what would be the main work in this position: test programs, test-data analysis, or production problem-solving?"
       ]
     ]
+  },
+  {
+    "id": "pte-scenarios",
+    "title": "PTE troubleshooting — high-value follow-ups",
+    "subtitle": "New questions from current ASE PTE requirements; practical steps, no invented ATE experience.",
+    "start": 101,
+    "rows": [
+      [
+        "A PTE finds a higher failure rate at one test site. What would you check?",
+        "I would compare that site with the other sites on the same tester and look at the failing test items. Then I would check contact-related problems, socket or load-board condition, and any recent setup changes. I would show the pattern to the responsible engineer and follow the approved troubleshooting procedure."
+      ],
+      [
+        "The same chip passes on one tester but fails on another. What would you do?",
+        "I would check whether the test programs, limits, versions, and conditions match. Then I would look at the failing measurements and compare the hardware interfaces and contact quality. If allowed, the team could perform a controlled correlation check. One different result alone does not prove which tester is wrong."
+      ],
+      [
+        "Many chips suddenly fail the same test. What does that tell you?",
+        "It tells me to look for a common cause, but it does not prove the cause. I would check the failing item, affected lots and sites, time of the change, and recent test or equipment changes. I would report the problem and help the team separate real device failures from test-setup problems."
+      ],
+      [
+        "A test program or test limit changed before the yield dropped. How would you react?",
+        "I would compare the old and new program versions, approved limits, and the timing of the yield change. I would not change a limit just to raise the yield. I would report the finding and ask the responsible engineer to check the change and decide whether a controlled rollback or validation is needed."
+      ],
+      [
+        "What is the difference between a PTE, equipment engineer, and process engineer?",
+        "A Product Test Engineer focuses on product test results, test readiness, yield, and failures. An equipment engineer mainly keeps machines working correctly. A process engineer focuses on manufacturing process conditions and improvements. They work together because one production problem can involve all three areas."
+      ],
+      [
+        "What is the difference between electrical testing and functional testing?",
+        "Electrical testing checks measurements like voltage, current, leakage, and electrical connections. Functional testing checks whether a chip performs the operation it is designed to do. A product's ATE program can include both kinds of checks."
+      ],
+      [
+        "What does test correlation or repeatability mean?",
+        "Repeatability means the same device gives consistent results when tested again under the same conditions. Correlation means comparing results from different testers, test sites, or setups to check whether they agree closely enough. Both matter because a test must be reliable before we trust its yield data."
+      ],
+      [
+        "What does NPI test validation involve?",
+        "For a new product, engineers check the test program, hardware contacts, test limits, data logs, and repeatability. They review abnormal results and confirm that the test process works as required before production release. I would support the data checking and learn the approved validation steps from the team."
+      ],
+      [
+        "What can a failure bin tell you, and what can it not tell you?",
+        "A failure bin groups devices that failed a certain test or category of tests. It helps engineers see patterns and decide where to investigate. The bin alone does not prove which physical component or process caused the failure."
+      ],
+      [
+        "How could you use Python to analyze a semiconductor yield report?",
+        "I could read test-data files, count passed and failed devices, calculate yield, and group results by lot, wafer, tester, site, or bin. Then I could plot the change over time and highlight unusual patterns. I have used Python to compare experimental results, and I would learn ASE's file formats and checks first."
+      ],
+      [
+        "What is the difference between a symptom and a confirmed root cause?",
+        "A yield drop or repeated test failure is a symptom. A possible poor contact or changed setting is a hypothesis. A root cause needs evidence from controlled checks and the team's investigation. I would present what we know separately from what we still need to test."
+      ],
+      [
+        "Why might a die pass wafer probe but fail final test?",
+        "Wafer probe and final test use different contact setups, and packaging can introduce new problems. A packaged chip might also be tested under different conditions or limits. I would compare the exact tests and conditions before deciding why the results changed."
+      ],
+      [
+        "How would you report a yield problem to another team or shift?",
+        "I would clearly share when the issue started, affected lots and testers, current yield, main failure bins, and what checks are already completed. I would separate facts from guesses and explain any open actions. That helps the next engineer continue without repeating work."
+      ]
+    ]
   }
 ] as const;
 export const finalDaySections: FinalDaySection[] = raw.map(section => ({
@@ -470,4 +530,7 @@ export const finalDaySections: FinalDaySection[] = raw.map(section => ({
   }))
 }));
 export const finalDayTotal = finalDaySections.reduce((count, section) => count + section.items.length, 0);
-export const finalDayPriorityNumbers = new Set([1,2,3,4,5,6,7,8,9,10,13,14,15,16,17,20,22,23,24,25,26,27,28,29,30,31,32,34,35,36,37,38,39,40,41,42,44,45,46,47,49,52,54,56,57,61,62,63,64,65,66,68,69,70,71,72,77,80,81,86,88,89,97,98,100]);
+export const finalDayMustKnowNumbers = new Set<number>([1,3,4,5,6,7,13,16,20,26,29,31,37,38,39,41,45,46,47,49,56,57,61,69,100]);
+export const finalDayHighPriorityNumbers = new Set<number>([2,8,9,10,11,12,14,15,18,21,22,24,25,27,28,30,32,33,34,35,36,40,42,43,44,50,52,53,54,55,58,59,60,62,63,64,65,66,67,68,70,71,72,73,74,76,77,79,80,81,83,86,90,91,92,93,99,101,102,103,104,105,106,107,108,109,110,111,112,113]);
+export const finalDayBackupNumbers = new Set<number>([75,78,82,84,85,87,88,89,94,95,96,97,98]);
+export const finalDayPriorityNumbers = new Set<number>([...finalDayMustKnowNumbers, ...finalDayHighPriorityNumbers]);
