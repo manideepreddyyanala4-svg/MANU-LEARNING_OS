@@ -466,7 +466,7 @@ const raw = [
 export const finalDaySections: FinalDaySection[] = raw.map(section => ({
   id: section.id, title: section.title, subtitle: section.subtitle,
   items: section.rows.map((row, index) => ({
-    number: section.start + index, question: row[0], answer: row[1], note: row.length > 2 ? row[2] : undefined
+    number: section.start + index, question: row[0], answer: row[1], note: row.at(2)
   }))
 }));
 export const finalDayTotal = finalDaySections.reduce((count, section) => count + section.items.length, 0);
