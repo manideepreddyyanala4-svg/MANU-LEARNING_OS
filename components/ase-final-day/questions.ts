@@ -531,6 +531,6 @@ export const finalDaySections: FinalDaySection[] = raw.map(section => ({
 }));
 export const finalDayTotal = finalDaySections.reduce((count, section) => count + section.items.length, 0);
 export const finalDayMustKnowNumbers = new Set<number>([1,3,4,5,6,7,13,16,20,26,29,31,37,38,39,41,45,46,47,49,56,57,61,69,100]);
-export const finalDayHighPriorityNumbers = new Set<number>([2,8,9,10,11,12,14,15,18,21,22,24,25,27,28,30,32,33,34,35,36,40,42,43,44,50,52,53,54,55,58,59,60,62,63,64,65,66,67,68,70,71,72,73,74,76,77,79,80,81,83,86,90,91,92,93,99,101,102,103,104,105,106,107,108,109,110,111,112,113]);
+export const finalDayHighPriorityNumbers = new Set<number>([2,8,10,11,12,15,21,22,24,25,28,32,35,36,52,53,54,55,58,59,60,62,72,77,79,80,86,91,92,101,102,103,104,105,108,110,112,113]);
 export const finalDayBackupNumbers = new Set<number>([75,78,82,84,85,87,88,89,94,95,96,97,98]);
 export const finalDayPriorityNumbers = new Set<number>([...finalDayMustKnowNumbers, ...finalDayHighPriorityNumbers]);
