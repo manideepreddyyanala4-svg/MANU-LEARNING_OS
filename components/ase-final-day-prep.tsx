@@ -3,21 +3,21 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { BookOpen, Check, ChevronDown, ClipboardCheck, Eye, EyeOff, RotateCcw, Search, Star, Zap } from 'lucide-react';
-import { finalDayPriorityNumbers, finalDaySections, finalDayTotal, type FinalDayQuestion } from './ase-final-day/questions';
+import { finalDayPriorityNumbers, finalDayMustKnowNumbers, finalDayHighPriorityNumbers, finalDayBackupNumbers, finalDaySections, finalDayTotal, type FinalDayQuestion } from './ase-final-day/questions';
 
-type Filter = 'priority' | 'all' | 'unprepared';
+type Filter = 'high' | 'medium' | 'backup' | 'all' | 'unprepared';
 const STORAGE_KEY = 'manu-ase-2026-final-day-ready-v1';
 
-const essentialNumbers = [1, 3, 4, 5, 6, 7, 16, 20, 26, 28, 29, 31, 35, 36, 39, 41, 47, 56, 57, 61, 62, 69];
+const essentialNumbers = Array.from(finalDayMustKnowNumbers);
 
 export function AseFinalDayPrep() {
   const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState<Filter>('priority');
+  const [filter, setFilter] = useState<Filter>('high');
   const [sectionId, setSectionId] = useState('all');
   const [answersVisible, setAnswersVisible] = useState(true);
   const [ready, setReady] = useState<number[]>([]);
   const [expanded, setExpanded] = useState<number[]>([]);
-  const [onlyEssentials, setOnlyEssentials] = useState(false);
+  const [onlyEssentials, setOnlyEssentials] = useState(true);
 
   useEffect(() => {
     try {
@@ -25,7 +25,7 @@ export function AseFinalDayPrep() {
       if (!raw) return;
       const values: unknown = JSON.parse(raw);
       if (Array.isArray(values)) {
-        setReady(values.filter((value): value is number => typeof value === 'number' && value >= 1 && value <= 100));
+        setReady(values.filter((value): value is number => typeof value === 'number' && value >= 1 && value <= finalDayTotal));
       }
     } catch {
       // Non-critical progress storage
@@ -49,7 +49,9 @@ export function AseFinalDayPrep() {
       ...section,
       items: section.items.filter(item => {
         if (onlyEssentials && !essentialNumbers.includes(item.number)) return false;
-        if (!onlyEssentials && filter === 'priority' && !finalDayPriorityNumbers.has(item.number)) return false;
+        if (!onlyEssentials && filter === 'high' && !finalDayHighPriorityNumbers.has(item.number)) return false;
+        if (!onlyEssentials && filter === 'medium' && (finalDayPriorityNumbers.has(item.number) || finalDayBackupNumbers.has(item.number))) return false;
+        if (!onlyEssentials && filter === 'backup' && !finalDayBackupNumbers.has(item.number)) return false;
         if (filter === 'unprepared' && ready.includes(item.number)) return false;
         return !normalized || String(item.number) === normalized || item.question.toLowerCase().includes(normalized) || item.answer.toLowerCase().includes(normalized) || (item.note?.toLowerCase().includes(normalized) ?? false);
       }),
@@ -74,6 +76,7 @@ export function AseFinalDayPrep() {
     const isReady = ready.includes(item.number);
     const isExpanded = expanded.includes(item.number);
     const showAnswer = answersVisible || isExpanded;
+    const tier = finalDayMustKnowNumbers.has(item.number) ? 'MUST KNOW' : finalDayHighPriorityNumbers.has(item.number) ? 'HIGH PRIORITY' : finalDayBackupNumbers.has(item.number) ? 'BACKUP' : 'MEDIUM';
     return (
       <article key={item.number} id={`ase-final-q-${item.number}`} className={`scroll-mt-24 rounded-2xl border bg-[var(--surface)] p-4 sm:p-5 ${isReady ? 'border-emerald-500/30' : 'border-[var(--line)]'}`}>
         <div className="flex items-start gap-3">
@@ -83,7 +86,7 @@ export function AseFinalDayPrep() {
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <h3 className="max-w-3xl text-sm font-bold leading-6 text-[var(--fg)] sm:text-base">{item.question}</h3>
-              {finalDayPriorityNumbers.has(item.number) && <span className="rounded-full border border-[var(--accent-border)] bg-[var(--accent-subtle)] px-2 py-1 text-[10px] font-bold text-[var(--accent)]">PRIORITY</span>}
+              <span className={`rounded-full border px-2 py-1 text-[10px] font-bold ${finalDayMustKnowNumbers.has(item.number) ? 'border-[var(--accent-border)] bg-[var(--accent-subtle)] text-[var(--accent)]' : 'border-[var(--line)] bg-[var(--bg)] text-[var(--muted)]'}`}>{tier}</span>
             </div>
             {showAnswer && (
               <div className="mt-3 rounded-xl bg-[var(--bg)] p-3 sm:p-4">
@@ -113,7 +116,7 @@ export function AseFinalDayPrep() {
       <header className="rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-5 sm:p-7">
         <div className="flex flex-wrap items-center gap-2">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent-border)] bg-[var(--accent-subtle)] px-3 py-1 text-[11px] font-extrabold text-[var(--accent)]"><Zap size={13} /> TODAY ONLY · ASE OCT 29</span>
-          <span className="text-xs font-semibold text-[var(--muted)]">100 questions · short answers · 1-day preparation</span>
+          <span className="text-xs font-semibold text-[var(--muted)]">{finalDayTotal} questions · short answers · 1-day preparation</span>
         </div>
         <h1 className="mt-3 text-2xl font-black tracking-tight text-[var(--fg)] sm:text-3xl">ASE Final-Day Interview Prep</h1>
         <p className="mt-2 max-w-3xl text-sm leading-7 text-[var(--muted)]">
@@ -137,7 +140,7 @@ export function AseFinalDayPrep() {
           </div>
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
-          <button type="button" onClick={setEssentialView} className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2.5 text-xs font-bold text-white"><Star size={15} /> Start 22 must-know questions</button>
+          <button type="button" onClick={setEssentialView} className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2.5 text-xs font-bold text-white"><Star size={15} /> Start {essentialNumbers.length} must-know questions</button>
           <Link href="/ase-quick-prep" className="inline-flex items-center gap-1.5 rounded-xl border border-[var(--line)] px-4 py-2.5 text-xs font-bold text-[var(--fg)] hover:border-[var(--accent)]"><BookOpen size={15} /> Semiconductor flow</Link>
           <Link href="/job-preparation/ase-final-interview-bank" className="inline-flex items-center gap-1.5 rounded-xl border border-[var(--line)] px-4 py-2.5 text-xs font-bold text-[var(--fg)] hover:border-[var(--accent)]"><ClipboardCheck size={15} /> Full 397-question bank</Link>
         </div>
@@ -146,9 +149,19 @@ export function AseFinalDayPrep() {
       <div className="mt-5 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 sm:p-5">
         <h2 className="text-sm font-extrabold text-[var(--fg)]">30-second memory sheet</h2>
         <div className="mt-3 flex flex-wrap gap-2 text-xs font-bold">
-          {['ASE = Assembly + Test', 'Design → Fab → CP → Dicing → Package → FT → Ship', 'CP = before packaging', 'FT = after packaging', 'ATE = Automatic Test Equipment', 'DUT = Device Under Test', 'Yield = pass / tested × 100'].map(item => <span key={item} className="rounded-lg border border-[var(--line)] bg-[var(--bg)] px-3 py-2 text-[var(--fg)]">{item}</span>)}
+          {['ASE = Assembly + Test', 'Design → Fab → CP → Dicing → Package → FT → Ship (common flow)', 'CP = before packaging', 'FT = after packaging', 'ATE = Automatic Test Equipment', 'DUT = Device Under Test', 'Yield = pass / tested × 100'].map(item => <span key={item} className="rounded-lg border border-[var(--line)] bg-[var(--bg)] px-3 py-2 text-[var(--fg)]">{item}</span>)}
         </div>
-        <p className="mt-3 text-xs leading-6 text-[var(--muted)]">Research reminder: LAWNet is a published baseline, not your invention. The final model and complete mobile recognition deployment are still ongoing. The 3,134-image research dataset is different from the 1,600-image ROI paper dataset.</p>
+        <p className="mt-3 text-xs leading-6 text-[var(--muted)]">Research reminder: LAWNet is a published baseline, not your invention. The final model and complete mobile recognition deployment are still ongoing. The broader 3,134-image research dataset is different from the ROI paper dataset. Do not quote unverified counts or old EER results.</p>
+      </div>
+
+      <div className="mt-3 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4">
+        <h2 className="text-sm font-extrabold text-[var(--fg)]">Why these questions matter</h2>
+        <p className="mt-2 text-xs leading-6 text-[var(--muted)]">ASE's Kaohsiung PTE listing emphasizes test yield, NPI test validation, abnormal yield analysis, and test-data follow-up. ASE's official test-services page describes wafer probing and final test. The extra scenarios are realistic practice questions, not a claimed list of ASE interview questions.</p>
+        <div className="mt-2 flex flex-wrap gap-3 text-xs">
+          <a className="font-semibold text-[var(--accent)] underline" href="https://asekh.aseglobal.com/products-services/test.html" target="_blank" rel="noopener noreferrer">ASE test services</a>
+          <a className="font-semibold text-[var(--accent)] underline" href="https://asekh.aseglobal.com/about-us/join-us.html" target="_blank" rel="noopener noreferrer">ASE careers</a>
+          <a className="font-semibold text-[var(--accent)] underline" href="https://www.104.com.tw/company/yxcvx7k" target="_blank" rel="noopener noreferrer">Kaohsiung PTE job listing</a>
+        </div>
       </div>
 
       <section id="final-day-questions" className="scroll-mt-20 mt-7">
@@ -175,17 +188,19 @@ export function AseFinalDayPrep() {
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-2">
             {([
-              ['priority', 'Priority first'],
-              ['all', 'All 100'],
+              ['high', 'High priority'],
+              ['medium', 'Medium'],
+              ['backup', 'Backup only'],
+              ['all', `All ${finalDayTotal}`],
               ['unprepared', 'Not prepared'],
             ] as const).map(([value,label]) => <button key={value} type="button" onClick={() => {setFilter(value);setOnlyEssentials(false);}} className={`rounded-lg px-3 py-1.5 text-xs font-semibold ${filter===value && !onlyEssentials ? 'bg-[var(--accent)] text-white' : 'border border-[var(--line)] bg-[var(--bg)] text-[var(--muted)]'}`}>{label}</button>)}
-            <button type="button" onClick={setEssentialView} className={`rounded-lg px-3 py-1.5 text-xs font-semibold ${onlyEssentials ? 'bg-[var(--accent)] text-white' : 'border border-[var(--line)] bg-[var(--bg)] text-[var(--muted)]'}`}>22 must-know</button>
+            <button type="button" onClick={setEssentialView} className={`rounded-lg px-3 py-1.5 text-xs font-semibold ${onlyEssentials ? 'bg-[var(--accent)] text-white' : 'border border-[var(--line)] bg-[var(--bg)] text-[var(--muted)]'}`}>{essentialNumbers.length} must-know</button>
             {ready.length > 0 && <button type="button" onClick={() => { if(window.confirm('Clear all prepared check marks?')){setReady([]);try{window.localStorage.removeItem(STORAGE_KEY);}catch{}} }} className="ml-auto inline-flex items-center gap-1 text-xs text-[var(--muted)] hover:text-[var(--fg)]"><RotateCcw size={13} /> Reset</button>}
           </div>
         </div>
 
         <div className="mt-5 space-y-7">
-          {visible.length === 0 && <div className="rounded-xl border border-[var(--line)] p-8 text-center text-sm text-[var(--muted)]">No matching questions. Try another search or choose All 100.</div>}
+          {visible.length === 0 && <div className="rounded-xl border border-[var(--line)] p-8 text-center text-sm text-[var(--muted)]">No matching questions. Try another search or choose All questions.</div>}
           {visible.map(section => (
             <section key={section.id} className="space-y-3" aria-label={section.title}>
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--line)] pb-3">
@@ -201,7 +216,7 @@ export function AseFinalDayPrep() {
         </div>
         {visibleCount > 0 && <div className="mt-8 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 text-center">
           <p className="text-sm font-bold text-[var(--fg)]">Finished reviewing? Test yourself.</p>
-          <p className="mt-1 text-xs text-[var(--muted)]">Hide answers and say each answer without notes. Spend extra time on questions not yet prepared.</p>
+          <p className="mt-1 text-xs text-[var(--muted)]">Hide answers and say each answer without notes. Start with must-know, then high priority. Save backup questions for later.</p>
           <button type="button" onClick={() => {setAnswersVisible(false);setFilter('unprepared');setOnlyEssentials(false);jumpToQuestions();}} className="mt-3 inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-bold text-white"><ChevronDown size={15}/> Practice unanswered questions</button>
         </div>}
       </section>
