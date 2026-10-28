@@ -9,7 +9,6 @@ type Filter = 'priority' | 'all' | 'unprepared';
 const STORAGE_KEY = 'manu-ase-2026-final-day-ready-v1';
 
 const essentialNumbers = [1, 3, 4, 5, 6, 7, 16, 20, 26, 28, 29, 31, 35, 36, 39, 41, 47, 56, 57, 61, 62, 69];
-const critical = finalDaySections.flatMap(section => section.items).filter(item => essentialNumbers.includes(item.number));
 
 export function AseFinalDayPrep() {
   const [search, setSearch] = useState('');
