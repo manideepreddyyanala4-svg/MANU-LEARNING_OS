@@ -31,7 +31,7 @@ const raw = [
       ],
       [
         "Why should we hire you instead of an EE graduate?",
-        "An electrical engineering graduate may know more electronics at the start. I can add Python, data analysis, and experience with careful testing. For example, I investigated why our biometric model performed worse across capture sessions by comparing conditions and results. I can use that same problem-solving approach while learning ASE's test tools and procedures."
+        "An electrical engineering graduate may know more electronics at the start. I can add Python, data analysis, and experience with careful testing. For example, I investigated why our biometric model performed worse across capture sessions by comparing conditions and results. I can use that same problem-solving approach while learning ASE's test tools and procedures.\n\nTo work on that problem, I compared different image preprocessing methods to reduce lighting differences. Our illumination-normalization method worked better than the other methods we tested. We also tested using several reference images taken in different conditions, which improved matching. The problem is not completely solved, but we learned which approaches helped."
       ],
       [
         "What do you know about ASE?",
