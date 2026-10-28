@@ -106,7 +106,7 @@ const raw = [
         "The broader recognition research dataset has 3,134 usable RGB hand images and 314 biometric hand identities. We treat a person's left hand and right hand as different hand identities, so the identity count is not the same as the number of people. This broader dataset is separate from the dataset used for our ROI paper."
       ],
       [
-        "Why does your accepted paper use 1,600 images from 80 volunteers instead?",
+        "Why is the ROI paper dataset different from the broader recognition dataset?",
         "The paper tests hand-region extraction, while the broader dataset supports our ongoing biometric verification experiments. They have different purposes and data scopes, so their image totals should not be mixed. I can check the paper's exact sample count if the interviewer asks for it."
       ],
       [
