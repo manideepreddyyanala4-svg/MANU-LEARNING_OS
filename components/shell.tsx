@@ -24,13 +24,14 @@ import {
   User,
   Lightbulb,
   Zap,
+  ClipboardCheck,
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { loadRoadmap, type RoadmapItem } from '@/lib/store';
 import { subjects, requireClient, type Subject, type Section, type Topic } from '@/lib/learning';
 import type { Route } from 'next';
 import { LearningShell } from '@/components/learning-shell';
-import { SHOW_ASE_QUICK_PREP } from '@/lib/feature-flags';
+import { SHOW_ASE_QUICK_PREP, SHOW_ASE_FINAL_DAY_PREP } from '@/lib/feature-flags';
 
 type NavItem = {
   href: string;
@@ -49,6 +50,9 @@ const navGroups: NavGroup[] = [
     title: 'Execution Workspace',
     items: [
       { href: '/', label: 'Home', icon: LayoutDashboard, subtext: 'Overview & Mission' },
+      ...(SHOW_ASE_FINAL_DAY_PREP
+        ? [{ href: '/ase-final-day', label: 'ASE Final-Day', icon: ClipboardCheck, subtext: '100 Q&A · Today Only' }]
+        : []),
       ...(SHOW_ASE_QUICK_PREP
         ? [{ href: '/ase-quick-prep', label: 'ASE Quick Prep', icon: Zap, subtext: 'Interview Quick Revision' }]
         : []),
@@ -242,7 +246,7 @@ export function Shell({ children }: { children: ReactNode }) {
               <nav className="space-y-0.5">
                 {group.items.map(({ href, label, icon: Icon }) => {
                   const active = path === href || (href !== '/' && path.startsWith(`${href}/`));
-                  const quickPrep = href === '/ase-quick-prep';
+                  const quickPrep = href === '/ase-quick-prep' || href === '/ase-final-day';
                   return (
                     <Link
                       key={href}
@@ -277,7 +281,7 @@ export function Shell({ children }: { children: ReactNode }) {
                                 : 'bg-[var(--surface)] text-[var(--accent)]'
                             }`}
                           >
-                            Interview
+                            {href === '/ase-final-day' ? 'Today' : 'Interview'}
                           </span>
                         )}
                         {active && <span className="h-1.5 w-1.5 rounded-full bg-white/90" />}
@@ -446,7 +450,7 @@ export function Shell({ children }: { children: ReactNode }) {
                   <nav className="space-y-1">
                     {group.items.map(({ href, label, icon: Icon }) => {
                       const active = path === href || (href !== '/' && path.startsWith(`${href}/`));
-                      const quickPrep = href === '/ase-quick-prep';
+                      const quickPrep = href === '/ase-quick-prep' || href === '/ase-final-day';
                       return (
                         <Link
                           key={href}
@@ -471,7 +475,7 @@ export function Shell({ children }: { children: ReactNode }) {
                                   : 'bg-[var(--surface)] text-[var(--accent)]'
                               }`}
                             >
-                              Interview
+                              {href === '/ase-final-day' ? 'Today' : 'Interview'}
                             </span>
                           )}
                         </Link>
