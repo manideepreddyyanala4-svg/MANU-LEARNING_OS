@@ -1,10 +1,7 @@
 /**
- * Temporary interview-preparation navigation switches.
- *
- * After the ASE interview, change SHOW_ASE_QUICK_PREP to false to hide the
- * sidebar item. The /ase-quick-prep route stays available and is not deleted.
+ * ASE interview resources are preserved at their original URLs and in
+ * /job-preparation/ase-archive; they are not active navigation priorities.
+ * Changed October 29, 2026 for the internship-first career plan.
  */
-export const SHOW_ASE_QUICK_PREP = true;
-
-/** Toggle off after the 2026-10-29 ASE interview; page remains available. */
-export const SHOW_ASE_FINAL_DAY_PREP = true;
+export const SHOW_ASE_QUICK_PREP = false;
+export const SHOW_ASE_FINAL_DAY_PREP = false;
