@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { Page, Card, Empty } from '@/components/ui';
 import { createClient } from '@/lib/supabase';
+import { INTERNSHIP_PLAN } from '@/lib/career-plan';
 import { subjects, type Subject, type Topic } from '@/lib/learning';
 import {
   loadPriorities,
@@ -161,7 +162,33 @@ export default function Home() {
       title="Workspace Overview"
       subtitle="Execution engine for technical mastery, career preparation, and engineering study."
     >
-      {/* Personal Why — must be the first major section on Home */}
+      {/* Current career priority — applications first, ASE resources preserved */}
+      <section className="mb-6 rounded-3xl border border-sky-500/30 bg-gradient-to-br from-sky-500/10 via-[var(--surface)] to-indigo-500/10 p-6 shadow-sm md:p-8">
+        <p className="text-[11px] font-black uppercase tracking-[0.16em] text-sky-700 dark:text-sky-300">
+          Active Career Plan · From October 29, 2026
+        </p>
+        <h2 className="mt-3 max-w-4xl text-2xl font-black leading-tight text-[var(--fg)] md:text-3xl">
+          {INTERNSHIP_PLAN.mission}
+        </h2>
+        <p className="mt-3 max-w-3xl text-sm leading-6 text-[var(--muted)]">
+          Applications and relevant experience come first. Build strong evidence through your existing
+          research, Python, computer vision and software projects. Target desk-based technical roles,
+          not equipment maintenance or rotating factory shifts.
+        </p>
+        <div className="mt-5 flex flex-wrap gap-2">
+          <Link href="/job-preparation" className="rounded-xl bg-[var(--accent)] px-4 py-2.5 text-xs font-bold text-white">
+            Open Internship Applications →
+          </Link>
+          <Link href="/settings" className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-2.5 text-xs font-bold text-[var(--fg)]">
+            Activate Plan in Settings
+          </Link>
+          <Link href="/job-preparation/ase-archive" className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-2.5 text-xs font-bold text-[var(--muted)]">
+            ASE Interview · Saved for Later
+          </Link>
+        </div>
+      </section>
+
+      {/* Personal Why — long-term motivation */}
       <section className="relative mb-8 overflow-hidden rounded-[2rem] border border-rose-500/25 bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white shadow-xl">
         <div className="pointer-events-none absolute -left-16 -top-24 h-64 w-64 rounded-full bg-rose-500/20 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-24 -right-16 h-72 w-72 rounded-full bg-sky-500/20 blur-3xl" />
@@ -301,10 +328,10 @@ export default function Home() {
                   Career Focus Lock
                 </p>
                 <h2 className="mt-1 text-2xl font-black tracking-tight text-[var(--fg)] md:text-3xl">
-                  TWO PROJECTS ONLY. GO DEEP. DO NOT START A THIRD.
+                  INTERNSHIP APPLICATIONS FIRST. TWO STRONG PROJECTS.
                 </h2>
                 <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-[var(--muted)]">
-                  The decision is finished. Stop searching for new project ideas. Your advantage will come from deep understanding, strong experiments, and production-quality execution — not project quantity.
+                  Start with real internship applications and recruiter follow-ups. Protect the two existing projects as proof of technical skill; do not add a third project instead of applying.
                 </p>
               </div>
             </div>
@@ -409,15 +436,15 @@ export default function Home() {
               <Target size={13} /> Mission Objective
             </div>
             <h2 className="mt-3 text-2xl font-black tracking-tight text-[var(--fg)] md:text-3xl lg:text-4xl">
-              {settings?.mission ?? 'GET A TECHNICAL INTERNSHIP'}
+              {settings?.mission && !/\b(ase|pte)\b|interview/i.test(settings.mission) ? settings.mission : INTERNSHIP_PLAN.mission}
             </h2>
             <p className="mt-2 text-sm font-medium leading-relaxed text-[var(--muted)]">
-              Internship First. No business or startup research until the technical internship objective is achieved.
+              Internship applications first. Build a relevant AI / CV / software career; ASE PTE interview preparation is saved for later.
             </p>
 
             <div className="mt-5 flex flex-wrap items-center gap-3 text-xs">
               <span className="rounded-lg border border-[var(--line)] bg-[var(--bg)] px-2.5 py-1 font-semibold text-[var(--fg)]">
-                Mode: <span className="text-[var(--accent)]">{settings?.current_mode ?? 'Deep Technical Study'}</span>
+                Mode: <span className="text-[var(--accent)]">{settings?.current_mode && !/\b(ase|pte)\b|interview/i.test(settings.current_mode) ? settings.current_mode : INTERNSHIP_PLAN.current_mode}</span>
               </span>
               <span className="hidden sm:inline text-[var(--muted)]">·</span>
               <span className="rounded-lg border border-[var(--line)] bg-[var(--bg)] px-2.5 py-1 font-semibold text-[var(--muted)]">
@@ -588,11 +615,7 @@ export default function Home() {
               {(priorities.length
                 ? priorities
                 : [
-                    { id: '1', title: 'Internship preparation' },
-                    { id: '2', title: 'Technical learning' },
-                    { id: '3', title: 'Research / thesis' },
-                    { id: '4', title: 'Internship applications' },
-                    { id: '5', title: 'Essential Mandarin' },
+                    ...INTERNSHIP_PLAN.priorities.map((title, i) => ({ id: String(i + 1), title })),
                   ]
               ).map((x, i) => (
                 <div
