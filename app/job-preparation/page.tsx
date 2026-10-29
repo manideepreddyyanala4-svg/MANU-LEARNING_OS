@@ -458,8 +458,8 @@ export default function JobPreparation() {
   return (
     <Page
       eyebrow="Career Execution"
-      title="Job Preparation Workspace"
-      subtitle="Structured pipeline to track applications, target companies, resume versions, and interview technical notes."
+      title="Internship Applications & Career Workspace"
+      subtitle="Active focus: desk-based AI, computer vision, Python, software and software-test internships. ASE PTE interview materials are archived for later."
       actions={
         <div className="flex items-center gap-2">
           {activeTab === 'applications' && (
@@ -537,6 +537,40 @@ export default function JobPreparation() {
           {message}
         </p>
       )}
+
+      <section className="mb-6 rounded-2xl border border-sky-500/25 bg-sky-500/5 p-5 md:p-6">
+        <p className="text-[10px] font-black uppercase tracking-[0.16em] text-sky-700 dark:text-sky-300">
+          Active Mission · Internship Applications
+        </p>
+        <h2 className="mt-2 text-xl font-black text-[var(--fg)]">
+          Find your first relevant AI / CV / Software internship
+        </h2>
+        <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--muted)]">
+          Apply consistently, tailor each resume, follow up, and protect coding and research time.
+          Prioritize computer-based engineering experience with international career value.
+          Skip machinery maintenance and rotating-shift equipment roles.
+        </p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTab('applications');
+              setEditingApp(null);
+              setAppRole('');
+              setAppCompanyId('');
+              setAppLocation('');
+              setAppStatus('saved');
+              setAppModalOpen(true);
+            }}
+            className="rounded-xl bg-[var(--accent)] px-4 py-2.5 text-xs font-bold text-white"
+          >
+            + Track an Internship
+          </button>
+          <a href="/job-preparation/ase-archive" className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-2.5 text-xs font-bold text-[var(--muted)]">
+            ASE PTE Prep · On Hold →
+          </a>
+        </div>
+      </section>
 
       {/* Top Metric Strip */}
       <section className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -943,13 +977,29 @@ export default function JobPreparation() {
       {/* TAB 4: INTERVIEW PREPARATION */}
       {activeTab === 'interview' && (
         <div className="mt-6 space-y-6">
+          <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
+            <h3 className="text-lg font-bold text-[var(--fg)]">Prepare for software and AI internship interviews</h3>
+            <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
+              Current topics: Python, SQL, ML and CV fundamentals, project explanations,
+              coding exercises, and concise behavioral answers. Keep your own notes below.
+            </p>
+          </div>
+          <details className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
+            <summary className="cursor-pointer text-sm font-bold text-[var(--fg)]">
+              ASE PTE Interview Archive — On Hold (expand saved materials)
+            </summary>
+            <p className="mt-2 text-xs leading-5 text-[var(--muted)]">
+              Preserved for a later opportunity. This is not the current preparation target.
+              <a href="/job-preparation/ase-archive" className="ml-1 font-bold text-[var(--accent)]">View archive index →</a>
+            </p>
+            <div className="mt-4 space-y-3">
           <a
             href="/job-preparation/ase-final-interview-bank"
             className="flex items-center justify-between gap-4 rounded-2xl border border-red-500/25 bg-red-500/5 p-5 transition hover:brightness-[0.98]"
           >
             <div>
               <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-red-600 dark:text-red-400">
-                ASE FINAL INTERVIEW · NEW PRIMARY BANK
+                ASE PTE FINAL INTERVIEW · ARCHIVED
               </p>
               <h3 className="mt-1 text-lg font-extrabold text-[var(--fg)]">
                 Open Final Interview Bank — Q1–Q397 with Answers
@@ -995,6 +1045,8 @@ export default function JobPreparation() {
             <span className="text-xl text-purple-600 dark:text-purple-400">→</span>
           </a>
           <AseDay1InterviewPrep />
+            </div>
+          </details>
           <div className="grid gap-4 md:grid-cols-2">
             {notes.map((n) => {
               const cat = categories.find((c) => c.id === n.category_id);
