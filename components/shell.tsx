@@ -25,6 +25,7 @@ import {
   Lightbulb,
   Zap,
   ClipboardCheck,
+  Compass,
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { loadRoadmap, type RoadmapItem } from '@/lib/store';
@@ -50,6 +51,7 @@ const navGroups: NavGroup[] = [
     title: 'Execution Workspace',
     items: [
       { href: '/', label: 'Home', icon: LayoutDashboard, subtext: 'Overview & Mission' },
+      { href: '/life-vision', label: 'Life Vision', icon: Compass, subtext: 'My Values & Long-Term Direction' },
       ...(SHOW_ASE_FINAL_DAY_PREP
         ? [{ href: '/ase-final-day', label: 'ASE Final-Day', icon: ClipboardCheck, subtext: '100 Q&A · Today Only' }]
         : []),
