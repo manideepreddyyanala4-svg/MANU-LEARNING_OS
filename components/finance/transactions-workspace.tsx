@@ -83,7 +83,7 @@ export function FinanceTransactions(){
   const [offset,setOffset]=useState(0);
   const [filterVersion,setFilterVersion]=useState(0);
   const [historyError,setHistoryError]=useState('');
-  const pendingKey=useRef<{fingerprint:string;key:string}|null>(null);
+  const pendingKey=useRef<{fingerprint:string;key:string;storageKey?:string}|null>(null);
   const voidKeys=useRef<Record<string,string>>({});
   const postingKeys=useRef<Record<string,string>>({});
   const requestId=useRef(0);
@@ -170,10 +170,32 @@ export function FinanceTransactions(){
     setFormOpen(false);setEditing(null);setEditingPlan(null);setSaveError('');
     pendingKey.current=null;
   }
-  function stableKey(fingerprint:string){
-    if(pendingKey.current?.fingerprint!==fingerprint)
-      pendingKey.current={fingerprint,key:newKey()};
-    return pendingKey.current.key;
+  async function stableKey(fingerprint:string):Promise<string>{
+    if(pendingKey.current?.fingerprint===fingerprint)return pendingKey.current.key;
+    // Save only a SHA-256 fingerprint and random request UUID in *tab-session*
+    // storage. Never store merchant, amount, notes or whole transaction here.
+    let storageKey:string|undefined;
+    try{
+      const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(fingerprint));
+      const hex=Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,'0')).join('');
+      storageKey='manuos.finance.unconfirmed.'+hex;
+      const saved=window.sessionStorage.getItem(storageKey);
+      if(saved&&/^[0-9a-f-]{36}$/i.test(saved)){
+        pendingKey.current={fingerprint,key:saved,storageKey};
+        return saved;
+      }
+    }catch{
+      // Storage might be blocked by the browser; in-memory retry is still safe.
+    }
+    const key=newKey();
+    pendingKey.current={fingerprint,key,storageKey};
+    if(storageKey)try{window.sessionStorage.setItem(storageKey,key);}catch{}
+    return key;
+  }
+  function clearConfirmedKey(){
+    const storageKey=pendingKey.current?.storageKey;
+    if(storageKey)try{window.sessionStorage.removeItem(storageKey);}catch{}
+    pendingKey.current=null;
   }
   async function afterSave(text:string){
     setMessage(text);setSaveError('');
@@ -214,8 +236,8 @@ export function FinanceTransactions(){
       const fingerprint=JSON.stringify({mode,amountMinor,accountId,categoryId,categoryName,source,note,date,
         scheduled,allocationRules,txId:editing?.id,revision:editing?.revision,planId:editingPlan?.id,
         planRevision:editingPlan?.revision});
-      const key=stableKey(fingerprint);
       busyLock.current=true;setBusy(true);
+      const key=await stableKey(fingerprint);
       let category=mode==='expense'?categoryId:null;
       if(mode==='expense'&&categoryName){
         // Reuse a category created by an earlier uncertain network attempt.
@@ -257,7 +279,7 @@ export function FinanceTransactions(){
       }
       window.localStorage.setItem(QUICK_ACCOUNT,accountId);
       if(mode==='expense'&&category)window.localStorage.setItem(QUICK_CATEGORY,category);
-      pendingKey.current=null;
+      clearConfirmedKey();
       await afterSave(scheduled?
         'Scheduled entry saved. No balance or monthly spending was changed.':
         editing?'Transaction updated once; your bank balances were recalculated.':
