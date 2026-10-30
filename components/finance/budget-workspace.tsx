@@ -32,7 +32,6 @@ function monthTitle(value:string):string{
   return new Intl.DateTimeFormat('en-US',{month:'long',year:'numeric',timeZone:'UTC'})
     .format(new Date(value+'T12:00:00Z'));
 }
-function currentDayInMonth(month:string,day:string){return month.slice(0,7)===day.slice(0,7);}
 
 type BudgetState={
   budget:MonthlyBudget|null;summary:MonthlySummary;daily:BudgetDailyRow[];
