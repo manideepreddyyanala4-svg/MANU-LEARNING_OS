@@ -110,3 +110,24 @@ export async function listFinanceAnalyticsExpenses(
    accountId:r.source_account_id==null?null:String(r.source_account_id)
  }))};
 }
+
+
+export type AnalyticsDaily={
+ date:string;actualMinor:string;consumptionMinor:string;groceryAllocatedMinor:string;
+};
+export async function listFinanceAnalyticsDaily(
+ monthStart:string,filters:AnalyticsFilters={}
+):Promise<AnalyticsDaily[]>{
+ assertISODate(monthStart);
+ if(!monthStart.endsWith('-01'))throw new Error('Invalid analytics month');
+ const rows=await analyticsRpc<Record<string,unknown>[]>('finance_analytics_daily',{
+   p_month_start:monthStart,...filtersArgs(filters)
+ });
+ if(!Array.isArray(rows)||rows.length<28||rows.length>31)
+   throw new Error('Daily analytics response incomplete');
+ return rows.map(r=>({
+   date:String(r.day_date),actualMinor:money(r.actual_minor),
+   consumptionMinor:money(r.consumption_minor),
+   groceryAllocatedMinor:money(r.grocery_allocated_minor)
+ }));
+}
