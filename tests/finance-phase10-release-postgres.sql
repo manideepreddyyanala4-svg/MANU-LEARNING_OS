@@ -35,7 +35,7 @@ begin
  if public.finance_put_transaction(
    p_operation_key=>idempotency,p_kind=>'expense',p_amount_minor=>40000,
    p_txn_date=>'2025-10-28',p_source_account_id=>ctbc_id,
-   p_category_id=>food,p_merchant=>'Retry')<>expense_id
+   p_category_id=>food,p_merchant=>'Example expense')<>expense_id
  then raise exception 'Idempotent expense retry did not return original';end if;
  select balance_minor::numeric into value_minor from public.finance_account_balances where account_id=ctbc_id;
  if value_minor<>260000 then raise exception 'Step 1 CTBC should be NT$2600';end if;
