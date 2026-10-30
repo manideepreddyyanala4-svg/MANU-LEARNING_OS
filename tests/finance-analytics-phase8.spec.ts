@@ -104,6 +104,7 @@ test('unknown, first-start partial and historical completed months are different
  expect(monthStatus({...template,coverage:'unknown'},'2026-10-30')).toContain('unknown');
  expect(monthStatus({...template,coverage:'partial-start'},'2026-10-30')).toContain('partway');
  expect(monthStatus({...template,coverage:'recorded'},'2026-10-30')).toContain('Recorded month');
+ expect(monthStatus({...template,coverage:'future'},'2026-10-30')).toContain('Future month');
 });
 test('hundreds of category rows reconcile without floating point addition',()=>{
  const categories=Array.from({length:500},(_,i)=>({
