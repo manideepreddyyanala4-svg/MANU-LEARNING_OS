@@ -146,6 +146,20 @@ begin
       select 1 from public.finance_categories where user_id=u and id=p_category_id
     ) then raise exception 'Invalid category'; end if;
 
+    -- A newly entered transaction dated before a previously checked balance
+    -- cannot be silently introduced into the already-reconciled historical period.
+    -- Same-day activity is permitted (the schema only stores a date for checks).
+    if not had_old and p_kind in ('income','expense','transfer') and exists (
+      select 1 from public.finance_audit_events h
+      join public.finance_transactions r on r.user_id=u
+        and r.id=(h.after_state->>'transactionId')::uuid
+      where h.user_id=u and h.entity_type='account' and h.action='reconcile'
+        and h.entity_id in (p_source_account_id,p_destination_account_id)
+        and r.kind='adjustment' and p_txn_date<r.txn_date
+    ) then
+      raise exception 'This entry predates a checked balance; review the existing reconciliation before backdating';
+    end if;
+
     if jsonb_typeof(allocations) is distinct from 'array'
       then raise exception 'Allocations must be an array'; end if;
     if jsonb_array_length(allocations) > 100 then raise exception 'Too many allocation items'; end if;
@@ -258,6 +272,67 @@ begin
   end if;
   return tx_id;
 end $$;
+
+-- A reconciliation retry must match the original observed target and account.
+-- Otherwise an unrelated request can misleadingly report a successful write.
+create or replace function public.finance_reconcile_account(
+  p_operation_key uuid,p_account_id uuid,p_target_balance_minor bigint,
+  p_txn_date date,p_reason text
+) returns uuid language plpgsql security definer set search_path = '' as $
+declare
+  u uuid := auth.uid();
+  current_minor numeric;
+  difference numeric;
+  existing_tx uuid;
+  replay_recorded boolean;
+  created_tx uuid;
+begin
+  if u is null then raise exception 'Authentication required' using errcode='28000'; end if;
+  if p_operation_key is null or p_target_balance_minor is null or
+     abs(p_target_balance_minor::numeric)>1000000000000 or
+     length(trim(coalesce(p_reason,'')))<1 then raise exception 'Invalid reconciliation'; end if;
+  perform 1 from public.finance_preferences where user_id=u for update;
+  if not found then raise exception 'Initialize finance first'; end if;
+  select transaction_id into existing_tx from public.finance_ledger_events
+    where user_id=u and operation_key=p_operation_key;
+  if found then
+    select exists(
+      select 1 from public.finance_audit_events h
+      join public.finance_transactions t
+        on t.id=existing_tx and t.user_id=u and t.kind='adjustment'
+      where h.user_id=u and h.entity_type='account' and h.action='reconcile'
+        and h.entity_id=p_account_id
+        and h.after_state->>'transactionId'=existing_tx::text
+        and h.after_state->>'balanceMinor'=p_target_balance_minor::text
+        and h.after_state->>'reason'=p_reason
+        and t.txn_date=p_txn_date
+    ) into replay_recorded;
+    if not replay_recorded then
+      raise exception 'Reconciliation key reused with different account, target, reason or date';
+    end if;
+    return existing_tx;
+  end if;
+  if not exists(select 1 from public.finance_accounts
+     where user_id=u and id=p_account_id and is_active) then
+    raise exception 'Account not active or not owned'; end if;
+  select coalesce(sum(delta_minor),0) into current_minor
+    from public.finance_postings where user_id=u and account_id=p_account_id;
+  difference := p_target_balance_minor::numeric-current_minor;
+  if difference=0 then raise exception 'Balance already matches target'; end if;
+  if abs(difference)>1000000000000 then raise exception 'Reconciliation adjustment exceeds limit'; end if;
+  created_tx := public.finance_put_transaction(
+    p_operation_key,'adjustment',difference::bigint,p_txn_date,
+    p_account_id,null,null,'Balance reconciliation',p_reason
+  );
+  insert into public.finance_audit_events(
+    user_id,entity_type,entity_id,action,before_state,after_state
+  ) values(
+    u,'account',p_account_id,'reconcile',
+    jsonb_build_object('balanceMinor',current_minor::text),
+    jsonb_build_object('balanceMinor',p_target_balance_minor::text,'reason',p_reason,'transactionId',created_tx)
+  );
+  return created_tx;
+end $;
 
 -- Snapshot is assembled while holding the per-owner preference row lock.
 -- All Finance write RPCs touching money use this lock. Never silently truncate.
