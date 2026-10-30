@@ -70,14 +70,14 @@ export function standardDailyAmounts(budgetMinor: MoneyMinor, dayCount: number):
 /** Percentage as integer basis points, 10,000 = 100%; null when budget is zero. */
 export function utilizationBasisPoints(spentMinor: MoneyMinor,budgetMinor:MoneyMinor):string|null {
   const budget=minorBigInt(budgetMinor), spent=minorBigInt(spentMinor);
-  if(budget<0n || spent<0n)throw new Error('Invalid budget or spending');
-  if(budget===0n)return null;
-  return ((spent*10000n+budget/2n)/budget).toString();
+  if(budget<BigInt(0) || spent<BigInt(0))throw new Error('Invalid budget or spending');
+  if(budget===BigInt(0))return null;
+  return ((spent*BigInt(10000)+budget/BigInt(2))/budget).toString();
 }
 export function percentLabel(basisPoints:string|null):string {
   if(basisPoints===null)return 'Not applicable';
   const n=BigInt(basisPoints);
-  return (n/100n).toString()+'.'+(n%100n).toString().padStart(2,'0')+'%';
+  return (n/BigInt(100)).toString()+'.'+(n%BigInt(100)).toString().padStart(2,'0')+'%';
 }
 
 export function buildBudgetProjection(args:{
@@ -94,17 +94,17 @@ export function buildBudgetProjection(args:{
   const end=monthOffset(monthStart,1);
   const budget=minorBigInt(budgetTwdMinor), actual=minorBigInt(actualExpenseMinor);
   const allocated=minorBigInt(allocatedConsumptionMinor);
-  if(budget<0n||actual<0n||allocated<0n)throw new Error('Budget or expenses must not be negative');
+  if(budget<BigInt(0)||actual<BigInt(0)||allocated<BigInt(0))throw new Error('Budget or expenses must not be negative');
   if(daily.length!==days)throw new Error('Missing daily budget breakdown');
   const seen=new Set<string>();
-  let actualTotal=0n, allocatedTotal=0n;
+  let actualTotal=BigInt(0), allocatedTotal=BigInt(0);
   for(const row of daily){
     assertISODate(row.date);
     if(row.date<monthStart||row.date>=end||seen.has(row.date))
       throw new Error('Duplicate or invalid daily date');
     seen.add(row.date);
     const spent=minorBigInt(row.actualMinor), consumed=minorBigInt(row.allocatedMinor);
-    if(spent<0n||consumed<0n)throw new Error('Negative daily spending');
+    if(spent<BigInt(0)||consumed<BigInt(0))throw new Error('Negative daily spending');
     actualTotal+=spent;allocatedTotal+=consumed;
   }
   if(actualTotal!==actual||allocatedTotal!==allocated)
@@ -119,8 +119,8 @@ export function buildBudgetProjection(args:{
   const dailyToday=todayRow?dailyBudgetPosition(today,budgetTwdMinor,allocationRows):null;
   const percentageBasisPoints=utilizationBasisPoints(actualExpenseMinor,budgetTwdMinor);
   const percentage=percentageBasisPoints===null?null:BigInt(percentageBasisPoints);
-  const warning=actual>budget?'over':percentage!==null && percentage>=9000n?'90':
-    percentage!==null && percentage>=7500n?'75':'none';
+  const warning=actual>budget?'over':percentage!==null && percentage>=BigInt(9000)?'90':
+    percentage!==null && percentage>=BigInt(7500)?'75':'none';
   // Current month dynamic average is actual cash-flow remaining / calendar days left.
   // Allocated consumption is a distinct planning metric and never another bank debit.
   const dynamicAllowance=remainingDaysInclusive===null?null:{
