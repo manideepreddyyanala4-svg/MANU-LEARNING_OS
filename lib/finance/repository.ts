@@ -351,6 +351,7 @@ export interface PlannedFinanceEntry {
   id:string; kind:'income'|'expense'; amountMinor:MoneyMinor; dueDate:ISODate;
   accountId:string; categoryId:string|null; merchant:string; note:string;
   status:'planned'|'cancelled'|'posted'; revision:number;
+  allocationRules:GroceryRule[];
   postedTransactionId:string|null; createdAt:string; updatedAt:string;
 }
 export type PlannedFinanceCommand = {
@@ -372,6 +373,11 @@ export async function listFinancePlans(offset=0,limit=20):Promise<{rows:PlannedF
     id:r.id,kind:r.kind,amountMinor:exactMinor(r.amount_minor),
     dueDate:r.due_date,accountId:r.account_id,categoryId:r.category_id,
     merchant:r.merchant,note:r.note,status:r.status,revision:r.revision,
+    allocationRules:(r.allocation_rules??[]).map((a:Record<string,unknown>)=>({
+      itemName:String(a.itemName??''),categoryId:a.categoryId?String(a.categoryId):null,
+      amountMinor:exactMinor(a.amountMinor),startDate:String(a.startDate),
+      durationDays:Number(a.durationDays)
+    })),
     postedTransactionId:r.posted_transaction_id,createdAt:r.created_at,updatedAt:r.updated_at
   }))};
 }
@@ -438,5 +444,67 @@ export async function getBudgetDailyRows(monthStart:ISODate):Promise<
     date:String(row.day_date),
     actualMinor:exactMinor(row.actual_expense_minor),
     allocatedMinor:exactMinor(row.allocated_cost_minor)
+  }));
+}
+
+
+/** Scheduled grocery purchase, including validated allocation definitions.
+ * The plan does not debit the account until explicitly posted on/after its date.
+ */
+export async function saveAllocatedFinancePlan(command:PlannedFinanceCommand & {
+  allocations:GroceryRule[];
+}):Promise<string> {
+  if(command.kind!=='expense' || command.cancel)throw new Error('Only grocery purchase schedules use this action');
+  assertISODate(command.dueDate);
+  const amountMinor=minorBigInt(command.amountMinor).toString();
+  if(minorBigInt(amountMinor)<=BigInt(0))throw new Error('Purchase must be positive');
+  const rules=command.allocations.map(a=>{
+    assertISODate(a.startDate);
+    if(!Number.isInteger(a.durationDays)||a.durationDays<1||a.durationDays>3650)
+      throw new Error('Invalid allocation duration');
+    if(minorBigInt(a.amountMinor)<=BigInt(0))
+      throw new Error('Invalid allocation amount');
+    return {itemName:a.itemName??'',amountMinor:minorBigInt(a.amountMinor).toString(),
+      startDate:a.startDate,durationDays:a.durationDays,categoryId:a.categoryId??null};
+  });
+  const allocated=rules.reduce((sum,a)=>sum+minorBigInt(a.amountMinor),BigInt(0));
+  if(rules.length&&allocated!==minorBigInt(amountMinor))
+    throw new Error('Allocated item amounts do not equal purchase total');
+  return callRpc<string>('finance_upsert_allocated_plan',{
+    p_operation_key:command.idempotencyKey,p_amount_minor:amountMinor,
+    p_due_date:command.dueDate,p_account_id:command.accountId,
+    p_category_id:command.categoryId??null,p_merchant:command.merchant,
+    p_note:command.note,p_plan_id:command.planId??null,
+    p_expected_revision:command.expectedRevision??null,p_allocations:rules
+  });
+}
+
+export interface FinanceDayCost {
+  transactionId:string;
+  merchant:string;
+  purchaseDate:ISODate;
+  categoryId:string|null;
+  itemName:string;
+  amountMinor:MoneyMinor;
+  attributionType:'single'|'allocated';
+}
+
+/** A single day, no entire-history scan in the browser. */
+export async function listDayCostBreakdown(
+  date:ISODate,offset=0,limit=25
+):Promise<FinanceDayCost[]> {
+  assertISODate(date);
+  if(!Number.isSafeInteger(offset)||offset<0||
+    !Number.isSafeInteger(limit)||limit<1||limit>100)
+    throw new Error('Invalid daily breakdown page');
+  const data=await callRpc<Record<string,unknown>[]>('finance_day_cost_breakdown',{
+    p_day:date,p_limit:limit,p_offset:offset
+  });
+  return (data??[]).map(r=>({
+    transactionId:String(r.transaction_id),
+    merchant:String(r.merchant??''),purchaseDate:String(r.txn_date),
+    categoryId:r.category_id?String(r.category_id):null,
+    itemName:String(r.item_name??''),amountMinor:exactMinor(r.amount_minor),
+    attributionType:r.attribution_type as 'single'|'allocated'
   }));
 }
