@@ -50,7 +50,7 @@ test('finance RPC accounting, revisions, retries, reconciliation and RLS (isolat
       p_txn_date:date,p_source_account_id:src,p_destination_account_id:dest,...extra});
 
   const opening=await create('opening','100000',null,a);
-  expect(await balance(a)).toBe(100000n);
+  expect(await balance(a)).toBe(BigInt(100000));
   expect(opening).toBeTruthy();
 
   const paymentKey=key();
@@ -59,13 +59,13 @@ test('finance RPC accounting, revisions, retries, reconciliation and RLS (isolat
     p_allocations:[{itemName:'Staples',amountMinor:'20000',startDate:date,durationDays:3}]};
   const expense=await rpc('finance_put_transaction',payload);
   expect(await rpc('finance_put_transaction',payload)).toBe(expense); // idempotent
-  expect(await balance(a)).toBe(80000n);
+  expect(await balance(a)).toBe(BigInt(80000));
 
   await create('income','600000',null,b);
-  expect(await balance(b)).toBe(600000n);
+  expect(await balance(b)).toBe(BigInt(600000));
   await create('transfer','50000',b,a);
-  expect(await balance(a)).toBe(130000n);
-  expect(await balance(b)).toBe(550000n);
+  expect(await balance(a)).toBe(BigInt(130000));
+  expect(await balance(b)).toBe(BigInt(550000));
   const totalBeforeCash=(await balance(a))+(await balance(b))+(await balance(cash));
   await create('transfer','30000',a,cash);
   const totalAfterCash=(await balance(a))+(await balance(b))+(await balance(cash));
@@ -73,11 +73,11 @@ test('finance RPC accounting, revisions, retries, reconciliation and RLS (isolat
 
   await rpc('finance_put_transaction',{p_operation_key:key(),p_kind:'expense',p_amount_minor:'10000',
     p_txn_date:date,p_source_account_id:a,p_transaction_id:expense,p_expected_revision:1});
-  expect(await balance(a)).toBe(110000n);
+  expect(await balance(a)).toBe(BigInt(110000));
   await rpc('finance_put_transaction',{p_operation_key:key(),p_kind:'expense',p_amount_minor:'10000',
     p_txn_date:date,p_source_account_id:b,p_transaction_id:expense,p_expected_revision:2});
-  expect(await balance(a)).toBe(120000n);
-  expect(await balance(b)).toBe(540000n);
+  expect(await balance(a)).toBe(BigInt(120000));
+  expect(await balance(b)).toBe(BigInt(540000));
 
   const bad=await client.rpc('finance_put_transaction',{p_operation_key:key(),
     p_kind:'expense',p_amount_minor:'999',p_txn_date:date,p_source_account_id:a,
@@ -86,15 +86,15 @@ test('finance RPC accounting, revisions, retries, reconciliation and RLS (isolat
 
   await rpc('finance_void_transaction',{p_operation_key:key(),
     p_transaction_id:expense,p_expected_revision:3});
-  expect(await balance(b)).toBe(550000n);
+  expect(await balance(b)).toBe(BigInt(550000));
   const adjustmentKey=key();
   const adjusted=await rpc('finance_reconcile_account',{p_operation_key:adjustmentKey,
     p_account_id:a,p_target_balance_minor:'77700',p_txn_date:date,p_reason:'Test statement reconciliation'});
-  expect(await balance(a)).toBe(77700n);
+  expect(await balance(a)).toBe(BigInt(77700));
   expect(await rpc('finance_reconcile_account',{p_operation_key:adjustmentKey,
     p_account_id:a,p_target_balance_minor:'77700',p_txn_date:date,p_reason:'Test statement reconciliation'}))
     .toBe(adjusted);
-  expect(await balance(a)).toBe(77700n);
+  expect(await balance(a)).toBe(BigInt(77700));
 
   const category=await rpc('finance_save_category',{p_name:'Test '+randomUUID()});
   expect(category).toBeTruthy();
@@ -117,7 +117,7 @@ test('finance RPC accounting, revisions, retries, reconciliation and RLS (isolat
     create('expense','100',a,null),create('expense','200',a,null)
   ]);
   expect(parallel[0]).not.toBe(parallel[1]);
-  expect(await balance(a)).toBe(77400n);
+  expect(await balance(a)).toBe(BigInt(77400));
   const directWrite=await client.from('finance_postings').insert({
     user_id:randomUUID(),ledger_event_id:randomUUID(),account_id:a,delta_minor:999
   });
