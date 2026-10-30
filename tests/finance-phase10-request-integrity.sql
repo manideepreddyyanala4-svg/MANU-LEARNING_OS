@@ -70,7 +70,7 @@ begin
  if (select count(*) from public.finance_transactions where user_id=owner and kind='expense')<>1
  then raise exception 'Duplicate expense posted';end if;
  select b.balance_minor::numeric into balance
- from public.finance_account_balances b where b.account_id=account_id;
+ from public.finance_account_balances b where b.code='ctbc' and b.user_id=owner;
  if balance<>165000 then raise exception 'Expense deducted more than once: %',balance;end if;
  recon:=public.finance_reconcile_account(
    recon_key,account_id,165500,'2025-10-30','Verified bank app');
