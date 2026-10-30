@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:16
+        image: postgres:17
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -86,7 +86,7 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f tests/finance-postgres-assertions.sql
           psql -v ON_ERROR_STOP=1 -f tests/finance-phase3-postgres.sql
           psql -v ON_ERROR_STOP=1 -f tests/finance-phase4-postgres.sql
-      - name: Phase 5 to 10 financial correctness, backup and release acceptance
+      - name: Phase 5 to 10 on PostgreSQL 17 financial correctness, backup and release acceptance
         run: |
           psql -v ON_ERROR_STOP=1 -f tests/finance-phase5-postgres.sql
           psql -v ON_ERROR_STOP=1 -f tests/finance-phase6-postgres.sql
