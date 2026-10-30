@@ -5,6 +5,7 @@ import { ArrowDownLeft, ArrowUpRight, CalendarClock, Check, CircleAlert, Clock3,
   Pencil, Plus, RefreshCw, Search, Trash2, Wallet } from 'lucide-react';
 import { Card, Empty } from '@/components/ui';
 import { formatMoney, minorBigInt, parseMoney } from '@/lib/finance/money';
+import { accountLedgerMatches } from '@/lib/finance/account-summary';
 import { todayInTaipei, formatFinanceDate, formatFinanceTimestamp } from '@/lib/finance/dates';
 import { listFinanceAccounts, listAccountOverviews,
   listCategories, listFinanceHistory, listFinancePlans,
@@ -151,6 +152,10 @@ export function FinanceTransactions(){
     e.preventDefault();if(busyLock.current)return;
     setSaveError('');
     try{
+      if(loadError || accounts.some(a=>{
+        const overview=overviews.find(o=>o.accountId===a.accountId);
+        return !overview||!accountLedgerMatches(a,overview);
+      }))throw new Error('Account balances need verification before recording more money. Refresh and review the account warning.');
       const amountMinor=parseMoney(amount);
       if(minorBigInt(amountMinor)<=BigInt(0))throw new Error('Enter an amount greater than zero');
       const a=accounts.find(a=>a.accountId===accountId && a.isActive);
