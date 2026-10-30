@@ -394,3 +394,49 @@ export async function postFinancePlan(planId:string,revision:number,key:string):
     p_operation_key:key,p_plan_id:planId,p_expected_revision:revision
   });
 }
+
+
+/** Budget reads remain owner-scoped; no financial mutation or local ledger cache. */
+export async function getFinanceBudgetPreferences(): Promise<{
+  timezone:string; displayCurrency:Currency; currentFxRateId:string|null
+}> {
+  const client=await clientForOwner();
+  const {data,error}=await client.from('finance_preferences')
+    .select('timezone,display_currency,current_fx_rate_id').maybeSingle();
+  if(error)throw new Error(error.message);
+  if(!data)throw new Error('Finance preferences are not initialized');
+  return {timezone:data.timezone,displayCurrency:data.display_currency as Currency,
+    currentFxRateId:data.current_fx_rate_id};
+}
+
+/** A selected month's immutable saved rate snapshot and editable revision. */
+export async function getBudgetForMonth(monthStart:ISODate):Promise<MonthlyBudget|null> {
+  assertISODate(monthStart);
+  if(!monthStart.endsWith('-01'))throw new Error('Invalid selected month');
+  const client=await clientForOwner();
+  const {data,error}=await client.from('finance_budget_details').select('*')
+    .eq('month_start',monthStart).maybeSingle();
+  if(error)throw new Error(error.message);
+  return data?{
+    id:data.id,monthStart:data.month_start,budgetMinor:exactMinor(data.budget_minor),
+    budgetCurrency:data.budget_currency,fxRateId:data.fx_rate_id,
+    fxTwdPerInr:data.fx_twd_per_inr,
+    resolvedTwdMinor:exactMinor(data.resolved_twd_minor),revision:data.revision
+  }:null;
+}
+
+/** Exactly 28–31 daily rows, including prior-month grocery commitments. */
+export async function getBudgetDailyRows(monthStart:ISODate):Promise<
+  import('./budget-dashboard').BudgetDailyRow[]
+> {
+  assertISODate(monthStart);
+  if(!monthStart.endsWith('-01'))throw new Error('Invalid selected month');
+  const data=await callRpc<Record<string,unknown>[]>('finance_daily_budget',{
+    p_month_start:monthStart
+  });
+  return (data??[]).map(row=>({
+    date:String(row.day_date),
+    actualMinor:exactMinor(row.actual_expense_minor),
+    allocatedMinor:exactMinor(row.allocated_cost_minor)
+  }));
+}

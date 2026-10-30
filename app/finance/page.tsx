@@ -1,6 +1,7 @@
 import { Page } from '@/components/ui';
 import { FinanceAccountsWorkspace } from '@/components/finance/accounts-workspace';
 import { FinanceTransactions } from '@/components/finance/transactions-workspace';
+import { FinanceBudgetWorkspace } from '@/components/finance/budget-workspace';
 import { FinanceQuickLauncher } from '@/components/finance/quick-launcher';
 
 export const metadata = {
@@ -14,6 +15,7 @@ export default function FinancePage(){
       actions={<FinanceQuickLauncher />}
       subtitle="Track Post Bank, CTBC and your cash wallet together. Balances reflect what you record, not live bank data.">
       <FinanceAccountsWorkspace />
+      <FinanceBudgetWorkspace />
       <FinanceTransactions />
     </Page>
   );
