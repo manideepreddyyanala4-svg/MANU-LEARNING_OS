@@ -352,7 +352,8 @@ export function FinanceAnalytics(){
              prev.monthStart<thisMonth(today);
            const delta=pastComparable?
              (minorBigInt(m.expenseMinor)-minorBigInt(prev.expenseMinor)).toString():null;
-           const utilization=m.budgetMinor===null?'No budget':
+           const utilization=!noFilters(filters)?'Filtered expenses; overall budget not compared':
+             m.budgetMinor===null?'No budget':
              percentLabel(utilizationBasisPoints(m.expenseMinor,m.budgetMinor));
            return <div key={m.monthStart} className="grid grid-cols-[66px_minmax(0,1fr)] items-center gap-2 rounded-xl py-2 sm:grid-cols-[90px_minmax(0,1fr)_150px]">
              <span className="text-xs font-semibold text-[var(--fg)]">{nameMonth(m.monthStart)}</span>
@@ -368,7 +369,8 @@ export function FinanceAnalytics(){
                {m.coverage==='unknown'?'Unknown':num(m.expenseMinor)}
                <span className="block text-[var(--muted)]">
                  {m.budgetMinor===null?'No saved budget':
-                   'Budget '+num(m.budgetMinor)+' · '+utilization}
+                   noFilters(filters)?'Budget '+num(m.budgetMinor)+' · '+utilization:
+                     'Overall monthly budget '+num(m.budgetMinor)+' (not compared to filtered spending)'}
                  {delta!==null?' · vs previous '+num(delta):''}
                </span>
              </p>
