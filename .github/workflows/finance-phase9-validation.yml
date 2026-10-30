@@ -93,3 +93,5 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f tests/finance-phase7-postgres.sql
           psql -v ON_ERROR_STOP=1 -f tests/finance-phase8-postgres.sql
           psql -v ON_ERROR_STOP=1 -f tests/finance-phase9-postgres.sql
+      - name: Read-only finance integrity diagnostic
+        run: psql -v ON_ERROR_STOP=1 -f tests/finance-phase9-integrity-diagnostics.sql
