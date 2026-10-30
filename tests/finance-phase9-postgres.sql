@@ -164,7 +164,7 @@ reset role;
 -- archived without truncation. The synthetic bulk rows are isolated to test DB.
 insert into public.finance_categories(user_id,code,name)
 select '00000000-0000-4000-8000-00000000000d'::uuid,
-  'bulk-'+i::text,'Synthetic category '+i::text
+  'bulk-'||i::text,'Synthetic category '||i::text
 from pg_catalog.generate_series(1,1100) i;
 set role authenticated;
 do $$
