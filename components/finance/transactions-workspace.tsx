@@ -9,6 +9,7 @@ import { allocationRulesForDraft, draftFromSavedRules,
   type PurchaseAllocationDraft } from '@/lib/finance/allocation-editor';
 import { formatMoney, minorBigInt, parseMoney } from '@/lib/finance/money';
 import { accountLedgerMatches } from '@/lib/finance/account-summary';
+import { persistentFinanceOperationKey, clearConfirmedFinanceOperation } from '@/lib/finance/pending-intent';
 import { todayInTaipei, formatFinanceDate, formatFinanceTimestamp } from '@/lib/finance/dates';
 import { listFinanceAccounts, listAccountOverviews,
   listCategories, listFinanceHistory, listFinancePlans, listAllocationDefinitions, getFinanceTransaction,
@@ -35,6 +36,10 @@ function amountText(minor:string,kind:string){
   return (kind==='income'?'+':kind==='expense'?'-':'')+formatMoney(minor,'TWD');
 }
 function newKey(){return crypto.randomUUID();}
+function safePreference(key:string):string|null{
+ try{return typeof window==='undefined'?null:window.localStorage.getItem(key);}
+ catch{return null;}
+}
 function dayIsFuture(date:string){return date>todayInTaipei();}
 function accountLabel(id:string|null,accounts:FinanceAccount[]){
   return accounts.find(a=>a.accountId===id)?.name??'Unknown account';
@@ -150,12 +155,12 @@ export function FinanceTransactions(){
     }else setAllocationLoading(false);
     const selected=tx?(next==='expense'?tx.sourceAccountId:tx.destinationAccountId):
       plan?.accountId??null;
-    const preference=typeof window!=='undefined'?window.localStorage.getItem(QUICK_ACCOUNT):null;
+    const preference=safePreference(QUICK_ACCOUNT);
     const chosen=selected??(accounts.some(a=>a.accountId===preference && a.isActive)?preference:
       accounts.find(a=>a.isActive)?.accountId??'');
     setAccountId(chosen??'');
     const cat=tx?.categoryId??plan?.categoryId??null;
-    const lastCategory=typeof window!=='undefined'?window.localStorage.getItem(QUICK_CATEGORY):null;
+    const lastCategory=safePreference(QUICK_CATEGORY);
     setCategoryId(cat??((categories.some(c=>c.id===lastCategory && !c.isArchived)?lastCategory:
       categories.find(c=>c.code==='other' && !c.isArchived)?.id??categories.find(c=>!c.isArchived)?.id)??''));
     setDate(record?(tx?tx.txnDate:plan?.dueDate??todayInTaipei()):todayInTaipei());
@@ -170,10 +175,10 @@ export function FinanceTransactions(){
     setFormOpen(false);setEditing(null);setEditingPlan(null);setSaveError('');
     pendingKey.current=null;
   }
-  function stableKey(fingerprint:string){
-    if(pendingKey.current?.fingerprint!==fingerprint)
-      pendingKey.current={fingerprint,key:newKey()};
-    return pendingKey.current.key;
+  async function stableKey(fingerprint:string){
+    const key=await persistentFinanceOperationKey(fingerprint);
+    pendingKey.current={fingerprint,key};
+    return key;
   }
   async function afterSave(text:string){
     setMessage(text);setSaveError('');
@@ -214,8 +219,8 @@ export function FinanceTransactions(){
       const fingerprint=JSON.stringify({mode,amountMinor,accountId,categoryId,categoryName,source,note,date,
         scheduled,allocationRules,txId:editing?.id,revision:editing?.revision,planId:editingPlan?.id,
         planRevision:editingPlan?.revision});
-      const key=stableKey(fingerprint);
       busyLock.current=true;setBusy(true);
+      const key=await stableKey(fingerprint);
       let category=mode==='expense'?categoryId:null;
       if(mode==='expense'&&categoryName){
         // Reuse a category created by an earlier uncertain network attempt.
@@ -255,15 +260,23 @@ export function FinanceTransactions(){
           allocations:mode==='expense'?allocationRules:[],
         });
       }
-      window.localStorage.setItem(QUICK_ACCOUNT,accountId);
-      if(mode==='expense'&&category)window.localStorage.setItem(QUICK_CATEGORY,category);
+      // Browser preference storage must not misreport a completed ledger payment.
+      try{
+        window.localStorage.setItem(QUICK_ACCOUNT,accountId);
+        if(mode==='expense'&&category)window.localStorage.setItem(QUICK_CATEGORY,category);
+      }catch{}
       pendingKey.current=null;
+      await clearConfirmedFinanceOperation(fingerprint);
       await afterSave(scheduled?
         'Scheduled entry saved. No balance or monthly spending was changed.':
         editing?'Transaction updated once; your bank balances were recalculated.':
         (mode==='expense'?'Expense saved and deducted from the chosen account.':
           'Income saved and added to the receiving account.'));
-    }catch(err){setSaveError(errorText(err));}
+    }catch(err){
+      const uncertain=/network|fetch|timeout|timed out|connection/i.test(errorText(err));
+      setSaveError(errorText(err)+(uncertain?
+        ' Server outcome may be uncertain. Refresh transaction history before retrying; identical form details reuse the original operation ID.':''));
+    }
     finally{busyLock.current=false;setBusy(false);}
   }
 

@@ -224,14 +224,17 @@ export async function getMonthlySummary(monthStart:ISODate):Promise<MonthlySumma
   };
 }
 
-/** Future export route will use these owner-scoped readers, never raw service credentials. */
-export async function financeExportSnapshot() {
-  const [accounts,transactions,categories,budgets,fxRates,allocations]=await Promise.all([
-    listFinanceAccounts(),listTransactions(true),listCategories(),
-    listMonthlyBudgets(),listManualExchangeRates(),listAllocationDefinitions()
-  ]);
-  return {schemaVersion:1,exportedAt:new Date().toISOString(),manuallyTracked:true,
-    accounts,transactions,categories,budgets,fxRates,allocations};
+/** One consistent owner-owned MVCC snapshot; never a truncated browser page. */
+export async function financeExportSnapshot():Promise<import('./backup').FinanceBackup> {
+  const raw=await callRpc<unknown>('finance_full_backup');
+  const {validateFinanceBackup}=await import('./backup');
+  return validateFinanceBackup(raw).backup;
+}
+/** Read-only ledger invariant diagnostics, scoped to the current authenticated owner. */
+export async function financeIntegrityReport():Promise<import('./backup').FinanceIntegrityReport> {
+  const raw=await callRpc<unknown>('finance_integrity_report');
+  const {validateIntegrityReport}=await import('./backup');
+  return validateIntegrityReport(raw);
 }
 
 
