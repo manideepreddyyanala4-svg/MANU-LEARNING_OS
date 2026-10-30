@@ -80,17 +80,17 @@ export function purchasePreview(draft:PurchaseAllocationDraft):{
 /** Owner-authenticated saved definitions from finance_allocation_details. */
 export function draftFromSavedRules(
   amountMinor:MoneyMinor,purchaseDate:string,
-  rules:{itemName:string;amountMinor:MoneyMinor;startDate:string;durationDays:number}[]
+  rules:GroceryRule[]
 ):Pick<PurchaseAllocationDraft,'mode'|'startDate'|'duration'|'items'> {
   assertISODate(purchaseDate);
   if(rules.length===0)return {mode:'single',startDate:purchaseDate,duration:'3',items:[]};
-  if(rules.length===1&&!rules[0].itemName.trim()&&minorBigInt(rules[0].amountMinor)===minorBigInt(amountMinor)){
+  if(rules.length===1&&!rules[0].itemName?.trim()&&minorBigInt(rules[0].amountMinor)===minorBigInt(amountMinor)){
     return {mode:'whole',startDate:rules[0].startDate,duration:String(rules[0].durationDays),items:[]};
   }
   return {
     mode:'items',startDate:purchaseDate,duration:'3',
     items:rules.map((r,i)=>({
-      id:'saved-'+i,name:r.itemName,amount:minorAsDecimal(r.amountMinor),
+      id:'saved-'+i,name:r.itemName??'',amount:minorAsDecimal(r.amountMinor),
       startDate:r.startDate,duration:String(r.durationDays)
     }))
   };
