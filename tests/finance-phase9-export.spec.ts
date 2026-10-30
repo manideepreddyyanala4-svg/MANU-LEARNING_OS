@@ -10,7 +10,7 @@ const pay='00000000-0000-4000-8000-000000001001';
 const event='00000000-0000-4000-8000-000000001002';
 const category='00000000-0000-4000-8000-000000001003';
 function backup():FinanceExportSnapshot{
- const data=Object.fromEntries(FINANCE_EXPORT_TABLES.map(k=>[k,[]])) as FinanceExportSnapshot['data'];
+ const data=Object.fromEntries(FINANCE_EXPORT_TABLES.map(k=>[k,[]])) as unknown as FinanceExportSnapshot['data'];
  data.accounts.push({id:bank,user_id:owner,name:'CTBC Bank'});
  data.categories.push({id:category,user_id:owner,name:'Groceries'});
  data.transactions.push({id:pay,user_id:owner,kind:'expense',amount_minor:'40000',
@@ -83,7 +83,7 @@ test('400 TWD over 3 days allocates 133.34, 133.33, 133.33 without creating mone
  expect(days.map(d=>[d.date,d.amountMinor])).toEqual([
   ['2026-10-30','13334'],['2026-10-31','13333'],['2026-11-01','13333']
  ]);
- expect(days.reduce((n,d)=>n+BigInt(d.amountMinor),0n)).toBe(40000n);
+ expect(days.reduce((n,d)=>n+BigInt(d.amountMinor),BigInt(0))).toBe(4000BigInt(0));
 });
 test('full SHA-256 backup export is tamper-evident on secure browser',async({page})=>{
  await page.goto('/');
