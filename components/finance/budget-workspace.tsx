@@ -279,13 +279,13 @@ export function FinanceBudgetWorkspace(){
           </Card>
           <Card>
             <p className="text-xs font-bold text-[var(--muted)]">
-              {projection.period==='current'?'Today's standard allowance left':'Daily allowance status'}
+              {projection.period==='current'?'Today’s standard allowance left':'Daily allowance status'}
             </p>
             <p className="mt-2 text-2xl font-extrabold text-[var(--fg)]">
               {projection.dailyToday?displayFraction(projection.dailyToday.standardRemaining,'TWD'):'Not applicable'}</p>
             <p className="mt-1 text-xs text-[var(--muted)]">
               {projection.dailyToday?
-                (projection.dailyToday.isOverStandard?'Over today's daily target.':
+                (projection.dailyToday.isOverStandard?'Over today’s daily target.':
                   'Standard daily target minus today’s allocated cost.'):
                 'Shown for today only when viewing the current month.'}
             </p>
