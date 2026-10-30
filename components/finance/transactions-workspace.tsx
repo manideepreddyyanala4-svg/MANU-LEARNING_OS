@@ -123,8 +123,8 @@ export function FinanceTransactions(){
     setAccountId(chosen??'');
     const cat=tx?.categoryId??plan?.categoryId??null;
     const lastCategory=typeof window!=='undefined'?window.localStorage.getItem(QUICK_CATEGORY):null;
-    setCategoryId(cat??(categories.some(c=>c.id===lastCategory && !c.isArchived)?lastCategory:
-      categories.find(c=>c.code==='other' && !c.isArchived)?.id??categories.find(c=>!c.isArchived)?.id??''));
+    setCategoryId(cat??((categories.some(c=>c.id===lastCategory && !c.isArchived)?lastCategory:
+      categories.find(c=>c.code==='other' && !c.isArchived)?.id??categories.find(c=>!c.isArchived)?.id)??''));
     setDate(record?(tx?tx.txnDate:plan?.dueDate??todayInTaipei()):todayInTaipei());
     setMerchant(record?.merchant??(next==='income'?'Research Assistant stipend':''));
     setNote(record?.note??'');setNewCategory('');setSaveError('');setFormOpen(true);
