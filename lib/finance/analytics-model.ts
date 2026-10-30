@@ -32,7 +32,7 @@ export type AnalyticsFilters={accountId?:string|null;categoryId?:string|null;
 
 export function analyticsRange(preset:AnalyticsPreset,today:string,customFrom?:string,customTo?:string):AnalyticsRange{
  assertISODate(today);
- const month=today.slice(0,7)+'-01',end=monthOffset(month,1);
+ const month=today.slice(0,7)+'-01';
  let from=month,to=today,label='Current month to date';
  if(preset==='previous'){
    from=monthOffset(month,-1);
@@ -54,7 +54,7 @@ export function analyticsRange(preset:AnalyticsPreset,today:string,customFrom?:s
  const observedMs=new Date(observedTo+'T12:00:00Z').getTime();
  const days=observedTo>=from?Math.round((observedMs-fromMs)/86400000)+1:0;
  const single=from.slice(0,7)===to.slice(0,7)&&from.endsWith('-01')&&
-   (to===shiftBackOneDay(end)||to===today);
+   (to===shiftBackOneDay(monthOffset(monthForDate(from),1))||to===today);
  return {from,to,denominatorDays:days,label,
    partial:to>=today&&to<shiftBackOneDay(monthOffset(monthForDate(to),1)),
    fullSingleMonth:single};
