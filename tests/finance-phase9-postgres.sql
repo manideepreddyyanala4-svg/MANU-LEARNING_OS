@@ -160,3 +160,22 @@ begin
  if owner_transactions<>0 then raise exception 'RLS exposed another user transaction'; end if;
 end $$;
 reset role;
+-- Verify more than the default 1000-row PostgREST response window can be
+-- archived without truncation. The synthetic bulk rows are isolated to test DB.
+insert into public.finance_categories(user_id,code,name)
+select '00000000-0000-4000-8000-00000000000d'::uuid,
+  'bulk-'+i::text,'Synthetic category '+i::text
+from pg_catalog.generate_series(1,1100) i;
+set role authenticated;
+do $$
+declare result jsonb;
+begin
+ perform set_config('request.jwt.claim.sub',
+   '00000000-0000-4000-8000-00000000000d',true);
+ result:=public.finance_full_backup();
+ if jsonb_array_length(result->'categories')<1100
+ then raise exception 'Owner backup truncated records above 1000'; end if;
+ if (public.finance_integrity_report()->>'healthy')::boolean is not true
+ then raise exception 'Backup stress test compromised ledger integrity'; end if;
+end $$;
+reset role;
