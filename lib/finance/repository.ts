@@ -297,6 +297,8 @@ export async function listAccountActivity(accountId:string,offset=0,limit=20):Pr
 
 export type FinanceHistoryFilters = {
   search?: string;
+  /** Hide voided records for active-spend lists; keep them in full audit history. */
+  excludeVoided?: boolean;
   kind?: string;
   accountId?: string;
   categoryId?: string;
@@ -323,6 +325,7 @@ export async function listFinanceHistory(filters: FinanceHistoryFilters = {}): P
   let query = client.from('finance_transaction_details')
     .select('*', {count:'exact'});
   if (filters.kind && filters.kind !== 'all') query = query.eq('kind', filters.kind);
+  if (filters.excludeVoided) query = query.is('voided_at', null);
   if (filters.categoryId && filters.categoryId !== 'all') query = query.eq('category_id', filters.categoryId);
   if (filters.accountId && filters.accountId !== 'all') {
     if (!/^[0-9a-f-]{36}$/i.test(filters.accountId)) throw new Error('Invalid account filter');
