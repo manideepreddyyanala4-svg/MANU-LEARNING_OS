@@ -136,8 +136,8 @@ export function csvSafeCell(value:unknown):string {
 export function minorAsDecimal(minor:string):string{
   const n=minorBigInt(minor);
   const negative=n<BigInt(0),abs=negative?-n:n;
-  return (negative?'-':'')+(abs/10BigInt(0)).toString()+'.'+
-    (abs%10BigInt(0)).toString().padStart(2,'0');
+  return (negative?'-':'')+(abs/BigInt(100)).toString()+'.'+
+    (abs%BigInt(100)).toString().padStart(2,'0');
 }
 export function transactionsCsv(rows:FinanceCsvRow[]):string{
   const header=['Transaction ID','Date','Time','Type','Amount','Currency',
