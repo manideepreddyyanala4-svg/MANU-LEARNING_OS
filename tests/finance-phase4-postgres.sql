@@ -29,7 +29,8 @@ begin
 
  expense_id:=public.finance_put_transaction(original_key,'expense',35000,'2026-10-29',
    ctbc_id,null,grocery_id,'PX Mart','');
- if expense_id<>public.finance_put_transaction(original_key,'expense',35000,'2026-10-29',ctbc_id)
+ if expense_id<>public.finance_put_transaction(original_key,'expense',35000,'2026-10-29',ctbc_id,
+   null,grocery_id,'PX Mart','')
  then raise exception 'Expense idempotency key failed'; end if;
  select balance_minor::numeric into n from public.finance_account_balances where account_id=ctbc_id;
  if n<>265000 then raise exception 'Expense failed to debit CTBC'; end if;
