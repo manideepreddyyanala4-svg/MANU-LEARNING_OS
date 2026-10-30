@@ -103,7 +103,14 @@ test('Finance page has accessible export controls and no default mobile horizont
  for(const width of [320,360,390,430,768,1280]){
    await page.setViewportSize({width,height:850});
    await expect(page.locator('#finance-export')).toBeVisible();
-   const size=await page.evaluate(()=>({body:document.documentElement.scrollWidth,viewport:innerWidth}));
+   const size=await page.evaluate(()=>({
+     body:document.documentElement.scrollWidth,viewport:innerWidth,
+     offenders:Array.from(document.querySelectorAll('body *'))
+       .filter(el=>{const r=el.getBoundingClientRect();return r.width>0&&r.right>innerWidth+2&&r.left>=0;})
+       .slice(0,12).map(el=>({tag:el.tagName,id:el.id,cl:el.className?.toString().slice(0,100),
+         right:Math.round(el.getBoundingClientRect().right)}))
+   }));
+   if(size.body>size.viewport)console.log('Finance horizontal overflow diagnostic '+width,JSON.stringify(size.offenders));
    expect(size.body, 'unintended horizontal overflow at '+width).toBeLessThanOrEqual(size.viewport);
  }
 });
