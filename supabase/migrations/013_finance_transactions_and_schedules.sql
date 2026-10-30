@@ -197,7 +197,8 @@ begin
      select 1 from public.finance_audit_events h
      where h.user_id=old.user_id and h.entity_type='account' and h.action='reconcile'
        and h.created_at >= old.created_at and
-       h.entity_id in (old.source_account_id,old.destination_account_id)
+       h.entity_id in (old.source_account_id,old.destination_account_id,
+                       new.source_account_id,new.destination_account_id)
    ) then
    raise exception 'This transaction predates a balance reconciliation. Recheck the bank and reconcile explicitly before changing its effect.';
  end if;
