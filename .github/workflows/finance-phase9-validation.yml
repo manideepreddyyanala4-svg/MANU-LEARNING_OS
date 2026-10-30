@@ -33,7 +33,7 @@ jobs:
       - name: Install desktop Chromium
         run: pnpm exec playwright install chromium
       - name: Finance unit math, dates and responsive smoke
-        run: pnpm exec playwright test tests/finance-analytics-phase8.spec.ts tests/finance-calendar-phase7.spec.ts tests/finance-allocation-phase6.spec.ts tests/finance-budget.spec.ts tests/finance-math.spec.ts tests/finance-accounts.spec.ts tests/finance-page.spec.ts --project=desktop-chromium --project=mobile-chrome
+        run: pnpm exec playwright test tests/finance-phase9-export.spec.ts tests/finance-analytics-phase8.spec.ts tests/finance-calendar-phase7.spec.ts tests/finance-allocation-phase6.spec.ts tests/finance-budget.spec.ts tests/finance-math.spec.ts tests/finance-accounts.spec.ts tests/finance-page.spec.ts --project=desktop-chromium --project=mobile-chrome
       - name: Dependency security audit (informational; baseline lockfile)
         continue-on-error: true
         run: pnpm audit --prod --audit-level high
