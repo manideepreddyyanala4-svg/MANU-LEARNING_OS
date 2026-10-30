@@ -99,15 +99,20 @@ export function FinanceBudgetWorkspace(){
     };
   },[refresh]);
 
-  const projection=useMemo(()=>{
-    if(!state?.budget)return null;
-    return buildBudgetProjection({
-      monthStart:month,today,budgetTwdMinor:state.budget.resolvedTwdMinor,
-      actualExpenseMinor:state.summary.actualExpenseMinor,
-      allocatedConsumptionMinor:state.summary.allocatedConsumptionMinor,
-      daily:state.daily
-    });
+  const calculation=useMemo(()=>{
+    if(!state?.budget)return {projection:null,calculationError:''};
+    try{
+      return {projection:buildBudgetProjection({
+        monthStart:month,today,budgetTwdMinor:state.budget.resolvedTwdMinor,
+        actualExpenseMinor:state.summary.actualExpenseMinor,
+        allocatedConsumptionMinor:state.summary.allocatedConsumptionMinor,
+        daily:state.daily
+      }),calculationError:''};
+    }catch(e){
+      return {projection:null,calculationError:readable(e)};
+    }
   },[state,month,today]);
+  const {projection,calculationError}=calculation;
 
   function openEditor(){
     if(!state)return;
@@ -207,6 +212,10 @@ export function FinanceBudgetWorkspace(){
     {notice&&!error&&<p role="status" className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3 text-sm text-[var(--fg)]">
       <CheckCircle2 size={16} className="mr-2 inline text-emerald-600"/>{notice}</p>}
     {loading&&<p role="status" className="text-sm text-[var(--muted)]">Reading saved budget and expenses…</p>}
+    {calculationError&&<p role="alert" className="rounded-xl border border-[var(--line)] p-4 text-sm text-[var(--danger)]">
+      Daily budget totals do not match the saved monthly summary: {calculationError}.
+      Please refresh before trusting spending allowances.
+    </p>}
 
     {!loading&&!error&&state&&!budget&&(
       <Empty title="No budget for this month"
@@ -273,7 +282,9 @@ export function FinanceBudgetWorkspace(){
           <Card>
             <p className="text-xs font-bold text-[var(--muted)]">Standard daily allowance</p>
             <p className="mt-2 text-2xl font-extrabold text-[var(--fg)]">
-              {displayFraction(projection.dailyStandard,'TWD')}</p>
+              {displayFraction({numerator:budget.budgetMinor,denominator:totalDays},currencyCode)}</p>
+            {currencyCode==='INR'&&<p className="mt-1 text-xs text-[var(--muted)]">
+              Planning equivalent: {displayFraction(projection.dailyStandard,'TWD')} per day.</p>}
             <p className="mt-1 text-xs text-[var(--muted)]">
               Budget ÷ {totalDays} calendar days. The exact ratio is kept until display.</p>
           </Card>
