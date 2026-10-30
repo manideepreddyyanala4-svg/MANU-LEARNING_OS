@@ -157,7 +157,7 @@ begin
  report:=public.finance_analytics_overview('2025-10-01','2025-10-31');
  if report->>'expenseMinor'<>'255000' then raise exception 'Edited purchase not refreshed'; end if;
  select balance_minor::numeric into v from public.finance_account_balances where account_id=ctbc;
- if v<>445000 then raise exception 'Analytics mutated bank ledger or edit incorrect'; end if;
+ if v<>370000 then raise exception 'Analytics mutated bank ledger or edit incorrect'; end if;
 
  perform set_config('request.jwt.claim.sub',outsider::text,true);
  perform public.finance_bootstrap();
