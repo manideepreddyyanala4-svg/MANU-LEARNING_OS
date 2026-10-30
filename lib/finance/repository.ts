@@ -243,6 +243,7 @@ export async function listAccountOverviews():Promise<FinanceAccountOverview[]> {
   return (data??[]).map(r=>({
     accountId:r.account_id,
     openingTransactionId:r.opening_transaction_id,
+    openingRevision:r.opening_revision,
     openingDate:r.opening_date,
     openingMinor:exactMinor(r.opening_minor),
     incomeMinor:exactMinor(r.income_minor),
