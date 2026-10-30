@@ -72,10 +72,12 @@ test('finance RPC accounting, revisions, retries, reconciliation and RLS (isolat
   expect(totalAfterCash).toBe(totalBeforeCash);
 
   await rpc('finance_put_transaction',{p_operation_key:key(),p_kind:'expense',p_amount_minor:'10000',
-    p_txn_date:date,p_source_account_id:a,p_transaction_id:expense,p_expected_revision:1});
+    p_txn_date:date,p_source_account_id:a,p_transaction_id:expense,p_expected_revision:1,
+    p_allocations:[{itemName:'Staples',amountMinor:'10000',startDate:date,durationDays:3}]});
   expect(await balance(a)).toBe(BigInt(110000));
   await rpc('finance_put_transaction',{p_operation_key:key(),p_kind:'expense',p_amount_minor:'10000',
-    p_txn_date:date,p_source_account_id:b,p_transaction_id:expense,p_expected_revision:2});
+    p_txn_date:date,p_source_account_id:b,p_transaction_id:expense,p_expected_revision:2,
+    p_allocations:[{itemName:'Staples',amountMinor:'10000',startDate:date,durationDays:3}]});
   expect(await balance(a)).toBe(BigInt(120000));
   expect(await balance(b)).toBe(BigInt(540000));
 
