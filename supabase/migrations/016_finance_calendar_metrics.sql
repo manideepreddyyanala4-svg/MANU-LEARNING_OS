@@ -116,7 +116,7 @@ create function public.finance_calendar_day_details(
  transaction_id uuid,merchant text,txn_date date,source_account_id uuid,
  category_id uuid,item_name text,amount_minor text,attribution_type text,
  allocation_start date,duration_days integer
-) language plpgsql security invoker set search_path='' as $
+) language plpgsql security invoker set search_path='' as $$
 declare u uuid:=auth.uid();
 begin
  if u is null then raise exception 'Authentication required' using errcode='28000'; end if;
@@ -176,7 +176,7 @@ begin
      or (p_spending_type='other' and coalesce(cat.code,'')<>'groceries'))
  order by e.paid_date,e.store,e.txid,e.item,e.attr
  limit p_limit offset p_offset;
-end $;
+end $$;
 revoke all on function public.finance_calendar_day_details(
  date,text,uuid,uuid,text,integer,integer) from public,anon;
 grant execute on function public.finance_calendar_day_details(
