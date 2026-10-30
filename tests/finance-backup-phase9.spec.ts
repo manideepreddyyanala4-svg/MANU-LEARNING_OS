@@ -126,3 +126,41 @@ test('transfer and expense retry keys survive refresh semantics without storing 
    else Reflect.deleteProperty(globalThis,'window');
  }
 });
+
+test('multiple unresolved financial intents retain independent retry UUIDs',async()=>{
+ const {persistentFinanceOperationKey,clearConfirmedFinanceOperation}=
+   await import('../lib/finance/pending-intent');
+ const data=new Map<string,string>();
+ const fakeStorage={
+   getItem:(key:string)=>data.get(key)??null,
+   setItem:(key:string,value:string)=>{data.set(key,value);},
+   removeItem:(key:string)=>{data.delete(key);}
+ };
+ const original=Object.getOwnPropertyDescriptor(globalThis,'window');
+ Object.defineProperty(globalThis,'window',{
+   configurable:true,value:{sessionStorage:fakeStorage}
+ });
+ try{
+   const a=JSON.stringify({account:'ctbc',amount:'45000',merchant:'Private grocery'});
+   const b=JSON.stringify({account:'post',amount:'2500',merchant:'Private lunch'});
+   const keyA=await persistentFinanceOperationKey(a);
+   const keyB=await persistentFinanceOperationKey(b);
+   expect(keyB).not.toBe(keyA);
+   expect(await persistentFinanceOperationKey(a)).toBe(keyA);
+   expect(await persistentFinanceOperationKey(b)).toBe(keyB);
+   expect([...data.values()].join(' ')).not.toContain('Private grocery');
+   expect([...data.values()].join(' ')).not.toContain('Private lunch');
+   expect([...data.values()].join(' ')).not.toContain('45000');
+   await clearConfirmedFinanceOperation(b);
+   expect(await persistentFinanceOperationKey(a)).toBe(keyA);
+   expect(await persistentFinanceOperationKey(b)).not.toBe(keyB);
+   // Existing Phase 9 sessionStorage contents are upgraded without a duplicate.
+   const digest=(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(a)));
+   const hash=Array.from(new Uint8Array(digest)).map(x=>x.toString(16).padStart(2,'0')).join('');
+   data.set('manuos.finance.unconfirmedOperation.v1.account',JSON.stringify({digest:hash,key:keyA}));
+   expect(await persistentFinanceOperationKey(a,'account')).toBe(keyA);
+ }finally{
+   if(original)Object.defineProperty(globalThis,'window',original);
+   else Reflect.deleteProperty(globalThis,'window');
+ }
+});
