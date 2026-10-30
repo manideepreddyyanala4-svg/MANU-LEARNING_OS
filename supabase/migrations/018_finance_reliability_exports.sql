@@ -32,7 +32,7 @@ declare
   event_id uuid;
   replay_id uuid;
   replay_fingerprint jsonb;
-  request_fingerprint jsonb;
+  operation_signature jsonb;
   previous_rules jsonb := '[]'::jsonb;
   current_rules jsonb := '[]'::jsonb;
   el jsonb;
@@ -47,7 +47,7 @@ begin
   if u is null then raise exception 'Authentication required' using errcode='28000'; end if;
   if p_operation_key is null then raise exception 'Operation key required'; end if;
   -- The same operation UUID may only represent exactly the same request.
-  request_fingerprint := pg_catalog.jsonb_build_object(
+  operation_signature := pg_catalog.jsonb_build_object(
     'kind',p_kind,'amount',p_amount_minor,'date',p_txn_date,
     'source',p_source_account_id,'destination',p_destination_account_id,
     'category',p_category_id,'merchant',p_merchant,'note',p_note,
@@ -65,7 +65,7 @@ begin
     if replay_fingerprint is null then
       raise exception 'Historical operation key has no verified request fingerprint; refresh server history before retrying';
     end if;
-    if replay_fingerprint is distinct from request_fingerprint then
+    if replay_fingerprint is distinct from operation_signature then
       raise exception 'Operation key reused for a different transaction';
     end if;
     return replay_id;
@@ -218,7 +218,7 @@ begin
     event_id,u,tx_id,new_t.revision,v_action,p_operation_key,
     case when had_old then jsonb_build_object('transaction',to_jsonb(old_t),'allocations',previous_rules) else null end,
     jsonb_build_object('transaction',to_jsonb(new_t),'allocations',current_rules),
-    request_fingerprint
+    operation_signature
   );
 
   -- Reverse the previously active state. Every change is append-only in postings.
