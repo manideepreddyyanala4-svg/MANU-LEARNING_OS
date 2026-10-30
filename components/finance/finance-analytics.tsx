@@ -49,6 +49,8 @@ export function FinanceAnalytics(){
  const [cashView,setCashView]=useState<'consumption'|'cash'>('consumption');
  const [trendCount,setTrendCount]=useState(12);
  const [data,setData]=useState<Bundle|null>(null);
+ // Keep selector metadata while reloading totals: clearing data must not erase selected options.
+ const [filterOptions,setFilterOptions]=useState<Pick<Bundle,'accounts'|'categories'|'merchantOptions'>>({accounts:[],categories:[],merchantOptions:[]});
  const [loading,setLoading]=useState(true);
  const [error,setError]=useState('');
  const [refreshKey,setRefreshKey]=useState(0);
@@ -110,6 +112,7 @@ export function FinanceAnalytics(){
        }):Promise.resolve([] as AnalyticsMonth[])
      ]);
      if(token!==request.current)return;
+     setFilterOptions({accounts,categories,merchantOptions:options.merchants});
      setData({
        overview,merchantOptions:options.merchants,months,daily,budget,accounts,categories,
        groceries:groceryDetails,groceryHistory,outsideHistory,upcoming,timezone:prefs.timezone
@@ -246,21 +249,21 @@ export function FinanceAnalytics(){
          <select className={field} value={filters.accountId??''}
            onChange={e=>chooseFilter({...filters,accountId:e.target.value||null})}>
            <option value="">All accounts</option>
-           {data?.accounts.map(a=><option key={a.accountId} value={a.accountId}>{a.name}</option>)}
+           {filterOptions.accounts.map(a=><option key={a.accountId} value={a.accountId}>{a.name}</option>)}
          </select>
        </label>
        <label className={label}>Expense category
          <select className={field} value={filters.categoryId??''}
            onChange={e=>chooseFilter({...filters,categoryId:e.target.value||null})}>
            <option value="">All categories</option>
-           {data?.categories.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}
+           {filterOptions.categories.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}
          </select>
        </label>
        <label className={label}>Merchant
          <select className={field} value={filters.merchant??''}
            onChange={e=>chooseFilter({...filters,merchant:e.target.value||null})}>
            <option value="">All merchants</option>
-           {data?.merchantOptions.filter(x=>x.name!==null).map(x=>
+           {filterOptions.merchantOptions.filter(x=>x.name!==null).map(x=>
              <option key={x.name!} value={x.name!}>{x.name}</option>)}
          </select>
        </label>

@@ -36,8 +36,10 @@ begin
   expense_id := public.finance_put_transaction(event_key,'expense',20000,'2026-10-30',post_id,null,
     null,'PX Mart','',null,null,
     '[{"amountMinor":"20000","startDate":"2026-10-30","durationDays":3}]'::jsonb);
-  if expense_id <> public.finance_put_transaction(event_key,'expense',20000,'2026-10-30',post_id,null)
-    then raise exception 'Idempotent retry returned different ID'; end if;
+  if expense_id <> public.finance_put_transaction(event_key,'expense',20000,'2026-10-30',post_id,null,
+    null,'PX Mart','',null,null,
+    '[{"amountMinor":"20000","startDate":"2026-10-30","durationDays":3}]'::jsonb)
+    then raise exception 'Identical transaction retry returned different ID'; end if;
   select balance_minor::numeric into bal from public.finance_account_balances where account_id=post_id;
   if bal<>80000 then raise exception 'Expense deducted incorrectly'; end if;
 

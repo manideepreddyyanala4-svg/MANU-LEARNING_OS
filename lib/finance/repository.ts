@@ -224,14 +224,24 @@ export async function getMonthlySummary(monthStart:ISODate):Promise<MonthlySumma
   };
 }
 
-/** Future export route will use these owner-scoped readers, never raw service credentials. */
-export async function financeExportSnapshot() {
-  const [accounts,transactions,categories,budgets,fxRates,allocations]=await Promise.all([
-    listFinanceAccounts(),listTransactions(true),listCategories(),
-    listMonthlyBudgets(),listManualExchangeRates(),listAllocationDefinitions()
-  ]);
-  return {schemaVersion:1,exportedAt:new Date().toISOString(),manuallyTracked:true,
-    accounts,transactions,categories,budgets,fxRates,allocations};
+/** Single-lock owner-scoped financial snapshot. Never use page-limited list readers as backups. */
+export async function financeExportSnapshot():Promise<import('./export').FinanceExportSnapshot> {
+  const raw=await callRpc<unknown>('finance_export_backup');
+  const {validateFinanceExport}=await import('./export');
+  return validateFinanceExport(raw);
+}
+
+/** Date range is inclusive; voided entries are retained for a trustworthy audit export. */
+export async function financeExportTransactionRows(from:string|null,to:string|null):
+  Promise<import('./export').FinanceCsvRow[]> {
+  if(from)assertISODate(from);
+  if(to)assertISODate(to);
+  if(from&&to&&from>to)throw new Error('Export start date must not exceed end date');
+  const rows=await callRpc<unknown>('finance_export_transaction_rows',{
+    p_from:from,p_to:to
+  });
+  if(!Array.isArray(rows))throw new Error('Incomplete CSV export');
+  return rows as import('./export').FinanceCsvRow[];
 }
 
 
