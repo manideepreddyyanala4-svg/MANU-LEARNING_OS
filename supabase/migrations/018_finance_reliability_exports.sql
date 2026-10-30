@@ -278,7 +278,7 @@ end $$;
 create or replace function public.finance_reconcile_account(
   p_operation_key uuid,p_account_id uuid,p_target_balance_minor bigint,
   p_txn_date date,p_reason text
-) returns uuid language plpgsql security definer set search_path = '' as $
+) returns uuid language plpgsql security definer set search_path = '' as $$
 declare
   u uuid := auth.uid();
   current_minor numeric;
@@ -332,7 +332,7 @@ begin
     jsonb_build_object('balanceMinor',p_target_balance_minor::text,'reason',p_reason,'transactionId',created_tx)
   );
   return created_tx;
-end $;
+end $$;
 
 -- Snapshot is assembled while holding the per-owner preference row lock.
 -- All Finance write RPCs touching money use this lock. Never silently truncate.
