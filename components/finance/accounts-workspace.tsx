@@ -88,13 +88,19 @@ export function FinanceAccountsWorkspace(){
   },[status]);
 
   useEffect(()=>{
-    void refresh(true);
+    // Schedule bootstrap outside the synchronous body of the effect.
+    const start=window.setTimeout(()=>{void refresh(true);},0);
     const onVisibility=()=>{
       if(document.visibilityState==='visible')void refresh();
     };
+    const requestTracker=loadId;
     document.addEventListener('visibilitychange',onVisibility);
-    return ()=>{loadId.current++;document.removeEventListener('visibilitychange',onVisibility);};
-    // Initial bootstrap must only run once per mount, not on every status update.
+    return ()=>{
+      window.clearTimeout(start);
+      requestTracker.current++;
+      document.removeEventListener('visibilitychange',onVisibility);
+    };
+    // Initial bootstrap once per mount. Subsequent refreshes are explicit or visibility-triggered.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
@@ -113,13 +119,17 @@ export function FinanceAccountsWorkspace(){
   useEffect(()=>{
     if(!selected?.accountId)return;
     let current=true;
-    setHistoryError('');
-    setLoadingMore(true);
-    listAccountActivity(selected.accountId,historyOffset,20)
-      .then(data=>{if(current)setHistory(data);})
-      .catch(e=>{if(current)setHistoryError(readableError(e));})
-      .finally(()=>{if(current)setLoadingMore(false);});
-    return ()=>{current=false;};
+    const accountId=selected.accountId;
+    const start=window.setTimeout(()=>{
+      if(!current)return;
+      setHistoryError('');
+      setLoadingMore(true);
+      listAccountActivity(accountId,historyOffset,20)
+        .then(data=>{if(current)setHistory(data);})
+        .catch(e=>{if(current)setHistoryError(readableError(e));})
+        .finally(()=>{if(current)setLoadingMore(false);});
+    },0);
+    return ()=>{current=false;window.clearTimeout(start);};
   },[selected?.accountId,historyOffset,historyVersion]);
 
   function pickAccount(id:string){
