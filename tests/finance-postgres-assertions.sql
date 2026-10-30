@@ -41,6 +41,16 @@ begin
   select balance_minor::numeric into bal from public.finance_account_balances where account_id=post_id;
   if bal<>80000 then raise exception 'Expense deducted incorrectly'; end if;
 
+  select allocated_consumption_minor::numeric into bal
+    from public.finance_monthly_summary('2026-10-01');
+  if bal<>13334 then raise exception 'October grocery consumption wrongly allocated'; end if;
+  select allocated_consumption_minor::numeric into bal
+    from public.finance_monthly_summary('2026-11-01');
+  if bal<>6666 then raise exception 'November grocery carryover wrongly allocated'; end if;
+  select actual_expense_minor::numeric into bal
+    from public.finance_monthly_summary('2026-11-01');
+  if bal<>0 then raise exception 'Grocery carryover double-charged as November spending'; end if;
+
   perform public.finance_put_transaction(gen_random_uuid(),'income',600000,'2026-10-30',null,ctbc_id);
   perform public.finance_put_transaction(gen_random_uuid(),'transfer',50000,'2026-10-30',ctbc_id,post_id);
   select balance_minor::numeric into bal from public.finance_account_balances where account_id=ctbc_id;
