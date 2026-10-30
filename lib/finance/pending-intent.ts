@@ -16,11 +16,11 @@ async function fingerprintHash(fingerprint:string):Promise<string>{
  const digest=await crypto.subtle.digest('SHA-256',bytes);
  return Array.from(new Uint8Array(digest)).map(v=>v.toString(16).padStart(2,'0')).join('');
 }
-export async function persistentFinanceOperationKey(fingerprint:string):Promise<string>{
+export async function persistentFinanceOperationKey(fingerprint:string,scope='transaction'):Promise<string>{
  const hash=await fingerprintHash(fingerprint);
- const store=readStorage();
+ const store=readStorage(),storeKey=KEY+'.'+scope;
  try{
-   const raw=store?.getItem(KEY);
+   const raw=store?.getItem(storeKey);
    if(raw){
      const old=JSON.parse(raw) as {digest?:string;key?:string};
      if(old.digest===hash&&old.key&&/^[0-9a-f-]{36}$/i.test(old.key))
@@ -28,14 +28,14 @@ export async function persistentFinanceOperationKey(fingerprint:string):Promise<
    }
  }catch{ /* Session storage may be disabled; database still enforces explicit UUID. */ }
  const key=crypto.randomUUID();
- try{store?.setItem(KEY,JSON.stringify({digest:hash,key}));}catch{}
+ try{store?.setItem(storeKey,JSON.stringify({digest:hash,key}));}catch{}
  return key;
 }
-export async function clearConfirmedFinanceOperation(fingerprint:string):Promise<void>{
+export async function clearConfirmedFinanceOperation(fingerprint:string,scope='transaction'):Promise<void>{
  const hash=await fingerprintHash(fingerprint);
  try{
-   const store=readStorage(),raw=store?.getItem(KEY);
+   const store=readStorage(),storeKey=KEY+'.'+scope,raw=store?.getItem(storeKey);
    if(raw&&(JSON.parse(raw) as {digest?:string}).digest===hash)
-     store?.removeItem(KEY);
+     store?.removeItem(storeKey);
  }catch{}
 }
