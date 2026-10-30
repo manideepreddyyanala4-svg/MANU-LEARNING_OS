@@ -5,17 +5,16 @@ begin;
 create function public.finance_daily_budget(p_month_start date)
 returns table(day_date date,actual_expense_minor text,allocated_cost_minor text)
 language plpgsql security invoker set search_path='' as $$
-declare u uuid:=auth.uid(); next_month date; last_day date;
+declare u uuid:=auth.uid(); next_month date;
 begin
   if u is null then raise exception 'Authentication required' using errcode='28000'; end if;
   if p_month_start is null or extract(day from p_month_start)<>1
     then raise exception 'Invalid month' using errcode='22023'; end if;
   next_month:=(p_month_start+interval '1 month')::date;
-  last_day:=next_month-1;
   return query
   with calendar as (
-    select g.day::date as d
-      from pg_catalog.generate_series(p_month_start,last_day,'1 day'::interval) as g(day)
+    select (p_month_start+g.day_index)::date as d
+      from pg_catalog.generate_series(0,next_month-p_month_start-1) as g(day_index)
   ),
   actual as (
     select t.txn_date as d, sum(t.amount_minor::numeric) as amt
