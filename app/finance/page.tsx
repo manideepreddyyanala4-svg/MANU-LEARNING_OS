@@ -3,6 +3,7 @@ import { FinanceAccountsWorkspace } from '@/components/finance/accounts-workspac
 import { FinanceTransactions } from '@/components/finance/transactions-workspace';
 import { FinanceBudgetWorkspace } from '@/components/finance/budget-workspace';
 import { FinanceQuickLauncher } from '@/components/finance/quick-launcher';
+import { FinanceDayBreakdown } from '@/components/finance/day-breakdown';
 
 export const metadata = {
   title:'Finance & Transactions — MANU.OS',
@@ -17,6 +18,7 @@ export default function FinancePage(){
       <FinanceAccountsWorkspace />
       <FinanceBudgetWorkspace />
       <FinanceTransactions />
+      <FinanceDayBreakdown />
     </Page>
   );
 }
