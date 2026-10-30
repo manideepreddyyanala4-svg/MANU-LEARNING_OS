@@ -23,27 +23,27 @@ New-Item -ItemType Directory -Path $storageDir -Force | Out-Null
 function Invoke-CLI([string[]]$Arguments) {
   & supabase @Arguments
   if ($LASTEXITCODE -ne 0) {
-    throw ("Supabase command failed (exit " + $LASTEXITCODE + "): " + ($Arguments | Select-Object -First 2) -join " ")
+    throw ("Supabase command failed (exit " + $LASTEXITCODE + "): " + (($Arguments | Select-Object -First 2) -join " "))
   }
 }
 try {
   Push-Location $tempProject
   try {
-    Invoke-CLI @('init','--yes')
+    Invoke-CLI -Arguments @('init','--yes')
     # Interactive authentication only on the owner's own computer. No tokens in this file.
-    Invoke-CLI @('login')
-    Invoke-CLI @('link','--project-ref',$projectRef)
+    Invoke-CLI -Arguments @('login')
+    Invoke-CLI -Arguments @('link','--project-ref',$projectRef)
     Write-Host 'Exporting database roles, full public schema/data, managed auth and storage metadata...'
-    Invoke-CLI @('db','dump','--linked','--role-only','-f',(Join-Path $destination 'roles.sql'))
-    Invoke-CLI @('db','dump','--linked','-f',(Join-Path $destination 'schema.sql'))
-    Invoke-CLI @('db','dump','--linked','--data-only','--use-copy','--schema','public',
+    Invoke-CLI -Arguments @('db','dump','--linked','--role-only','-f',(Join-Path $destination 'roles.sql'))
+    Invoke-CLI -Arguments @('db','dump','--linked','-f',(Join-Path $destination 'schema.sql'))
+    Invoke-CLI -Arguments @('db','dump','--linked','--data-only','--use-copy','--schema','public',
       '-f',(Join-Path $destination 'public-data.sql'))
     # Supabase's default CLI dump excludes managed auth/storage; preserve metadata explicitly.
     # This is sensitive: never upload it to ChatGPT, Vercel, or GitHub.
-    Invoke-CLI @('db','dump','--linked','--data-only','--use-copy','--schema','auth,storage',
+    Invoke-CLI -Arguments @('db','dump','--linked','--data-only','--use-copy','--schema','auth,storage',
       '-f',(Join-Path $destination 'managed-auth-storage-data.sql'))
     Write-Host 'Downloading private learning-assets bucket (last observed: 45 objects)...'
-    Invoke-CLI @('storage','cp','--linked','--experimental','--recursive',
+    Invoke-CLI -Arguments @('storage','cp','--linked','--experimental','--recursive',
       'ss:///learning-assets',(Join-Path $storageDir 'learning-assets'))
     $files=@(Get-ChildItem -LiteralPath $storageDir -File -Recurse)
     if ($files.Count -lt $ExpectedLearningAssetsFloor) {
