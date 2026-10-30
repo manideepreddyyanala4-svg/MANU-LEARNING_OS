@@ -95,3 +95,34 @@ test('Finance navigation and export are responsive at 320, 360, 390 and 430 CSS 
  await page.getByRole('button',{name:'Transactions',exact:true}).click();
  await expect(page.getByRole('heading',{name:'Money in and out'})).toBeVisible();
 });
+
+
+test('transfer and expense retry keys survive refresh semantics without storing original money details',async()=>{
+ const {persistentFinanceOperationKey,clearConfirmedFinanceOperation}=
+   await import('../lib/finance/pending-intent');
+ const data=new Map<string,string>();
+ const fakeStorage={
+   getItem:(key:string)=>data.get(key)??null,
+   setItem:(key:string,value:string)=>{data.set(key,value);},
+   removeItem:(key:string)=>{data.delete(key);}
+ };
+ const original=Object.getOwnPropertyDescriptor(globalThis,'window');
+ Object.defineProperty(globalThis,'window',{
+   configurable:true,value:{sessionStorage:fakeStorage}
+ });
+ try{
+   const input='{"amount":"12345","merchant":"private grocery store"}';
+   const first=await persistentFinanceOperationKey(input,'account');
+   const replay=await persistentFinanceOperationKey(input,'account');
+   const separate=await persistentFinanceOperationKey(input,'transaction');
+   expect(replay).toBe(first);
+   expect(separate).not.toBe(first);
+   expect([...data.values()].join(' ')).not.toContain('private grocery store');
+   expect([...data.values()].join(' ')).not.toContain('12345');
+   await clearConfirmedFinanceOperation(input,'account');
+   expect(await persistentFinanceOperationKey(input,'account')).not.toBe(first);
+ }finally{
+   if(original)Object.defineProperty(globalThis,'window',original);
+   else Reflect.deleteProperty(globalThis,'window');
+ }
+});
