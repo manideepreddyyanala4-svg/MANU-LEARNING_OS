@@ -105,8 +105,9 @@ export function FinanceTransactions(){
     const handle=()=>{if(active)void refresh();};
     const start=window.setTimeout(handle,0);
     window.addEventListener('manuos:finance-changed',handle);
+    const tracker=requestId;
     return ()=>{active=false;window.clearTimeout(start);
-      window.removeEventListener('manuos:finance-changed',handle);requestId.current++;};
+      window.removeEventListener('manuos:finance-changed',handle);tracker.current++;};
   },[refresh,filterVersion]);
 
   function resetToFirst(){
