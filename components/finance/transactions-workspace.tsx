@@ -5,7 +5,7 @@ import { ArrowDownLeft, ArrowUpRight, CalendarClock, Check, CircleAlert, Clock3,
   Pencil, Plus, RefreshCw, Search, Trash2, Wallet } from 'lucide-react';
 import { Card, Empty } from '@/components/ui';
 import { formatMoney, minorBigInt, parseMoney } from '@/lib/finance/money';
-import { todayInTaipei, formatFinanceDate } from '@/lib/finance/dates';
+import { todayInTaipei, formatFinanceDate, formatFinanceTimestamp } from '@/lib/finance/dates';
 import { listFinanceAccounts, listAccountOverviews,
   listCategories, listFinanceHistory, listFinancePlans,
   saveCategory, saveTransaction, voidTransaction, saveFinancePlan, postFinancePlan,
@@ -438,6 +438,12 @@ export function FinanceTransactions(){
                         accountLabel(a,accounts)} · {t.kind}
                     </p>
                     {t.note&&<p className="mt-1 break-words text-xs text-[var(--muted)]">{t.note}</p>}
+                    <details className="mt-1 text-xs text-[var(--muted)]">
+                      <summary className="w-fit cursor-pointer underline">Audit details</summary>
+                      <p className="mt-1">Recorded: {formatFinanceTimestamp(t.createdAt)}</p>
+                      <p>Last updated: {formatFinanceTimestamp(t.updatedAt)} · Revision {t.revision}</p>
+                      <p>Effective transaction date: {formatFinanceDate(t.txnDate)}</p>
+                    </details>
                   </div>
                 </div>
                 <div className="flex shrink-0 items-center gap-2 pl-12 sm:pl-2">
