@@ -65,7 +65,7 @@ export function FinanceAccountsWorkspace(){
         const page=await listAccountActivity(a.accountId,0,2);
         return [a.accountId,page.rows] as const;
       }));
-      if(token!==loadId.current)return;
+      if(token!==loadId.current)return false;
       setAccounts(accountRows);
       setOverviews(overviewRows);
       setRecent(Object.fromEntries(recentPairs));
@@ -77,11 +77,13 @@ export function FinanceAccountsWorkspace(){
       setLastRefreshed(new Date().toISOString());
       setLoadError('');
       setStatus('ready');
+      return true;
     }catch(e){
-      if(token!==loadId.current)return;
+      if(token!==loadId.current)return false;
       setLoadError(readableError(e));
       if(bootstrap||status!=='ready')setStatus('error');
       // Existing displayed balances remain clearly stale if reload fails.
+      return false;
     }finally{
       if(token===loadId.current)setRefreshing(false);
     }
@@ -145,10 +147,10 @@ export function FinanceAccountsWorkspace(){
   async function refreshAfterWrite(message:string){
     setNotice(message);
     setForm(null);
-    await refresh();
-    if(loadError) {
-      // A successful save is not retried after an unrelated refresh error.
-      setNotice(message+' Refresh again to confirm your latest totals.');
+    const reloaded=await refresh();
+    if(!reloaded) {
+      // A confirmed save is not retried because refreshing the screen failed.
+      setNotice(message+' The latest account totals could not be reloaded; refresh before making another change.');
     }
   }
 
