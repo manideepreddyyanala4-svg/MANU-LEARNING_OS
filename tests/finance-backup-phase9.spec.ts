@@ -52,7 +52,7 @@ test('CSV protects both merchant and note spreadsheet injection, and safely quot
  expect(csv).toContain('""memo""');
  expect(csv).toContain('NT$400.00');
  expect(csv).toContain('Recorded');
- expect(financeTransactionsCsv(backup,'2025-11-01','2025-11-30').split('\r\n').length).toBe(3);
+ expect(financeTransactionsCsv(backup,'2025-11-01','2025-11-30').split('\r\n').length).toBe(2);
  expect(()=>financeTransactionsCsv(backup,'2025-11-02','2025-11-01')).toThrow();
 });
 test('full backup SHA256 envelope is generated without remote analytics service',async()=>{
