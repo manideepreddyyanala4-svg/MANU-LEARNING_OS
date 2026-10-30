@@ -146,7 +146,8 @@ export function FinanceAnalytics(){
  const topCategory=categories[0];
  const grocery=categories.find(c=>c.code==='groceries');
  const outside=categories.find(c=>c.code==='outside-food');
- const groceryVendorDetails=data?.groceries.merchants??[];
+ const groceryVendorDetails=[...(data?.groceries.merchants??[])].sort((a,b)=>b.count-a.count||
+   (minorBigInt(a.amountMinor)>minorBigInt(b.amountMinor)?-1:1));
  const groceryDaily=data?.daily.reduce((n,d)=>n+minorBigInt(d.groceryAllocatedMinor),BigInt(0)).toString()??'0';
  const rolling=data?.upcoming.filter(r=>r.date>today&&r.date<=shiftCalendarDay(today,7)
    &&minorBigInt(r.groceryMinor)>BigInt(0))??[];
@@ -278,13 +279,14 @@ export function FinanceAnalytics(){
      <Card>
        <h3 className="text-lg font-bold text-[var(--fg)]">Spending by category</h3>
        <p className="mt-1 text-xs text-[var(--muted)]">
-         Actual expense payments by assigned category. Tap a category to review its purchases.
+         Actual expense payments by assigned category. Tap an assigned category to review purchases. Unassigned items remain in the full transaction history.
        </p>
        {categories.length===0?<p className="mt-4 text-sm text-[var(--muted)]">No recorded expenses for this selection.</p>:
          <div className="mt-4 space-y-3">
            {categories.map((c,i)=><button type="button" key={c.id??'missing'}
              className="block w-full rounded-xl border border-[var(--line)] p-3 text-left"
-             onClick={()=>{chooseFilter({...filters,categoryId:c.id});focusTransactions();}}>
+             disabled={c.id===null}
+             onClick={()=>{if(c.id){chooseFilter({...filters,categoryId:c.id});focusTransactions();}}}>
              <div className="flex items-center justify-between gap-3 text-xs">
                <strong className="text-[var(--fg)]">{c.name||'Uncategorized'} · {c.count} purchases</strong>
                <span className="text-[var(--fg)]">{num(c.amountMinor)} · {categoryShares[i]}</span>
