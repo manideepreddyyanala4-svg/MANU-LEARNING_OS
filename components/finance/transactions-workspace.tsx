@@ -11,7 +11,7 @@ import { formatMoney, minorBigInt, parseMoney } from '@/lib/finance/money';
 import { accountLedgerMatches } from '@/lib/finance/account-summary';
 import { todayInTaipei, formatFinanceDate, formatFinanceTimestamp } from '@/lib/finance/dates';
 import { listFinanceAccounts, listAccountOverviews,
-  listCategories, listFinanceHistory, listFinancePlans, listAllocationDefinitions,
+  listCategories, listFinanceHistory, listFinancePlans, listAllocationDefinitions, getFinanceTransaction,
   saveCategory, saveTransaction, voidTransaction, saveFinancePlan, saveAllocatedFinancePlan, postFinancePlan,
   type FinanceHistoryFilters, type PlannedFinanceEntry } from '@/lib/finance/repository';
 import type { FinanceAccount, FinanceAccountOverview, FinanceCategory, FinanceTransaction } from '@/lib/finance/types';
@@ -309,9 +309,21 @@ export function FinanceTransactions(){
 
   useEffect(()=>{
     const open=()=>chooseMode('expense');
+    const edit=(event:Event)=>{
+      const id=(event as CustomEvent<{id:string}>).detail?.id;
+      if(!id)return;
+      getFinanceTransaction(id).then(t=>{
+        if(t.kind!=='expense'||t.voidedAt)throw new Error('Only active paid expenses may be edited');
+        chooseMode('expense',t);
+      }).catch(e=>setSaveError(errorText(e)));
+    };
     window.addEventListener('manuos:finance-open-expense',open);
-    return ()=>window.removeEventListener('manuos:finance-open-expense',open);
-    // Keep the launcher connected to the current accounts and category choices.
+    window.addEventListener('manuos:finance-edit-transaction',edit);
+    return ()=>{
+      window.removeEventListener('manuos:finance-open-expense',open);
+      window.removeEventListener('manuos:finance-edit-transaction',edit);
+    };
+    // Calendar and quick launcher always reuse the Phase 4/6 editor.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[accounts,categories]);
 

@@ -526,3 +526,63 @@ export async function getFinanceTransaction(transactionId:string):Promise<Financ
     createdAt:data.created_at,updatedAt:data.updated_at
   };
 }
+
+
+/** Server aggregates one calendar month and selected filters, always owner-scoped.
+ * Filters affect only the displayed partial totals, never the authoritative budget.
+ */
+export type FinanceCalendarFilters = {
+  accountId?:string|null;categoryId?:string|null;spendingType?:'all'|'groceries'|'other';
+};
+export type FinanceCalendarDay = {
+  date:ISODate;cashMinor:MoneyMinor;consumptionMinor:MoneyMinor;
+  groceryMinor:MoneyMinor;ordinaryMinor:MoneyMinor;allocationCount:number;
+};
+function filterArgs(filter:FinanceCalendarFilters){
+  return {p_account_id:filter.accountId||null,p_category_id:filter.categoryId||null,
+    p_spending_type:filter.spendingType??'all'};
+}
+export async function listFinanceCalendarDays(
+  monthStart:ISODate,filters:FinanceCalendarFilters={}
+):Promise<FinanceCalendarDay[]> {
+  assertISODate(monthStart);
+  if(!monthStart.endsWith('-01'))throw new Error('Select the first date of a month');
+  const rows=await callRpc<Record<string,unknown>[]>('finance_calendar_days',{
+    p_month_start:monthStart,...filterArgs(filters)
+  });
+  return (rows??[]).map(r=>({
+    date:String(r.day_date),cashMinor:exactMinor(r.filtered_cash_minor),
+    consumptionMinor:exactMinor(r.filtered_consumption_minor),
+    groceryMinor:exactMinor(r.allocated_grocery_minor),
+    ordinaryMinor:exactMinor(r.ordinary_minor),
+    allocationCount:Number(r.allocation_count)
+  }));
+}
+export type FinanceCalendarLine = {
+  transactionId:string;merchant:string;txnDate:ISODate;accountId:string|null;
+  categoryId:string|null;itemName:string;amountMinor:MoneyMinor;
+  kind:'payment'|'single'|'allocated';allocationStart:ISODate|null;
+  durationDays:number|null;
+};
+export async function listFinanceCalendarDayDetails(
+  day:ISODate,view:'cash'|'consumption',filters:FinanceCalendarFilters={},
+  offset=0,limit=30
+):Promise<{rows:FinanceCalendarLine[];hasMore:boolean}> {
+  assertISODate(day);
+  if(!Number.isSafeInteger(offset)||offset<0 || !Number.isSafeInteger(limit)
+    ||limit<1||limit>99)throw new Error('Invalid calendar timeline page');
+  const rows=await callRpc<Record<string,unknown>[]>('finance_calendar_day_details',{
+    p_day:day,p_view:view,...filterArgs(filters),
+    p_limit:limit+1,p_offset:offset
+  });
+  const list=rows??[];
+  return {hasMore:list.length>limit,rows:list.slice(0,limit).map(r=>({
+    transactionId:String(r.transaction_id),merchant:String(r.merchant??''),
+    txnDate:String(r.txn_date),accountId:r.source_account_id?String(r.source_account_id):null,
+    categoryId:r.category_id?String(r.category_id):null,
+    itemName:String(r.item_name??''),amountMinor:exactMinor(r.amount_minor),
+    kind:r.attribution_type as FinanceCalendarLine['kind'],
+    allocationStart:r.allocation_start?String(r.allocation_start):null,
+    durationDays:r.duration_days==null?null:Number(r.duration_days)
+  }))};
+}
