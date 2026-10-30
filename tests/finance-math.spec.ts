@@ -12,7 +12,7 @@ test('TWD and INR amounts never use floating-point arithmetic', () => {
   expect(() => parseMoney('0.001')).toThrow();
   expect(() => parseMoney('1e3')).toThrow();
   expect(() => parseMoney('-3')).toThrow();
-  expect(minorBigInt('1000000000000')).toBe(1000000000000n);
+  expect(minorBigInt('1000000000000')).toBe(BigInt(1000000000000));
   expect(() => minorBigInt('9007199254740991')).toThrow();
 });
 
@@ -32,7 +32,7 @@ test('three-day groceries deduct nothing additional and exactly allocate purchas
   expect(daily.map(d=>[d.date,d.amountMinor])).toEqual([
     ['2026-10-30','10000'],['2026-10-31','10000'],['2026-11-01','10000']
   ]);
-  expect(daily.reduce((n,d)=>n+BigInt(d.amountMinor),0n)).toBe(30000n);
+  expect(daily.reduce((n,d)=>n+BigInt(d.amountMinor),BigInt(0))).toBe(BigInt(30000));
   expect(sumDailyAllocations(daily,'2026-10-01','2026-11-01')).toBe('20000');
   expect(sumDailyAllocations(daily,'2026-11-01','2026-12-01')).toBe('10000');
 });
@@ -42,7 +42,7 @@ test('remainder pennies allocate in stable order and never disappear', () => {
     {amountMinor:'30100',startDate:'2026-10-30',durationDays:3}
   ]);
   expect(daily.map(x=>x.amountMinor)).toEqual(['10034','10033','10033']);
-  expect(daily.reduce((n,d)=>n+BigInt(d.amountMinor),0n)).toBe(30100n);
+  expect(daily.reduce((n,d)=>n+BigInt(d.amountMinor),BigInt(0))).toBe(BigInt(30100));
 });
 
 test('advanced grocery items have independent durations and dates', () => {
@@ -51,7 +51,7 @@ test('advanced grocery items have independent durations and dates', () => {
     {amountMinor:'30000',startDate:'2026-10-31',durationDays:3}
   ]);
   expect(items.length).toBe(5);
-  expect(items.reduce((n,d)=>n+BigInt(d.amountMinor),0n)).toBe(50000n);
+  expect(items.reduce((n,d)=>n+BigInt(d.amountMinor),BigInt(0))).toBe(BigInt(50000));
   expect(() => allocatePurchase('bad','50000','2026-10-30',[
     {amountMinor:'10000',startDate:'2026-10-30',durationDays:2}
   ])).toThrow('sum');
