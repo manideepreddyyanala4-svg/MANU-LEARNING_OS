@@ -3,9 +3,11 @@ on:
   push:
     branches:
       - feature/finance-phase-10-release-preflight
+      - feature/finance-phase-10-final-hardening
   pull_request:
     branches:
       - feature/finance-phase-9-reliability
+      - feature/finance-phase-10-release-preflight
   workflow_dispatch:
 
 permissions:
@@ -69,7 +71,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y postgresql-client
       - name: Fake Supabase users, only in disposable DB
         run: psql -v ON_ERROR_STOP=1 -f tests/finance-postgres-fixture.sql
-      - name: Execute finance migrations 009 through 018
+      - name: Execute finance migrations 009 through 019
         run: |
           psql -v ON_ERROR_STOP=1 -f supabase/migrations/009_finance_schema.sql
           psql -v ON_ERROR_STOP=1 -f supabase/migrations/010_finance_ledger_rpcs.sql
@@ -81,6 +83,7 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f supabase/migrations/016_finance_calendar_metrics.sql
           psql -v ON_ERROR_STOP=1 -f supabase/migrations/017_finance_analytics.sql
           psql -v ON_ERROR_STOP=1 -f supabase/migrations/018_finance_export_integrity.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/019_finance_request_integrity.sql
       - name: Regression financial correctness and user isolation
         run: |
           psql -v ON_ERROR_STOP=1 -f tests/finance-postgres-assertions.sql
@@ -94,3 +97,4 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f tests/finance-phase8-postgres.sql
           psql -v ON_ERROR_STOP=1 -f tests/finance-phase9-postgres.sql
           psql -v ON_ERROR_STOP=1 -f tests/finance-phase10-release-postgres.sql
+          psql -v ON_ERROR_STOP=1 -f tests/finance-phase10-request-integrity.sql
