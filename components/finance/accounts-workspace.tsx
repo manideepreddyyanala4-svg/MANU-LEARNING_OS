@@ -106,6 +106,12 @@ export function FinanceAccountsWorkspace(){
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
+  useEffect(()=>{
+    const reload=()=>{void refresh();};
+    window.addEventListener('manuos:finance-changed',reload);
+    return ()=>window.removeEventListener('manuos:finance-changed',reload);
+  },[refresh]);
+
   const overviewByAccount=useMemo(()=>new Map(overviews.map(o=>[o.accountId,o])),[overviews]);
   const selected=accounts.find(a=>a.accountId===selectedId)??accounts[0];
   const selectedOverview=selected?overviewByAccount.get(selected.accountId):undefined;
@@ -147,6 +153,7 @@ export function FinanceAccountsWorkspace(){
   async function refreshAfterWrite(message:string){
     setNotice(message);
     setForm(null);
+    window.dispatchEvent(new Event('manuos:finance-changed'));
     const reloaded=await refresh();
     if(!reloaded) {
       // A confirmed save is not retried because refreshing the screen failed.
