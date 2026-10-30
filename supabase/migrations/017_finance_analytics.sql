@@ -104,7 +104,7 @@ create function public.finance_analytics_months(
  budget_minor text,budget_currency text,original_budget_minor text,
  coverage text,expense_count bigint
 ) language plpgsql security invoker set search_path='' as $$
-declare u uuid:=auth.uid(); stop_date date; first_date date;
+declare u uuid:=auth.uid(); stop_date date; first_date date; owner_today date;
 begin
  if u is null then raise exception 'Authentication required' using errcode='28000'; end if;
  if p_start is null or extract(day from p_start)<>1 or
@@ -118,6 +118,9 @@ begin
    where user_id=u and id=p_category_id)
  then raise exception 'Category not owned' using errcode='42501'; end if;
  stop_date:=(p_start+(p_count||' months')::interval)::date;
+ select (now() at time zone p.timezone)::date into owner_today
+ from public.finance_preferences p where p.user_id=u;
+ if owner_today is null then raise exception 'Initialize finance first'; end if;
  select min(txn_date) into first_date
  from public.finance_transactions where user_id=u and voided_at is null;
  return query
@@ -148,7 +151,9 @@ begin
    case when p_category_id is not null or p_merchant is not null then null
      else coalesce(i.amt,0)::text end,
    b.resolved_twd_minor::text,b.budget_currency,b.budget_minor::text,
-   case when first_date is null or first_date >= (c.d+interval '1 month')::date
+   case when c.d>pg_catalog.date_trunc('month',owner_today::timestamp)::date
+     then 'future'
+     when first_date is null or first_date >= (c.d+interval '1 month')::date
      then 'unknown'
      when first_date>c.d then 'partial-start'
      else 'recorded' end,
