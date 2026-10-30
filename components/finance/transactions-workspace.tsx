@@ -36,6 +36,10 @@ function amountText(minor:string,kind:string){
   return (kind==='income'?'+':kind==='expense'?'-':'')+formatMoney(minor,'TWD');
 }
 function newKey(){return crypto.randomUUID();}
+function safePreference(key:string):string|null{
+ try{return typeof window==='undefined'?null:window.localStorage.getItem(key);}
+ catch{return null;}
+}
 function dayIsFuture(date:string){return date>todayInTaipei();}
 function accountLabel(id:string|null,accounts:FinanceAccount[]){
   return accounts.find(a=>a.accountId===id)?.name??'Unknown account';
@@ -151,12 +155,12 @@ export function FinanceTransactions(){
     }else setAllocationLoading(false);
     const selected=tx?(next==='expense'?tx.sourceAccountId:tx.destinationAccountId):
       plan?.accountId??null;
-    const preference=typeof window!=='undefined'?window.localStorage.getItem(QUICK_ACCOUNT):null;
+    const preference=safePreference(QUICK_ACCOUNT);
     const chosen=selected??(accounts.some(a=>a.accountId===preference && a.isActive)?preference:
       accounts.find(a=>a.isActive)?.accountId??'');
     setAccountId(chosen??'');
     const cat=tx?.categoryId??plan?.categoryId??null;
-    const lastCategory=typeof window!=='undefined'?window.localStorage.getItem(QUICK_CATEGORY):null;
+    const lastCategory=safePreference(QUICK_CATEGORY);
     setCategoryId(cat??((categories.some(c=>c.id===lastCategory && !c.isArchived)?lastCategory:
       categories.find(c=>c.code==='other' && !c.isArchived)?.id??categories.find(c=>!c.isArchived)?.id)??''));
     setDate(record?(tx?tx.txnDate:plan?.dueDate??todayInTaipei()):todayInTaipei());
