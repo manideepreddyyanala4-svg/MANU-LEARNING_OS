@@ -14,8 +14,15 @@ test('Finance entry is available in the desktop sidebar and mobile drawer',async
   test.skip(Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL),'Unconfigured-only navigation test');
   await page.goto('/');
   if(testInfo.project.name==='mobile-chrome'){
-    await page.getByRole('button',{name:'Open menu'}).click();
-    await expect(page.getByRole('dialog',{name:'Navigation menu'}).getByRole('link',{name:'Finance'})).toBeVisible();
+    // Wait for client hydration; a server-rendered button can receive a click
+    // before its React handler is attached during CI cold startup.
+    await page.waitForLoadState('networkidle');
+    const open=page.getByRole('button',{name:'Open menu'});
+    await expect(open).toBeVisible();
+    await open.click();
+    const dialog=page.getByRole('dialog',{name:'Navigation menu'});
+    await expect(dialog).toBeVisible({timeout:10000});
+    await expect(dialog.getByRole('link',{name:'Finance'})).toBeVisible();
   }else{
     await expect(page.getByRole('navigation').getByRole('link',{name:'Finance'}).first()).toBeVisible();
   }
