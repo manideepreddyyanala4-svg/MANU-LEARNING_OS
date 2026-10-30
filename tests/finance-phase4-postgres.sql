@@ -1,9 +1,13 @@
 -- Disposable PG-only functional checks for Phase 4. NEVER execute on a production database.
+-- Use dedicated fixture owners so earlier phases cannot contaminate expected balances.
+insert into auth.users(id) values
+  ('00000000-0000-4000-8000-000000000003'::uuid),
+  ('00000000-0000-4000-8000-000000000004'::uuid);
 set role authenticated;
 do $$
 declare
- u uuid := '00000000-0000-4000-8000-000000000001';
- u2 uuid := '00000000-0000-4000-8000-000000000002';
+ u uuid := '00000000-0000-4000-8000-000000000003';
+ u2 uuid := '00000000-0000-4000-8000-000000000004';
  post_id uuid; ctbc_id uuid; cash_id uuid; grocery_id uuid; other_id uuid;
  expense_id uuid; income_id uuid; plan_id uuid; posted_id uuid;
  original_key uuid := gen_random_uuid();
