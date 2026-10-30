@@ -12,7 +12,7 @@ import { accountLedgerMatches } from '@/lib/finance/account-summary';
 import { todayInTaipei, formatFinanceDate, formatFinanceTimestamp } from '@/lib/finance/dates';
 import { listFinanceAccounts, listAccountOverviews,
   listCategories, listFinanceHistory, listFinancePlans, listAllocationDefinitions,
-  saveCategory, saveTransaction, voidTransaction, saveFinancePlan, postFinancePlan,
+  saveCategory, saveTransaction, voidTransaction, saveFinancePlan, saveAllocatedFinancePlan, postFinancePlan,
   type FinanceHistoryFilters, type PlannedFinanceEntry } from '@/lib/finance/repository';
 import type { FinanceAccount, FinanceAccountOverview, FinanceCategory, FinanceTransaction } from '@/lib/finance/types';
 
@@ -129,8 +129,12 @@ export function FinanceTransactions(){
     const nextAmount=record?minorInput(record.amountMinor):'';
     setAmount(nextAmount);
     const nextDate=record?(tx?tx.txnDate:plan?.dueDate??todayInTaipei()):todayInTaipei();
-    setAllocation({mode:'single',amountInput:nextAmount,purchaseDate:nextDate,
-      startDate:nextDate,duration:'3',items:[]});
+    setAllocation({
+      ...(plan?.kind==='expense'?
+        draftFromSavedRules(plan.amountMinor,plan.dueDate,plan.allocationRules):
+        {mode:'single' as const,startDate:nextDate,duration:'3',items:[]}),
+      amountInput:nextAmount,purchaseDate:nextDate
+    });
     setAllocationLoadError('');
     const token=++allocationLoadToken.current;
     if(tx?.kind==='expense'){
@@ -231,11 +235,16 @@ export function FinanceTransactions(){
         }
       }
       if(scheduled){
-        await saveFinancePlan({
+        const request={
           idempotencyKey:key,kind:mode,amountMinor,dueDate:date,accountId,
           categoryId:category,merchant:source,note,
           planId:editingPlan?.id,expectedRevision:editingPlan?.revision,
-        });
+        };
+        if(mode==='expense'){
+          await saveAllocatedFinancePlan({...request,kind:'expense',allocations:allocationRules});
+        }else{
+          await saveFinancePlan(request);
+        }
       }else{
         await saveTransaction({
           idempotencyKey:key,kind:mode,amountMinor,txnDate:date,
