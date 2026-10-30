@@ -222,11 +222,11 @@ export function FinanceCalendar(){
    </div>
    <Card>
      <div className="flex flex-wrap items-end justify-between gap-3">
-       <div className="flex items-center gap-2">
-         <button className={outline} type="button" aria-label="Previous calendar month"
+       <div className="grid w-full min-w-0 grid-cols-[auto_minmax(0,1fr)_auto] items-end gap-2 sm:w-auto">
+         <button className={outline+' px-3'} type="button" aria-label="Previous calendar month"
            onClick={()=>changeMonth(-1)}><ChevronLeft size={18}/></button>
-         <label className={label}>Calendar month
-           <input className={control} type="month" value={month.slice(0,7)}
+         <label className={label+' min-w-0'}>Calendar month
+           <input className={control+' min-w-0'} type="month" value={month.slice(0,7)}
              onChange={e=>{
                if(/^\d{4}-\d{2}$/.test(e.target.value)){
                  const next=e.target.value+'-01';
@@ -234,7 +234,7 @@ export function FinanceCalendar(){
                }
              }}/>
          </label>
-         <button className={outline} type="button" aria-label="Next calendar month"
+         <button className={outline+' px-3'} type="button" aria-label="Next calendar month"
            onClick={()=>changeMonth(1)}><ChevronRight size={18}/></button>
        </div>
        <div className="text-right">
