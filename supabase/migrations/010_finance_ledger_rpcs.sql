@@ -39,7 +39,7 @@ create or replace function public.finance_put_transaction(
   p_note text default '',
   p_transaction_id uuid default null,
   p_expected_revision integer default null,
-  p_allocations jsonb default '[]'::jsonb,
+  p_allocations jsonb default null,
   p_txn_time time without time zone default null,
   p_void boolean default false
 ) returns uuid language plpgsql security definer set search_path = '' as $$
@@ -54,7 +54,7 @@ declare
   previous_rules jsonb := '[]'::jsonb;
   current_rules jsonb := '[]'::jsonb;
   el jsonb;
-  allocations jsonb := coalesce(p_allocations,'[]'::jsonb);
+  allocations jsonb := p_allocations;
   allocation_sum numeric := 0;
   allocation_amount bigint;
   rule_category uuid;
@@ -87,6 +87,25 @@ begin
     if p_void then raise exception 'Cannot void without transaction ID'; end if;
     if p_expected_revision is not null then raise exception 'Revision must be null for create'; end if;
     tx_id := gen_random_uuid();
+  end if;
+
+  -- Omitted rules mean preserve existing rules on edit; an explicit [] clears.
+  if allocations is null then
+    if had_old then
+      select coalesce(jsonb_agg(jsonb_build_object(
+        'itemName',r.item_name,'categoryId',r.category_id,
+        'amountMinor',r.amount_minor::text,'startDate',r.start_date,
+        'durationDays',r.duration_days
+      ) order by r.sort_order),'[]'::jsonb)
+      into allocations from public.finance_allocation_rules r
+      where r.user_id=u and r.transaction_id=tx_id;
+    else
+      allocations := '[]'::jsonb;
+    end if;
+  end if;
+
+  if p_void and had_old and old_t.kind='opening' then
+    raise exception 'Opening balance cannot be voided; revise its amount instead';
   end if;
 
   if not p_void then
