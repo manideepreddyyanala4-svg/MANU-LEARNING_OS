@@ -6,7 +6,7 @@ import { ArrowDownLeft, ArrowUpRight, CalendarClock, Check, CircleAlert, Clock3,
 import { Card, Empty } from '@/components/ui';
 import { formatMoney, minorBigInt, parseMoney } from '@/lib/finance/money';
 import { todayInTaipei, formatFinanceDate } from '@/lib/finance/dates';
-import { initializeFinance, listFinanceAccounts, listAccountOverviews,
+import { listFinanceAccounts, listAccountOverviews,
   listCategories, listFinanceHistory, listFinancePlans,
   saveCategory, saveTransaction, voidTransaction, saveFinancePlan, postFinancePlan,
   type FinanceHistoryFilters, type PlannedFinanceEntry } from '@/lib/finance/repository';
@@ -71,7 +71,6 @@ export function FinanceTransactions(){
   const [oldestFirst,setOldestFirst]=useState(false);
   const [offset,setOffset]=useState(0);
   const [filterVersion,setFilterVersion]=useState(0);
-  const [isHistoryLoading,setHistoryLoading]=useState(false);
   const [historyError,setHistoryError]=useState('');
   const pendingKey=useRef<{fingerprint:string;key:string}|null>(null);
   const voidKeys=useRef<Record<string,string>>({});
@@ -144,7 +143,7 @@ export function FinanceTransactions(){
   }
   async function afterSave(text:string){
     setMessage(text);setSaveError('');
-    closeForm();resetToFirst();setFilterVersion(v=>v+1);
+    setFormOpen(false);setEditing(null);setEditingPlan(null);resetToFirst();setFilterVersion(v=>v+1);
     window.dispatchEvent(new Event('manuos:finance-changed'));
   }
 
@@ -175,10 +174,21 @@ export function FinanceTransactions(){
       busyLock.current=true;setBusy(true);
       let category=mode==='expense'?categoryId:null;
       if(mode==='expense'&&categoryName){
-        category=await saveCategory(categoryName);
-        // Category creation succeeded even if a later financial write fails.
-        setCategoryId(category);
-        setNewCategory('');
+        // Reuse a category created by an earlier uncertain network attempt.
+        const saved=await listCategories();
+        const match=saved.find(c=>c.name.toLocaleLowerCase()===categoryName.toLocaleLowerCase());
+        if(match){
+          if(match.isArchived)throw new Error('That category is archived. Choose another name.');
+          category=match.id;
+        }else{
+          try { category=await saveCategory(categoryName); }
+          catch(e){
+            const retryList=await listCategories();
+            const created=retryList.find(c=>c.name.toLocaleLowerCase()===categoryName.toLocaleLowerCase() && !c.isArchived);
+            if(!created)throw e;
+            category=created.id;
+          }
+        }
       }
       if(scheduled){
         await saveFinancePlan({
