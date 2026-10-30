@@ -60,12 +60,13 @@ declare
   rule_category uuid;
   idx integer := 0;
   v_action text;
+  owner_timezone text;
 begin
   if u is null then raise exception 'Authentication required' using errcode='28000'; end if;
   if p_operation_key is null then raise exception 'Operation key required'; end if;
   -- Finance must already be initialized; this lock serializes retries, edits,
   -- transfers, reconciliation, budgeting and archive operations for one owner.
-  perform 1 from public.finance_preferences where user_id=u for update;
+  select timezone into owner_timezone from public.finance_preferences where user_id=u for update;
   if not found then raise exception 'Initialize finance first'; end if;
 
   select transaction_id into replay_id from public.finance_ledger_events
@@ -81,6 +82,15 @@ begin
     end if;
     had_old := true;
     tx_id := old_t.id;
+    if (old_t.source_account_id is not null and not exists (
+      select 1 from public.finance_accounts
+      where user_id=u and id=old_t.source_account_id and is_active
+    )) or (old_t.destination_account_id is not null and not exists (
+      select 1 from public.finance_accounts
+      where user_id=u and id=old_t.destination_account_id and is_active
+    )) then
+      raise exception 'Reactivate the historical account before revising or voiding';
+    end if;
     select coalesce(jsonb_agg(to_jsonb(r) order by r.sort_order),'[]'::jsonb) into previous_rules
       from public.finance_allocation_rules r where r.user_id=u and r.transaction_id=tx_id;
   else
@@ -111,7 +121,7 @@ begin
   if not p_void then
     if p_kind not in ('opening','income','expense','transfer','adjustment')
       or p_amount_minor is null or p_amount_minor not between -1000000000000 and 1000000000000
-      or p_txn_date is null or p_txn_date > (now() at time zone 'Asia/Taipei')::date
+      or p_txn_date is null or p_txn_date > (now() at time zone owner_timezone)::date
       then raise exception 'Invalid transaction kind, amount or date'; end if;
     if length(coalesce(p_merchant,'')) > 200 or length(coalesce(p_note,'')) > 2000
       then raise exception 'Merchant or note too long'; end if;
