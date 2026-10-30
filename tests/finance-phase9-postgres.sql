@@ -12,7 +12,7 @@ declare
  expense_id uuid;grocery_id uuid;save_key uuid;
  out jsonb;diagnostic jsonb;amount numeric;
  original_bank numeric;owner_transactions integer;bank_balance numeric;
- manual_rate uuid;budget_id uuid;revision integer;
+ manual_rate uuid;budget_id uuid;budget_revision integer;
 begin
  perform set_config('request.jwt.claim.sub',owner::text,true);
  perform public.finance_bootstrap();
@@ -79,8 +79,8 @@ begin
 
  manual_rate:=public.finance_add_manual_fx_rate(4.25,'synthetic frozen exchange rate');
  budget_id:=public.finance_upsert_monthly_budget('2025-10-01','INR',600000,manual_rate);
- select revision into revision from public.finance_monthly_budgets where id=budget_id;
- perform public.finance_upsert_monthly_budget('2025-10-01','INR',700000,manual_rate,revision);
+ select b.revision into budget_revision from public.finance_monthly_budgets b where b.id=budget_id;
+ perform public.finance_upsert_monthly_budget('2025-10-01','INR',700000,manual_rate,budget_revision);
  select balance_minor::numeric into bank_balance
  from public.finance_account_balances where account_id=ctbc;
  if bank_balance<>original_bank then raise exception 'Budget revision changed bank balance'; end if;
