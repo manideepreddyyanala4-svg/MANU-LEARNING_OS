@@ -20,7 +20,7 @@ export type AnalyticsOverview={
 export type AnalyticsMonth={
  monthStart:string;expenseMinor:MoneyMinor;incomeMinor:MoneyMinor|null;
  budgetMinor:MoneyMinor|null;originalBudgetMinor:MoneyMinor|null;
- budgetCurrency:Currency|null;coverage:'unknown'|'partial-start'|'recorded';
+ budgetCurrency:Currency|null;coverage:'unknown'|'partial-start'|'recorded'|'future';
  expenseCount:number;
 };
 export type AnalyticsExpense={
@@ -112,6 +112,7 @@ export function validateOverview(o:AnalyticsOverview){
  }
 }
 export function monthStatus(m:AnalyticsMonth,today:string):string {
+ if(m.coverage==='future')return 'Future month; no payments yet';
  if(m.coverage==='unknown')return 'Before first tracked record; unknown';
  if(m.coverage==='partial-start')return 'Tracking started partway through month';
  if(m.monthStart===monthForDate(today))return 'Current partial month';
