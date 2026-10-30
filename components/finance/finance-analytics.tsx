@@ -7,7 +7,7 @@ import { formatMoney,minorBigInt } from '@/lib/finance/money';
 import { monthOffset,percentLabel,roundedFraction,
   todayInFinanceTimezone,utilizationBasisPoints } from '@/lib/finance/budget-dashboard';
 import { analyticsInsights,analyticsRange,averageActualPerDay,budgetComparison,
-  monthEndProjection,monthStatus,netCashFlow,sharesForGroups,
+  monthEndProjection,monthStatus,monthlyChangePercent,netCashFlow,sharesForGroups,
   type AnalyticsPreset,type AnalyticsOverview,
   type AnalyticsMonth,type AnalyticsFilters } from '@/lib/finance/analytics-model';
 import { getFinanceAnalyticsOverview,listFinanceAnalyticsMonths,
@@ -36,6 +36,7 @@ type Bundle={
  overview:AnalyticsOverview;merchantOptions:{name:string|null}[];
  months:AnalyticsMonth[];daily:AnalyticsDaily[];budget:MonthlyBudget|null;
  accounts:FinanceAccount[];categories:FinanceCategory[];groceries:AnalyticsOverview;
+ groceryHistory:AnalyticsMonth[];outsideHistory:AnalyticsMonth[];
  upcoming:FinanceCalendarDay[];timezone:string;
 };
 
@@ -99,10 +100,19 @@ export function FinanceAnalytics(){
        await getFinanceAnalyticsOverview(currentRange.from,currentRange.to,{
          accountId:filters.accountId??null,categoryId:groceryId,merchant:null
        }):groceries;
+     const outsideId=categories.find(c=>c.code==='outside-food')?.id;
+     const [groceryHistory,outsideHistory]=await Promise.all([
+       groceryId?listFinanceAnalyticsMonths(trendStart,trendCount,{
+         accountId:filters.accountId??null,categoryId:groceryId
+       }):Promise.resolve([] as AnalyticsMonth[]),
+       outsideId?listFinanceAnalyticsMonths(trendStart,trendCount,{
+         accountId:filters.accountId??null,categoryId:outsideId
+       }):Promise.resolve([] as AnalyticsMonth[])
+     ]);
      if(token!==request.current)return;
      setData({
        overview,merchantOptions:options.merchants,months,daily,budget,accounts,categories,
-       groceries:groceryDetails,upcoming,timezone:prefs.timezone
+       groceries:groceryDetails,groceryHistory,outsideHistory,upcoming,timezone:prefs.timezone
      });
    }catch(e){if(token===request.current){setError(fail(e));setData(null);}}
    finally{if(token===request.current)setLoading(false);}
@@ -149,6 +159,16 @@ export function FinanceAnalytics(){
  const groceryVendorDetails=[...(data?.groceries.merchants??[])].sort((a,b)=>b.count-a.count||
    (minorBigInt(a.amountMinor)>minorBigInt(b.amountMinor)?-1:1));
  const groceryDaily=data?.daily.reduce((n,d)=>n+minorBigInt(d.groceryAllocatedMinor),BigInt(0)).toString()??'0';
+ const totalFood=(minorBigInt(grocery?.amountMinor??'0')+
+   minorBigInt(outside?.amountMinor??'0')).toString();
+ const foodShares=sharesForGroups([
+   {amountMinor:grocery?.amountMinor??'0'},
+   {amountMinor:outside?.amountMinor??'0'}
+ ],totalFood);
+ const lastFoodComparables=data?.months.map((m,i)=>({
+   m,groceries:data.groceryHistory[i],outside:data.outsideHistory[i]
+ })).filter(x=>x.m.monthStart<thisMonth(today)&&x.m.coverage==='recorded')??[];
+ const recentFood=lastFoodComparables.slice(-2);
  const rolling=data?.upcoming.filter(r=>r.date>today&&r.date<=shiftCalendarDay(today,7)
    &&minorBigInt(r.groceryMinor)>BigInt(0))??[];
  const projected=overview&&currentRange&&preset==='current'&&noFilters(filters)?
@@ -299,6 +319,29 @@ export function FinanceAnalytics(){
            </button>)}
          </div>}
      </Card>
+     {budget&&budgetResult?.remainingMinor!==null&&<Card>
+       <h3 className="text-lg font-bold text-[var(--fg)]">Monthly budget vs actual payments</h3>
+       <div className="mt-3 flex flex-wrap justify-between gap-2 text-sm">
+         <span className="text-[var(--fg)]">Actual {num(overview.expenseMinor)} · Saved limit {num(budget.resolvedTwdMinor)}</span>
+         <strong className="text-[var(--fg)]">{budgetResult.utilization}</strong>
+       </div>
+       <div role="img" aria-label={'Actual spending uses '+budgetResult.utilization+' of saved budget'}
+         className="mt-3 h-4 overflow-hidden rounded-full bg-[var(--accent-subtle)]">
+         <div className="h-full rounded-full bg-[var(--accent)]"
+           style={{width:Math.min(100,percentBar(overview.expenseMinor,budget.resolvedTwdMinor))+'%'}}/>
+       </div>
+       <p className="mt-3 text-sm font-semibold text-[var(--fg)]">
+         {minorBigInt(budgetResult.remainingMinor!)<BigInt(0)?
+           'Over budget by '+num((-minorBigInt(budgetResult.remainingMinor!)).toString()):
+           'Budget remaining '+num(budgetResult.remainingMinor!)}
+       </p>
+       <p className="mt-1 text-xs text-[var(--muted)]">
+         {budget.budgetCurrency==='INR'?
+           'Converted from your saved INR budget with its frozen manually entered rate.':
+           'Both budget and posted expenses are recorded in TWD.'}
+         {' '}Unspent budget is not available cash or realized savings.
+       </p>
+     </Card>}
      <div className="grid gap-4 lg:grid-cols-2">
        <Card>
          <h3 className="text-lg font-bold text-[var(--fg)]">Top merchants</h3>
@@ -371,7 +414,8 @@ export function FinanceAnalytics(){
                  {m.budgetMinor===null?'No saved budget':
                    noFilters(filters)?'Budget '+num(m.budgetMinor)+' · '+utilization:
                      'Overall monthly budget '+num(m.budgetMinor)+' (not compared to filtered spending)'}
-                 {delta!==null?' · vs previous '+num(delta):''}
+                 {delta!==null?' · vs previous '+num(delta)+' ('+
+                   (monthlyChangePercent(m.expenseMinor,prev!.expenseMinor)??'n/a')+')':''}
                </span>
              </p>
            </div>;
@@ -429,16 +473,29 @@ export function FinanceAnalytics(){
            ['Outside food',outside?.amountMinor??'0']
          ].map(([name,amount])=><div key={name} className="mt-4">
            <div className="flex justify-between text-sm font-bold text-[var(--fg)]">
-             <span>{name}</span><span>{num(amount)}</span>
+             <span>{name}</span><span>{num(amount)} · {foodShares[name==='Groceries'?0:1]}</span>
            </div>
            <div className="mt-2 h-3 overflow-hidden rounded-full bg-[var(--accent-subtle)]">
              <div className="h-full rounded-full bg-[var(--accent)]"
-               style={{width:percentBar(amount,
-                 (minorBigInt(grocery?.amountMinor??'0')+minorBigInt(outside?.amountMinor??'0')).toString())+'%'}}/>
+               style={{width:percentBar(amount,totalFood)+'%'}}/>
            </div>
          </div>)}
          <p className="mt-4 text-sm font-semibold text-[var(--fg)]">Recorded combined food spend:
-           {' '}{num((minorBigInt(grocery?.amountMinor??'0')+minorBigInt(outside?.amountMinor??'0')).toString())}</p>
+           {' '}{num(totalFood)}</p>
+         {!filters.categoryId&&!filters.merchant&&recentFood.length===2?
+           <p className="mt-2 text-xs text-[var(--muted)]">
+             Completed-month comparison ({nameMonth(recentFood[0].m.monthStart)} →
+             {' '}{nameMonth(recentFood[1].m.monthStart)}):
+             {' '}groceries {monthlyChangePercent(
+               recentFood[1].groceries?.expenseMinor??'0',
+               recentFood[0].groceries?.expenseMinor??'0')??'no prior baseline'};
+             {' '}outside food {monthlyChangePercent(
+               recentFood[1].outside?.expenseMinor??'0',
+               recentFood[0].outside?.expenseMinor??'0')??'no prior baseline'}.
+           </p>:
+           <p className="mt-2 text-xs text-[var(--muted)]">
+             Food trends require two recorded completed months and no merchant/category filter.
+           </p>}
          <p className="mt-2 text-xs text-[var(--muted)]">
            Food categories are based on your choices, not inferred meals, nutrition or savings.
          </p>
