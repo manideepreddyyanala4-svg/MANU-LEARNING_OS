@@ -266,7 +266,7 @@ export function FinanceBudgetWorkspace(){
           <div className="mt-4 flex flex-wrap gap-2">
             <button type="button" className={primary} onClick={openEditor}><Pencil size={16}/> Edit budget</button>
             <button type="button" className={button} onClick={()=>void copyPrevious()}>
-              Copy previous month's budget</button>
+              Copy previous month’s budget</button>
           </div>
         </Card>
         <div className="grid gap-3 md:grid-cols-3">
@@ -330,7 +330,7 @@ export function FinanceBudgetWorkspace(){
       <p className="mt-1 text-xs text-[var(--muted)]">
         Expenses are preserved independently of whether you set a budget.</p>
       <button type="button" className={button+' mt-4'} onClick={()=>void copyPrevious()}>
-        Copy previous month's budget</button>
+        Copy previous month’s budget</button>
     </Card>}
 
     {edit&&state&&<Card>
@@ -366,7 +366,7 @@ export function FinanceBudgetWorkspace(){
               </option>)}
             </select>
             {chosenRate&&<p className="text-xs font-normal text-[var(--muted)]">
-              Selected manual rate: {chosenRate.twdPerInr} TWD per INR. It will be frozen for this month's budget.</p>}
+              Selected manual rate: {chosenRate.twdPerInr} TWD per INR. It will be frozen for this month’s budget.</p>}
           </label>
           <div className="sm:col-span-2 rounded-xl border border-[var(--line)] p-4">
             <p className="text-xs font-bold text-[var(--fg)]">Add a new manual exchange rate</p>
