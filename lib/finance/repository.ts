@@ -508,3 +508,21 @@ export async function listDayCostBreakdown(
     attributionType:r.attribution_type as 'single'|'allocated'
   }));
 }
+
+
+/** Full owner-protected transaction details for a clicked daily allocation. */
+export async function getFinanceTransaction(transactionId:string):Promise<FinanceTransaction> {
+  if(!/^[0-9a-f-]{36}$/i.test(transactionId))throw new Error('Invalid transaction ID');
+  const client=await clientForOwner();
+  const {data,error}=await client.from('finance_transaction_details').select('*')
+    .eq('id',transactionId).maybeSingle();
+  if(error)throw new Error(error.message);
+  if(!data)throw new Error('Purchase not found or unavailable');
+  return {
+    id:data.id,kind:data.kind,amountMinor:exactMinor(data.amount_minor),currency:'TWD',
+    txnDate:data.txn_date,txnTime:data.txn_time,sourceAccountId:data.source_account_id,
+    destinationAccountId:data.destination_account_id,categoryId:data.category_id,
+    merchant:data.merchant,note:data.note,revision:data.revision,voidedAt:data.voided_at,
+    createdAt:data.created_at,updatedAt:data.updated_at
+  };
+}
