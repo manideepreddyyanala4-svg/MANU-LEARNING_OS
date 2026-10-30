@@ -111,7 +111,7 @@ export async function saveTransaction(command: TransactionCommand): Promise<stri
     p_merchant:command.merchant??'',p_note:command.note??'',
     p_transaction_id:command.transactionId??null,
     p_expected_revision:command.expectedRevision??null,
-    p_allocations:allocations.map(a=>({
+    p_allocations:command.allocations===undefined ? null : allocations.map(a=>({
       itemName:a.itemName??'',categoryId:a.categoryId??null,
       amountMinor:minorBigInt(a.amountMinor).toString(),
       startDate:a.startDate,durationDays:a.durationDays
