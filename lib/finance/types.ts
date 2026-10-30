@@ -39,6 +39,7 @@ export interface FinanceTransaction {
   revision: number;
   voidedAt: string | null;
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface GroceryRule {
@@ -103,4 +104,33 @@ export interface ManualFxRate {
   rateSource: 'manual';
   note: string;
   recordedAt: string;
+}
+
+
+/** RLS-backed server-side aggregates. No browser-side total from truncated history. */
+export interface FinanceAccountOverview {
+  accountId: string;
+  openingTransactionId: string | null;
+  openingRevision: number | null;
+  openingDate: ISODate | null;
+  openingMinor: MoneyMinor;
+  incomeMinor: MoneyMinor;
+  expenseMinor: MoneyMinor;
+  netTransferMinor: MoneyMinor;
+  adjustmentMinor: MoneyMinor;
+  lastActivityAt: string | null;
+  lastReconciledAt: string | null;
+}
+
+export interface OpeningBalanceEntry {
+  accountId: string;
+  amountMinor: MoneyMinor;
+  effectiveDate: ISODate;
+  /** Stable for a retry of the SAME entry, new UUID for a new intent. */
+  operationKey: string;
+}
+
+export interface AccountHistoryPage {
+  rows: FinanceTransaction[];
+  count: number;
 }
