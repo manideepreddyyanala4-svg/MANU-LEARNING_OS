@@ -27,7 +27,7 @@ export function FinanceOverviewSnapshot(){
      const month=today.slice(0,7)+'-01';
      const [budget,summary,days,history,calendar]=await Promise.all([
        getBudgetForMonth(month),getMonthlySummary(month),getBudgetDailyRows(month),
-       listFinanceHistory({kind:'expense',limit:5}),
+       listFinanceHistory({kind:'expense',excludeVoided:true,limit:5}),
        listFinanceCalendarDays(month)
      ]);
      if(id!==request.current)return;
