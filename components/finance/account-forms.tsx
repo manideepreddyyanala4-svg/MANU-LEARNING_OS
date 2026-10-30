@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import { ArrowLeft, ArrowRightLeft, Check, CircleAlert, PenLine, RefreshCw, Save, ShieldCheck } from 'lucide-react';
 import { formatMoney, minorBigInt, parseMoney } from '@/lib/finance/money';
 import { todayInTaipei } from '@/lib/finance/dates';
+import { persistentFinanceOperationKey, clearConfirmedFinanceOperation } from '@/lib/finance/pending-intent';
 import type { FinanceAccount, FinanceAccountOverview, OpeningBalanceEntry } from '@/lib/finance/types';
 
 const inputStyle='mt-1.5 w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--fg)] outline-none focus:border-[var(--accent)] min-h-11';
@@ -141,16 +142,19 @@ export function AccountActionForm({
   }[mode];
 
   const clearReview=()=>{setReviewed(null);setError('');};
-  function stableKey(fingerprint:string){
-    if(keyRef.current?.fingerprint!==fingerprint)keyRef.current={fingerprint,key:crypto.randomUUID()};
-    return keyRef.current.key;
+  async function stableKey(fingerprint:string){
+    const key=await persistentFinanceOperationKey(fingerprint,'account');
+    keyRef.current={fingerprint,key};
+    return key;
   }
 
   async function submit(e:React.FormEvent){
     e.preventDefault();if(busyRef.current)return;
+    busyRef.current=true;setBusy(true);
     setError('');
     try{
       let action:FinanceAccountAction;
+      let fingerprintForSave:string|null=null;
       if(mode==='manage'){
         if(!name.trim())throw new Error('Account name is required.');
         action={kind:'manage',accountId:account.accountId,name:name.trim(),active};
@@ -159,17 +163,19 @@ export function AccountActionForm({
           throw new Error('An opening record is required before editing.');
         const amountMinor=usableMoney(amount);
         const fingerprint=JSON.stringify({mode,accountId:account.accountId,amountMinor,date,openingRevision});
+        fingerprintForSave=fingerprint;
         action={kind:'opening',accountId:account.accountId,amountMinor,date,
           transactionId:overview.openingTransactionId,expectedRevision:openingRevision,
-          idempotencyKey:stableKey(fingerprint)};
+          idempotencyKey:await stableKey(fingerprint)};
       }else if(mode==='reconcile'){
         const targetMinor=usableMoney(amount,true);
         const difference=(minorBigInt(targetMinor)-minorBigInt(account.balanceMinor)).toString();
         if(difference==='0')throw new Error('The manually tracked balance already matches that amount.');
         const note=reason.trim() || 'Manual balance check';
         const fingerprint=JSON.stringify({mode,accountId:account.accountId,targetMinor,date,note});
+        fingerprintForSave=fingerprint;
         action={kind:'reconcile',accountId:account.accountId,targetMinor,date,reason:note,
-          idempotencyKey:stableKey(fingerprint)};
+          idempotencyKey:await stableKey(fingerprint)};
       }else{
         const amountMinor=usableMoney(amount);
         if(minorBigInt(amountMinor)<=BigInt(0))throw new Error('Transfer amount must be greater than zero.');
@@ -178,13 +184,14 @@ export function AccountActionForm({
         if(to.currency!==account.currency)
           throw new Error('Only same-currency transfers are supported.');
         const fingerprint=JSON.stringify({mode,accountId:account.accountId,toId,amountMinor,date,note:reason.trim()});
+        fingerprintForSave=fingerprint;
         action={kind:'transfer',fromId:account.accountId,toId,amountMinor,date,
-          note:reason.trim(),idempotencyKey:stableKey(fingerprint)};
+          note:reason.trim(),idempotencyKey:await stableKey(fingerprint)};
       }
       const signature=JSON.stringify(action);
       if(mode!=='manage' && reviewed!==signature){setReviewed(signature);return;}
-      busyRef.current=true;setBusy(true);
       await onExecute(action);
+      if(fingerprintForSave)await clearConfirmedFinanceOperation(fingerprintForSave,'account');
       keyRef.current=null;
       setReviewed(null);
     }catch(e){setError(failMessage(e));}
