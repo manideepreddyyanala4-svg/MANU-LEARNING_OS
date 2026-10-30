@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 import { analyticsRange,averageActualPerDay,netCashFlow,budgetComparison,
-  sharesForGroups,sumGroupMoney,validateOverview,monthEndProjection,
+  sharesForGroups,sumGroupMoney,monthlyChangePercent,validateOverview,monthEndProjection,
   monthStatus,analyticsInsights,type AnalyticsOverview } from '../lib/finance/analytics-model';
 import { convertInrMinorToTwd } from '../lib/finance/money';
 
@@ -115,4 +115,11 @@ test('hundreds of category rows reconcile without floating point addition',()=>{
  expect(sharesForGroups(categories,total)).toHaveLength(500);
  expect(sharesForGroups(categories,total).reduce((s,x)=>s+BigInt(x.replace('.','').replace('%','')),BigInt(0)))
    .toBe(BigInt(10000));
+});
+
+test('month-to-month change uses exact cents, signs and safe zero-baseline handling',()=>{
+ expect(monthlyChangePercent('580000','520000')).toBe('+11.54%');
+ expect(monthlyChangePercent('450000','490000')).toBe('-8.16%');
+ expect(monthlyChangePercent('0','0')).toBeNull();
+ expect(monthlyChangePercent('50000','0')).toBeNull();
 });
