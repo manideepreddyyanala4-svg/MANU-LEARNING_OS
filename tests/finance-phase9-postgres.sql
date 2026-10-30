@@ -89,7 +89,7 @@ begin
  snapshot:=public.finance_export_backup();
  if snapshot->>'ownerId'<>u::text or snapshot->>'version'<>'2'
  or (snapshot->'integrity'->'recordCounts'->>'accounts')::int<>3
- or (snapshot->'integrity'->'recordCounts'->>'transactions')::int<>7
+ or (snapshot->'integrity'->'recordCounts'->>'transactions')::int<>8
  then raise exception 'Backup missing records or metadata %',snapshot->'integrity'; end if;
  select count(*) into owners from jsonb_array_elements(snapshot->'data'->'transactions') x
  where x->>'user_id'<>u::text;
