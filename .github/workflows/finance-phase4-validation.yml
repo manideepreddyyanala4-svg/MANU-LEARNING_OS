@@ -1,0 +1,77 @@
+name: Finance Phase 4 (isolated validation)
+on:
+  push:
+    branches:
+      - feature/finance-phase-4-transactions
+  pull_request:
+    branches:
+      - feature/finance-phase-3-accounts
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  application:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Enable pinned pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.28.2 --activate
+      - run: pnpm install --frozen-lockfile
+      - name: Lint finance code
+        run: pnpm exec eslint app/finance components/finance lib/finance tests/finance-accounts.spec.ts tests/finance-page.spec.ts tests/finance-math.spec.ts
+      - name: TypeScript typecheck
+        run: pnpm typecheck
+      - name: Production build without deployment
+        run: pnpm build
+      - name: Install Chromium
+        run: pnpm exec playwright install chromium
+      - name: Exact-money, account, and mobile finance smoke tests
+        run: pnpm exec playwright test tests/finance-math.spec.ts tests/finance-accounts.spec.ts tests/finance-page.spec.ts --project=desktop-chromium --project=mobile-chrome
+      - name: Existing repository lint (informational)
+        run: pnpm lint
+        continue-on-error: true
+
+  isolated-postgres:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: localhost
+      PGPORT: '5432'
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: postgres
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - run: psql -v ON_ERROR_STOP=1 -f tests/finance-postgres-fixture.sql
+      - name: Build finance database in disposable PostgreSQL
+        run: |
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/009_finance_schema.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/010_finance_ledger_rpcs.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/011_finance_metadata_rpcs.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/012_finance_account_overview.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/013_finance_transactions_and_schedules.sql
+      - name: Previous phase financial invariants
+        run: |
+          psql -v ON_ERROR_STOP=1 -f tests/finance-postgres-assertions.sql
+          psql -v ON_ERROR_STOP=1 -f tests/finance-phase3-postgres.sql
+      - name: Phase 4 cashflow, scheduled money and security
+        run: psql -v ON_ERROR_STOP=1 -f tests/finance-phase4-postgres.sql
