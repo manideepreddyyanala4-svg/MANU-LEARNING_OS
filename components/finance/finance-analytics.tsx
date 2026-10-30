@@ -121,7 +121,8 @@ export function FinanceAnalytics(){
    const timer=window.setTimeout(()=>{void read();},0);
    const changed=()=>{void read();};
    window.addEventListener('manuos:finance-changed',changed);
-   return ()=>{window.clearTimeout(timer);request.current++;
+   const tracker=request;
+   return ()=>{window.clearTimeout(timer);tracker.current++;
      window.removeEventListener('manuos:finance-changed',changed);};
  },[read,refreshKey]);
 
@@ -138,7 +139,8 @@ export function FinanceAnalytics(){
      }catch(e){if(id===drillRequest.current){setDrillError(fail(e));setDrillRows([]);}}
      finally{if(id===drillRequest.current)setDrillLoading(false);}
    },0);
-   return ()=>{window.clearTimeout(timer);drillRequest.current++;};
+   const tracker=drillRequest;
+   return ()=>{window.clearTimeout(timer);tracker.current++;};
  },[drillOpen,currentRange,filters,drillOffset,data]);
 
  const overview=data?.overview;
