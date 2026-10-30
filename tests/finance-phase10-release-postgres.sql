@@ -25,7 +25,7 @@ begin
    jsonb_build_object('accountId',ctbc_id,'amountMinor','300000','effectiveDate','2025-10-01','operationKey',gen_random_uuid()),
    jsonb_build_object('accountId',cash_id,'amountMinor','50000','effectiveDate','2025-10-01','operationKey',gen_random_uuid())
  ));
- select sum(balance_minor)::numeric into bank_total from public.finance_account_balances where user_id=u;
+ select sum(balance_minor::numeric) into bank_total from public.finance_account_balances where user_id=u;
  if bank_total<>650000 then raise exception 'Opening total must be NT$6500';end if;
 
  expense_id:=public.finance_put_transaction(
@@ -39,7 +39,7 @@ begin
  then raise exception 'Idempotent expense retry did not return original';end if;
  select balance_minor::numeric into value_minor from public.finance_account_balances where account_id=ctbc_id;
  if value_minor<>260000 then raise exception 'Step 1 CTBC should be NT$2600';end if;
- select sum(balance_minor)::numeric into bank_total from public.finance_account_balances where user_id=u;
+ select sum(balance_minor::numeric) into bank_total from public.finance_account_balances where user_id=u;
  if bank_total<>610000 then raise exception 'Step 1 total should be NT$6100';end if;
 
  perform public.finance_put_transaction(gen_random_uuid(),'transfer',20000,
@@ -48,14 +48,14 @@ begin
  if value_minor<>280000 then raise exception 'Step 2 post should be NT$2800';end if;
  select balance_minor::numeric into value_minor from public.finance_account_balances where account_id=cash_id;
  if value_minor<>70000 then raise exception 'Step 2 cash should be NT$700';end if;
- select sum(balance_minor)::numeric into bank_total from public.finance_account_balances where user_id=u;
+ select sum(balance_minor::numeric) into bank_total from public.finance_account_balances where user_id=u;
  if bank_total<>610000 then raise exception 'Step 2 transfer incorrectly changed total';end if;
 
  perform public.finance_put_transaction(gen_random_uuid(),'income',600000,
    '2025-10-28',null,post_id);
  select balance_minor::numeric into value_minor from public.finance_account_balances where account_id=post_id;
  if value_minor<>880000 then raise exception 'Step 3 post should be NT$8800';end if;
- select sum(balance_minor)::numeric into bank_total from public.finance_account_balances where user_id=u;
+ select sum(balance_minor::numeric) into bank_total from public.finance_account_balances where user_id=u;
  if bank_total<>1210000 then raise exception 'Step 3 total should be NT$12100';end if;
 
  perform public.finance_put_transaction(
@@ -65,7 +65,7 @@ begin
    p_transaction_id=>expense_id,p_expected_revision=>1);
  select balance_minor::numeric into value_minor from public.finance_account_balances where account_id=ctbc_id;
  if value_minor<>265000 then raise exception 'Step 4 CTBC must be NT$2650';end if;
- select sum(balance_minor)::numeric into bank_total from public.finance_account_balances where user_id=u;
+ select sum(balance_minor::numeric) into bank_total from public.finance_account_balances where user_id=u;
  if bank_total<>1215000 then raise exception 'Step 4 total must be NT$12150';end if;
  begin
    perform public.finance_put_transaction(
@@ -80,7 +80,7 @@ begin
  perform public.finance_void_transaction(gen_random_uuid(),expense_id,2);
  select balance_minor::numeric into value_minor from public.finance_account_balances where account_id=ctbc_id;
  if value_minor<>300000 then raise exception 'Step 5 CTBC must return to NT$3000';end if;
- select sum(balance_minor)::numeric into bank_total from public.finance_account_balances where user_id=u;
+ select sum(balance_minor::numeric) into bank_total from public.finance_account_balances where user_id=u;
  if bank_total<>1250000 then raise exception 'Step 5 total should be NT$12500';end if;
  select actual_expense_minor::numeric into actual from public.finance_monthly_summary('2025-10-01');
  if actual<>0 then raise exception 'Voided expense remains in active monthly spending';end if;
