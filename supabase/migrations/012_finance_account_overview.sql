@@ -9,6 +9,7 @@ select a.user_id,
        a.id as account_id,
        max(t.id::text) filter (where t.kind='opening' and t.voided_at is null) as opening_transaction_id,
        max(t.txn_date) filter (where t.kind='opening' and t.voided_at is null) as opening_date,
+       max(t.revision) filter (where t.kind='opening' and t.voided_at is null) as opening_revision,
        coalesce(sum(t.amount_minor) filter
          (where t.kind='opening' and t.destination_account_id=a.id and t.voided_at is null),0)::text as opening_minor,
        coalesce(sum(t.amount_minor) filter
