@@ -245,7 +245,7 @@ export function FinanceAccountsWorkspace(){
 
   return (
     <div className="space-y-6">
-      <section className="overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--surface)]">
+      <section id="finance-overview" aria-label="Finance overview and manually tracked total" className="scroll-mt-24 overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--surface)]">
         <div className="grid gap-5 p-6 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
             <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[var(--muted)]">
