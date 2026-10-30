@@ -17,7 +17,7 @@ export function sumDailyAllocations(
   assertISODate(fromInclusive);
   assertISODate(toExclusive);
   return allocations.reduce((sum,item) =>
-    sum + (item.date>=fromInclusive && item.date<toExclusive ? minorBigInt(item.amountMinor) : 0n),0n
+    sum + (item.date>=fromInclusive && item.date<toExclusive ? minorBigInt(item.amountMinor) : BigInt(0)),BigInt(0)
   ).toString();
 }
 
@@ -39,7 +39,7 @@ export function dailyBudgetPosition(
   const month = date.slice(0,7) + '-01';
   const days = daysInMonth(month);
   const spent = allocations.reduce((sum,a) =>
-    a.date===date ? sum + minorBigInt(a.amountMinor) : sum, 0n);
+    a.date===date ? sum + minorBigInt(a.amountMinor) : sum, BigInt(0));
   const budget = minorBigInt(budgetMinor);
   const remainingNumerator = budget - spent * BigInt(days);
   return {
@@ -47,7 +47,7 @@ export function dailyBudgetPosition(
     allocatedMinor: spent.toString(),
     standardAllowance: {numerator:budget.toString(),denominator:days},
     standardRemaining: {numerator:remainingNumerator.toString(),denominator:days},
-    isOverStandard: remainingNumerator<0n,
+    isOverStandard: remainingNumerator<BigInt(0),
   };
 }
 
