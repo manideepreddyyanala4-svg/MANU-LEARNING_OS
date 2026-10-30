@@ -197,11 +197,48 @@ end $$;
 create or replace view public.finance_account_balances
   with (security_invoker = true) as
 select a.user_id,a.id as account_id,a.code,a.name,a.kind,a.currency,a.is_active,
-       coalesce(sum(p.delta_minor),0)::bigint as balance_minor
+       coalesce(sum(p.delta_minor),0)::text as balance_minor
 from public.finance_accounts a
 left join public.finance_postings p on p.user_id=a.user_id and p.account_id=a.id
 group by a.user_id,a.id,a.code,a.name,a.kind,a.currency,a.is_active;
 revoke all on public.finance_account_balances from public,anon;
 grant select on public.finance_account_balances to authenticated;
+
+-- Read-safe views stringify integer minor units and decimal rates, preventing
+-- accidental precision loss in the browser's JSON number parser.
+create or replace view public.finance_transaction_details
+  with (security_invoker = true) as
+select t.id,t.user_id,t.kind,t.amount_minor::text as amount_minor,t.currency,
+  t.txn_date,t.txn_time,t.source_account_id,t.destination_account_id,
+  t.category_id,t.merchant,t.note,t.revision,t.voided_at,t.created_at,t.updated_at
+from public.finance_transactions t;
+revoke all on public.finance_transaction_details from public,anon;
+grant select on public.finance_transaction_details to authenticated;
+
+create or replace view public.finance_allocation_details
+  with (security_invoker = true) as
+select r.id,r.user_id,r.transaction_id,r.category_id,r.item_name,
+  r.amount_minor::text as amount_minor,r.start_date,r.duration_days,
+  r.sort_order,r.created_at
+from public.finance_allocation_rules r;
+revoke all on public.finance_allocation_details from public,anon;
+grant select on public.finance_allocation_details to authenticated;
+
+create or replace view public.finance_budget_details
+  with (security_invoker = true) as
+select b.id,b.user_id,b.month_start,b.budget_minor::text as budget_minor,
+  b.budget_currency,b.fx_rate_id,b.fx_twd_per_inr::text as fx_twd_per_inr,
+  b.resolved_twd_minor::text as resolved_twd_minor,b.revision,b.created_at,b.updated_at
+from public.finance_monthly_budgets b;
+revoke all on public.finance_budget_details from public,anon;
+grant select on public.finance_budget_details to authenticated;
+
+create or replace view public.finance_fx_rate_details
+  with (security_invoker = true) as
+select r.id,r.user_id,r.twd_per_inr::text as twd_per_inr,
+  r.rate_source,r.note,r.recorded_at
+from public.finance_fx_rates r;
+revoke all on public.finance_fx_rate_details from public,anon;
+grant select on public.finance_fx_rate_details to authenticated;
 
 commit;
