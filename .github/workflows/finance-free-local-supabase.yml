@@ -11,6 +11,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: finance-free-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   isolated-supabase:
     name: Local PostgreSQL + Auth + REST + real Finance browser
