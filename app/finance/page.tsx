@@ -4,6 +4,7 @@ import { FinanceTransactions } from '@/components/finance/transactions-workspace
 import { FinanceBudgetWorkspace } from '@/components/finance/budget-workspace';
 import { FinanceQuickLauncher } from '@/components/finance/quick-launcher';
 import { FinanceCalendar } from '@/components/finance/finance-calendar';
+import { FinanceAnalytics } from '@/components/finance/finance-analytics';
 
 export const metadata = {
   title:'Finance & Transactions — MANU.OS',
@@ -20,7 +21,8 @@ export default function FinancePage(){
           ['Accounts','#finance-accounts-heading'],
           ['Budget','#finance-budget'],
           ['Transactions','#finance-transactions'],
-          ['Calendar','#finance-calendar']
+          ['Calendar','#finance-calendar'],
+          ['Analytics','#finance-analytics']
         ].map(([name,href])=><a key={href} href={href}
           className="rounded-xl border border-[var(--line)] px-4 py-2 font-semibold text-[var(--fg)]">
           {name}</a>)}
@@ -29,6 +31,7 @@ export default function FinancePage(){
       <FinanceBudgetWorkspace />
       <FinanceTransactions />
       <FinanceCalendar />
+      <FinanceAnalytics />
     </Page>
   );
 }
