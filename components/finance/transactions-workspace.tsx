@@ -257,6 +257,14 @@ export function FinanceTransactions(){
     finally{busyLock.current=false;setBusy(false);}
   }
 
+  useEffect(()=>{
+    const open=()=>chooseMode('expense');
+    window.addEventListener('manuos:finance-open-expense',open);
+    return ()=>window.removeEventListener('manuos:finance-open-expense',open);
+    // Keep the launcher connected to the current accounts and category choices.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[accounts,categories]);
+
   const recentMerchants=Array.from(new Set(rows.filter(r=>r.merchant.trim()).map(r=>r.merchant.trim()))).slice(0,12);
   const active=accounts.filter(a=>a.isActive);
   const noAccount=active.length===0;
