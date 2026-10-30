@@ -103,7 +103,11 @@ jobs:
           set -a
           source "$RUNNER_TEMP/manuos-finance-test-env"
           set +a
-          pnpm exec playwright test tests/finance-db.spec.ts tests/finance-local-fullstack.spec.ts \
+          # Ledger is stateful and should run only once for the disposable owner.
+          pnpm exec playwright test tests/finance-db.spec.ts \
+            --project=desktop-chromium --workers=1
+          # Real UI/Auth browser smoke is exercised independently on both viewports.
+          pnpm exec playwright test tests/finance-local-fullstack.spec.ts \
             --project=desktop-chromium --project=mobile-chrome --workers=1
       - name: Tear down disposable local Supabase stack
         if: always()
