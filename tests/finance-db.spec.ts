@@ -89,6 +89,13 @@ test('finance RPC accounting, revisions, retries, reconciliation and RLS (isolat
   await rpc('finance_void_transaction',{p_operation_key:key(),
     p_transaction_id:expense,p_expected_revision:3});
   expect(await balance(b)).toBe(BigInt(550000));
+  // Post concurrent payments BEFORE the reconciled statement date. A later
+  // backdated spend is correctly forbidden by the Finance checkpoint guard.
+  const parallel=await Promise.all([
+    create('expense','100',a,null),create('expense','200',a,null)
+  ]);
+  expect(parallel[0]).not.toBe(parallel[1]);
+  expect(await balance(a)).toBe(BigInt(119700));
   const adjustmentKey=key();
   const adjusted=await rpc('finance_reconcile_account',{p_operation_key:adjustmentKey,
     p_account_id:a,p_target_balance_minor:'77700',p_txn_date:date,p_reason:'Test statement reconciliation'});
@@ -115,11 +122,6 @@ test('finance RPC accounting, revisions, retries, reconciliation and RLS (isolat
   await rpc('finance_upsert_monthly_budget',{p_month_start:month,p_budget_currency:'TWD',
     p_budget_minor:'200000',p_expected_revision:1});
 
-  const parallel=await Promise.all([
-    create('expense','100',a,null),create('expense','200',a,null)
-  ]);
-  expect(parallel[0]).not.toBe(parallel[1]);
-  expect(await balance(a)).toBe(BigInt(77400));
   const directWrite=await client.from('finance_postings').insert({
     user_id:randomUUID(),ledger_event_id:randomUUID(),account_id:a,delta_minor:999
   });
