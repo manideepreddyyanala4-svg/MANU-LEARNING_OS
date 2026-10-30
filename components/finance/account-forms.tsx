@@ -228,6 +228,12 @@ export function AccountActionForm({
         ) : (
           <>
             {mode==='transfer' && (
+              <label className={labelStyle}>From account
+                <input readOnly value={account.name+' ('+account.currency+')'}
+                  className={inputStyle+' cursor-default opacity-80'} aria-label="Transfer from account"/>
+              </label>
+            )}
+            {mode==='transfer' && (
               <label className={labelStyle}>Transfer to
                 <select required className={inputStyle} value={toId} onChange={e=>{setToId(e.target.value);clearReview();}}>
                   <option value="">Choose destination account</option>
