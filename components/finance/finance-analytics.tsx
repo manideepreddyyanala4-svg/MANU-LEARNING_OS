@@ -319,7 +319,7 @@ export function FinanceAnalytics(){
            </button>)}
          </div>}
      </Card>
-     {budget&&budgetResult?.remainingMinor!==null&&<Card>
+     {budget&&budgetResult&&budgetResult.remainingMinor!==null&&<Card>
        <h3 className="text-lg font-bold text-[var(--fg)]">Monthly budget vs actual payments</h3>
        <div className="mt-3 flex flex-wrap justify-between gap-2 text-sm">
          <span className="text-[var(--fg)]">Actual {num(overview.expenseMinor)} · Saved limit {num(budget.resolvedTwdMinor)}</span>
