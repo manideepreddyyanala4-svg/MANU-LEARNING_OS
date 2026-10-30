@@ -81,7 +81,7 @@ export async function listFinanceAnalyticsMonths(
    throw new Error('Monthly history response incomplete');
  return rows.map(r=>{
    const coverage=String(r.coverage);
-   if(!['unknown','partial-start','recorded'].includes(coverage))
+   if(!['unknown','partial-start','recorded','future'].includes(coverage))
      throw new Error('Invalid tracking coverage');
    return {
      monthStart:String(r.month_start),expenseMinor:money(r.expense_minor),
