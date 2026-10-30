@@ -111,6 +111,7 @@ export interface ManualFxRate {
 export interface FinanceAccountOverview {
   accountId: string;
   openingTransactionId: string | null;
+  openingRevision: number | null;
   openingDate: ISODate | null;
   openingMinor: MoneyMinor;
   incomeMinor: MoneyMinor;
