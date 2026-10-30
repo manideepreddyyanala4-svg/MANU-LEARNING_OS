@@ -49,10 +49,10 @@ language plpgsql security definer set search_path='' as $$
 declare
   u uuid := auth.uid();
   item jsonb;
-  account_id uuid;
-  amount_minor bigint;
-  operation_key uuid;
-  effective_date date;
+  v_account_id uuid;
+  v_amount_minor bigint;
+  v_operation_key uuid;
+  v_effective_date date;
   results jsonb := '[]'::jsonb;
   seen uuid[] := array[]::uuid[];
   created_id uuid;
@@ -64,41 +64,41 @@ begin
   perform 1 from public.finance_preferences where user_id=u for update;
   if not found then raise exception 'Initialize finance first'; end if;
   for item in select value from jsonb_array_elements(p_entries) loop
-    account_id := (item->>'accountId')::uuid;
-    amount_minor := (item->>'amountMinor')::bigint;
-    operation_key := (item->>'operationKey')::uuid;
-    effective_date := (item->>'effectiveDate')::date;
-    if account_id is null or operation_key is null or effective_date is null
-       or amount_minor is null or amount_minor not between 0 and 1000000000000
+    v_account_id := (item->>'accountId')::uuid;
+    v_amount_minor := (item->>'amountMinor')::bigint;
+    v_operation_key := (item->>'operationKey')::uuid;
+    v_effective_date := (item->>'effectiveDate')::date;
+    if v_account_id is null or v_operation_key is null or v_effective_date is null
+       or v_amount_minor is null or v_amount_minor not between 0 and 1000000000000
     then raise exception 'Invalid opening balance entry'; end if;
-    if account_id = any(seen) then raise exception 'Repeated account in opening batch'; end if;
-    seen := array_append(seen,account_id);
+    if v_account_id = any(seen) then raise exception 'Repeated account in opening batch'; end if;
+    seen := array_append(seen,v_account_id);
     -- An existing opening may only be replayed with its original key, not
     -- silently overwritten via first-time initialization.
     if exists(select 1 from public.finance_transactions t
-      where t.user_id=u and t.kind='opening' and t.destination_account_id=account_id)
+      where t.user_id=u and t.kind='opening' and t.destination_account_id=v_account_id)
       and not exists(
         select 1 from public.finance_ledger_events e
         join public.finance_transactions t on t.user_id=e.user_id and t.id=e.transaction_id
-        where e.user_id=u and e.operation_key=operation_key
-          and t.kind='opening' and t.destination_account_id=account_id
+        where e.user_id=u and e.operation_key=v_operation_key
+          and t.kind='opening' and t.destination_account_id=v_account_id
       )
     then raise exception 'Opening balance already exists; use Edit Opening instead'; end if;
 
     created_id := public.finance_put_transaction(
-      operation_key,'opening',amount_minor,effective_date,
-      null,account_id,null,'Opening balance','Initial manually tracked balance'
+      v_operation_key,'opening',v_amount_minor,v_effective_date,
+      null,v_account_id,null,'Opening balance','Initial manually tracked balance'
     );
     -- Prevent accidental reuse of an idempotency key for different information.
     if not exists (
       select 1 from public.finance_transactions t
       where t.user_id=u and t.id=created_id and t.kind='opening'
-        and t.destination_account_id=account_id
-        and t.amount_minor=amount_minor and t.txn_date=effective_date
+        and t.destination_account_id=v_account_id
+        and t.amount_minor=v_amount_minor and t.txn_date=v_effective_date
         and t.voided_at is null
     ) then raise exception 'Replayed opening key belongs to different data'; end if;
     results := results || jsonb_build_array(jsonb_build_object(
-      'accountId',account_id,'transactionId',created_id
+      'accountId',v_account_id,'transactionId',created_id
     ));
   end loop;
   return results;
