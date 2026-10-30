@@ -1,15 +1,14 @@
 'use client';
 
 import { useCallback,useEffect,useMemo,useRef,useState } from 'react';
-import { Activity,BarChart3,CalendarDays,ChevronLeft,ChevronRight,
-  CircleAlert,Pencil,RefreshCw,TrendingUp,Utensils } from 'lucide-react';
+import { Activity,BarChart3,CircleAlert,Pencil,RefreshCw,TrendingUp,Utensils } from 'lucide-react';
 import { Card } from '@/components/ui';
 import { formatMoney,minorBigInt } from '@/lib/finance/money';
 import { monthOffset,percentLabel,roundedFraction,
   todayInFinanceTimezone,utilizationBasisPoints } from '@/lib/finance/budget-dashboard';
 import { analyticsInsights,analyticsRange,averageActualPerDay,budgetComparison,
   monthEndProjection,monthStatus,netCashFlow,sharesForGroups,
-  type AnalyticsPreset,type AnalyticsRange,type AnalyticsOverview,
+  type AnalyticsPreset,type AnalyticsOverview,
   type AnalyticsMonth,type AnalyticsFilters } from '@/lib/finance/analytics-model';
 import { getFinanceAnalyticsOverview,listFinanceAnalyticsMonths,
   listFinanceAnalyticsDaily,listFinanceAnalyticsExpenses,
@@ -86,7 +85,7 @@ export function FinanceAnalytics(){
        listFinanceAccounts(),listCategories(),
        getFinanceAnalyticsOverview(currentRange.from,currentRange.to,{
          ...filters,categoryId:null,merchant:null
-       }).then(g=>g),
+       }),
        Promise.all([
          listFinanceCalendarDays(thisMonth(today)),
          listFinanceCalendarDays(monthOffset(thisMonth(today),1))
@@ -95,10 +94,15 @@ export function FinanceAnalytics(){
      if(token!==request.current)return;
      const newToday=todayInFinanceTimezone(prefs.timezone);
      if(newToday!==today){setToday(newToday);return;}
-     const grocerySubset=groceries.categories.some(c=>c.code==='groceries');
+     const groceryId=categories.find(c=>c.code==='groceries')?.id;
+     const groceryDetails=groceryId?
+       await getFinanceAnalyticsOverview(currentRange.from,currentRange.to,{
+         accountId:filters.accountId??null,categoryId:groceryId,merchant:null
+       }):groceries;
+     if(token!==request.current)return;
      setData({
        overview,merchantOptions:options.merchants,months,daily,budget,accounts,categories,
-       groceries:grocerySubset?groceries:groceries,upcoming,timezone:prefs.timezone
+       groceries:groceryDetails,upcoming,timezone:prefs.timezone
      });
    }catch(e){if(token===request.current){setError(fail(e));setData(null);}}
    finally{if(token===request.current)setLoading(false);}
@@ -142,12 +146,10 @@ export function FinanceAnalytics(){
  const topCategory=categories[0];
  const grocery=categories.find(c=>c.code==='groceries');
  const outside=categories.find(c=>c.code==='outside-food');
- const groceryForMerchants=data?.groceries.categories.find(c=>c.code==='groceries');
  const groceryVendorDetails=data?.groceries.merchants??[];
  const groceryDaily=data?.daily.reduce((n,d)=>n+minorBigInt(d.groceryAllocatedMinor),BigInt(0)).toString()??'0';
  const rolling=data?.upcoming.filter(r=>r.date>today&&r.date<=shiftCalendarDay(today,7)
    &&minorBigInt(r.groceryMinor)>BigInt(0))??[];
- const currentTrend=trendEnd===thisMonth(today);
  const projected=overview&&currentRange&&preset==='current'&&noFilters(filters)?
    monthEndProjection({today,monthStart:thisMonth(today),firstTracked:overview.firstTracked,
      actualMinor:overview.expenseMinor}):null;
@@ -191,7 +193,7 @@ export function FinanceAnalytics(){
      (currentRange?.denominatorDays??0)+' observed calendar days in selected range'],
    ['Top expense category',topCategory?.name??(topCategory?'Uncategorized':'No spending'),
      'Ranked by actual paid expense amount'],
-   ['Largest purchase',overview?num(overview.largestMinor):'—',
+   ['Largest purchase',overview?(overview.expenseCount?num(overview.largestMinor):'No purchases'):'—',
      'Largest single active expense in selection'],
    ['Expense transactions',overview?String(overview.expenseCount):'—',
      'Counts purchases, not allocation days']
