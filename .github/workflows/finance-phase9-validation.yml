@@ -24,6 +24,9 @@ jobs:
           corepack enable
           corepack prepare pnpm@10.28.2 --activate
       - run: pnpm install --frozen-lockfile
+      - name: Dependency advisory review (release evidence, informational)
+        continue-on-error: true
+        run: pnpm audit --audit-level high
       - name: Finance lint
         run: pnpm exec eslint app/finance components/finance lib/finance tests/finance-backup-phase9.spec.ts tests/finance-analytics-phase8.spec.ts tests/finance-calendar-phase7.spec.ts tests/finance-allocation-phase6.spec.ts tests/finance-budget.spec.ts tests/finance-math.spec.ts tests/finance-accounts.spec.ts tests/finance-page.spec.ts
       - name: TypeScript
