@@ -150,7 +150,10 @@ export type CsvFinanceRow={
 export function safeCsvCell(value:unknown):string{
  // Quoting is not enough to stop Excel/Sheets formula evaluation.
  const s=String(value??'').replaceAll('\u0000','');
- const neutral=/^[\s\u0000-\u001f]*[=+@\-]/u.test(s)?"'"+s:s;
+ // Neutralize a formula prefix both at the start of a cell and after every
+ // embedded newline; some spreadsheet importers treat multiline data loosely.
+ const neutral=s.replace(/(^|[\r\n])([\t ]*)(?=[=+@-])/g,
+   (_match,breakChar:string,indent:string)=>breakChar+"'"+indent);
  return '"'+neutral.replaceAll('"','""')+'"';
 }
 export function financeTransactionsCsv(backup:FinanceBackup,from?:string,to?:string):string{
