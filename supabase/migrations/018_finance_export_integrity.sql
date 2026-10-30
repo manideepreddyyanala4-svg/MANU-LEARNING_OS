@@ -11,13 +11,15 @@ create function public.finance_guard_backdated_reconciliation()
 returns trigger language plpgsql security definer set search_path='' as $$
 begin
  if new.kind not in ('income','expense','transfer') then return new; end if;
- if tg_op='UPDATE' and not (
-   new.amount_minor is distinct from old.amount_minor or
-   new.txn_date is distinct from old.txn_date or
-   new.source_account_id is distinct from old.source_account_id or
-   new.destination_account_id is distinct from old.destination_account_id or
-   new.kind is distinct from old.kind or new.voided_at is distinct from old.voided_at
- ) then return new; end if;
+ if tg_op='UPDATE' then
+   if not (
+     new.amount_minor is distinct from old.amount_minor or
+     new.txn_date is distinct from old.txn_date or
+     new.source_account_id is distinct from old.source_account_id or
+     new.destination_account_id is distinct from old.destination_account_id or
+     new.kind is distinct from old.kind or new.voided_at is distinct from old.voided_at
+   ) then return new; end if;
+ end if;
 
  if exists (
    select 1 from public.finance_audit_events h
