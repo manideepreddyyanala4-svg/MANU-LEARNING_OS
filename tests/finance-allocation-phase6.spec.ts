@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { allocatePurchase, shiftCalendarDay } from '../lib/finance/allocations';
-import { minorBigInt, parseMoney } from '../lib/finance/money';
+import { minorBigInt } from '../lib/finance/money';
 import { allocationRulesForDraft, aggregateDailyCost, purchasePreview,
   draftFromSavedRules, type PurchaseAllocationDraft } from '../lib/finance/allocation-editor';
 import { dailyBudgetPosition, daysInMonth } from '../lib/finance/budget';
@@ -47,8 +47,7 @@ test('overlapping whole-basket and ordinary expenses aggregate without overwriti
     ...chicken,...veg,...rice,...drink
   ]);
   // 775,000 cents over 31 days is exactly 25,000 cents standard per day.
-  expect(pos.standardRemaining.numerator).toBe((BigInt(3000)-BigInt(22000)*BigInt(31)).toString()===pos.standardRemaining.numerator?
-    pos.standardRemaining.numerator:'93000');
+  expect(pos.standardRemaining.numerator).toBe('93000');
 });
 
 test('one whole purchase with mixed item durations still has one exact total',()=>{
