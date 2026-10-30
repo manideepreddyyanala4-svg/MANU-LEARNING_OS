@@ -4,12 +4,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowDownLeft, ArrowUpRight, CalendarClock, Check, CircleAlert, Clock3,
   Pencil, Plus, RefreshCw, Search, Trash2, Wallet } from 'lucide-react';
 import { Card, Empty } from '@/components/ui';
+import { PurchaseAllocationEditor } from './purchase-allocation-editor';
+import { allocationRulesForDraft, draftFromSavedRules,
+  type PurchaseAllocationDraft } from '@/lib/finance/allocation-editor';
 import { formatMoney, minorBigInt, parseMoney } from '@/lib/finance/money';
 import { accountLedgerMatches } from '@/lib/finance/account-summary';
 import { todayInTaipei, formatFinanceDate, formatFinanceTimestamp } from '@/lib/finance/dates';
 import { listFinanceAccounts, listAccountOverviews,
-  listCategories, listFinanceHistory, listFinancePlans,
-  saveCategory, saveTransaction, voidTransaction, saveFinancePlan, postFinancePlan,
+  listCategories, listFinanceHistory, listFinancePlans, listAllocationDefinitions,
+  saveCategory, saveTransaction, voidTransaction, saveFinancePlan, saveAllocatedFinancePlan, postFinancePlan,
   type FinanceHistoryFilters, type PlannedFinanceEntry } from '@/lib/finance/repository';
 import type { FinanceAccount, FinanceAccountOverview, FinanceCategory, FinanceTransaction } from '@/lib/finance/types';
 
@@ -61,6 +64,13 @@ export function FinanceTransactions(){
   const [newCategory,setNewCategory]=useState('');
   const [merchant,setMerchant]=useState('');
   const [note,setNote]=useState('');
+  const [allocation,setAllocation]=useState<PurchaseAllocationDraft>({
+    mode:'single',amountInput:'',purchaseDate:todayInTaipei(),
+    startDate:todayInTaipei(),duration:'3',items:[]
+  });
+  const [allocationLoading,setAllocationLoading]=useState(false);
+  const [allocationLoadError,setAllocationLoadError]=useState('');
+  const allocationLoadToken=useRef(0);
   const [date,setDate]=useState(todayInTaipei);
   const [saveError,setSaveError]=useState('');
   const [query,setQuery]=useState('');
@@ -116,7 +126,28 @@ export function FinanceTransactions(){
   function chooseMode(next:Mode,tx:FinanceTransaction|null=null,plan:PlannedFinanceEntry|null=null){
     setMode(next);setEditing(tx);setEditingPlan(plan);
     const record=tx??plan;
-    setAmount(record?minorInput(record.amountMinor):'');
+    const nextAmount=record?minorInput(record.amountMinor):'';
+    setAmount(nextAmount);
+    const nextDate=record?(tx?tx.txnDate:plan?.dueDate??todayInTaipei()):todayInTaipei();
+    setAllocation({
+      ...(plan?.kind==='expense'?
+        draftFromSavedRules(plan.amountMinor,plan.dueDate,plan.allocationRules):
+        {mode:'single' as const,startDate:nextDate,duration:'3',items:[]}),
+      amountInput:nextAmount,purchaseDate:nextDate
+    });
+    setAllocationLoadError('');
+    const token=++allocationLoadToken.current;
+    if(tx?.kind==='expense'){
+      setAllocationLoading(true);
+      listAllocationDefinitions(tx.id)
+        .then(rules=>{
+          if(token!==allocationLoadToken.current)return;
+          setAllocation({...draftFromSavedRules(tx.amountMinor,tx.txnDate,rules),
+            amountInput:nextAmount,purchaseDate:nextDate});
+        })
+        .catch(e=>{if(token===allocationLoadToken.current)setAllocationLoadError(errorText(e));})
+        .finally(()=>{if(token===allocationLoadToken.current)setAllocationLoading(false);});
+    }else setAllocationLoading(false);
     const selected=tx?(next==='expense'?tx.sourceAccountId:tx.destinationAccountId):
       plan?.accountId??null;
     const preference=typeof window!=='undefined'?window.localStorage.getItem(QUICK_ACCOUNT):null;
@@ -135,6 +166,7 @@ export function FinanceTransactions(){
   }
   function closeForm(){
     if(busyLock.current)return;
+    allocationLoadToken.current++;
     setFormOpen(false);setEditing(null);setEditingPlan(null);setSaveError('');
     pendingKey.current=null;
   }
@@ -145,6 +177,7 @@ export function FinanceTransactions(){
   }
   async function afterSave(text:string){
     setMessage(text);setSaveError('');
+    allocationLoadToken.current++;
     setFormOpen(false);setEditing(null);setEditingPlan(null);resetToFirst();setFilterVersion(v=>v+1);
     window.dispatchEvent(new Event('manuos:finance-changed'));
   }
@@ -173,8 +206,13 @@ export function FinanceTransactions(){
       const categoryName=newCategory.trim();
       if(mode==='expense' && !categoryId && !categoryName)throw new Error('Choose an expense category');
       if(categoryName.length>80)throw new Error('Category name must be at most 80 characters');
+      if(mode==='expense'&&(allocationLoading||allocationLoadError))
+        throw new Error(allocationLoadError||'Existing grocery allocation details are still loading');
+      const allocationRules=mode==='expense'?allocationRulesForDraft({
+        ...allocation,amountInput:amount,purchaseDate:date
+      }):[];
       const fingerprint=JSON.stringify({mode,amountMinor,accountId,categoryId,categoryName,source,note,date,
-        scheduled,txId:editing?.id,revision:editing?.revision,planId:editingPlan?.id,
+        scheduled,allocationRules,txId:editing?.id,revision:editing?.revision,planId:editingPlan?.id,
         planRevision:editingPlan?.revision});
       const key=stableKey(fingerprint);
       busyLock.current=true;setBusy(true);
@@ -197,11 +235,16 @@ export function FinanceTransactions(){
         }
       }
       if(scheduled){
-        await saveFinancePlan({
+        const request={
           idempotencyKey:key,kind:mode,amountMinor,dueDate:date,accountId,
           categoryId:category,merchant:source,note,
           planId:editingPlan?.id,expectedRevision:editingPlan?.revision,
-        });
+        };
+        if(mode==='expense'){
+          await saveAllocatedFinancePlan({...request,kind:'expense',allocations:allocationRules});
+        }else{
+          await saveFinancePlan(request);
+        }
       }else{
         await saveTransaction({
           idempotencyKey:key,kind:mode,amountMinor,txnDate:date,
@@ -209,6 +252,7 @@ export function FinanceTransactions(){
           destinationAccountId:mode==='income'?accountId:null,
           categoryId:category,merchant:source,note,
           transactionId:editing?.id,expectedRevision:editing?.revision,
+          allocations:mode==='expense'?allocationRules:[],
         });
       }
       window.localStorage.setItem(QUICK_ACCOUNT,accountId);
@@ -311,7 +355,7 @@ export function FinanceTransactions(){
               <label className={label+' sm:col-span-2'}>Amount in NT$
                 <input autoFocus type="text" inputMode="decimal" autoComplete="off" required
                   placeholder="0.00" className={control+' text-2xl font-extrabold'}
-                  value={amount} onChange={e=>setAmount(e.target.value)}
+                  value={amount} onChange={e=>{setAmount(e.target.value);setAllocation(a=>({...a,amountInput:e.target.value}));}}
                   aria-label="Transaction amount"/>
               </label>
               <label className={label}>{mode==='expense'?'Payment account':'Receiving account'}
@@ -349,14 +393,34 @@ export function FinanceTransactions(){
                   onChange={e=>setMerchant(e.target.value)}
                   placeholder={mode==='expense'?'e.g. PX Mart':'e.g. RA stipend'}/>
                 {mode==='expense'&&<datalist id="recent-finance-merchants">
-                  {['PX Mart','FamilyMart',...recentMerchants].filter((s,i,a)=>a.indexOf(s)===i)
+                  {['PX Mart','FamilyMart','7-Eleven',...recentMerchants].filter((s,i,a)=>a.indexOf(s)===i)
                     .map(s=><option key={s} value={s}/>)}
                 </datalist>}
               </label>
               <label className={label}>Transaction date (Taipei)
                 <input required type="date" className={control} value={date}
-                  onChange={e=>setDate(e.target.value)}/>
+                  onChange={e=>{
+                    const value=e.target.value;
+                    setDate(value);
+                    setAllocation(a=>({
+                      ...a,purchaseDate:value,startDate:a.startDate===date?value:a.startDate,
+                      items:a.items.map(x=>({...x,startDate:x.startDate===date?value:x.startDate}))
+                    }));
+                  }}/>
               </label>
+              {mode==='expense'&&(
+                allocationLoading?
+                  <p role="status" className="sm:col-span-2 text-sm text-[var(--muted)]">
+                    Loading existing grocery allocation before editing…
+                  </p>:
+                allocationLoadError?
+                  <p role="alert" className="sm:col-span-2 text-sm text-[var(--danger)]">
+                    Cannot safely edit this purchase: {allocationLoadError}
+                  </p>:
+                  <PurchaseAllocationEditor draft={{...allocation,amountInput:amount,purchaseDate:date}}
+                    onChange={setAllocation}
+                    paymentAccount={accountLabel(accountId,accounts)}/>
+              )}
               <label className={label+' sm:col-span-2'}>Notes (optional)
                 <textarea className={control} rows={2} maxLength={2000}
                   value={note} onChange={e=>setNote(e.target.value)}/>
@@ -370,7 +434,7 @@ export function FinanceTransactions(){
               </div>
               {saveError&&<p role="alert" className="sm:col-span-2 text-sm text-[var(--danger)]">{saveError}</p>}
               <div className="flex flex-wrap gap-2 sm:col-span-2">
-                <button className={primary} type="submit" disabled={busy}>
+                <button className={primary} type="submit" disabled={busy||allocationLoading||Boolean(allocationLoadError)}>
                   {busy?'Saving securely…':editing||editingPlan?'Save correction':dayIsFuture(date)?'Save schedule':'Save '+mode}
                 </button>
                 <button className={secondary} type="button" onClick={closeForm} disabled={busy}>Cancel</button>
