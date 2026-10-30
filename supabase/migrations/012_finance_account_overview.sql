@@ -89,6 +89,14 @@ begin
       operation_key,'opening',amount_minor,effective_date,
       null,account_id,null,'Opening balance','Initial manually tracked balance'
     );
+    -- Prevent accidental reuse of an idempotency key for different information.
+    if not exists (
+      select 1 from public.finance_transactions t
+      where t.user_id=u and t.id=created_id and t.kind='opening'
+        and t.destination_account_id=account_id
+        and t.amount_minor=amount_minor and t.txn_date=effective_date
+        and t.voided_at is null
+    ) then raise exception 'Replayed opening key belongs to different data'; end if;
     results := results || jsonb_build_array(jsonb_build_object(
       'accountId',account_id,'transactionId',created_id
     ));
