@@ -154,3 +154,16 @@ export function analyticsInsights(o:AnalyticsOverview,budgetMinor:MoneyMinor|nul
  }
  return insights.slice(0,3);
 }
+
+
+/** Signed month-on-month percentage, two decimals, null for no valid baseline. */
+export function monthlyChangePercent(currentMinor:MoneyMinor,previousMinor:MoneyMinor):string|null{
+ const current=minorBigInt(currentMinor),previous=minorBigInt(previousMinor);
+ if(previous<=BigInt(0)||current<BigInt(0))return null;
+ const difference=current-previous,negative=difference<BigInt(0);
+ const abs=negative?-difference:difference;
+ const basis=(abs*BigInt(10000)+previous/BigInt(2))/previous;
+ return (negative?'-':difference>BigInt(0)?'+':'')+
+   (basis/BigInt(100)).toString()+'.'+
+   (basis%BigInt(100)).toString().padStart(2,'0')+'%';
+}
