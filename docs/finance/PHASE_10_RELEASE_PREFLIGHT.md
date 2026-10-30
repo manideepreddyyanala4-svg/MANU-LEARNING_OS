@@ -43,11 +43,11 @@
 
 | Required field | Current value |
 | --- | --- |
-| Vercel production project ID | NOT VERIFIED |
-| Vercel production deployment ID | NOT VERIFIED |
-| Active Vercel Git deployment commit | NOT VERIFIED |
-| Supabase production project reference | NOT VERIFIED |
-| Supabase target migration history / finance tables | NOT VERIFIED |
+| Vercel production project ID | `prj_6RjVmZmD1KdrY3ne4tn91i9NRlTa` — VERIFIED |
+| Vercel production deployment ID | `dpl_AspmMhsbBNQAZftcrop7BivCyWGe` — READY at preflight |
+| Active Vercel Git deployment commit | `main` at `6507cf35202ca4ceaf664b8e6009ade443404371` — VERIFIED |
+| Supabase production project reference | `awmfxkaunmithimfijsi` — matches production URL host |
+| Supabase target migration history / finance tables | No tracked migrations, 23 existing non-Finance public tables, zero Finance tables — VERIFIED |
 | Production backup & recovery test | NOT VERIFIED |
 | Authenticated staging + real Android screenshots | NOT VERIFIED |
 | Production migrations 009–018 | **NOT APPLIED BY THIS RELEASE WORK** |
@@ -66,7 +66,7 @@ Read the [Finance User Guide](./USER_GUIDE.md). Owner must sign in, confirm Post
 
 ## 7. Connected live-service evidence (2026-10-30, read-only)
 
-**Supabase:** The authenticated Supabase account lists exactly one active healthy project named `ManuOS`, ref `awmfxkaunmithimfijsi`, region `ap-northeast-2` (Seoul), Postgres **17.11**. The organization `JobReady Org` is on the **Free** plan. A second project, `yjgcfputqjzfqsrqveuy` in Singapore, was marked inactive and must not be assumed to be this application's backend. The ManuOS API host is `awmfxkaunmithimfijsi.supabase.co`. **The project is a candidate, not proven to be the live Vercel backend until production environment identity matches.**
+**Supabase:** The authenticated Supabase account lists exactly one active healthy project named `ManuOS`, ref `awmfxkaunmithimfijsi`, region `ap-northeast-2` (Seoul), Postgres **17.11**. The organization `JobReady Org` is on the **Free** plan. A second project, `yjgcfputqjzfqsrqveuy` in Singapore, was marked inactive and must not be assumed to be this application's backend. The ManuOS API host is `awmfxkaunmithimfijsi.supabase.co`. **Verified live Vercel backend:** the existing Vercel project's production `NEXT_PUBLIC_SUPABASE_URL` environment value was read only for exact host equality (secret-free output); it matches `awmfxkaunmithimfijsi.supabase.co`. No credentials were disclosed.
 
 Read-only schema introspection of active ManuOS found **23 public base tables**, including populated learning/activity tables, and **zero public Finance tables**. Every public base table had RLS enabled. The Supabase migration-list API returned no tracked migrations; `supabase_migrations` schema was absent. Do **not** assume SQL files 001–008 have tracked migration versions. Existing tables were likely created by another method, but the method is unverified. Finance 009–018 must be staged against a copy of this exact base schema and reviewed for dependencies. Never apply 001–008 over populated production blindly.
 
@@ -74,6 +74,15 @@ Security advisers report: (1) `public.set_updated_at` has a mutable search path 
 
 **Backup blocking risk:** Supabase official backup docs (https://supabase.com/docs/guides/platform/backups) state automatic daily database backups are on Pro/Team/Enterprise; Free-tier owners should regularly export via CLI `db dump` or another independently tested process. This connection exposes no database-backup API. No complete production backup or isolated restore has been produced or verified. **NO PRODUCTION SCHEMA CHANGE until this gate is cleared.** The JSON archive in Finance protects only Finance owner data and is not a complete Supabase database backup.
 
-**Vercel:** Project discovery found the existing `manu-learning-os` project with id `prj_6RjVmZmD1KdrY3ne4tn91i9NRlTa` under scope `team_25mSjhrZDbhuGSDh9Gxuol6f`. Project detail, deployment list, aliases, and environment key metadata all returned **403 missing team authorization**. One-time official Vercel authorization flow was started, requiring the account owner to approve the team grant. No production deploy action was taken. After approval, compare `NEXT_PUBLIC_SUPABASE_URL` host with Supabase project `awmfxkaunmithimfijsi` using **safe secret-free comparison**. A different reference must be investigated, not overwritten.
+**Vercel — verified after user approved access:** existing `manu-learning-os` project id `prj_6RjVmZmD1KdrY3ne4tn91i9NRlTa`, team `team_25mSjhrZDbhuGSDh9Gxuol6f`, framework Next.js, verified production domain `manu-learning-os.vercel.app`. Last production deployment at audit `dpl_AspmMhsbBNQAZftcrop7BivCyWGe`, state READY, commit `6507cf35202ca4ceaf664b8e6009ade443404371`, ref `main`; **Finance code still not deployed to the production alias**. The 16 configured project environment entries were targeted to production only; preview-target Supabase environment config was not listed, so authenticated Finance staging on preview cannot be presumed to work. The decrypted public URL host was compared inside the connector without disclosing other values and matched active ManuOS Supabase ref `awmfxkaunmithimfijsi`. Existing development preview deployments from Finance branches are READY, but a successful build without a separate Finance-migrated preview database is not an authenticated functional acceptance pass.
 
-**Additional release constraint:** CI used isolated PostgreSQL 16 with synthetic fixtures; active Supabase uses PostgreSQL 17.11. Execute compatibility/integration checks against a separately provisioned and authorized PG17 staging database before production release. Do not insert fixture users into the live `auth.users` table.
+**Additional release constraint:** The Phase 10 GitHub CI job now uses isolated PostgreSQL 17 and passes migrations 009–018 and synthetic financial regression. Production is PostgreSQL 17.11. A PostgreSQL 17 CI container is **not** a complete Supabase staging clone (auth, storage, grants, production 001–008 schema, third-party services, or real browser sign-in). Do not insert fixture users into the live `auth.users` table.
+
+## 8. Post-authorization code-reliability repairs
+
+- Recent recorded expenses now request an **active-only server-side** history page. Voided transactions remain accessible in the comprehensive history and backup, but no longer appear as ordinary paid recent purchases in the overview.
+- Pending transaction retries retain up to 32 hashed independent intents for 7 days per session and action scope, rather than overwriting the previous uncertain UUID when the user begins a second different expense. Phase 9 one-slot session state is migrated, with no raw merchant/account/amount data stored in sessionStorage. Browser/session-loss and true simultaneous cross-device duplicates still require user reconciliation against server history.
+- Added regression testing for interleaved uncertain intents and Phase 9 store migration.
+- Updated the release-only Postgres test service from v16 to v17 and confirmed the SQL job passed, matching the active production major version.
+
+**Gates still open:** no complete recoverable live production database export; no verified isolated restore; no Supabase staging owner login and cross-user/authenticated mobile acceptance; therefore **do not merge PR #10 or apply Finance schema in production**.
