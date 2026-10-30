@@ -10,7 +10,7 @@ declare
  other_id uuid:='00000000-0000-4000-8000-00000000000e';
  postbank uuid;ctbc uuid;cash uuid;groceries uuid;
  expense_id uuid;grocery_id uuid;grocery2_id uuid; key1 uuid:=gen_random_uuid();
- expense_key uuid:=gen_random_uuid(); snapshot jsonb; csv jsonb;
+ expense_key uuid:=gen_random_uuid(); reconciliation_key uuid:=gen_random_uuid(); reconciliation_id uuid; snapshot jsonb; csv jsonb;
  diff numeric; total numeric; owners integer; ok boolean;
  report jsonb; day1 numeric;day2 numeric;day3 numeric;
 begin
@@ -124,6 +124,32 @@ begin
    when kind='adjustment' and voided_at is null then amount_minor
    else 0 end),0) into diff from public.finance_transactions where user_id=u;
  if total<>diff then raise exception 'Journal totals do not reconcile: % <> %',total,diff; end if;
+ -- Reconciliation is signed delta history. Same-key retry must match the
+ -- originally checked target and its account, date and exact reason.
+ reconciliation_id:=public.finance_reconcile_account(
+   reconciliation_key,ctbc,215100,'2025-10-31','Manually verified statement');
+ if reconciliation_id<>public.finance_reconcile_account(
+   reconciliation_key,ctbc,215100,'2025-10-31','Manually verified statement')
+ then raise exception 'Same reconciliation key did not replay consistently'; end if;
+ begin
+   perform public.finance_reconcile_account(
+     reconciliation_key,ctbc,216100,'2025-10-31','Manually verified statement');
+   raise exception 'Changed reconciliation target was accepted';
+ exception when others then
+   if sqlerrm='Changed reconciliation target was accepted' then raise; end if;
+   if sqlerrm not like '%Reconciliation key reused%' then raise; end if;
+ end;
+ begin
+   perform public.finance_put_transaction(
+     p_operation_key=>gen_random_uuid(),p_kind=>'expense',p_amount_minor=>1000,
+     p_txn_date=>'2025-10-30',p_source_account_id=>ctbc,
+     p_category_id=>groceries,p_merchant=>'Late historical expense'
+   );
+   raise exception 'Backdated payment before reconciliation was accepted';
+ exception when others then
+   if sqlerrm='Backdated payment before reconciliation was accepted' then raise; end if;
+   if sqlerrm not like '%predates a checked balance%' then raise; end if;
+ end;
  -- Cross-user query and RPC: self must not see source user records.
  perform set_config('request.jwt.claim.sub',other_id::text,true);
  perform public.finance_bootstrap();
