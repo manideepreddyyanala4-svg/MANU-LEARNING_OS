@@ -83,7 +83,8 @@ test('daily cent allowances remain deterministic when the budget does not divide
   const r=monthRows('2026-11-01');
   const c=buildFinanceCalendar('2026-11-01','2026-11-01',r.baseline,r.filtered,'40000');
   expect(c.cells[0].standardDayMinor).toBe('1334');
-  expect(c.cells[10].standardDayMinor).toBe('1334');
+  expect(c.cells[9].standardDayMinor).toBe('1334');
+  expect(c.cells[10].standardDayMinor).toBe('1333');
   expect(c.cells[29].standardDayMinor).toBe('1333');
   expect(c.cells.reduce((n,d)=>n+BigInt(d.standardDayMinor!),BigInt(0))).toBe(BigInt(40000));
 });
