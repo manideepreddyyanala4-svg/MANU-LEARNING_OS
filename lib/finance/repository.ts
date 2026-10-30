@@ -4,7 +4,7 @@ import { minorBigInt } from './money';
 import type {
   FinanceAccount, FinanceCategory, FinanceTransaction, GroceryRule,
   ISODate, ManualFxRate, MonthlyBudget, MonthlySummary, TransactionCommand,
-  Currency, MoneyMinor,
+  Currency, MoneyMinor, FinanceAccountOverview, OpeningBalanceEntry, AccountHistoryPage,
 } from './types';
 
 /**
@@ -88,7 +88,7 @@ export async function listTransactions(includeVoided=false): Promise<FinanceTran
     txnDate:r.txn_date,txnTime:r.txn_time,
     sourceAccountId:r.source_account_id,destinationAccountId:r.destination_account_id,
     categoryId:r.category_id,merchant:r.merchant,note:r.note,
-    revision:r.revision,voidedAt:r.voided_at,createdAt:r.created_at
+    revision:r.revision,voidedAt:r.voided_at,createdAt:r.created_at,updatedAt:r.updated_at
   }));
 }
 
@@ -232,4 +232,60 @@ export async function financeExportSnapshot() {
   ]);
   return {schemaVersion:1,exportedAt:new Date().toISOString(),manuallyTracked:true,
     accounts,transactions,categories,budgets,fxRates,allocations};
+}
+
+
+/** One owner-authenticated read model for the account detail screen. */
+export async function listAccountOverviews():Promise<FinanceAccountOverview[]> {
+  const client=await clientForOwner();
+  const {data,error}=await client.from('finance_account_overview').select('*');
+  if(error) throw new Error(error.message);
+  return (data??[]).map(r=>({
+    accountId:r.account_id,
+    openingTransactionId:r.opening_transaction_id,
+    openingDate:r.opening_date,
+    openingMinor:exactMinor(r.opening_minor),
+    incomeMinor:exactMinor(r.income_minor),
+    expenseMinor:exactMinor(r.expense_minor),
+    netTransferMinor:exactMinor(r.net_transfer_minor),
+    adjustmentMinor:exactMinor(r.adjustment_minor),
+    lastActivityAt:r.last_activity_at,
+    lastReconciledAt:r.last_reconciled_at,
+  }));
+}
+
+export async function initializeOpeningBalances(entries:OpeningBalanceEntry[]):Promise<void> {
+  if(!entries.length) throw new Error('No opening balances provided');
+  if(new Set(entries.map(e=>e.accountId)).size!==entries.length)
+    throw new Error('An account was included twice');
+  entries.forEach(entry=>{
+    if(minorBigInt(entry.amountMinor)<BigInt(0)) throw new Error('Opening balance cannot be negative');
+    assertISODate(entry.effectiveDate);
+  });
+  await callRpc<unknown>('finance_initialize_openings',{p_entries:entries});
+}
+
+/** A single account's history, paginated at the database. Includes voided items for audit visibility. */
+export async function listAccountActivity(accountId:string,offset=0,limit=20):Promise<AccountHistoryPage> {
+  if(!/^[0-9a-f-]{36}$/i.test(accountId)) throw new Error('Invalid account ID');
+  if(!Number.isSafeInteger(offset)||offset<0||!Number.isSafeInteger(limit)||limit<1||limit>100)
+    throw new Error('Invalid history pagination');
+  const client=await clientForOwner();
+  const {data,error,count}=await client.from('finance_transaction_details')
+    .select('*',{count:'exact'})
+    .or('source_account_id.eq.'+accountId+',destination_account_id.eq.'+accountId)
+    .order('txn_date',{ascending:false})
+    .order('updated_at',{ascending:false})
+    .range(offset,offset+limit-1);
+  if(error) throw new Error(error.message);
+  return {
+    count:count??0,
+    rows:(data??[]).map(r=>({
+      id:r.id,kind:r.kind,amountMinor:exactMinor(r.amount_minor),currency:'TWD' as const,
+      txnDate:r.txn_date,txnTime:r.txn_time,
+      sourceAccountId:r.source_account_id,destinationAccountId:r.destination_account_id,
+      categoryId:r.category_id,merchant:r.merchant,note:r.note,
+      revision:r.revision,voidedAt:r.voided_at,createdAt:r.created_at,updatedAt:r.updated_at
+    }))
+  };
 }
