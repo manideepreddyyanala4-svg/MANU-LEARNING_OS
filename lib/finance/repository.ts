@@ -39,15 +39,7 @@ export async function listFinanceAccounts(): Promise<FinanceAccount[]> {
   const client = await clientForOwner();
   const { data, error } = await client.from('finance_account_balances').select(
     'account_id,code,name,kind,currency,is_active,balance_minor'
-  ).order('created_at' as never);
-  // The balance view has no created_at column; use stable account-code ordering.
-  if (error && /created_at/i.test(error.message)) {
-    const retry = await client.from('finance_account_balances').select(
-      'account_id,code,name,kind,currency,is_active,balance_minor'
-    ).order('code');
-    if (retry.error) throw new Error(retry.error.message);
-    return (retry.data ?? []).map(mapAccount);
-  }
+  ).order('code');
   if (error) throw new Error(error.message);
   return (data ?? []).map(mapAccount);
 }
