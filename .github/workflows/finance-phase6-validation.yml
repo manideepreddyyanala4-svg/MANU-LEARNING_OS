@@ -25,7 +25,7 @@ jobs:
           corepack prepare pnpm@10.28.2 --activate
       - run: pnpm install --frozen-lockfile
       - name: Finance lint
-        run: pnpm exec eslint app/finance components/finance lib/finance tests/finance-allocation-phase6.spec.ts tests/finance-allocation-phase6.spec.ts tests/finance-budget.spec.ts tests/finance-math.spec.ts tests/finance-accounts.spec.ts tests/finance-page.spec.ts
+        run: pnpm exec eslint app/finance components/finance lib/finance tests/finance-allocation-phase6.spec.ts tests/finance-budget.spec.ts tests/finance-math.spec.ts tests/finance-accounts.spec.ts tests/finance-page.spec.ts
       - name: TypeScript
         run: pnpm typecheck
       - name: Next.js build without deploy
@@ -33,7 +33,7 @@ jobs:
       - name: Install desktop Chromium
         run: pnpm exec playwright install chromium
       - name: Finance unit math, dates and responsive smoke
-        run: pnpm exec playwright test tests/finance-budget.spec.ts tests/finance-math.spec.ts tests/finance-accounts.spec.ts tests/finance-page.spec.ts --project=desktop-chromium --project=mobile-chrome
+        run: pnpm exec playwright test tests/finance-allocation-phase6.spec.ts tests/finance-budget.spec.ts tests/finance-math.spec.ts tests/finance-accounts.spec.ts tests/finance-page.spec.ts --project=desktop-chromium --project=mobile-chrome
       - name: Repo lint baseline informational
         continue-on-error: true
         run: pnpm lint
@@ -80,7 +80,7 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f tests/finance-postgres-assertions.sql
           psql -v ON_ERROR_STOP=1 -f tests/finance-phase3-postgres.sql
           psql -v ON_ERROR_STOP=1 -f tests/finance-phase4-postgres.sql
-      - name: Phase 5 budget, FX, allocations and ledger invariance
+      - name: Phase 5 and 6 budget, allocation and ledger invariants
         run: |
           psql -v ON_ERROR_STOP=1 -f tests/finance-phase5-postgres.sql
           psql -v ON_ERROR_STOP=1 -f tests/finance-phase6-postgres.sql
