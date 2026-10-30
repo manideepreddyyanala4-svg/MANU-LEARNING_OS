@@ -159,6 +159,18 @@ begin
  select balance_minor::numeric into v from public.finance_account_balances where account_id=ctbc;
  if v<>370000 then raise exception 'Analytics mutated bank ledger or edit incorrect'; end if;
 
+ -- A manual reconciliation corrects the account balance but is NOT income or spending.
+ perform public.finance_reconcile_account(
+   gen_random_uuid(),ctbc,365000,'2025-10-31','Matched a historical bank statement'
+ );
+ report:=public.finance_analytics_overview('2025-10-01','2025-10-31');
+ if report->>'expenseMinor'<>'255000' or report->>'incomeMinor'<>'105000'
+ then raise exception 'Reconciliation contaminated financial analytics'; end if;
+ -- A future month is a plan, not a recorded zero-spend observed month.
+ select count(*) into n from public.finance_analytics_months('2027-01-01',1)
+ where coverage='future';
+ if n<>1 then raise exception 'Future history was not marked unobserved'; end if;
+
  perform set_config('request.jwt.claim.sub',outsider::text,true);
  perform public.finance_bootstrap();
  report:=public.finance_analytics_overview('2025-10-01','2025-10-31');
