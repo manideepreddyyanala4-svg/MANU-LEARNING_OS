@@ -83,7 +83,7 @@ test('400 TWD over 3 days allocates 133.34, 133.33, 133.33 without creating mone
  expect(days.map(d=>[d.date,d.amountMinor])).toEqual([
   ['2026-10-30','13334'],['2026-10-31','13333'],['2026-11-01','13333']
  ]);
- expect(days.reduce((n,d)=>n+BigInt(d.amountMinor),BigInt(0))).toBe(4000BigInt(0));
+ expect(days.reduce((n,d)=>n+BigInt(d.amountMinor),BigInt(0))).toBe(BigInt(40000));
 });
 test('full SHA-256 backup export is tamper-evident on secure browser',async({page})=>{
  await page.goto('/');
