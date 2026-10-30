@@ -290,3 +290,107 @@ export async function listAccountActivity(accountId:string,offset=0,limit=20):Pr
     }))
   };
 }
+
+
+export type FinanceHistoryFilters = {
+  search?: string;
+  kind?: string;
+  accountId?: string;
+  categoryId?: string;
+  fromDate?: string;
+  toDate?: string;
+  oldestFirst?: boolean;
+  offset?: number;
+  limit?: number;
+};
+
+export type FinanceHistoryPage = { rows: FinanceTransaction[]; count: number };
+
+/** Server-paginated, authenticated transaction history. Never load the entire ledger for display. */
+export async function listFinanceHistory(filters: FinanceHistoryFilters = {}): Promise<FinanceHistoryPage> {
+  const offset = filters.offset ?? 0;
+  const limit = filters.limit ?? 20;
+  if (!Number.isSafeInteger(offset) || offset < 0 || !Number.isSafeInteger(limit) || limit < 1 || limit > 100)
+    throw new Error('Invalid history page');
+  if (filters.fromDate) assertISODate(filters.fromDate);
+  if (filters.toDate) assertISODate(filters.toDate);
+  if (filters.fromDate && filters.toDate && filters.fromDate > filters.toDate)
+    throw new Error('Start date must not be after end date');
+  const client = await clientForOwner();
+  let query = client.from('finance_transaction_details')
+    .select('*', {count:'exact'});
+  if (filters.kind && filters.kind !== 'all') query = query.eq('kind', filters.kind);
+  if (filters.categoryId && filters.categoryId !== 'all') query = query.eq('category_id', filters.categoryId);
+  if (filters.accountId && filters.accountId !== 'all') {
+    if (!/^[0-9a-f-]{36}$/i.test(filters.accountId)) throw new Error('Invalid account filter');
+    query = query.or('source_account_id.eq.'+filters.accountId+',destination_account_id.eq.'+filters.accountId);
+  }
+  if (filters.fromDate) query = query.gte('txn_date', filters.fromDate);
+  if (filters.toDate) query = query.lte('txn_date', filters.toDate);
+  const search = (filters.search ?? '').trim();
+  if (search.length > 100) throw new Error('Search is too long');
+  // PostgREST .ilike sends a parameterized pattern instead of interpolating filter expressions.
+  if (search) query = query.ilike('merchant', '%'+search.replace(/[%_\\]/g, '\\$&')+'%');
+  const ascending = Boolean(filters.oldestFirst);
+  const {data,error,count} = await query
+    .order('txn_date',{ascending})
+    .order('created_at',{ascending})
+    .order('id',{ascending})
+    .range(offset,offset+limit-1);
+  if(error) throw new Error(error.message);
+  return {count:count??0,rows:(data??[]).map(r=>({
+    id:r.id,kind:r.kind,amountMinor:exactMinor(r.amount_minor),currency:'TWD' as const,
+    txnDate:r.txn_date,txnTime:r.txn_time,sourceAccountId:r.source_account_id,
+    destinationAccountId:r.destination_account_id,categoryId:r.category_id,
+    merchant:r.merchant,note:r.note,revision:r.revision,voidedAt:r.voided_at,
+    createdAt:r.created_at,updatedAt:r.updated_at
+  }))};
+}
+
+export interface PlannedFinanceEntry {
+  id:string; kind:'income'|'expense'; amountMinor:MoneyMinor; dueDate:ISODate;
+  accountId:string; categoryId:string|null; merchant:string; note:string;
+  status:'planned'|'cancelled'|'posted'; revision:number;
+  postedTransactionId:string|null; createdAt:string; updatedAt:string;
+}
+export type PlannedFinanceCommand = {
+  idempotencyKey:string; kind:'income'|'expense'; amountMinor:MoneyMinor;
+  dueDate:ISODate; accountId:string; categoryId?:string|null;
+  merchant:string; note:string; planId?:string; expectedRevision?:number;
+  cancel?:boolean;
+};
+
+export async function listFinancePlans(offset=0,limit=20):Promise<{rows:PlannedFinanceEntry[];count:number}> {
+  if(!Number.isSafeInteger(offset)||offset<0||!Number.isInteger(limit)||limit<1||limit>100)
+    throw new Error('Invalid scheduled entry page');
+  const client=await clientForOwner();
+  const {data,error,count}=await client.from('finance_plan_details')
+    .select('*',{count:'exact'}).order('due_date',{ascending:true})
+    .order('created_at',{ascending:false}).range(offset,offset+limit-1);
+  if(error)throw new Error(error.message);
+  return {count:count??0,rows:(data??[]).map(r=>({
+    id:r.id,kind:r.kind,amountMinor:exactMinor(r.amount_minor),
+    dueDate:r.due_date,accountId:r.account_id,categoryId:r.category_id,
+    merchant:r.merchant,note:r.note,status:r.status,revision:r.revision,
+    postedTransactionId:r.posted_transaction_id,createdAt:r.created_at,updatedAt:r.updated_at
+  }))};
+}
+
+export async function saveFinancePlan(command:PlannedFinanceCommand):Promise<string> {
+  assertISODate(command.dueDate);
+  const amountMinor=minorBigInt(command.amountMinor).toString();
+  if(!command.cancel && BigInt(amountMinor)<=BigInt(0))throw new Error('Amount must be positive');
+  return callRpc<string>('finance_upsert_plan',{
+    p_operation_key:command.idempotencyKey,p_kind:command.kind,p_amount_minor:amountMinor,
+    p_due_date:command.dueDate,p_account_id:command.accountId,
+    p_category_id:command.categoryId??null,p_merchant:command.merchant,p_note:command.note,
+    p_plan_id:command.planId??null,p_expected_revision:command.expectedRevision??null,
+    p_cancel:command.cancel??false
+  });
+}
+
+export async function postFinancePlan(planId:string,revision:number,key:string):Promise<string> {
+  return callRpc<string>('finance_post_plan',{
+    p_operation_key:key,p_plan_id:planId,p_expected_revision:revision
+  });
+}
