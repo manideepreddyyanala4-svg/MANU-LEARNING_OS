@@ -1,0 +1,67 @@
+name: Finance Phase 2 (isolated validation)
+
+on:
+  push:
+    branches:
+      - feature/finance-phase-2-foundation
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  application-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Activate pinned pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.28.2 --activate
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm build
+      - name: Install Chromium
+        run: pnpm exec playwright install chromium
+      - name: Exact-money and calendar unit tests
+        run: pnpm exec playwright test tests/finance-math.spec.ts --project=desktop-chromium
+
+  isolated-postgresql:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: localhost
+      PGPORT: '5432'
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: postgres
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ensure PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Test-only Supabase auth fixture
+        run: psql -v ON_ERROR_STOP=1 -f tests/finance-postgres-fixture.sql
+      - name: Execute proposed SQL migrations in isolation
+        run: |
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/009_finance_schema.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/010_finance_ledger_rpcs.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/011_finance_metadata_rpcs.sql
+      - name: Financial invariants and hostile-user RLS checks
+        run: psql -v ON_ERROR_STOP=1 -f tests/finance-postgres-assertions.sql
