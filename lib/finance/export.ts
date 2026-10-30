@@ -61,7 +61,7 @@ export function validateFinanceExport(raw:unknown):FinanceExportSnapshot {
   };
   const expected=new Map<string,bigint>(),actual=new Map<string,bigint>();
   for(const row of data.accounts as Row[]){
-    expected.set(safeText(row.id),0n);actual.set(safeText(row.id),0n);
+    expected.set(safeText(row.id),BigInt(0));actual.set(safeText(row.id),BigInt(0));
   }
   for(const row of data.transactions as Row[]){
     const kind=safeText(row.kind),amount=validMoney(row.amount_minor);
@@ -72,7 +72,7 @@ export function validateFinanceExport(raw:unknown):FinanceExportSnapshot {
     const src=safeText(row.source_account_id),dst=safeText(row.destination_account_id);
     const add=(id:string,n:bigint)=>{
       if(!expected.has(id))throw new Error('Active transaction references a missing account');
-      expected.set(id,(expected.get(id)??0n)+n);
+      expected.set(id,(expected.get(id)??BigInt(0))+n);
     };
     if(kind==='opening'||kind==='income')add(dst,amount);
     else if(kind==='expense')add(src,-amount);
@@ -91,7 +91,7 @@ export function validateFinanceExport(raw:unknown):FinanceExportSnapshot {
   const allocated=new Map<string,bigint>();
   for(const row of data.allocations as Row[]){
     const id=safeText(row.transaction_id);
-    allocated.set(id,(allocated.get(id)??0n)+validMoney(row.amount_minor));
+    allocated.set(id,(allocated.get(id)??BigInt(0))+validMoney(row.amount_minor));
   }
   for(const row of data.transactions as Row[]){
     const sum=allocated.get(safeText(row.id));
@@ -107,7 +107,7 @@ export function validateFinanceExport(raw:unknown):FinanceExportSnapshot {
     needs(row.ledger_event_id,events,'postings');
     needs(row.account_id,accounts,'postings');
     const amount=validMoney(row.delta_minor),id=safeText(row.account_id);
-    actual.set(id,(actual.get(id)??0n)+amount);
+    actual.set(id,(actual.get(id)??BigInt(0))+amount);
   }
   for(const id of expected.keys()){
     if(expected.get(id)!==actual.get(id))
@@ -135,9 +135,9 @@ export function csvSafeCell(value:unknown):string {
 }
 export function minorAsDecimal(minor:string):string{
   const n=minorBigInt(minor);
-  const negative=n<0n,abs=negative?-n:n;
-  return (negative?'-':'')+(abs/100n).toString()+'.'+
-    (abs%100n).toString().padStart(2,'0');
+  const negative=n<BigInt(0),abs=negative?-n:n;
+  return (negative?'-':'')+(abs/10BigInt(0)).toString()+'.'+
+    (abs%10BigInt(0)).toString().padStart(2,'0');
 }
 export function transactionsCsv(rows:FinanceCsvRow[]):string{
   const header=['Transaction ID','Date','Time','Type','Amount','Currency',
