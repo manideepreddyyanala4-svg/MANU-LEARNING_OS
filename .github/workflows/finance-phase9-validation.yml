@@ -1,0 +1,95 @@
+name: Finance Phase 9 (isolated validation)
+on:
+  push:
+    branches:
+      - feature/finance-phase-9-reliability
+  pull_request:
+    branches:
+      - feature/finance-phase-8-analytics
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  finance-application:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Enable pinned pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.28.2 --activate
+      - run: pnpm install --frozen-lockfile
+      - name: Dependency advisory review (release evidence, informational)
+        continue-on-error: true
+        run: pnpm audit --audit-level high
+      - name: Finance lint
+        run: pnpm exec eslint app/finance components/finance lib/finance tests/finance-backup-phase9.spec.ts tests/finance-analytics-phase8.spec.ts tests/finance-calendar-phase7.spec.ts tests/finance-allocation-phase6.spec.ts tests/finance-budget.spec.ts tests/finance-math.spec.ts tests/finance-accounts.spec.ts tests/finance-page.spec.ts
+      - name: TypeScript
+        run: pnpm typecheck
+      - name: Next.js build without deploy
+        run: pnpm build
+      - name: Install desktop Chromium
+        run: pnpm exec playwright install chromium
+      - name: Finance unit math, dates and responsive smoke
+        run: pnpm exec playwright test tests/finance-backup-phase9.spec.ts tests/finance-analytics-phase8.spec.ts tests/finance-calendar-phase7.spec.ts tests/finance-allocation-phase6.spec.ts tests/finance-budget.spec.ts tests/finance-math.spec.ts tests/finance-accounts.spec.ts tests/finance-page.spec.ts --project=desktop-chromium --project=mobile-chrome
+      - name: Repo lint baseline informational
+        continue-on-error: true
+        run: pnpm lint
+
+  finance-postgres:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: localhost
+      PGPORT: '5432'
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: postgres
+    steps:
+      - uses: actions/checkout@v4
+      - name: PostgreSQL test tools
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Fake Supabase users, only in disposable DB
+        run: psql -v ON_ERROR_STOP=1 -f tests/finance-postgres-fixture.sql
+      - name: Execute finance migrations 009 through 018
+        run: |
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/009_finance_schema.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/010_finance_ledger_rpcs.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/011_finance_metadata_rpcs.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/012_finance_account_overview.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/013_finance_transactions_and_schedules.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/014_finance_daily_budget.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/015_finance_grocery_allocations.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/016_finance_calendar_metrics.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/017_finance_analytics.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/018_finance_export_integrity.sql
+      - name: Regression financial correctness and user isolation
+        run: |
+          psql -v ON_ERROR_STOP=1 -f tests/finance-postgres-assertions.sql
+          psql -v ON_ERROR_STOP=1 -f tests/finance-phase3-postgres.sql
+          psql -v ON_ERROR_STOP=1 -f tests/finance-phase4-postgres.sql
+      - name: Phase 5 to 9 budget, allocations, calendar, analytics and backup invariants
+        run: |
+          psql -v ON_ERROR_STOP=1 -f tests/finance-phase5-postgres.sql
+          psql -v ON_ERROR_STOP=1 -f tests/finance-phase6-postgres.sql
+          psql -v ON_ERROR_STOP=1 -f tests/finance-phase7-postgres.sql
+          psql -v ON_ERROR_STOP=1 -f tests/finance-phase8-postgres.sql
+          psql -v ON_ERROR_STOP=1 -f tests/finance-phase9-postgres.sql
