@@ -65,6 +65,9 @@ jobs:
           for file in "$GITHUB_WORKSPACE"/supabase/migrations/[0-9][0-9][0-9]_*.sql; do
             base="${file##*/}"
             ordinal="${base%%_*}"
+            # New internship sprint migrations 020-022 are unrelated to Finance.
+            # Exercise the Finance 001-019 fixture without discarding them from main.
+            if [[ "$ordinal" > "019" ]]; then continue; fi
             version="$(printf '202610300000%02d' "$((10#$ordinal))")"
             cp "$file" "supabase/migrations/${version}_${base#*_}"
           done
