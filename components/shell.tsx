@@ -63,6 +63,7 @@ const navGroups: NavGroup[] = [
         : []),
       { href: '/learning', label: 'Learning', icon: BookOpen, subtext: 'Technical Curriculum' },
       { href: '/roadmap', label: 'Roadmap', icon: Target, subtext: 'Dorsal → Production AI' },
+      { href: '/today-learning', label: "Today's Learning", icon: BookOpen, subtext: 'Only Today · Auto-Changing Plan' },
       { href: '/internship-sprint', label: 'Internship Sprint', icon: CalendarDays, subtext: '45-Day Hiring Campaign' },
       { href: '/job-preparation', label: 'Job Preparation', icon: Briefcase, subtext: 'Internship Pipeline' },
     ],
