@@ -54,6 +54,7 @@ const navGroups: NavGroup[] = [
     items: [
       { href: '/', label: 'Home', icon: LayoutDashboard, subtext: 'Overview & Mission' },
       { href: '/life-vision', label: 'Life Vision', icon: Compass, subtext: 'My Values & Long-Term Direction' },
+      { href: '/bhagavad-gita', label: 'Bhagavad Gita', icon: BookOpen, subtext: 'Scripture · Chapter 1 Reading' },
       { href: '/finance', label: 'Finance', icon: Wallet, subtext: 'Accounts & Balances' },
       ...(SHOW_ASE_FINAL_DAY_PREP
         ? [{ href: '/ase-final-day', label: 'ASE Final-Day', icon: ClipboardCheck, subtext: '100 Q&A · Today Only' }]
