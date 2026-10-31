@@ -11,6 +11,13 @@ import { Page } from '@/components/ui';
 import { createClient } from '@/lib/supabase';
 import { LearningAudit } from '@/components/career/learning-audit';
 
+type StudyItem = {
+  title: string;
+  mode: string;
+  minutes: number;
+  status: 'todo' | 'reviewed' | 'passed';
+};
+
 type SprintDay = {
   id: string;
   day: string;
@@ -19,6 +26,7 @@ type SprintDay = {
   applications_target: number;
   outreach_target: number;
   technical_focus: string;
+  study_items: StudyItem[];
   conference_focus: string;
   admin_focus: string;
   time_plan: string;
@@ -41,7 +49,7 @@ type View = 'today' | 'calendar';
 const BEGIN = '2026-10-31';
 const PRIMARY_END = '2026-12-14';
 const FINAL_END = '2026-12-31';
-const RECORD_COLUMNS = 'id,day,phase,focus,applications_target,outreach_target,technical_focus,conference_focus,admin_focus,time_plan,applications_done,outreach_done,interviews_booked,technical_done,conference_done,admin_done,movement_done,meal_prep_done,gita_done,sleep_done,notes';
+const RECORD_COLUMNS = 'id,day,phase,focus,applications_target,outreach_target,technical_focus,study_items,conference_focus,admin_focus,time_plan,applications_done,outreach_done,interviews_booked,technical_done,conference_done,admin_done,movement_done,meal_prep_done,gita_done,sleep_done,notes';
 
 const starterLeads = [
   { name: 'Phison — Computer Vision Intern', location: 'Miaoli / Zhunan', href: 'https://www.104.com.tw/jobs/search/?keyword=%E9%9B%BB%E8%85%A6%E8%A6%96%E8%A6%BA%E5%AF%A6%E7%BF%92%E7%94%9F' },
@@ -250,8 +258,12 @@ export default function InternshipSprint() {
     const changedNotes = (draftNotes[day.id] ?? day.notes) !== day.notes;
     const conferencePresent = Boolean(day.conference_focus.trim());
     const adminPresent = Boolean(day.admin_focus.trim());
-    const checksTotal = 1 + (conferencePresent ? 1 : 0) + (adminPresent ? 1 : 0) + 4;
-    const checksDone = Number(day.technical_done) + Number(conferencePresent && day.conference_done) +
+    const studyItems = Array.isArray(day.study_items) ? day.study_items : [];
+    const passedCount = studyItems.filter((item) => item.status === 'passed').length;
+    const reviewedCount = studyItems.filter((item) => item.status === 'reviewed').length;
+    const minutes = studyItems.reduce((sum, item) => sum + (Number(item.minutes) || 0), 0);
+    const checksTotal = 1 + studyItems.length + (conferencePresent ? 1 : 0) + (adminPresent ? 1 : 0) + 4;
+    const checksDone = Number(day.technical_done) + passedCount + Number(conferencePresent && day.conference_done) +
       Number(adminPresent && day.admin_done) + Number(day.movement_done) +
       Number(day.meal_prep_done) + Number(day.gita_done) + Number(day.sleep_done);
 
@@ -364,13 +376,99 @@ export default function InternshipSprint() {
             </div>
           </section>
 
+          {studyItems.length > 0 && (
+            <section>
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <h4 className="text-sm font-extrabold text-[var(--fg)]">
+                    Today's accelerated study topics
+                  </h4>
+                  <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
+                    {studyItems.length} connected tasks · approx. {minutes} minutes · {passedCount} passed · {reviewedCount} reviewed
+                  </p>
+                </div>
+                <span className="rounded-full bg-[var(--accent-subtle)] px-3 py-1 text-xs font-bold text-[var(--accent)]">
+                  {passedCount} / {studyItems.length} tested
+                </span>
+              </div>
+              <Progress value={passedCount} max={studyItems.length} />
+              <p className="my-3 text-xs leading-5 text-[var(--muted)]">
+                Advance each topic through Not started → Reviewed → Test passed.
+                “Previously encountered” means you have saved related notes, not proven mastery.
+                Mark Test passed only if you explained the idea without notes and completed its coding/question check.
+              </p>
+              <div className="space-y-2">
+                {studyItems.map((item, index) => {
+                  const nextStatus: StudyItem['status'] = item.status === 'todo'
+                    ? 'reviewed' : item.status === 'reviewed' ? 'passed' : 'todo';
+                  return (
+                    <div key={index} className="rounded-xl border border-[var(--line)] bg-[var(--bg)] px-3.5 py-3.5">
+                      <div className="flex items-start gap-2.5">
+                        {item.status === 'passed'
+                          ? <CheckCircle2 size={19} className="mt-0.5 shrink-0 text-emerald-500" />
+                          : <Circle size={19} className="mt-0.5 shrink-0 text-[var(--muted)]" />}
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm font-bold leading-6 text-[var(--fg)]">{index + 1}. {item.title}</p>
+                          <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
+                            {item.mode} · {item.minutes} min
+                          </p>
+                          <div className="mt-2 flex flex-wrap items-center gap-2">
+                            <span className={'rounded-lg px-2 py-1 text-xs font-semibold ' +
+                              (item.status === 'passed' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' :
+                                item.status === 'reviewed' ? 'bg-[var(--accent-subtle)] text-[var(--accent)]' :
+                                'bg-[var(--surface)] text-[var(--muted)]')}>
+                              {item.status === 'passed' ? 'Test passed' : item.status === 'reviewed' ? 'Reviewed' : 'Not started'}
+                            </span>
+                            <button type="button" disabled={Boolean(busy)}
+                              onClick={() => {
+                                const next = studyItems.map((current, i) => i === index
+                                  ? { ...current, status: nextStatus } : current);
+                                void patch(day, {
+                                  study_items: next,
+                                  technical_done: next.length > 0 && next.every((current) => current.status === 'passed'),
+                                });
+                              }}
+                              className="rounded-lg border border-[var(--line)] bg-[var(--surface)] px-3 py-1.5 text-xs font-bold text-[var(--fg)] hover:border-[var(--accent)] disabled:opacity-40">
+                              {item.status === 'todo' ? 'I reviewed it' :
+                                item.status === 'reviewed' ? 'I passed the test' : 'Revisit topic'}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+
           <section>
             <h4 className="mb-2.5 text-xs font-extrabold uppercase tracking-wider text-[var(--muted)]">
               Daily preparation checklist
             </h4>
             <div className="grid gap-2">
-              <Checklist label="Technical interview practice" text={day.technical_focus} checked={day.technical_done}
-                disabled={Boolean(busy)} onClick={() => void patch(day, { technical_done: !day.technical_done })} />
+              {studyItems.length === 0 ? (
+                <Checklist label="Technical interview practice" text={day.technical_focus} checked={day.technical_done}
+                  disabled={Boolean(busy)} onClick={() => void patch(day, { technical_done: !day.technical_done })} />
+              ) : (
+                <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3.5">
+                  <div className="flex items-start gap-2">
+                    {day.technical_done ? <CheckCircle2 size={18} className="mt-0.5 text-emerald-500" /> :
+                      <Circle size={18} className="mt-0.5 text-[var(--muted)]" />}
+                    <div>
+                      <p className="text-xs font-extrabold uppercase tracking-wider text-[var(--muted)]">Daily technical pass gate</p>
+                      <p className="mt-1 text-sm leading-6 text-[var(--fg)]">
+                        {day.technical_done ? 'All topic checks have passed.' :
+                          'Explain each reviewed topic and test with code, a calculation or an interview-style question. Passing all topics completes this gate.'}
+                      </p>
+                    </div>
+                  </div>
+                  <details className="mt-3 border-t border-[var(--line)] pt-3">
+                    <summary className="cursor-pointer text-xs font-bold text-[var(--accent)]">Show full topic list and study rules</summary>
+                    <p className="mt-2 whitespace-pre-line text-xs leading-6 text-[var(--muted)]">{day.technical_focus}</p>
+                  </details>
+                </div>
+              )}
               <Checklist label="Tokyo conference / presentation" text={day.conference_focus} checked={day.conference_done}
                 disabled={Boolean(busy)} onClick={() => void patch(day, { conference_done: !day.conference_done })} />
               <Checklist label="Administration / follow-ups" text={day.admin_focus} checked={day.admin_done}
