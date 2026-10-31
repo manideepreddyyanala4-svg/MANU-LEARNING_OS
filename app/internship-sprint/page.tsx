@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { Page } from '@/components/ui';
 import { createClient } from '@/lib/supabase';
+import { LearningAudit } from '@/components/career/learning-audit';
 
 type SprintDay = {
   id: string;
@@ -27,18 +28,20 @@ type SprintDay = {
   technical_done: boolean;
   conference_done: boolean;
   admin_done: boolean;
+  movement_done: boolean;
+  meal_prep_done: boolean;
+  gita_done: boolean;
+  sleep_done: boolean;
   notes: string;
 };
 type Editable = Pick<SprintDay, 'focus' | 'applications_target' | 'outreach_target' |
   'technical_focus' | 'conference_focus' | 'admin_focus' | 'time_plan'>;
-type Metric = 'applications_done' | 'outreach_done' | 'interviews_booked';
-type CheckField = 'technical_done' | 'conference_done' | 'admin_done';
 type View = 'today' | 'calendar';
 
 const BEGIN = '2026-10-31';
 const PRIMARY_END = '2026-12-14';
 const FINAL_END = '2026-12-31';
-const RECORD_COLUMNS = 'id,day,phase,focus,applications_target,outreach_target,technical_focus,conference_focus,admin_focus,time_plan,applications_done,outreach_done,interviews_booked,technical_done,conference_done,admin_done,notes';
+const RECORD_COLUMNS = 'id,day,phase,focus,applications_target,outreach_target,technical_focus,conference_focus,admin_focus,time_plan,applications_done,outreach_done,interviews_booked,technical_done,conference_done,admin_done,movement_done,meal_prep_done,gita_done,sleep_done,notes';
 
 const starterLeads = [
   { name: 'Phison — Computer Vision Intern', location: 'Miaoli / Zhunan', href: 'https://www.104.com.tw/jobs/search/?keyword=%E9%9B%BB%E8%85%A6%E8%A6%96%E8%A6%BA%E5%AF%A6%E7%BF%92%E7%94%9F' },
@@ -244,13 +247,13 @@ export default function InternshipSprint() {
   function dayCard(day: SprintDay, compact = false) {
     const isCurrent = day.day === today;
     const isNext = day.day === nextDay;
-    const pending = busy === day.id;
     const changedNotes = (draftNotes[day.id] ?? day.notes) !== day.notes;
     const conferencePresent = Boolean(day.conference_focus.trim());
     const adminPresent = Boolean(day.admin_focus.trim());
-    const checksTotal = 1 + (conferencePresent ? 1 : 0) + (adminPresent ? 1 : 0);
+    const checksTotal = 1 + (conferencePresent ? 1 : 0) + (adminPresent ? 1 : 0) + 4;
     const checksDone = Number(day.technical_done) + Number(conferencePresent && day.conference_done) +
-      Number(adminPresent && day.admin_done);
+      Number(adminPresent && day.admin_done) + Number(day.movement_done) +
+      Number(day.meal_prep_done) + Number(day.gita_done) + Number(day.sleep_done);
 
     return (
       <article key={day.id} className={'min-w-0 overflow-hidden rounded-2xl border bg-[var(--surface)] shadow-2xs ' +
@@ -334,6 +337,35 @@ export default function InternshipSprint() {
 
           <section>
             <h4 className="mb-2.5 text-xs font-extrabold uppercase tracking-wider text-[var(--muted)]">
+              Daily baseline · movement, cooking, spirituality and sleep
+            </h4>
+            <p className="mb-3 text-xs leading-5 text-[var(--muted)]">
+              Mark only what you actually did. Recovery days count when you complete the scheduled walk or mobility.
+              Mark sleep after the following morning, never in advance.
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              {([
+                ['movement_done', 'Gym / movement'],
+                ['meal_prep_done', 'Cooking + food'],
+                ['gita_done', 'Bhagavad Gita 20–30 min'],
+                ['sleep_done', 'Night sleep'],
+              ] as const).map(([field, label]) => (
+                <button key={field} type="button" disabled={Boolean(busy)}
+                  aria-pressed={day[field]}
+                  onClick={() => void patch(day, { [field]: !day[field] })}
+                  className={'flex items-center gap-2 rounded-xl border px-3 py-3 text-left text-xs font-semibold transition disabled:opacity-50 ' +
+                    (day[field] ? 'border-emerald-500/40 bg-emerald-500/10 text-[var(--fg)]' :
+                      'border-[var(--line)] bg-[var(--bg)] text-[var(--muted)] hover:border-[var(--accent)]')}>
+                  {day[field] ? <CheckCircle2 size={18} className="shrink-0 text-emerald-500" /> :
+                    <Circle size={18} className="shrink-0" />}
+                  <span>{label}</span>
+                </button>
+              ))}
+            </div>
+          </section>
+
+          <section>
+            <h4 className="mb-2.5 text-xs font-extrabold uppercase tracking-wider text-[var(--muted)]">
               Daily preparation checklist
             </h4>
             <div className="grid gap-2">
@@ -352,12 +384,15 @@ export default function InternshipSprint() {
                 <Clock3 size={15} /> Time blocks (Taiwan time)
               </h4>
               <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] px-4 py-3">
-                {day.time_plan.split(';').filter(Boolean).map((block, i) => (
-                  <div key={i} className="flex gap-2 py-1.5 text-sm leading-6 text-[var(--fg)]">
-                    <span className="mt-2 size-1.5 shrink-0 rounded-full bg-[var(--accent)]" />
-                    <span>{block.trim()}</span>
-                  </div>
-                ))}
+                {day.time_plan.split(';').filter(Boolean).map((block, i) => {
+                  const match = block.trim().match(/^(\\d{2}:\\d{2}–\\d{2}:\\d{2})\\s+(.*)$/);
+                  return (
+                    <div key={i} className="grid grid-cols-[94px_1fr] gap-3 border-b border-[var(--line)] py-2.5 text-sm leading-6 last:border-b-0">
+                      <span className="font-mono text-xs font-bold tabular-nums text-[var(--accent)]">{match ? match[1] : '—'}</span>
+                      <span className="text-[var(--fg)]">{match ? match[2] : block.trim()}</span>
+                    </div>
+                  );
+                })}
               </div>
             </section>
           )}
@@ -447,6 +482,8 @@ export default function InternshipSprint() {
 
       {error && <div role="alert" className="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">{error}</div>}
       {notice && <div role="status" className="mb-4 rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 dark:text-emerald-300">{notice}</div>}
+
+      <LearningAudit />
 
       <div className="mb-5 flex flex-wrap gap-2">
         <button type="button" onClick={() => setView('today')}
