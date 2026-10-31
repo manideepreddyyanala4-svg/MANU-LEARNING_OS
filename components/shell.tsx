@@ -26,6 +26,7 @@ import {
   Zap,
   ClipboardCheck,
   Compass,
+  CalendarDays,
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { loadRoadmap, type RoadmapItem } from '@/lib/store';
@@ -60,6 +61,7 @@ const navGroups: NavGroup[] = [
         : []),
       { href: '/learning', label: 'Learning', icon: BookOpen, subtext: 'Technical Curriculum' },
       { href: '/roadmap', label: 'Roadmap', icon: Target, subtext: 'Dorsal → Production AI' },
+      { href: '/internship-sprint', label: 'Internship Sprint', icon: CalendarDays, subtext: '45-Day Hiring Campaign' },
       { href: '/job-preparation', label: 'Job Preparation', icon: Briefcase, subtext: 'Internship Pipeline' },
     ],
   },
