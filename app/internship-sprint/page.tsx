@@ -385,7 +385,7 @@ export default function InternshipSprint() {
               </h4>
               <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] px-4 py-3">
                 {day.time_plan.split(';').filter(Boolean).map((block, i) => {
-                  const match = block.trim().match(/^(\\d{2}:\\d{2}–\\d{2}:\\d{2})\\s+(.*)$/);
+                  const match = block.trim().match(/^(\d{2}:\d{2}–\d{2}:\d{2})\s+(.*)$/);
                   return (
                     <div key={i} className="grid grid-cols-[94px_1fr] gap-3 border-b border-[var(--line)] py-2.5 text-sm leading-6 last:border-b-0">
                       <span className="font-mono text-xs font-bold tabular-nums text-[var(--accent)]">{match ? match[1] : '—'}</span>
