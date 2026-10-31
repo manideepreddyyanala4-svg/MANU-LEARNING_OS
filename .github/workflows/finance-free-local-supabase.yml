@@ -1,0 +1,135 @@
+name: Finance free isolated full-stack validation (no paid Supabase)
+on:
+  push:
+    branches:
+      - feature/finance-free-release-gates
+  pull_request:
+    branches:
+      - feature/finance-phase-10-final-hardening
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: finance-free-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backup-contract:
+    name: Backup script contract (mocked, no private data)
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24'
+      - name: Validate private Windows backup helper and incomplete-file fail-closed
+        run: bash tests/finance-backup-contract.sh
+
+  isolated-supabase:
+    name: Local PostgreSQL + Auth + REST + real Finance browser
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # 4.4.0
+        with:
+          node-version: '24'
+      - name: Enable pinned pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.28.2 --activate
+      - name: Install frozen app dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Install pinned stable Supabase CLI without remote credentials
+        uses: supabase/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359 # v3.0.1
+        with:
+          version: 2.122.0
+      - name: Prepare local-only migration copy 001-019
+        shell: bash
+        run: |
+          set -euo pipefail
+          local_dir="$RUNNER_TEMP/manuos-finance-local"
+          mkdir -p "$local_dir"
+          cd "$local_dir"
+          supabase init --yes
+          mkdir -p supabase/migrations
+          for file in "$GITHUB_WORKSPACE"/supabase/migrations/[0-9][0-9][0-9]_*.sql; do
+            base="${file##*/}"
+            ordinal="${base%%_*}"
+            version="$(printf '202610300000%02d' "$((10#$ordinal))")"
+            cp "$file" "supabase/migrations/${version}_${base#*_}"
+          done
+          actual="$(find supabase/migrations -type f -name '*.sql' | wc -l)"
+          test "$actual" -eq 19 || {
+            echo "::error::Expected exactly 19 additive and baseline SQL migrations, got $actual"
+            exit 1
+          }
+          # Only the ephemeral local config is modified; never run 'supabase link'.
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('supabase/config.toml')
+          src=p.read_text()
+          src=re.sub(r'(?m)^major_version\s*=\s*["\x27]?\d+["\x27]?', 'major_version = 17', src)
+          p.write_text(src)
+          PY
+          echo "Prepared $actual migrations for localhost-only Supabase stack"
+      - name: Start free isolated local Supabase without dashboard/telemetry containers
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/manuos-finance-local"
+          if [[ -n "${SUPABASE_ACCESS_TOKEN:-}" ]]; then
+            echo "::error::Refusing a remote Supabase token in local-only job"
+            exit 1
+          fi
+          if ! supabase start -x studio,postgres-meta,imgproxy,realtime,edge-runtime,logflare,vector,supavisor > "$RUNNER_TEMP/supabase-start.log" 2>&1; then
+            echo "::error::Local Supabase initialization/migration failed"
+            tail -n 100 "$RUNNER_TEMP/supabase-start.log"
+            exit 1
+          fi
+          supabase status -o env > "$RUNNER_TEMP/supabase-local.env"
+          chmod 600 "$RUNNER_TEMP/supabase-local.env"
+          echo "Started local-only Auth, PostgreSQL, REST and full 001-019 migration chain"
+      - name: Prepare three disposable local Auth identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          set -a
+          source "$RUNNER_TEMP/supabase-local.env"
+          set +a
+          export MANU_FINANCE_ISOLATED_DB=1
+          export MANU_TEST_ENV_FILE="$RUNNER_TEMP/manuos-finance-test-env"
+          node tests/finance-local-auth-fixture.mjs
+      - name: Install Chromium for authenticated browser tests
+        run: pnpm exec playwright install chromium
+      - name: Validate authenticated Finance RPC and real browser, both desktop and mobile
+        shell: bash
+        run: |
+          set -euo pipefail
+          set -a
+          source "$RUNNER_TEMP/manuos-finance-test-env"
+          set +a
+          # Ledger is stateful and should run only once for the disposable owner.
+          pnpm exec playwright test tests/finance-db.spec.ts \
+            --project=desktop-chromium --workers=1
+          # Real UI/Auth browser smoke is exercised independently on both viewports.
+          pnpm exec playwright test tests/finance-local-fullstack.spec.ts \
+            --project=desktop-chromium --project=mobile-chrome --workers=1
+      - name: Tear down disposable local Supabase stack
+        if: always()
+        shell: bash
+        run: |
+          cd "$RUNNER_TEMP/manuos-finance-local" 2>/dev/null || exit 0
+          supabase stop --no-backup >/dev/null 2>&1 || true
+          rm -f "$RUNNER_TEMP/supabase-local.env" "$RUNNER_TEMP/manuos-finance-test-env"
+
+# This job never reads production secrets, never logs in to hosted Supabase,
+# never creates an hourly-billed branch, and never migrates a remote database.
