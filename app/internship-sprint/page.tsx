@@ -15,6 +15,7 @@ type StudyItem = {
   title: string;
   mode: string;
   minutes: number;
+  proof?: string;
   status: 'todo' | 'reviewed' | 'passed';
 };
 
@@ -412,6 +413,11 @@ export default function InternshipSprint() {
                           <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
                             {item.mode} · {item.minutes} min
                           </p>
+                          {item.proof && (
+                            <p className="mt-2 text-xs leading-5 text-[var(--fg)]">
+                              <strong>Pass condition:</strong> {item.proof}
+                            </p>
+                          )}
                           <div className="mt-2 flex flex-wrap items-center gap-2">
                             <span className={'rounded-lg px-2 py-1 text-xs font-semibold ' +
                               (item.status === 'passed' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' :
