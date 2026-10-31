@@ -44,13 +44,7 @@ type DailyPlan = {
 
 type DailyHabit = 'movement_done' | 'meal_prep_done' | 'gita_done' | 'sleep_done';
 type NumericField = 'applications_done' | 'outreach_done' | 'interviews_booked';
-const fields = [
-  'id','day','focus','phase','study_items','time_plan',
-  'applications_target','outreach_target','applications_done','outreach_done',
-  'interviews_booked','technical_done','conference_focus','conference_done',
-  'admin_focus','admin_done','movement_done','meal_prep_done','gita_done',
-  'sleep_done','notes',
-].join(',');
+const fields = 'id,day,focus,phase,study_items,time_plan,applications_target,outreach_target,applications_done,outreach_done,interviews_booked,technical_done,conference_focus,conference_done,admin_focus,admin_done,movement_done,meal_prep_done,gita_done,sleep_done,notes';
 
 function taiwanParts(date: Date) {
   const parts = new Intl.DateTimeFormat('en-US', {
