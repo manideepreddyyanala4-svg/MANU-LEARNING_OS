@@ -7,6 +7,7 @@ import {
   BookOpen,
   Inbox,
   LayoutDashboard,
+  Wallet,
   Settings,
   BarChart3,
   Search,
@@ -53,6 +54,7 @@ const navGroups: NavGroup[] = [
     items: [
       { href: '/', label: 'Home', icon: LayoutDashboard, subtext: 'Overview & Mission' },
       { href: '/life-vision', label: 'Life Vision', icon: Compass, subtext: 'My Values & Long-Term Direction' },
+      { href: '/finance', label: 'Finance', icon: Wallet, subtext: 'Accounts & Balances' },
       ...(SHOW_ASE_FINAL_DAY_PREP
         ? [{ href: '/ase-final-day', label: 'ASE Final-Day', icon: ClipboardCheck, subtext: '100 Q&A · Today Only' }]
         : []),
