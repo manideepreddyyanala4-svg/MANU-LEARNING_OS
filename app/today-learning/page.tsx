@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { Page } from '@/components/ui';
 import { createClient } from '@/lib/supabase';
+import { readingFor } from '@/lib/today-reading';
 
 type StudyStatus = 'todo' | 'reviewed' | 'passed';
 type StudyItem = {
@@ -133,6 +134,7 @@ export default function TodayLearningPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [notes, setNotes] = useState('');
+  const [revealed, setRevealed] = useState<Record<string, boolean>>({});
   const [notice, setNotice] = useState('');
   const requestNumber = useRef(0);
 
@@ -142,6 +144,7 @@ export default function TodayLearningPage() {
     setLoading(true);
     setError('');
     setNotice('');
+    setRevealed({});
     try {
       const client = createClient();
       if (!client) throw new Error('The private ManuOS connection is not configured.');
@@ -345,11 +348,13 @@ export default function TodayLearningPage() {
                   </div>
                   <div className="mt-3"><Meter value={passed} total={tasks.length} /></div>
                   <p className="mt-3 text-xs leading-5 text-[var(--muted)]">
-                    “Reviewed” means you revisited it. “Test passed” means you could answer independently or run the relevant exercise.
+                    Read the explanation, check the worked example, complete the practical task, then answer the interview question before revealing its answer.
                   </p>
                 </div>
                 <div className="space-y-3 p-4 sm:p-5">
                   {tasks.map((item, index) => {
+                    const lesson = readingFor(day.day, index);
+                    const answerKey = day.day + ':' + index;
                     const next: StudyStatus = item.status === 'todo' ? 'reviewed' : item.status === 'reviewed' ? 'passed' : 'todo';
                     return (
                       <div key={index} className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3.5">
@@ -361,6 +366,37 @@ export default function TodayLearningPage() {
                             <h4 className="text-sm font-bold leading-6 text-[var(--fg)]">{index + 1}. {item.title}</h4>
                             <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{item.mode} · {item.minutes} min</p>
                             {item.proof && <p className="mt-2 text-xs leading-5 text-[var(--fg)]"><strong>Pass when:</strong> {item.proof}</p>}
+                            {lesson && (
+                              <div className="mt-3 space-y-3 rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3">
+                                <div>
+                                  <p className="text-[10px] font-black uppercase tracking-wider text-[var(--accent)]">1. Read this — actual explanation</p>
+                                  <p className="mt-1.5 whitespace-pre-line text-sm leading-6 text-[var(--fg)]">{lesson.read}</p>
+                                </div>
+                                <div className="border-t border-[var(--line)] pt-3">
+                                  <p className="text-[10px] font-black uppercase tracking-wider text-[var(--accent)]">2. Worked example</p>
+                                  <p className="mt-1.5 whitespace-pre-line font-mono text-xs leading-6 text-[var(--fg)]">{lesson.worked}</p>
+                                </div>
+                                <div className="border-t border-[var(--line)] pt-3">
+                                  <p className="text-[10px] font-black uppercase tracking-wider text-[var(--accent)]">3. Practice independently</p>
+                                  <p className="mt-1.5 text-sm leading-6 text-[var(--fg)]">{lesson.practice}</p>
+                                </div>
+                                <div className="border-t border-[var(--line)] pt-3">
+                                  <p className="text-[10px] font-black uppercase tracking-wider text-[var(--accent)]">4. Interview self-test</p>
+                                  <p className="mt-1.5 text-sm font-semibold leading-6 text-[var(--fg)]">{lesson.question}</p>
+                                  <button type="button" aria-expanded={Boolean(revealed[answerKey])}
+                                    onClick={() => setRevealed((current) => ({ ...current, [answerKey]: !current[answerKey] }))}
+                                    className="mt-2 rounded-lg border border-[var(--line)] bg-[var(--bg)] px-3 py-2 text-xs font-bold text-[var(--fg)] hover:border-[var(--accent)]">
+                                    {revealed[answerKey] ? 'Hide model answer' : 'Reveal answer after your attempt'}
+                                  </button>
+                                  {revealed[answerKey] && (
+                                    <div className="mt-2 rounded-lg border border-[var(--line)] bg-[var(--accent-subtle)] p-3">
+                                      <p className="text-xs font-bold text-[var(--accent)]">Model answer</p>
+                                      <p className="mt-1 text-sm leading-6 text-[var(--fg)]">{lesson.answer}</p>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            )}
                             <div className="mt-3 flex flex-wrap items-center gap-2">
                               <span className={'rounded-md px-2 py-1 text-xs font-bold ' +
                                 (item.status === 'passed' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' :
@@ -381,6 +417,11 @@ export default function TodayLearningPage() {
                       </div>
                     );
                   })}
+                  {!readingFor(day.day, 0) && (
+                    <p className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3 text-xs leading-5 text-[var(--muted)]">
+                      The instructor-written reading cards currently cover November 1–14, 2026. For this date, use the study tasks and pass conditions above; do not treat a topic title as the complete lesson.
+                    </p>
+                  )}
                   <Link href="/learning" className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--accent)]">
                     <BookOpenCheck size={15}/> Open your saved learning notes <ExternalLink size={13}/>
                   </Link>
