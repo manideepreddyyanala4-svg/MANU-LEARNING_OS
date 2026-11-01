@@ -83,11 +83,11 @@ export function FinanceReportedPayments() {
   const pending = snapshot?.entries.filter((entry) => entry.status === 'needs_account') ?? [];
   const gym = snapshot?.entries.filter((entry) => entry.category_hint === 'Gym/Health') ?? [];
   const other = snapshot?.entries.filter((entry) => entry.category_hint !== 'Gym/Health') ?? [];
-  const totalPending = pending.reduce((sum, entry) => sum + BigInt(entry.amount_minor), 0n);
-  const gymReported = gym.reduce((sum, entry) => sum + BigInt(entry.amount_minor), 0n);
-  const otherReported = other.reduce((sum, entry) => sum + BigInt(entry.amount_minor), 0n);
-  const totalBudget = snapshot?.totalBudgetMinor ?? 0n;
-  const ledgerExpense = snapshot?.ledgerExpenseMinor ?? 0n;
+  const totalPending = pending.reduce((sum, entry) => sum + BigInt(entry.amount_minor), BigInt(0));
+  const gymReported = gym.reduce((sum, entry) => sum + BigInt(entry.amount_minor), BigInt(0));
+  const otherReported = other.reduce((sum, entry) => sum + BigInt(entry.amount_minor), BigInt(0));
+  const totalBudget = snapshot?.totalBudgetMinor ?? BigInt(0);
+  const ledgerExpense = snapshot?.ledgerExpenseMinor ?? BigInt(0);
   const available = totalBudget - ledgerExpense - totalPending;
 
   if (loading && !snapshot) return (
@@ -149,7 +149,7 @@ export function FinanceReportedPayments() {
           <p className="text-sm font-extrabold tabular-nums text-[var(--fg)]">{money(totalBudget - gymReported)} limit</p>
         </div>
         <p className="mt-1.5 text-xs leading-5 text-[var(--muted)]">
-          At a {money((totalBudget - gymReported) / 30n)} average daily target across 30 days.
+          At a {money((totalBudget - gymReported) / BigInt(30))} average daily target across 30 days.
           Gym is already included in the monthly limit, not an extra NT$1,000 to spend.
         </p>
       </div>
