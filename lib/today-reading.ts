@@ -351,7 +351,7 @@ export const dailyReading: Record<string, DailyReadingCard[]> = {
   '2026-11-11': [
     {
       read: 'AdaCos belongs to metric-learning/classification training; verification cosine is a similarity calculation on two learned embeddings. The training loss encourages separable classes, while the inference score applies to arbitrary pairs. Do not confuse angular classification logits with an enrolled user threshold.',
-      worked:'A training batch has labels known to the classifier. A new user's query can be compared by embedding cosine without adding that user as a training class.',
+      worked:'A training batch has labels known to the classifier. A query from a new user can be compared by embedding cosine without adding that user as a training class.',
       practice:'Draw two pipelines: labeled training → loss; query/reference inference → embeddings → cosine → threshold.',
       question:'Does training with AdaCos mean the system must classify among training identities at inference?',answer:'No. Embeddings can support pairwise comparison to enrolled identities.'
     },
@@ -362,7 +362,7 @@ export const dailyReading: Record<string, DailyReadingCard[]> = {
       question:'Why might Dice exceed IoU on the same nonempty masks?',answer:'Their formulas weigh overlap differently; Dice=2IoU/(1+IoU) for two sets.'
     },
     {
-      read: 'Your paper's finalized ROI detection path is based on MediaPipe landmarks and geometric normalization. Earlier exploratory YOLO fallback should not be stated as part of the finalized method. Model training architecture is a separate research question.',
+      read: 'The finalized paper ROI detection path is based on MediaPipe landmarks and geometric normalization. Earlier exploratory YOLO fallback should not be stated as part of the finalized method. Model training architecture is a separate research question.',
       worked:'Landmark detection yields geometry; perspective warp produces the normalized ROI; the verification model consumes the processed input under its own contract.',
       practice:'Say, without notes, why you chose the finalized landmark-only method and what errors the ROI evaluation measures.',
       question:'Would saying "our final method uses YOLO fallback" be accurate?',answer:'No. That describes an earlier exploratory direction, not the finalized ROI method reported in your saved handoff.'
