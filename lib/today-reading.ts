@@ -49,42 +49,42 @@ export const dailyReading: Record<string, DailyReadingCard[]> = {
     }
   ],
   '2026-11-02': [
-    {
-      read: 'A0 is the reference single-channel input contract, not an RGB 3-channel model. In the frozen source preprocessing, an RGB image can be converted to HSL and the saturation channel selected; an NIR image uses its intensity channel. The selected 2D image then follows the approved enhancement and resize to 128×128. Do not silently switch to green channel or RGB during research comparison.',
-      worked: 'A tensor with one 128×128 image has shape (128,128). After adding channel it is (1,128,128); after batching 16 examples it is (16,1,128,128). Channel selection and enhancement are not the same operation.',
-      practice: 'Explain the RGB and NIR branches separately on paper. In Python, assert that each preprocessed item has shape (1,128,128); do not modify your sealed experimental preprocessing.',
-      question: 'Why is identical input preprocessing necessary when comparing two architectures?',
-      answer: 'Otherwise an apparent architecture improvement might come from changing the input distribution. Controlled comparisons keep the preprocessing contract fixed so differences can be attributed more confidently to architecture.'
-    },
-    {
-      read: 'A PyTorch Dataset implements __len__ and __getitem__. DataLoader batches examples and can shuffle training data. A grayscale batch should be float tensor [N,1,128,128]; labels are commonly [N]. CNNs in PyTorch use NCHW, unlike HWC image arrays returned by many image libraries. Dataset splitting must happen by identity before producing training and validation loaders.',
-      worked: 'If each sample is torch.randn(1,128,128) and batch_size=8, the DataLoader stacks to torch.Size([8,1,128,128]), except a final partial batch if drop_last=False.',
-      practice: 'Write a toy Dataset of ten fake 1×128×128 tensors; use DataLoader(batch_size=4); print shapes for all batches. No research data needed.',
-      question: 'What common leakage occurs when you randomly split images of the same person across training and validation?',
-      answer: 'Identity-specific cues can appear in both sets, inflating the validation metric. If the intended experiment measures unseen identities, split identities first and ensure no class appears in multiple splits.'
-    },
-    {
-      read: 'CPV1 treats source validation and held-out evaluation differently. Source validation is used to choose checkpoints; held-out folds are for later performance assessment, not iterative tuning. In your current reference, F1 is a wrist dataset, while F2, F3 and F4 are palm datasets from different sources. Performance in one source or fold cannot justify a universal biometric claim.',
-      worked: 'Imagine checkpoint A has better source validation than B, but B looks better on a held-out wrist fold. Choosing B only because you inspected the wrist result changes the held-out fold into a selection set.',
-      practice: 'Draw train → source validation → checkpoint freeze → held-out F1–F4. State what data is permissible at each decision point and note that identity overlap between some source datasets has not been conclusively resolved.',
-      question: 'What is the difference between a holdout evaluation and never-before-seen data?',
-      answer: 'Holdout means excluded from a specified training/selection step. It does not mean nobody ever examined that dataset. Your dorsal target was historically inspected, so call it held out from training and model selection, not an untouched blind test.'
-    },
-    {
-      read: 'Your Tokyo paper is ROI extraction, not the architecture-selection paper. MediaPipe detects 21 hand landmarks. p0 is the wrist, p9 is the middle-finger MCP, and p5/p17 define a palm-width reference. A geometric crop can be oriented with the p0→p9 direction, a perpendicular axis and normalized width. A perspective transform maps the four ROI corners to a stable square output.',
-      worked: 'A perspective homography is a 3×3 matrix (up to scale) that maps points from the image plane to a normalized plane. It can correct skew better than a simple axis-aligned crop.',
-      practice: 'Draw p0,p9,p5,p17 on a hand outline; sketch the ROI center, width, four corners and perspective warp. Explain the pipeline in 90 seconds without referring to AM-15.',
-      question: 'Why not just crop a fixed pixel rectangle from every raw smartphone photo?',
-      answer: 'Hand translation, size and rotation vary. Landmark-normalized geometry can make the extracted region more repeatable; the exact ROI quality still requires evaluation against annotated or approved references.'
-    },
-    {
-      read: 'Images loaded in OpenCV often use H×W×C and BGR channel order; CNN tensors use N×C×H×W. NumPy transpose reorders axes but does not itself change color channels. float32 conversion and division by 255 may normalize an 8-bit image; whether that is scientifically allowed depends on the frozen preprocessing specification.',
-      worked: 'x=np.zeros((128,128,3)); x.transpose(2,0,1).shape is (3,128,128). To build a batch, add one dimension using x[None] after reordering.',
-      practice: 'From a toy HWC RGB array, produce shape (1,3,128,128), then produce a one-channel (1,1,128,128) array by explicit channel selection. Print every intermediate shape.',
-      question: 'Does transpose from HWC to CHW convert BGR into RGB?',
-      answer: 'No. Transpose only rearranges axes; selecting or reversing channels is a different operation. Channel-order bugs can silently alter model inputs.'
-    }
-  ],
+  {
+    "read": "Start with independent Python coding because research-project experience does not prove interview fluency. Practice variables, loops, lists, dictionaries and functions. A hash map solves Two Sum in expected O(n) time. For vision, NumPy stores image arrays: an OpenCV image usually has shape H×W×C; PyTorch accepts N×C×H×W. Transpose changes axis order but never changes BGR into RGB. L2 normalization divides by vector norm; handle a zero norm explicitly.",
+    "worked": "Two Sum: nums=[2,7,11,15], target=9 → {2:0} when visiting 7 → return [0,1]. NumPy: x=np.zeros((128,128,3),dtype=np.float32); chw=x.transpose(2,0,1); batch=chw[None]; shapes (128,128,3)→(3,128,128)→(1,3,128,128). For 1-channel data: np.zeros((1,1,128,128)).",
+    "practice": "Without copying an answer, write two_sum(nums,target) using a dict, then make an HWC→CHW→NCHW NumPy conversion. Test expected shapes and edge cases. Explain every line aloud. Limit direct coding to 35–45 minutes, then note the first failing point.",
+    "question": "What is the difference between transposing HWC→CHW and converting BGR→RGB?",
+    "answer": "Transpose changes dimensions/axes, not the contents or order of color values within the channel dimension. Reversing color channels or cv2.cvtColor is a separate operation. Interview-ready proof is runnable code that prints both the shapes and a correctly chosen pixel value."
+  },
+  {
+    "read": "A PyTorch Dataset defines __len__ and __getitem__. DataLoader batches samples and can shuffle training data. PyTorch CNN input is normally [N,C,H,W]. To avoid identity leakage in biometric experiments, split by person/identity according to your actual protocol before constructing dataset subsets. In a real interview you must distinguish dataset construction from the model itself.",
+    "worked": "A Dataset returning torch.zeros(1,128,128) per item and integer labels, with ten items and batch_size=4, yields image batch sizes [4,4,2], with image tensors [4,1,128,128], [4,1,128,128] and [2,1,128,128] when drop_last=False.",
+    "practice": "Write a ten-item synthetic Dataset from a blank file, construct DataLoader(batch_size=4,shuffle=False), print shape and labels for all three batches, and deliberately demonstrate what changes when drop_last=True. Do not use confidential research samples.",
+    "question": "Why does randomly splitting images belonging to the same person create leakage?",
+    "answer": "Because identity-specific cues can appear in both training and validation. If the claim is generalization to unseen people, split by person first. A Dataset/DataLoader does not automatically fix a flawed split."
+  },
+  {
+    "read": "Convolution applies learned spatial filters. For Conv2d with input H×W, kernel K, padding P, dilation D and stride S, output height is floor((H+2P-D(K-1)-1)/S+1). Pooling reduces or summarizes spatial resolution; batch normalization uses batch statistics differently in training and evaluation; non-linear activations make the network expressive. A training step calls zero_grad, forward, loss, backward and optimizer.step. Evaluation switches to model.eval() and normally uses torch.no_grad().",
+    "worked": "A 32×32 input with 3×3 kernel, stride 1 and padding 1 stays 32×32. Stride 2 gives 16×16. MaxPool2d(2) maps 32×32 to 16×16. Toy training order: optimizer.zero_grad(); pred=model(x); loss=criterion(pred,y); loss.backward(); optimizer.step(). During evaluation: model.eval(); with torch.no_grad(): pred=model(x).",
+    "practice": "On paper compute three CNN output shapes and explain convolution versus pooling versus stride. Then create a tiny torch.nn.Sequential CNN or classifier with a synthetic batch, run one training update and one no-gradient evaluation, print input/output dimensions.",
+    "question": "What changes between model.train() and model.eval(), and does eval() by itself disable gradients?",
+    "answer": "train()/eval() switch behavior for layers such as BatchNorm and Dropout; eval() does NOT itself disable gradients. Use torch.no_grad() (or inference_mode when appropriate) for inference without autograd tracking."
+  },
+  {
+    "read": "Image-processing fundamentals are part of your own ROI pipeline, but many ManuOS topics are still untested. OpenCV often reads BGR; image arrays may be uint8 0..255 and may need float scaling according to a fixed model input contract. Gaussian blur is weighted smoothing, median filtering is robust for impulse noise, CLAHE enhances local contrast with a clip limit, thresholding creates binary decisions, morphology changes binary regions, and a perspective transform maps landmark-defined quadrilaterals to a normalized ROI. Do not mix the current LAWNet A0 preprocessing with the separate Tokyo dorsal-ROI preprocessing.",
+    "worked": "Read an ordinary practice image with cv2.imread; print shape and dtype; gray=cv2.cvtColor(bgr,cv2.COLOR_BGR2GRAY); blur=cv2.GaussianBlur(gray,(5,5),0); clahe=cv2.createCLAHE(clipLimit=2.0,tileGridSize=(8,8)).apply(gray); _,binary=cv2.threshold(gray,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU). These are illustration settings, not your research hyperparameters.",
+    "practice": "On a non-confidential sample image, print image shape/dtype and write a short OpenCV script that produces gray, Gaussian-blurred and thresholded images. Explain which image features each operation changes, and why copied demo parameters must not replace approved experimental settings.",
+    "question": "How do Gaussian blur, median blur and CLAHE differ, and why would you use each?",
+    "answer": "Gaussian blur suppresses high-frequency noise via weighted averaging but smooths edges. Median blur replaces a neighborhood with its median and handles salt-and-pepper noise well. CLAHE boosts local contrast with clipping rather than performing denoising. Validate against the specific image and task."
+  },
+  {
+    "read": "You must defend project versions accurately. Tokyo December 9 work is landmark-guided RGB dorsal-hand ROI extraction: use MediaPipe hand landmarks, orient a crop geometrically, and warp a quadrilateral into a repeatable ROI. A separate dorsal recognition project uses learned embeddings and open-set 1:N matching; its older one-photo README and EER headline were superseded by a later mixed-condition K=5 enrollment evaluation. Current LAWNet B1/CPV1 is a separate 1:1 research protocol with A0 single-channel 128×128 inputs. Never merge their datasets, embeddings, training or headline scores. Pairwise EER is not interchangeable with 1:N TPIR@FPIR.",
+    "worked": "1:N matching example: normalized query q is compared with all gallery vectors, keep top-1 score, then accept only if score clears a DEV-selected global threshold. TPIR@1%FPIR is a retrieval operating-point measure; EER is a pairwise verification crossing. In ROI work, p0 wrist/p9 middle MCP give an orientation reference and p5/p17 help normalize size. Only use geometry and results verified in approved Tokyo materials.",
+    "practice": "Give three separate 60–90-second answers without notes: (1) Tokyo ROI problem/method; (2) dorsal open-set 1:N evaluation and why the old protocol was superseded; (3) LAWNet B1 source validation and 1:1 evaluation. Make a diagram/slide of Tokyo ROI from approved paper/code only. State one limitation for each where known.",
+    "question": "An interviewer asks: What result did your dorsal system achieve, and how is it different from the Tokyo ROI work?",
+    "answer": "First ask which evaluation protocol they mean, then cite only the reconciled source-of-truth number and its exact operating point. Tokyo ROI is landmark extraction/alignment rather than a recognition-score claim. LAWNet B1/CPV1 is a different architecture and evaluation. Never quote a legacy one-photo EER as the current 314-hand 1:N result."
+  }
+],
   '2026-11-03': [
     {
       read: 'Your frozen CPV1 reference uses two training stages: Stage 1 Softmax classification with RMSprop; Stage 2 AdaCos with Adam. Stage 2 adjusts embedding-discriminative learning while still updating the permitted model parameters under your CPV1 implementation. Do not describe this as an original-paper training procedure or as a teacher–student model.',
