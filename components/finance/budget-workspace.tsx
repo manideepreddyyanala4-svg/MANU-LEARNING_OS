@@ -236,18 +236,18 @@ export function FinanceBudgetWorkspace(){
               Frozen planning equivalent: {formatMoney(budget.resolvedTwdMinor,'TWD')}</p>}
           </Card>
           <Card>
-            <p className="text-xs font-bold text-[var(--muted)]">Actual paid this month</p>
+            <p className="text-xs font-bold text-[var(--muted)]">Posted account expenses</p>
             <p className="mt-2 break-words text-2xl font-extrabold text-[var(--fg)]">
               {formatMoney(state.summary.actualExpenseMinor,'TWD')}</p>
             <p className="mt-1 text-xs text-[var(--muted)]">Expenses only. No transfers, income or reconciliations.</p>
           </Card>
           <Card>
             <p className="text-xs font-bold text-[var(--muted)]">
-              {minorBigInt(projection.actualRemainingMinor)<BigInt(0)?'Over monthly limit':'Monthly budget remaining'}
+              {minorBigInt(projection.actualRemainingMinor)<BigInt(0)?'Ledger over limit':'Ledger-only budget remainder'}
             </p>
             <p className="mt-2 break-words text-2xl font-extrabold text-[var(--fg)]">
               {formatMoney(projection.actualRemainingMinor,'TWD')}</p>
-            <p className="mt-1 text-xs text-[var(--muted)]">Budget limit less actual expenses, not bank cash.</p>
+            <p className="mt-1 text-xs text-[var(--muted)]">Account-ledger remainder only. The reported-payments card above also subtracts unmatched payments.</p>
           </Card>
         </div>
         <Card>
@@ -280,17 +280,17 @@ export function FinanceBudgetWorkspace(){
         </Card>
         <div className="grid gap-3 md:grid-cols-3">
           <Card>
-            <p className="text-xs font-bold text-[var(--muted)]">Standard daily allowance</p>
+            <p className="text-xs font-bold text-[var(--muted)]">Full-budget daily average</p>
             <p className="mt-2 text-2xl font-extrabold text-[var(--fg)]">
               {displayFraction({numerator:budget.budgetMinor,denominator:totalDays},currencyCode)}</p>
             {currencyCode==='INR'&&<p className="mt-1 text-xs text-[var(--muted)]">
               Planning equivalent: {displayFraction(projection.dailyStandard,'TWD')} per day.</p>}
             <p className="mt-1 text-xs text-[var(--muted)]">
-              Budget ÷ {totalDays} calendar days. The exact ratio is kept until display.</p>
+              Entire budget ÷ {totalDays} calendar days, including any gym allocation. See the food envelope in the reported-payments card above.</p>
           </Card>
           <Card>
             <p className="text-xs font-bold text-[var(--muted)]">
-              {projection.period==='current'?'Today’s standard allowance left':'Daily allowance status'}
+              {projection.period==='current'?'Ledger-only daily allowance':'Daily allowance status'}
             </p>
             <p className="mt-2 text-2xl font-extrabold text-[var(--fg)]">
               {projection.dailyToday?displayFraction(projection.dailyToday.standardRemaining,'TWD'):'Not applicable'}</p>
