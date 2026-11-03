@@ -674,7 +674,7 @@ export function StudyDocument({
     const intro: PartialBlock[] = [];
     const lessons: PartialBlock[][] = [];
     for (const block of blocks) {
-      const lessonHeading = block.type === 'heading' && /^\\d{2}\\s*[·.\-]/.test(textOf([block]));
+      const lessonHeading = block.type === 'heading' && /^\d{2}\s*[·.\-]/.test(textOf([block]));
       if (lessonHeading) lessons.push([block]);
       else if (lessons.length) lessons[lessons.length - 1].push(block);
       else intro.push(block);
