@@ -45,6 +45,7 @@ export type Props = {
   doneRequest?: number;
   onDone?: () => void;
   onStartEdit?: () => void;
+  learningGuide?: boolean;
 };
 
 export function textOf(blocks: PartialBlock[]): string {
@@ -79,6 +80,7 @@ export function DocumentCanvas({
   doneRequest = 0,
   onDone,
   onStartEdit,
+  learningGuide = false,
 }: Props) {
   const { resolvedTheme } = useTheme();
   const [state, setState] = useState<SaveState>('saved');
@@ -417,7 +419,7 @@ export function DocumentCanvas({
   };
 
   if (!editable) {
-    return <StudyDocument blocks={initialContent} onStartEdit={onStartEdit} />;
+    return <StudyDocument blocks={initialContent} onStartEdit={onStartEdit} learningGuide={learningGuide} />;
   }
 
   const isEmpty = editor.document.length === 1 && !textOf(editor.document as PartialBlock[]);
@@ -634,9 +636,11 @@ export type StudyImage = {
 export function StudyDocument({
   blocks,
   onStartEdit,
+  learningGuide = false,
 }: {
   blocks: PartialBlock[];
   onStartEdit?: () => void;
+  learningGuide?: boolean;
 }) {
   const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null);
 
@@ -665,12 +669,51 @@ export function StudyDocument({
       (Array.isArray(block.content) && block.content.some((part) => inlineText(part).trim()))
   );
 
+  const guideGroups = useMemo(() => {
+    if (!learningGuide) return null;
+    const intro: PartialBlock[] = [];
+    const lessons: PartialBlock[][] = [];
+    for (const block of blocks) {
+      const lessonHeading = block.type === 'heading' && /^\\d{2}\\s*[·.\-]/.test(textOf([block]));
+      if (lessonHeading) lessons.push([block]);
+      else if (lessons.length) lessons[lessons.length - 1].push(block);
+      else intro.push(block);
+    }
+    return { intro, lessons };
+  }, [blocks, learningGuide]);
+
   let currentImageSequence = 0;
 
   return (
     <>
-      <article className="study-document">
-        {hasContent ? (
+      <article className={learningGuide ? 'study-document study-document--python-guide' : 'study-document'}>
+        {hasContent && guideGroups && guideGroups.lessons.length ? (
+          <div className="study-guide-layout">
+            {guideGroups.intro.length > 0 && (
+              <div className="study-guide-welcome">
+                <span className="study-guide-welcome-label">📚 YOUR QUICK STUDY GUIDE</span>
+                {guideGroups.intro.map((block, index) => (
+                  <StudyBlock key={block.id ?? index} block={block} index={index} onZoom={() => {}} learningGuide />
+                ))}
+              </div>
+            )}
+            <div className="study-guide-lessons">
+              {guideGroups.lessons.map((lesson, lessonIndex) => (
+                <section className={`study-guide-lesson study-guide-lesson--${lessonIndex % 4}`} key={lessonIndex}>
+                  {lesson.map((block, blockIndex) => (
+                    <StudyBlock
+                      key={block.id ?? blockIndex}
+                      block={block}
+                      index={lessonIndex * 10 + blockIndex}
+                      onZoom={() => {}}
+                      learningGuide
+                    />
+                  ))}
+                </section>
+              ))}
+            </div>
+          </div>
+        ) : hasContent ? (
           blocks.map((block, index) => {
             if (block.type === 'image') {
               const imgIndex = currentImageSequence++;
@@ -1144,10 +1187,12 @@ function StudyBlock({
   block,
   index,
   onZoom,
+  learningGuide = false,
 }: {
   block: PartialBlock;
   index: number;
   onZoom: (url: string, alt: string) => void;
+  learningGuide?: boolean;
 }) {
   const content =
     typeof block.content === 'string'
@@ -1268,6 +1313,23 @@ function StudyBlock({
         <RichText content={block.content} />
       </p>
     );
+  }
+  if (learningGuide && block.type === 'paragraph') {
+    const noteTypes = [
+      { prefix: 'Understand —', kind: 'concept', label: 'The idea', icon: '💡' },
+      { prefix: 'Output —', kind: 'output', label: 'What you will see', icon: '✅' },
+      { prefix: 'Try yourself —', kind: 'practice', label: 'Your practice task', icon: '✍️' },
+      { prefix: 'Interview —', kind: 'interview', label: 'Interview challenge', icon: '🎯' },
+    ];
+    const note = noteTypes.find((item) => content.startsWith(item.prefix));
+    if (note) {
+      return (
+        <div className={`study-guide-note study-guide-note--${note.kind}`}>
+          <div className="study-guide-note-title"><span aria-hidden="true">{note.icon}</span>{note.label}</div>
+          <p>{content.slice(note.prefix.length).trim()}</p>
+        </div>
+      );
+    }
   }
   if (!content.trim()) return <div className="h-3" aria-hidden />;
   return (
