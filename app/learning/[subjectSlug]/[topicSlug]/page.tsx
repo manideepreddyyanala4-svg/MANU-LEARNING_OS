@@ -29,6 +29,12 @@ import {
 import type { PartialBlock } from '@blocknote/core';
 
 const emptyDocument: PartialBlock[] = [{ type: 'paragraph', content: '' }];
+const colorfulPythonGuides = new Set([
+  'python-fundamentals-01-08',
+  'python-coding-interviews-09-14',
+  'numpy-essentials-15-22',
+  'numpy-for-computer-vision-23-28',
+]);
 
 export default function TopicPage() {
   const { subjectSlug, topicSlug } = useParams<{
@@ -382,6 +388,7 @@ export default function TopicPage() {
               topicId={topic.id}
               initialContent={content}
               editable={editing}
+              learningGuide={subjectSlug === 'python-a0e156aa' && colorfulPythonGuides.has(topicSlug)}
               onSave={saveDocument}
               onUpload={uploadAsset}
               doneRequest={doneRequest}
