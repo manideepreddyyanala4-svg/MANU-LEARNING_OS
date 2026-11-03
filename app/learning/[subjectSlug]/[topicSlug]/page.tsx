@@ -259,6 +259,9 @@ export default function TopicPage() {
             </nav>
 
             <div className="topic-topline-actions">
+              {subjectSlug === "python-a0e156aa" && colorfulPythonGuides.has(topicSlug) && (
+                <Link href="/python-lab" className="inline-flex items-center rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white hover:bg-blue-700">🐍 Full Coding Lab</Link>
+              )}
               {imageCount > 0 && (
                 <span
                   className="topic-note-badge"
