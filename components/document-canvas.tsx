@@ -5,6 +5,7 @@ import '@blocknote/react/style.css';
 import { BlockNoteView } from '@blocknote/shadcn';
 import { getDefaultReactSlashMenuItems, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
 import type { PartialBlock } from '@blocknote/core';
+import { PythonLessonLab } from '@/components/python-lesson-lab';
 import { useTheme } from 'next-themes';
 import { useEffect, useMemo, useRef, useState, type ChangeEvent, type ReactNode } from 'react';
 import {
@@ -698,19 +699,25 @@ export function StudyDocument({
               </div>
             )}
             <div className="study-guide-lessons">
-              {guideGroups.lessons.map((lesson, lessonIndex) => (
-                <section className={`study-guide-lesson study-guide-lesson--${lessonIndex % 4}`} key={lessonIndex}>
-                  {lesson.map((block, blockIndex) => (
-                    <StudyBlock
-                      key={block.id ?? blockIndex}
-                      block={block}
-                      index={lessonIndex * 10 + blockIndex}
-                      onZoom={() => {}}
-                      learningGuide
-                    />
-                  ))}
-                </section>
-              ))}
+              {guideGroups.lessons.map((lesson, lessonIndex) => {
+                const lessonId = textOf([lesson[0]]).trim().slice(0, 2);
+                const example = lesson.find((block) => block.type === 'codeBlock');
+                const exampleCode = example ? textOf([example]) : '';
+                return (
+                  <section className={`study-guide-lesson study-guide-lesson--${lessonIndex % 4}`} key={lessonIndex}>
+                    {lesson.map((block, blockIndex) => (
+                      <StudyBlock
+                        key={block.id ?? blockIndex}
+                        block={block}
+                        index={lessonIndex * 10 + blockIndex}
+                        onZoom={() => {}}
+                        learningGuide
+                      />
+                    ))}
+                    <PythonLessonLab lessonId={lessonId} exampleCode={exampleCode} />
+                  </section>
+                );
+              })}
             </div>
           </div>
         ) : hasContent ? (
