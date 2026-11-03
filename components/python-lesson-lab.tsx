@@ -35,7 +35,7 @@ export function PythonLessonLab({
   const [open, setOpen] = useState(defaultOpen);
   const [mode, setMode] = useState<LabMode>('practice');
   const [practiceCode, setPracticeCode] = useState(challenge?.starter ?? '');
-  const [editedExample, setEditedExample] = useState(exampleCode);
+  const [editedExample, setEditedExample] = useState(exampleCode || '# Free coding scratchpad\nprint("Hello from ManuOS!")');
   const [stdin, setStdin] = useState('');
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
@@ -58,7 +58,7 @@ export function PythonLessonLab({
       else setPracticeCode(challenge?.starter ?? '');
       setPassedBefore(localStorage.getItem(passedKey) === 'passed');
     } catch { /* storage can be disabled */ }
-    setEditedExample(exampleCode);
+    setEditedExample(exampleCode || '# Free coding scratchpad\nprint("Hello from ManuOS!")');
     setMode('practice');
     setOutput('');
     setError('');
@@ -86,6 +86,11 @@ export function PythonLessonLab({
   function editCode(value: string) {
     setTests([]);
     if (mode === 'practice') {
+      setPassedBefore(false);
+      try {
+        localStorage.removeItem(passedKey);
+        window.dispatchEvent(new Event('manuos:python-test-passed'));
+      } catch { /* storage unavailable */ }
       setPracticeCode(value);
       try {
         localStorage.setItem(persistKey, value);
@@ -167,7 +172,7 @@ export function PythonLessonLab({
   function resetCode() {
     if (busy) return;
     if (!window.confirm('Replace your current code with the starter version?')) return;
-    editCode(mode === 'practice' ? (challenge?.starter || '') : exampleCode);
+    editCode(mode === 'practice' ? (challenge?.starter || '') : (exampleCode || '# Free coding scratchpad\nprint("Hello from ManuOS!")'));
     setOutput('');
     setError('');
     setTests([]);
@@ -220,7 +225,7 @@ export function PythonLessonLab({
           </p>
           <div className="python-lab-mode" role="group" aria-label="Code mode">
             <button type="button" className={mode === 'practice' ? 'active' : ''} onClick={() => setMode('practice')}>✍️ Practice challenge</button>
-            <button type="button" className={mode === 'example' ? 'active' : ''} onClick={() => setMode('example')}>📖 Lesson example</button>
+            <button type="button" className={mode === 'example' ? 'active' : ''} onClick={() => setMode('example')}>{exampleCode ? '📖 Lesson example' : '💻 Free coding'}</button>
           </div>
 
           {mode === 'practice' && <div className="python-lab-challenge"><strong>YOUR TASK</strong><p>{challenge.prompt}</p></div>}
