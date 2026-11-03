@@ -359,6 +359,9 @@ function SubjectPageContent() {
       subtitle={`${sectionList.length} sections · ${list.length} topics · ${masteredCount} mastered`}
       actions={
         <div className="flex items-center gap-2">
+          {subjectSlug === "python-a0e156aa" && (
+            <Link href="/python-lab" className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-3.5 py-2 text-xs font-bold text-white hover:bg-blue-700">🐍 Open Coding Lab</Link>
+          )}
           <button
             className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--line)] bg-[var(--surface)] px-3.5 py-2 text-xs font-semibold text-[var(--fg)] hover:border-color-mix(in srgb, var(--accent) 30%, var(--line))"
             onClick={() => {
