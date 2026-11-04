@@ -1,0 +1,29 @@
+name: Verify Python roadmap lessons
+
+on:
+  pull_request:
+    paths:
+      - 'lib/python-roadmap-lessons-*.ts'
+      - 'lib/python-roadmap-types.ts'
+      - 'scripts/test_python_roadmap.py'
+      - '.github/workflows/python-roadmap-lessons.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'lib/python-roadmap-lessons-*.ts'
+      - 'lib/python-roadmap-types.ts'
+      - 'scripts/test_python_roadmap.py'
+      - '.github/workflows/python-roadmap-lessons.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  audit-exercises:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Check all authored Python lessons and exercise assertions
+        run: python3 scripts/test_python_roadmap.py
