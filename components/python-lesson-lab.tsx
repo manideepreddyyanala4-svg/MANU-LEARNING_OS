@@ -5,7 +5,7 @@ import {
   CheckCircle2, ChevronDown, ChevronUp, CircleAlert, Code2, Copy,
   Download, FlaskConical, Loader2, Play, RotateCcw, SquareTerminal, StopCircle
 } from 'lucide-react';
-import { PYTHON_CHALLENGES, type PythonCheck } from '@/lib/python-challenges';
+import { PYTHON_CHALLENGES, type PythonCheck, type PythonChallenge } from '@/lib/python-challenges';
 
 type TestResult = { name: string; passed: boolean; error: string };
 type WorkerResult = {
@@ -26,12 +26,14 @@ export function PythonLessonLab({
   lessonId,
   exampleCode = '',
   defaultOpen = false,
+  customChallenge,
 }: {
   lessonId: string;
   exampleCode?: string;
   defaultOpen?: boolean;
+  customChallenge?: PythonChallenge;
 }) {
-  const challenge = PYTHON_CHALLENGES[lessonId];
+  const challenge = customChallenge ?? PYTHON_CHALLENGES[lessonId];
   const [open, setOpen] = useState(defaultOpen);
   const [mode, setMode] = useState<LabMode>('practice');
   const [practiceCode, setPracticeCode] = useState(challenge?.starter ?? '');
