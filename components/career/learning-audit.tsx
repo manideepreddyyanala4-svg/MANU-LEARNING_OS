@@ -49,7 +49,7 @@ export function LearningAudit() {
         client.from('subjects').select('id,title,slug').eq('user_id', userId),
         client.from('topics').select('id,title,slug,status,subject_id').eq('user_id', userId),
         client.from('topic_documents').select('topic_id,plain_text,content_json').eq('user_id', userId),
-        client.from('roadmap_items').select('status').eq('user_id', userId),
+        client.from('roadmap_items').select('status').eq('user_id', userId).not('slug','like','internship-v1-%'),
         client.from('applications').select('id', { count: 'exact', head: true }).eq('user_id', userId),
         client.from('interview_notes').select('id', { count: 'exact', head: true }).eq('user_id', userId),
         client.from('resumes').select('id', { count: 'exact', head: true }).eq('user_id', userId),
