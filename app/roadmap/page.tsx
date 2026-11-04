@@ -469,7 +469,7 @@ export default function RoadmapPage() {
             <ChevronDown size={17} className={'text-[var(--muted)] '+(legacyOpen?'rotate-180':'')}/>
           </button>
           {legacyOpen && <div className="grid gap-2 border-t border-[var(--line)] p-4 sm:grid-cols-2 lg:grid-cols-3">
-            {legacy.map(item => <Link key={item.id} href={'/roadmap/'+item.slug} className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3 hover:border-sky-500">
+            {legacy.map(item => <Link key={item.id} href={(`/roadmap/${item.slug}`)} className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3 hover:border-sky-500">
               <h3 className="text-xs font-bold text-[var(--fg)]">{item.title}</h3>
               <span className="mt-1 block text-[10px] capitalize text-[var(--muted)]">{item.status.replace('_',' ')}</span>
             </Link>)}
