@@ -14,6 +14,7 @@ import {
   internshipGateKey, type InternshipModule, type InternshipPriority
 } from '@/lib/internship-curriculum';
 import { loadRoadmap, type RoadmapItem } from '@/lib/store';
+import { internshipExtraChecklists, internshipExtraCount, internshipExtraKey } from '@/lib/internship-extra-checklists';
 
 type TopicStatus = 'upcoming' | 'in_progress' | 'review' | 'completed';
 type PriorityFilter = 'all' | 'P0' | 'P1' | 'P2';
@@ -21,6 +22,9 @@ type PriorityFilter = 'all' | 'P0' | 'P1' | 'P2';
 const modules = internshipCurriculum;
 const topicRows = modules.flatMap(m => m.topics.map((title, index) => ({
   key: internshipTopicKey(m.id, index), title, module: m
+})));
+const extraRows = internshipExtraChecklists.flatMap(group => group.items.map((title,index) => ({
+  key: internshipExtraKey(group.id,index), title, group
 })));
 const examItems = [
   'Python: write Two Sum with dictionary, including duplicates and no solution',
@@ -48,7 +52,8 @@ const examKey = (index: number) => 'internship-v1-exam-' + String(index + 1).pad
 const records = [
   ...topicRows.map((r, i) => ({ slug: r.key, title: r.title, order_index: 1000 + i })),
   ...modules.map((m, i) => ({ slug: internshipGateKey(m.id), title: 'Proof gate: ' + m.title, order_index: 2000 + i })),
-  ...examItems.map((title, i) => ({ slug: examKey(i), title: 'Interview test: ' + title, order_index: 2100 + i }))
+  ...examItems.map((title, i) => ({ slug: examKey(i), title: 'Interview test: ' + title, order_index: 2100 + i })),
+  ...extraRows.map((row,i) => ({ slug: row.key, title: row.title, order_index: 2200 + i }))
 ];
 const colors: Record<InternshipPriority, { dot: string; chip: string; bar: string; soft: string }> = {
   P0: { dot: 'bg-rose-500', chip: 'bg-rose-500/10 text-rose-600 dark:text-rose-300', bar: 'bg-gradient-to-r from-rose-500 to-orange-400', soft: 'from-rose-500/10 to-orange-500/5' },
@@ -88,6 +93,8 @@ export default function RoadmapPage() {
   const [search, setSearch] = useState('');
   const [expanded, setExpanded] = useState<string[]>(['01']);
   const [examOpen, setExamOpen] = useState(false);
+  const [extraOpen,setExtraOpen] = useState(false);
+  const [expandedExtra,setExpandedExtra] = useState<string[]>(['start']);
   const [legacyOpen, setLegacyOpen] = useState(false);
 
   useEffect(() => {
@@ -172,6 +179,9 @@ export default function RoadmapPage() {
   const totalDone = topicRows.filter(row => completed(row.key)).length;
   const overallProgress = pct(totalDone, internshipTopicCount);
   const examDone = examItems.filter((_, i) => completed(examKey(i))).length;
+  const extraDone = extraRows.filter(row => completed(row.key)).length;
+  const pdfDone = totalDone + examDone + extraDone;
+  const pdfTotal = internshipTopicCount + examItems.length + internshipExtraCount;
   const gatesPassed = modules.filter(m => completed(internshipGateKey(m.id))
     && m.topics.every((_, i) => completed(internshipTopicKey(m.id, i)))).length;
   const stats = (['P0', 'P1', 'P2'] as const).map(priority => {
@@ -418,6 +428,62 @@ export default function RoadmapPage() {
             </div>;
           })}
         </section>
+
+        <section className="overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)]">
+          <button type="button" onClick={() => setExtraOpen(v=>!v)} aria-expanded={extraOpen}
+            className="flex w-full flex-col justify-between gap-3 p-5 text-left sm:flex-row sm:items-center">
+            <div className="flex items-center gap-3">
+              <div className="rounded-xl bg-fuchsia-500/10 p-3 text-fuchsia-600"><ListChecks size={22}/></div>
+              <div>
+                <h2 className="text-lg font-black text-[var(--fg)]">Supporting action & evidence checklists</h2>
+                <p className="mt-1 text-xs leading-5 text-[var(--muted)]">85 additional PDF checks: hiring eligibility, top-30 exercises, accurate claims, both projects and application records.</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 text-xs font-bold text-fuchsia-600">
+              <span>{extraDone}/{internshipExtraCount}</span><span>{pct(extraDone,internshipExtraCount)}%</span>
+              <ChevronDown size={16} className={extraOpen?'rotate-180':''}/>
+            </div>
+          </button>
+          {extraOpen && <div className="border-t border-[var(--line)] p-4 sm:p-5">
+            <Meter value={pct(extraDone,internshipExtraCount)} color="bg-gradient-to-r from-fuchsia-500 to-rose-400" label="Supporting application and evidence checklist progress" />
+            <p className="mt-3 text-xs leading-5 text-[var(--muted)]">
+              These checks are useful actions or repeated practice, not additional independently mastered technical topics.
+              Progress is saved in your ManuOS account.
+            </p>
+            <div className="mt-4 space-y-3">
+              {internshipExtraChecklists.map(group => {
+                const done = group.items.filter((_,i)=>completed(internshipExtraKey(group.id,i))).length;
+                const open = expandedExtra.includes(group.id);
+                return <div key={group.id} className="overflow-hidden rounded-xl border border-[var(--line)] bg-[var(--bg)]/60">
+                  <button type="button" onClick={()=>setExpandedExtra(curr=>curr.includes(group.id)?curr.filter(x=>x!==group.id):[...curr,group.id])}
+                    aria-expanded={open} className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left">
+                    <div><h3 className="text-sm font-extrabold text-[var(--fg)]">{group.title}</h3>
+                      <p className="mt-1 text-[10px] text-[var(--muted)]">{done}/{group.items.length} tasks checked</p></div>
+                    <div className="flex w-28 shrink-0 items-center gap-2">
+                      <div className="flex-1"><Meter value={pct(done,group.items.length)} color="bg-gradient-to-r from-fuchsia-500 to-rose-400" label={group.title+' progress'}/></div>
+                      <ChevronDown size={14} className={'text-[var(--muted)] '+(open?'rotate-180':'')}/>
+                    </div>
+                  </button>
+                  {open && <div className="space-y-1 border-t border-[var(--line)] p-3">
+                    {group.items.map((title,i)=>{
+                      const key=internshipExtraKey(group.id,i), done=completed(key), busy=pending.includes(key);
+                      return <label key={key} className="flex cursor-pointer items-start gap-3 rounded-lg px-2 py-2 text-xs text-[var(--fg)] hover:bg-fuchsia-500/5">
+                        <input type="checkbox" checked={done} disabled={!ready||busy} onChange={()=>void change(key,done?'upcoming':'completed')}
+                          className="mt-0.5 h-4 w-4 shrink-0 rounded accent-fuchsia-600"/>
+                        <span className={'leading-5 '+(done?'text-[var(--muted)] line-through':'')}>{title}</span>
+                      </label>;
+                    })}
+                  </div>}
+                </div>;
+              })}
+            </div>
+          </div>}
+        </section>
+
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-xs text-[var(--muted)]">
+          <span>Full PDF checklist coverage: <strong className="text-[var(--fg)]">{pdfDone} of {pdfTotal}</strong> checks</span>
+          <span>574 module items + 85 supporting checks + 20 interview tests. Module proof gates are tracked separately.</span>
+        </div>
 
         <section className="overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)]">
           <button type="button" onClick={() => setExamOpen(v => !v)} aria-expanded={examOpen}
