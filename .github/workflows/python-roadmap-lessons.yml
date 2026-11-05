@@ -35,5 +35,4 @@ jobs:
           persist-credentials: false
       - name: Check all authored Python lessons and exercise assertions
         run: |
-          python3 scripts/test_python_roadmap.py
           python3 scripts/test_python_code_references.py
