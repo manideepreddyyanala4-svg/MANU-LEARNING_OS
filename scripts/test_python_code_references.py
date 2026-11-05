@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 cards = {}
 for part in "abc":
     text = (ROOT / "lib" / f"python-roadmap-code-{part}.ts").read_text(encoding="utf-8")
-    match = re.search(r"=\s*(\{[\s\S]*\});\s*$", text)
+    match = re.search(r"export const pythonCodeExamples[A-C]: Record<string,PythonCodeExample\[\]>=(\{[\s\S]*\});\s*$", text)
     assert match, f"Invalid code cards file {part}"
     cards.update(json.loads(match.group(1)))
 
