@@ -375,95 +375,113 @@ export const pythonLessonsA: PythonRoadmapLesson[] = [
   },
   {
     "id": "05",
-    "shortTitle": "for, while, break and continue",
-    "essence": "Loops repeat work; break stops a loop and continue skips to the next iteration.",
-    "analogy": "A conveyor belt processes each image; reject bad items, or stop when the job is finished.",
-    "why": "Dataset processing and almost every Python coding interview use loops.",
+    "shortTitle": "Loops: for, while, break and continue",
+    "essence": "A for loop visits each item. A while loop repeats while a condition is true. Both stop when their work is finished.",
+    "analogy": "for is checking every person on a list. while is continuing a task until a condition changes.",
+    "why": "Loops let you process image files, dataset rows and repeated tasks without writing the same instruction again.",
     "concepts": [
       {
-        "label": "for",
-        "explain": "Iterates through items in a list, string, range or other iterable."
+        "label": "for loop",
+        "explain": "Use for when you have a sequence or collection and want to visit its items one by one."
       },
       {
-        "label": "while",
-        "explain": "Repeats as long as its condition is true; ensure the condition can change."
+        "label": "range()",
+        "explain": "range(stop) produces numbers from 0 up to (but not including) stop. Use range(len(items)) when you need indexes."
+      },
+      {
+        "label": "while loop",
+        "explain": "Use while when repetition depends on a condition, such as while an index is still inside a list."
       },
       {
         "label": "break",
-        "explain": "Exits the nearest loop immediately."
+        "explain": "Stops the nearest loop immediately, even if items or repetitions remain."
       },
       {
         "label": "continue",
-        "explain": "Skips remaining steps in this iteration and returns to the loop condition/next item."
+        "explain": "Skips the rest of the current iteration and moves to the next item or condition check."
       }
     ],
     "flow": [
-      "Get next item",
-      "Process or skip",
-      "Stop or repeat"
+      "for: take the next item",
+      "while: check the condition",
+      "Run the loop body",
+      "break, continue or repeat"
     ],
-    "example": "values = [2, -1, 4, 0]\ntotal = 0\nfor value in values:\n    if value < 0:\n        continue\n    if value == 0:\n        break\n    total += value\nprint(total)",
-    "output": "6",
+    "example": "images = ['hand_1.jpg', 'hand_2.jpg', 'hand_3.jpg']\\n\\n# FOR: visit every item\\nfor image in images:\\n    print('Checking', image)\\n\\n# WHILE: repeat while the condition is true\\nindex = 0\\nwhile index < len(images):\\n    print('Index:', index)\\n    index += 1",
+    "output": "Checking hand_1.jpg\\nChecking hand_2.jpg\\nChecking hand_3.jpg\\nIndex: 0\\nIndex: 1\\nIndex: 2",
     "walkthrough": [
-      "The loop reads each number in order.",
-      "Negative -1 is skipped by continue.",
-      "2 and 4 are added; 0 triggers break.",
-      "The total displayed is 6."
+      "The for loop takes each filename from images automatically; you do not update an index yourself.",
+      "range(3) would produce 0, 1, 2. The stop value 3 is not included.",
+      "The while loop checks index < len(images) before each repetition.",
+      "index += 1 changes the condition's value so the while loop eventually stops.",
+      "If index is not updated, the condition may stay true forever and create an infinite loop."
     ],
     "deeper": [
       {
-        "question": "When to use for versus while?",
-        "answer": "Use for when iterating known items, while for a repeating condition such as 'keep asking until valid'."
+        "question": "Should I use for or while?",
+        "answer": "Use for when you want to visit each item or repeat a known number of times. Use while when you must keep going until a condition changes, such as waiting for valid input."
       },
       {
-        "question": "Can a while loop run forever?",
-        "answer": "Yes, if the loop condition never becomes false and no break occurs. Add termination rules and tests."
+        "question": "What is the difference between break and continue?",
+        "answer": "break exits the loop completely. continue skips only the current iteration; the loop then moves on."
       }
     ],
     "mistakes": [
       {
-        "mistake": "Changing loop items unpredictably during iteration",
-        "correction": "Avoid removing elements from a list while iterating over it; build a filtered list instead."
+        "mistake": "Forgetting to update the condition variable in a while loop",
+        "correction": "Update the variable inside the loop or use break when the stopping condition is met. Otherwise the loop may never end."
       },
       {
-        "mistake": "Putting continue before an update in while",
-        "correction": "Ensure your loop progresses even when skipping an iteration."
+        "mistake": "Using range(1, 5) but expecting it to include 5",
+        "correction": "The stop value is excluded. range(1, 5) produces 1, 2, 3, 4."
+      },
+      {
+        "mistake": "Confusing break with continue",
+        "correction": "break ends the loop; continue skips the current iteration only."
       }
     ],
-    "task": "Write count_until_zero(values). Count positive numbers until the first 0; ignore negative values.",
-    "starter": "def count_until_zero(values):\n    count = 0\n    # for, continue, break\n    pass",
+    "task": "Write first_acceptable_score(scores). Use a while loop and an index to return the first score between 0.0 and 1.0 inclusive. Return None if no acceptable score exists.",
+    "starter": "def first_acceptable_score(scores):\\n    index = 0\\n    # Use while to check each score.\\n    pass",
     "checks": [
       {
-        "name": "Stop at zero",
-        "code": "assert count_until_zero([2,-1,3,0,5])==2"
+        "name": "First score is acceptable",
+        "code": "assert first_acceptable_score([0.8, 0.4]) == 0.8"
       },
       {
-        "name": "No zero",
-        "code": "assert count_until_zero([1,2,3])==3"
+        "name": "Skip invalid values",
+        "code": "assert first_acceptable_score([-0.2, 1.4, 0.65]) == 0.65"
       },
       {
-        "name": "Empty/zero first",
-        "code": "assert count_until_zero([])==0 and count_until_zero([0,3])==0"
+        "name": "No acceptable score",
+        "code": "assert first_acceptable_score([-1, 2]) is None"
+      },
+      {
+        "name": "Empty list",
+        "code": "assert first_acceptable_score([]) is None"
+      },
+      {
+        "name": "Boundary values",
+        "code": "assert first_acceptable_score([1.0]) == 1.0 and first_acceptable_score([0.0]) == 0.0"
       }
     ],
-    "hint": "for value in values: if value == 0: break; if value < 0: continue; then count += 1.",
-    "solution": "def count_until_zero(values):\n    count = 0\n    for value in values:\n        if value == 0:\n            break\n        if value < 0:\n            continue\n        count += 1\n    return count",
+    "hint": "While index < len(scores): read scores[index]. If it is between 0.0 and 1.0, return it. Otherwise increase index by 1. After the loop, return None.",
+    "solution": "def first_acceptable_score(scores):\\n    index = 0\\n    while index < len(scores):\\n        score = scores[index]\\n        if 0.0 <= score <= 1.0:\\n            return score\\n        index += 1\\n    return None",
     "quiz": {
-      "question": "What does continue do inside a for loop?",
+      "question": "When should you normally choose a while loop?",
       "choices": [
-        "End the function",
-        "Skip to the next item",
-        "Exit the entire loop"
+        "When you need to visit every item in a list",
+        "When repetition should continue while a condition is true",
+        "Whenever you want Python to choose a random number"
       ],
       "correct": 1,
-      "explain": "continue skips this iteration; break ends the loop."
+      "explain": "A while loop checks its condition before each repetition and continues only while that condition is true."
     },
     "recap": [
-      "for iterates items",
-      "while checks a condition",
-      "continue skips; break stops"
+      "for visits items in a sequence",
+      "while repeats while a condition is true",
+      "break exits; continue skips one iteration"
     ],
-    "docs": "https://docs.python.org/3/tutorial/controlflow.html#for-statements"
+    "docs": "https://docs.python.org/3/tutorial/controlflow.html#for"
   },
   {
     "id": "06",
