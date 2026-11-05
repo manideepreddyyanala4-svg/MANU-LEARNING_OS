@@ -124,9 +124,9 @@ export const numpyExamplesC: Record<string, PythonCodeExample[]> = {
     {
       "label": "Convert uint8 image to numbers from 0 to 1",
       "anchor": "normalize-0-1",
-      "code": "import numpy as np\n\npixels = np.array([0, 128, 255], dtype=np.uint8)\nvalues = pixels.astype(np.float32) / 255.0\nprint(np.round(values, 3).tolist())",
-      "output": "[0.0, 0.5020000338554382, 1.0]",
-      "explanation": "Start with pixel intensities from 0 to 255.\nConvert to float32, then divide by 255.\nValues now lie between 0 and 1. Use the scaling your model expects."
+      "code": "import numpy as np\n\npixels = np.array([0, 128, 255], dtype=np.uint8)\nvalues = pixels.astype(np.float32) / 255.0\nprint(round(float(values[0]), 3))\nprint(round(float(values[1]), 3))\nprint(round(float(values[2]), 3))",
+      "output": "0.0\n0.502\n1.0",
+      "explanation": "Start with pixel intensities from 0 to 255.\nConvert to float32 and divide by 255: 128 becomes about 0.502.\nround(float(...),3) prints simple decimals. The underlying float32 values are still approximate."
     },
     {
       "label": "Map image intensities from 0–1 into -1–1",
@@ -154,9 +154,9 @@ export const numpyExamplesC: Record<string, PythonCodeExample[]> = {
     {
       "label": "What does contiguous memory mean?",
       "anchor": "contiguous",
-      "code": "import numpy as np\n\nnumbers = np.arange(6).reshape(2, 3)\nprint(numbers.flags.c_contiguous)\nprint(numbers.strides)",
-      "output": "True\n(24, 8)",
-      "explanation": "A C-contiguous array stores neighboring rows in a predictable row-major memory arrangement.\nThe strides are numbers of bytes to move to reach the next row or column.\nHere dtype is int64 on standard 64-bit NumPy; stepping one column takes 8 bytes."
+      "code": "import numpy as np\n\nnumbers = np.arange(6, dtype=np.int32).reshape(2, 3)\nprint(numbers.flags.c_contiguous)\nprint(numbers.strides)",
+      "output": "True\n(12, 4)",
+      "explanation": "A C-contiguous array stores neighboring rows in normal row-major order.\nstrides tell how many bytes to move to reach the next row or column.\nEach int32 takes 4 bytes; moving one row takes 3 × 4 = 12 bytes."
     },
     {
       "label": "Transpose often makes a non-contiguous view",
@@ -205,9 +205,9 @@ export const numpyExamplesC: Record<string, PythonCodeExample[]> = {
     {
       "label": "Full interview proof: HWC to NCHW with checks",
       "anchor": "numpy-pipeline-proof",
-      "code": "import numpy as np\n\nbgr = np.array([[[30, 20, 10]]], dtype=np.uint8)\nrgb = bgr[:, :, ::-1]\nvalues = rgb.astype(np.float32) / 255.0\nchw = values.transpose(2, 0, 1)\nbatch = np.expand_dims(chw, axis=0)\nassert batch.shape == (1, 3, 1, 1)\nassert batch.dtype == np.float32\nprint(batch.shape)\nprint(np.round(batch[0, :, 0, 0], 3).tolist())",
-      "output": "(1, 3, 1, 1)\n[0.039000000804662704, 0.07800000160932541, 0.11800000071525574]",
-      "explanation": "BGR [30,20,10] becomes RGB [10,20,30] by reversing only the channels.\nConvert to float32, divide by 255, then rearrange HWC to CHW.\nAdd a batch axis and verify NCHW and dtype. This is a standard preprocessing pattern for compatible vision models."
+      "code": "import numpy as np\n\nbgr = np.array([[[30, 20, 10]]], dtype=np.uint8)\nrgb = bgr[:, :, ::-1]\nvalues = rgb.astype(np.float32) / 255.0\nchw = values.transpose(2, 0, 1)\nbatch = np.expand_dims(chw, axis=0)\nassert batch.shape == (1, 3, 1, 1)\nassert batch.dtype == np.float32\nprint('RGB:', rgb[0, 0].tolist())\nprint('NCHW:', batch.shape)\nprint('dtype:', batch.dtype)",
+      "output": "RGB: [10, 20, 30]\nNCHW: (1, 3, 1, 1)\ndtype: float32",
+      "explanation": "Reverse BGR [30,20,10] into RGB [10,20,30].\nConvert the image to float32 and divide its pixel values by 255, then transpose HWC into CHW.\nAdd one batch dimension; shape (1,3,1,1) and float32 match this demo pipeline's expectations."
     }
   ]
 };
