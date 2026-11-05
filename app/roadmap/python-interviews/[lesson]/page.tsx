@@ -96,8 +96,17 @@ export default async function PythonInterviewCodeLesson({ params }: { params: Pr
                 </div>
 
                 <div className="p-4 sm:p-5">
-                  <p className={'mb-1 text-[11px] font-black uppercase tracking-wide '+color.label}>Explanation</p>
-                  <p className="max-w-3xl text-sm leading-7 text-[var(--fg)]">{example.explanation}</p>
+                  <p className={'mb-3 text-xs font-black uppercase tracking-wide '+color.label}>How this code works</p>
+                  <div className="grid gap-2">
+                    {example.explanation.split('\n').filter(Boolean).map((step, stepIndex) => (
+                      <div key={stepIndex} className="flex items-start gap-3 rounded-xl border border-[var(--line)] bg-[var(--surface)]/90 p-3">
+                        <span className={'flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-black '+(stepIndex===0?'bg-sky-500/15 text-sky-700 dark:text-sky-300':stepIndex===1?'bg-violet-500/15 text-violet-700 dark:text-violet-300':'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300')}>
+                          {stepIndex+1}
+                        </span>
+                        <p className="min-w-0 pt-0.5 text-sm leading-6 text-[var(--fg)]">{step}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </section>;
             })}
