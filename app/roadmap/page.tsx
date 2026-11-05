@@ -16,6 +16,7 @@ import {
 } from '@/lib/internship-curriculum';
 import { loadRoadmap, type RoadmapItem } from '@/lib/store';
 import { internshipExtraChecklists, internshipExtraCount, internshipExtraKey } from '@/lib/internship-extra-checklists';
+import { pythonCodeExamples } from '@/lib/python-roadmap-code';
 
 type TopicStatus = 'upcoming' | 'in_progress' | 'review' | 'completed';
 type PriorityFilter = 'all' | 'P0' | 'P1' | 'P2';
@@ -415,6 +416,15 @@ export default function RoadmapPage() {
                             <span>{title}</span><ArrowRight size={14} className="mt-0.5 shrink-0 text-sky-600 transition group-hover/link:translate-x-0.5"/>
                           </Link> :
                           <p className={'text-xs leading-5 sm:text-sm ' + (isDone?'text-[var(--muted)] line-through':'text-[var(--fg)]')}>{title}</p>}
+                        {m.id === '01' && <div className="mt-2 flex flex-wrap gap-1.5">
+                          {(pythonCodeExamples[String(i+1).padStart(2, '0')] || []).map(example => (
+                            <Link key={example.anchor}
+                              href={('/roadmap/python/'+(i+1)+'#'+example.anchor) as Route}
+                              className="rounded-md border border-sky-500/20 bg-sky-500/5 px-2 py-1.5 text-[10px] font-semibold leading-4 text-sky-700 transition hover:border-sky-500 hover:bg-sky-500/15 dark:text-sky-300">
+                              {example.label}
+                            </Link>
+                          ))}
+                        </div>}
                         {review && <span className="mt-1 inline-block text-[10px] font-bold text-amber-600">Review needed</span>}
                       </div>
                       {!isDone && <button type="button" disabled={!ready || busy}
