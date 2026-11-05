@@ -16,6 +16,7 @@ import {
 } from '@/lib/internship-curriculum';
 import { loadRoadmap, type RoadmapItem } from '@/lib/store';
 import { internshipExtraChecklists, internshipExtraCount, internshipExtraKey } from '@/lib/internship-extra-checklists';
+import { pythonCodeExamples } from '@/lib/python-roadmap-code';
 
 type TopicStatus = 'upcoming' | 'in_progress' | 'review' | 'completed';
 type PriorityFilter = 'all' | 'P0' | 'P1' | 'P2';
@@ -386,8 +387,8 @@ export default function RoadmapPage() {
                 {m.id === '01' && <Link href="/roadmap/python/1" className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-sky-500/20 bg-gradient-to-r from-sky-500/15 via-violet-500/10 to-fuchsia-500/10 p-4 transition hover:border-sky-500/50">
                   <div className="flex items-center gap-3">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-sky-600 text-white"><BookOpen size={20}/></span>
-                    <div><span className="block text-sm font-black text-[var(--fg)]">Python Fundamentals · 24 Guided Lessons</span>
-                      <span className="mt-0.5 block text-xs text-[var(--muted)]">Simple explanations • visual examples • live Python • auto-checked coding • quick revision</span></div>
+                    <div><span className="block text-sm font-black text-[var(--fg)]">Python Fundamentals · 24 Code & Explanation Topics</span>
+                      <span className="mt-0.5 block text-xs text-[var(--muted)]">Individual code examples • expected output • easy explanations • no quizzes</span></div>
                   </div>
                   <span className="inline-flex items-center gap-1 rounded-xl bg-sky-600 px-3 py-2 text-xs font-black text-white">Start lesson 01 <ArrowRight size={14}/></span>
                 </Link>}
@@ -415,6 +416,15 @@ export default function RoadmapPage() {
                             <span>{title}</span><ArrowRight size={14} className="mt-0.5 shrink-0 text-sky-600 transition group-hover/link:translate-x-0.5"/>
                           </Link> :
                           <p className={'text-xs leading-5 sm:text-sm ' + (isDone?'text-[var(--muted)] line-through':'text-[var(--fg)]')}>{title}</p>}
+                        {m.id === '01' && <div className="mt-2 flex flex-wrap gap-1.5">
+                          {(pythonCodeExamples[String(i+1).padStart(2, '0')] || []).map(example => (
+                            <Link key={example.anchor}
+                              href={('/roadmap/python/'+(i+1)+'#'+example.anchor) as Route}
+                              className="rounded-md border border-sky-500/20 bg-sky-500/5 px-2 py-1.5 text-[10px] font-semibold leading-4 text-sky-700 transition hover:border-sky-500 hover:bg-sky-500/15 dark:text-sky-300">
+                              {example.label}
+                            </Link>
+                          ))}
+                        </div>}
                         {review && <span className="mt-1 inline-block text-[10px] font-bold text-amber-600">Review needed</span>}
                       </div>
                       {!isDone && <button type="button" disabled={!ready || busy}

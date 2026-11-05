@@ -4,15 +4,23 @@ on:
   pull_request:
     paths:
       - 'lib/python-roadmap-lessons-*.ts'
+      - 'lib/python-roadmap-code-*.ts'
+      - 'app/roadmap/python/[lesson]/page.tsx'
+      - 'app/roadmap/page.tsx'
       - 'lib/python-roadmap-types.ts'
       - 'scripts/test_python_roadmap.py'
+      - 'scripts/test_python_code_references.py'
       - '.github/workflows/python-roadmap-lessons.yml'
   push:
     branches: [main]
     paths:
       - 'lib/python-roadmap-lessons-*.ts'
+      - 'lib/python-roadmap-code-*.ts'
+      - 'app/roadmap/python/[lesson]/page.tsx'
+      - 'app/roadmap/page.tsx'
       - 'lib/python-roadmap-types.ts'
       - 'scripts/test_python_roadmap.py'
+      - 'scripts/test_python_code_references.py'
       - '.github/workflows/python-roadmap-lessons.yml'
 
 permissions:
@@ -26,4 +34,5 @@ jobs:
         with:
           persist-credentials: false
       - name: Check all authored Python lessons and exercise assertions
-        run: python3 scripts/test_python_roadmap.py
+        run: |
+          python3 scripts/test_python_code_references.py
