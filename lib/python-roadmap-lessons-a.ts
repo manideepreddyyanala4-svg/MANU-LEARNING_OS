@@ -404,8 +404,7 @@ export const pythonLessonsA: PythonRoadmapLesson[] = [
     "flow": [
       "for: take the next item",
       "while: check the condition",
-      "Run the loop body",
-      "break, continue or repeat"
+      "Run the loop body; break, continue or repeat"
     ],
     "example": "images = ['hand_1.jpg', 'hand_2.jpg', 'hand_3.jpg']\\n\\n# FOR: visit every item\\nfor image in images:\\n    print('Checking', image)\\n\\n# WHILE: repeat while the condition is true\\nindex = 0\\nwhile index < len(images):\\n    print('Index:', index)\\n    index += 1",
     "output": "Checking hand_1.jpg\\nChecking hand_2.jpg\\nChecking hand_3.jpg\\nIndex: 0\\nIndex: 1\\nIndex: 2",
