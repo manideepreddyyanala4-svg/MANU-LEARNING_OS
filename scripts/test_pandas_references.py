@@ -11,7 +11,7 @@ modules = {}
 for part in "abc":
     text = (root / "lib" / f"pandas-examples-{part}.ts").read_text(encoding="utf-8")
     match = re.search(
-        r"export const pandasExamples[A-C]: Record<string, PythonCodeExample\\[\\]> = (\\{[\\s\\S]*\\});\\s*$",
+        r"export const pandasExamples[A-C]: Record<string, PythonCodeExample\[\]> = (\{[\s\S]*\});\s*$",
         text,
     )
     assert match, f"Could not parse Pandas learning examples {part}"
@@ -27,7 +27,7 @@ for module, cards in sorted(modules.items()):
     assert len(anchors) == len(set(anchors)), f"Duplicate link in {module}"
     for card in cards:
         assert card["code"] and card["label"] and card["output"]
-        steps = card["explanation"].split("\\n")
+        steps = card["explanation"].split("\n")
         assert len(steps) == 3 and all(step.strip() for step in steps), (
             f"Expected 3 short steps in {module}/{card['anchor']}"
         )
