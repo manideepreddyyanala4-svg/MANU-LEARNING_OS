@@ -19,6 +19,7 @@ import { internshipExtraChecklists, internshipExtraCount, internshipExtraKey } f
 import { pythonCodeExamples } from '@/lib/python-roadmap-code';
 import { pythonInterviewCodeExamples } from '@/lib/python-interview-code';
 import { numpyCodeExamples } from '@/lib/numpy-code';
+import { pandasCodeExamples } from '@/lib/pandas-code';
 
 type TopicStatus = 'upcoming' | 'in_progress' | 'review' | 'completed';
 type PriorityFilter = 'all' | 'P0' | 'P1' | 'P2';
@@ -415,6 +416,17 @@ export default function RoadmapPage() {
                   </div>
                   <span className="inline-flex items-center gap-1 rounded-xl bg-emerald-600 px-3 py-2 text-xs font-black text-white">Open Topic 01 <ArrowRight size={14}/></span>
                 </Link>}
+                {m.id === '04' && <Link href="/roadmap/pandas/1"
+                  className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-500/25 bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-sky-500/10 p-4 transition hover:border-amber-500/50">
+                  <div className="flex items-center gap-3">
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-amber-600 text-white"><Code2 size={20}/></span>
+                    <div>
+                      <span className="block text-sm font-black text-[var(--fg)]">Pandas & Dataset Engineering · 20 Topics</span>
+                      <span className="mt-0.5 block text-xs text-[var(--muted)]">Easy code • correct output • 3 simple explanations • no quizzes</span>
+                    </div>
+                  </div>
+                  <span className="inline-flex items-center gap-1 rounded-xl bg-amber-600 px-3 py-2 text-xs font-black text-white">Open Topic 01 <ArrowRight size={14}/></span>
+                </Link>}
                 <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--muted)]">
                   <span>Check = independently demonstrated • Review = revisit later</span>
                   <span>{found.length === m.topics.length?'All topics':'Filtered: '+found.length+' matching'}</span>
@@ -434,15 +446,15 @@ export default function RoadmapPage() {
                         {busy?<LoaderCircle size={13} className="animate-spin" />:isDone?<Check size={14} strokeWidth={3}/>:null}
                       </button>
                       <div className="min-w-0 flex-1 pt-0.5">
-                        {(m.id === '01' || m.id === '02' || m.id === '03') ? <Link href={((m.id === '01' ? '/roadmap/python/' : m.id === '02' ? '/roadmap/python-interviews/' : '/roadmap/numpy/')+(i+1)) as Route}
+                        {(m.id === '01' || m.id === '02' || m.id === '03' || m.id === '04') ? <Link href={((m.id === '01' ? '/roadmap/python/' : m.id === '02' ? '/roadmap/python-interviews/' : m.id === '03' ? '/roadmap/numpy/' : '/roadmap/pandas/')+(i+1)) as Route}
                           className={'group/link inline-flex items-start gap-2 text-xs font-bold leading-5 underline decoration-sky-500/40 underline-offset-2 transition hover:text-sky-600 sm:text-sm '+(isDone?'text-[var(--muted)]':'text-[var(--fg)]')}>
                             <span>{title}</span><ArrowRight size={14} className="mt-0.5 shrink-0 text-sky-600 transition group-hover/link:translate-x-0.5"/>
                           </Link> :
                           <p className={'text-xs leading-5 sm:text-sm ' + (isDone?'text-[var(--muted)] line-through':'text-[var(--fg)]')}>{title}</p>}
-                        {(m.id === '01' || m.id === '02' || m.id === '03') && <div className="mt-2 flex flex-wrap gap-1.5">
-                          {((m.id === '01' ? pythonCodeExamples : m.id === '02' ? pythonInterviewCodeExamples : numpyCodeExamples)[String(i+1).padStart(2, '0')] || []).map(example => (
+                        {(m.id === '01' || m.id === '02' || m.id === '03' || m.id === '04') && <div className="mt-2 flex flex-wrap gap-1.5">
+                          {((m.id === '01' ? pythonCodeExamples : m.id === '02' ? pythonInterviewCodeExamples : m.id === '03' ? numpyCodeExamples : pandasCodeExamples)[String(i+1).padStart(2, '0')] || []).map(example => (
                             <Link key={example.anchor}
-                              href={((m.id === '01' ? '/roadmap/python/' : m.id === '02' ? '/roadmap/python-interviews/' : '/roadmap/numpy/')+(i+1)+'#'+example.anchor) as Route}
+                              href={((m.id === '01' ? '/roadmap/python/' : m.id === '02' ? '/roadmap/python-interviews/' : m.id === '03' ? '/roadmap/numpy/' : '/roadmap/pandas/')+(i+1)+'#'+example.anchor) as Route}
                               className="rounded-md border border-sky-500/20 bg-sky-500/5 px-2 py-1.5 text-[10px] font-semibold leading-4 text-sky-700 transition hover:border-sky-500 hover:bg-sky-500/15 dark:text-sky-300">
                               {example.label}
                             </Link>
