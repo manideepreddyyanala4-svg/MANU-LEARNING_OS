@@ -13,6 +13,7 @@ import {
   Search,
 } from 'lucide-react';
 import { Page, Empty } from '@/components/ui';
+import { detectNotePresence, noteBadge, type NotePresence, type SavedTopicDocument } from '@/lib/learning-note-presence';
 import {
   requireClient,
   requireUser,
@@ -36,6 +37,8 @@ function SubjectPageContent() {
   const [sectionList, setSections] = useState<Section[]>([]);
   const [list, setList] = useState<Topic[]>([]);
   const [query, setQuery] = useState('');
+  const [noteFilter, setNoteFilter] = useState<'all' | 'with_notes' | 'no_notes'>('all');
+  const [noteKinds, setNoteKinds] = useState<Record<string, NotePresence> | null>(null);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
@@ -60,6 +63,43 @@ function SubjectPageContent() {
       const [ss, ts] = await Promise.all([sections(s.id), topics(s.id)]);
       setSections(ss);
       setList(ts);
+      setNoteKinds(null);
+
+      const ids = ts.map((topic) => topic.id);
+      if (ids.length === 0) {
+        setNoteKinds({});
+      } else {
+        const client = requireClient();
+        // Read the user's actual saved editor contents, not the learning-status
+        // field. Empty documents and newly created topic folders stay 'no notes'.
+        const [docs, legacy] = await Promise.all([
+          client.from('topic_documents')
+            .select('topic_id,plain_text,content_json')
+            .eq('user_id', s.user_id).in('topic_id', ids),
+          client.from('topic_blocks')
+            .select('topic_id,block_type,text_content')
+            .eq('user_id', s.user_id).in('topic_id', ids),
+        ]);
+        if (docs.error) throw docs.error;
+        if (legacy.error) throw legacy.error;
+
+        const kinds: Record<string, NotePresence> = {};
+        for (const topic of ts) kinds[topic.id] = 'none';
+        for (const doc of (docs.data ?? []) as SavedTopicDocument[]) {
+          kinds[doc.topic_id] = detectNotePresence(doc);
+        }
+        // Old text blocks are still readable in the topic editor when a modern
+        // document is missing. Respect those older notes as well.
+        for (const block of legacy.data ?? []) {
+          if (kinds[block.topic_id] === 'none' &&
+              block.block_type === 'text' && block.text_content?.trim()) {
+            kinds[block.topic_id] = 'written';
+          }
+        }
+        setNoteKinds(kinds);
+      }
+    } else {
+      setNoteKinds(null);
     }
     window.dispatchEvent(new Event('manuos:learning-structure-changed'));
   }
@@ -309,9 +349,16 @@ function SubjectPageContent() {
     );
   }
 
+  function matchesNoteFilter(topic: Topic): boolean {
+    if (noteFilter === 'all' || noteKinds === null) return true;
+    const hasNotes = (noteKinds[topic.id] ?? 'none') !== 'none';
+    return noteFilter === 'with_notes' ? hasNotes : !hasNotes;
+  }
+
   function topicRows(group: Topic[], includeAll = false) {
     const filtered = group.filter(
-      (x) => includeAll || x.title.toLowerCase().includes(query.toLowerCase())
+      (x) => matchesNoteFilter(x) &&
+        (includeAll || x.title.toLowerCase().includes(query.toLowerCase()))
     );
     if (!filtered.length) {
       return (
@@ -329,7 +376,17 @@ function SubjectPageContent() {
               className="learning-topic-table-link"
             >
               <span>{String(index + 1).padStart(2, '0')}</span>
-              <span className="truncate">{item.title}</span>
+              <span className="min-w-0 flex-1 truncate">{item.title}</span>
+              {noteKinds ? (
+                <span
+                  title="Based on saved content, not learning completion"
+                  className={'shrink-0 whitespace-nowrap rounded-full border px-2 py-1 text-[10px] font-bold leading-none ' + noteBadge(noteKinds[item.id] ?? 'none').className}
+                >
+                  {noteBadge(noteKinds[item.id] ?? 'none').text}
+                </span>
+              ) : (
+                <span className="shrink-0 text-[10px] text-[var(--muted)]">Checking notes…</span>
+              )}
               {item.status === 'mastered' && (
                 <span className="text-xs font-bold text-emerald-500">✓</span>
               )}
@@ -351,6 +408,10 @@ function SubjectPageContent() {
   }
 
   const masteredCount = list.filter((t) => t.status === 'mastered').length;
+  const withNotesCount = noteKinds
+    ? list.filter((topic) => (noteKinds[topic.id] ?? 'none') !== 'none').length
+    : 0;
+  const withoutNotesCount = list.length - withNotesCount;
 
   return (
     <Page
@@ -394,8 +455,8 @@ function SubjectPageContent() {
 
       {subject && (
         <div className="learning-subject-workspace">
-          {/* Search bar inside subject */}
-          <div className="mb-8 relative max-w-xl">
+          {/* Search and saved-content filters. These don't change learning status. */}
+          <div className="mb-4 relative max-w-xl">
             <Search
               size={15}
               className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--muted)]"
@@ -409,19 +470,48 @@ function SubjectPageContent() {
             />
           </div>
 
+          <div className="mb-7 flex flex-wrap items-center gap-2" aria-label="Filter by saved notes">
+            {([
+              ['all', 'All topics', list.length],
+              ['with_notes', 'Notes added', withNotesCount],
+              ['no_notes', 'No notes yet', withoutNotesCount],
+            ] as const).map(([value, label, count]) => (
+              <button
+                key={value}
+                type="button"
+                aria-pressed={noteFilter === value}
+                disabled={noteKinds === null}
+                onClick={() => setNoteFilter(value)}
+                className={'rounded-full border px-3 py-2 text-xs font-bold transition disabled:cursor-wait disabled:opacity-50 ' +
+                  (noteFilter === value
+                    ? value === 'with_notes'
+                      ? 'border-emerald-500 bg-emerald-500/15 text-emerald-700 dark:text-emerald-300'
+                      : value === 'no_notes'
+                        ? 'border-amber-500 bg-amber-500/15 text-amber-700 dark:text-amber-300'
+                        : 'border-sky-500 bg-sky-500/15 text-sky-700 dark:text-sky-300'
+                    : 'border-[var(--line)] bg-[var(--surface)] text-[var(--muted)] hover:border-sky-500/40')}
+              >
+                {label} {noteKinds ? count : '…'}
+              </button>
+            ))}
+            <span className="text-[11px] text-[var(--muted)]">
+              Based on saved text, images or files — not mastery
+            </span>
+          </div>
+
           {/* Section groups */}
           <div className="space-y-6">
             {sectionList
-              .filter(
-                (s) =>
-                  !query ||
-                  s.title.toLowerCase().includes(query.toLowerCase()) ||
-                  list.some(
-                    (t) =>
-                      t.section_id === s.id &&
-                      t.title.toLowerCase().includes(query.toLowerCase())
-                  )
-              )
+              .filter((section) => {
+                if (!query && noteFilter === 'all') return true;
+                return list.some((topic) =>
+                  topic.section_id === section.id &&
+                  matchesNoteFilter(topic) &&
+                  (!query ||
+                    section.title.toLowerCase().includes(query.toLowerCase()) ||
+                    topic.title.toLowerCase().includes(query.toLowerCase()))
+                );
+              })
               .map((s, secIndex) => {
                 const group = list.filter((t) => t.section_id === s.id);
                 return (
@@ -461,7 +551,10 @@ function SubjectPageContent() {
               })}
 
             {/* Other topics (unsectioned) */}
-            {(list.some((t) => !t.section_id) || !sectionList.length) && (
+            {(list.some((t) =>
+              !t.section_id && matchesNoteFilter(t) &&
+              (!query || t.title.toLowerCase().includes(query.toLowerCase()))
+            ) || (!sectionList.length && !query && noteFilter === 'all')) && (
               <section className="learning-section-card">
                 <div className="learning-section-heading learning-section-card-header">
                   <h2>Other topics</h2>
