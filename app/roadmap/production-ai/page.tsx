@@ -148,16 +148,16 @@ const stages: Stage[] = [
 ];
 
 const ragFlow = [
-  'Build a simple baseline RAG yourself',
-  'Create a benchmark with known questions and expected evidence',
-  'Store embeddings in PostgreSQL + pgvector',
-  'Compare chunking, hybrid retrieval and reranking',
-  'Measure retrieval, groundedness, citations, hallucination, latency and cost',
-  'Add SQL/API tools and tool calling',
-  'Turn the system into an AI agent only after RAG works',
-  'Measure tool-selection and task-success accuracy',
-  'Add prompt-injection, permission and data-leakage tests',
-  'FastAPI + Docker + AWS + logging',
+  'Inventory existing lab Ollama models, Python and GPU before choosing model sizes',
+  'Build a bilingual public/synthetic industrial-vision corpus and 30-question benchmark',
+  'Implement PDF/table ingestion, embeddings, PostgreSQL/pgvector and cited baseline RAG',
+  'Measure keyword vs dense vs hybrid search, reranking and cross-language retrieval',
+  'Add document versioning, stale-index updates, tenant filtering and source validation',
+  'Build SQL/REST tools and one real MCP server and client with strict tool permissions',
+  'Implement three incident workflows, LangGraph agent and human-approved ticket actions',
+  'Compare RAG-only vs fixed workflow vs agent; expand toward 120 human-verified cases',
+  'Test prompt injection, tool accuracy, citation support, cross-user security and latency',
+  'Deliver FastAPI, streaming, background jobs, observability, Docker/CI and honest demo',
 ];
 
 const storageKey = 'manu-production-ai-roadmap-v1';
@@ -353,19 +353,19 @@ export default function ProductionAIRoadmapPage() {
             <div className="flex items-center gap-2">
               <BrainCircuit size={18} className="text-[var(--accent)]" />
               <h2 className="text-sm font-extrabold text-[var(--fg)]">
-                Project 2 — Agent Reliability Lab
+                Project 2 — Agent Reliability Lab: EvidenceOps
               </h2>
             </div>
             <p className="mt-2 text-xs leading-5 text-[var(--muted)]">
-              Build one separate RAG + agent evaluation system after the dorsal research is stable and its production path is underway. Do not force RAG into the biometric system, and do not add another portfolio project.
+              Build one separate bilingual enterprise RAG + MCP agent product alongside applications and existing research. Focus on safe business workflows, production engineering and measurable reliability. Do not use private research data or add a third flagship project.
             </p>
 
             <div className="mt-4 rounded-xl border border-[var(--line)] bg-[var(--bg)]/50 p-3.5">
               <p className="text-xs font-extrabold text-[var(--fg)]">
-                RAG + Agent Reliability & Security Platform
+                EvidenceOps — Bilingual Enterprise AI Investigation + Workflow Automation
               </p>
               <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
-                First build a real RAG system, then test and improve it. Add tool-using agents only after the RAG works. The main value is measuring retrieval quality, groundedness, citations, hallucinations, tool accuracy, latency, cost and security failures.
+                Start with a tested baseline and 30 checked questions; then multilingual hybrid search, versioned documents, a real MCP client/server, LangGraph tools, approval-based tickets, multi-user security and independent 120-case evaluation. Use existing lab Ollama.
               </p>
             </div>
 
@@ -385,9 +385,10 @@ export default function ProductionAIRoadmapPage() {
                 Learn
               </p>
               <p className="mt-1.5 text-xs leading-5 text-[var(--fg)]">
-                LLM APIs • embeddings • chunking • pgvector • hybrid retrieval • reranking • tool calling • agents • RAG evaluation • AI security • FastAPI • Docker • AWS
+                Python • existing Ollama • bilingual embeddings • PDF/tables • PostgreSQL/pgvector • hybrid RAG • LangGraph • MCP • SQL/REST • FastAPI • Next.js • AI security • tracing • Docker/CI
               </p>
             </div>
+            <Link href="/roadmap/agent-reliability" className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-2.5 text-xs font-bold text-white">Open complete Project 2 roadmap →</Link>
           </Card>
 
           <Card>

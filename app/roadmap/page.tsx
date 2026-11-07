@@ -222,10 +222,13 @@ export default function RoadmapPage() {
                 Build interview skills. <span className="text-sky-600 dark:text-sky-300">Keep applying.</span>
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-[var(--muted)]">
-                Your existing dorsal-hand / LAWNet research is Project 1. Agent Reliability Lab is a separate future RAG project.
-                No removed portfolio project is treated as active. Your old milestones remain accessible below.
+                Your dorsal-hand / LAWNet research remains Project 1. Project 2 is Agent Reliability Lab — EvidenceOps:
+                a bilingual enterprise RAG + MCP agent application with a verified reliability test suite. Keep applying while building both.
               </p>
               <div className="mt-5 flex flex-wrap gap-2">
+                <Link href="/roadmap/agent-reliability" className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2.5 text-xs font-extrabold text-white hover:bg-violet-700">
+                  <Sparkles size={16} /> Project 2: EvidenceOps roadmap <ArrowRight size={14} />
+                </Link>
                 <Link href="/python-lab" className="inline-flex items-center gap-2 rounded-xl bg-sky-600 px-4 py-2.5 text-xs font-extrabold text-white hover:bg-sky-700">
                   <Code2 size={16} /> Open Python coding lab <ArrowRight size={14} />
                 </Link>
