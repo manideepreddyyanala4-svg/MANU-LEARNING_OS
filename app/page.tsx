@@ -375,7 +375,7 @@ export default function Home() {
             </p>
           </Link>
 
-          <div className="rounded-2xl border border-violet-500/30 bg-gradient-to-br from-violet-500/12 to-fuchsia-500/8 p-5">
+          <Link href="/roadmap/agent-reliability" className="group rounded-2xl border border-violet-500/30 bg-gradient-to-br from-violet-500/12 to-fuchsia-500/8 p-5 transition hover:-translate-y-0.5 hover:border-violet-500/50 hover:shadow-md">
             <div className="flex items-start justify-between gap-3">
               <div className="grid h-10 w-10 place-items-center rounded-xl bg-violet-500 text-white">
                 <Sparkles size={18} />
@@ -385,25 +385,25 @@ export default function Home() {
               </span>
             </div>
             <h3 className="mt-4 text-xl font-black text-[var(--fg)]">
-              Agent Reliability Lab
+              Agent Reliability Lab — EvidenceOps
             </h3>
             <p className="mt-2 text-xs font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300">
-              RAG + Agents + Evaluation + AI Security
+              Bilingual Enterprise RAG + MCP Agents + Secure Workflows
             </p>
             <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
-              Build the RAG system yourself first, improve and compare retrieval versions, then add tool-calling agents. Your differentiator is proving when the system works or fails using groundedness, citations, hallucination, tool accuracy, latency, cost and security tests.
+              An industry-focused AI application: investigate simulated vision-inspection incidents using bilingual evidence, SQL/REST/MCP tools, human-approved actions, and reproducible accuracy, citation, security and performance evaluations.
             </p>
             <div className="mt-4 flex flex-wrap gap-1.5">
-              {['RAG', 'pgvector', 'Agents', 'Tools', 'Evaluation', 'Security', 'Deploy'].map((item) => (
+              {['Ollama', 'Hybrid RAG', '繁體中文', 'MCP', 'LangGraph', 'FastAPI', 'pgvector', 'Security', 'Evaluation'].map((item) => (
                 <span key={item} className="rounded-lg border border-violet-500/20 bg-violet-500/8 px-2 py-1 text-[10px] font-bold text-[var(--fg)]">
                   {item}
                 </span>
               ))}
             </div>
             <p className="mt-4 text-xs font-extrabold text-violet-700 dark:text-violet-300">
-              Start only after Project 1 research is stable and the production path is underway.
+              Open full Project 2 roadmap <ArrowRight size={13} className="ml-1 inline transition group-hover:translate-x-0.5" />
             </p>
-          </div>
+          </Link>
         </div>
 
         <div className="grid gap-3 border-t border-[var(--line)] bg-[var(--bg)]/45 px-5 py-4 text-xs md:grid-cols-3 md:px-7">
