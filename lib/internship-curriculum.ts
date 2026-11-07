@@ -588,11 +588,11 @@ export const internshipCurriculum: InternshipModule[] = [
   },
   {
     "id": "20",
-    "title": "RAG foundation: Agent Reliability Lab, project 2",
+    "title": "EvidenceOps Project 2 — bilingual enterprise RAG and retrieval",
     "priority": "P1",
     "group": "Applied AI & Specializations",
     "prerequisites": "LLM basics, NumPy similarity, SQL",
-    "proof": "Build independent RAG baseline that cites sources and passes a small held-out QA dataset.",
+    "proof": "Prove a cited bilingual RAG baseline with 30, then 60, then 120 verified cases and documented retrieval ablations.",
     "topics": [
       "Problem definition; use public documents only",
       "Document parsing: PDF/MD/HTML and extraction checks",
@@ -617,16 +617,23 @@ export const internshipCurriculum: InternshipModule[] = [
       "Embedding/index rebuild testing",
       "Prevent source leakage across users",
       "RAG evaluation regression harness",
-      "Baseline report with qualitative failures"
+      "Baseline report with qualitative failures",
+      "Inventory existing lab Ollama models, GPU memory and Python without reinstalling Ollama",
+      "English/Traditional Chinese retrieval and mixed-language technical terms",
+      "Extract PDFs and tables with correct page references and versioned SOP metadata",
+      "Deterministic document hashes, deduplication, incremental ingestion, delete and recovery",
+      "Lock incident-grouped evaluation sets with held-out questions and expected evidence",
+      "Benchmark keyword, dense, hybrid and reranker retrieval under comparable conditions",
+      "Create internship-ready retrieval benchmark and README with independently checked failures"
     ]
   },
   {
     "id": "21",
-    "title": "Agents, tooling, reliability and AI security",
+    "title": "EvidenceOps Project 2 — MCP agents, backend reliability and AI security",
     "priority": "P2",
     "group": "Applied AI & Specializations",
     "prerequisites": "Working RAG baseline first",
-    "proof": "Demonstrate a constrained tool-using agent with tests for tool accuracy and prompt-injection failures.",
+    "proof": "Ship a real MCP server and client, safe three-workflow agent, approval-controlled ticket action, secure FastAPI and reproducible agent evaluation.",
     "topics": [
       "When a tool workflow is better than an agent",
       "Tool schemas, function calling and result validation",
@@ -649,7 +656,18 @@ export const internshipCurriculum: InternshipModule[] = [
       "Evaluating malicious or missing source documents",
       "Minimal FastAPI interface for demo",
       "Comparison to non-agent baseline",
-      "Honest README with failures and mitigations"
+      "Honest README with failures and mitigations",
+      "Implement official MCP Python SDK server and client with tool discovery and schema tests",
+      "Enforce MCP tool authorization, allowlists, schema checks, errors and timeouts on backend",
+      "Simulate inspection-rate, deployment-version and SOP conflict investigations",
+      "Integrate external REST ticket service, draft ticket and require human approval for writes",
+      "Produce bilingual structured incident findings with traceable evidence IDs",
+      "Implement response streaming, cancellation, bounded steps and retries",
+      "Run SQL/API integration tests, transaction/idempotency checks and background job recovery",
+      "Test tenant isolation, poisoned documents, prompt injection and unauthorized actions",
+      "Measure tool choice, arguments, final state, completion accuracy, tokens and p95 latency",
+      "Compare RAG-only baseline, fixed workflow and autonomous tool selection fairly",
+      "Package Docker Compose, CI, logging, runbook, demonstration and honest limitations"
     ]
   },
   {
@@ -723,7 +741,10 @@ export const internshipCurriculum: InternshipModule[] = [
       "Project 2: evaluate robustness and security",
       "Project 2: add a single safe tool if measured value",
       "Project 2: simple demo, README and results table",
-      "Do not start a third portfolio project before offers"
+      "Do not start a third portfolio project before offers",
+      "Project 2: build EvidenceOps from the full ManuOS roadmap on authorized lab hardware",
+      "Project 2: keep real university biometric research private and separate from synthetic industrial scenarios",
+      "Project 2: write résumé claims only for personally verified milestones and measurements"
     ]
   },
   {
