@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import {
   ArrowLeft, ArrowRight, BookOpen, BrainCircuit, CheckCircle2, ClipboardCheck,
-  Cpu, Database, ExternalLink, FileText, FlaskConical, Globe2, LockKeyhole,
+  Cpu, Database, ExternalLink, FileText, FlaskConical, LockKeyhole,
   Rocket, Search, ShieldCheck, Terminal, Workflow,
 } from 'lucide-react';
 import { Page, Card } from '@/components/ui';
