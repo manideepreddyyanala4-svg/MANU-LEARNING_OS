@@ -81,14 +81,14 @@ const workflows = [
 ] as const;
 
 const stack = [
-  ['LLM serving', 'Existing lab Ollama; choose generator/embedding models only after ollama list and GPU inventory'],
-  ['Document processing', 'Python + Docling (PDF, text, Markdown, tables and extraction validation)'],
-  ['Search and storage', 'PostgreSQL + pgvector + full-text search; dense/hybrid/rerank measured, not assumed'],
-  ['Agents and MCP', 'LangGraph for bounded execution; official MCP Python SDK for a real server + client'],
+  ['LLM serving', 'Lab RTX 5080: qwen2.5:7b and qwen3-embedding:0.6b installed; live RAG and agent benchmarks still require verification'],
+  ['Document processing', 'Existing Python TXT/PDF/CSV ingestion, source hashes, versions and citations; scanned OCR is optional'],
+  ['Search and storage', 'Current application uses SQLite; PostgreSQL/pgvector adapter was tested; semantic/hybrid needs real lab embeddings'],
+  ['Agents and MCP', 'Existing bounded fixed LangGraph workflows and tested MCP server/client; LLM-driven tool selection must be verified'],
   ['Application backend', 'FastAPI, Pydantic, structured JSON, streaming, retries, transactions, API contracts'],
-  ['Frontend', 'Next.js: investigate, inspect citations, manage documents, run evaluation, approve actions'],
+  ['Frontend', 'Existing lightweight HTML/CSS/JavaScript dashboard, connected to FastAPI'],
   ['Reliability and security', 'pytest, experiment harness, OpenTelemetry traces, prompt-injection/tenant tests'],
-  ['Release', 'Git, Docker Compose, CI/CD, logging, runbooks and measured resource use'],
+  ['Release', 'Git and Docker Compose tested locally; CI configuration exists; hosted runs and live AI results require verification'],
 ] as const;
 
 const testCases = [
@@ -128,7 +128,7 @@ export default function AgentReliabilityPage() {
     <Page
       eyebrow="Career portfolio · Project 2"
       title="Agent Reliability Lab — EvidenceOps"
-      subtitle="A bilingual enterprise AI investigation and workflow platform. Real RAG, MCP agents, backend engineering, security and reproducible evaluation."
+      subtitle="A bilingual AI investigation project: tested local retrieval, workflows and MCP, with live RAG/agent evaluation as the next lab milestone."
       actions={<Link href="/roadmap" className="inline-flex items-center gap-2 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-2 text-xs font-bold text-[var(--fg)]"><ArrowLeft size={15} /> Roadmap</Link>}
     >
       <div className="space-y-7">
@@ -136,7 +136,7 @@ export default function AgentReliabilityPage() {
           <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-violet-500/20 blur-3xl" aria-hidden="true" />
           <div className="relative">
             <div className="flex flex-wrap gap-2">
-              <span className="rounded-full bg-amber-400/15 px-3 py-1 text-[11px] font-bold text-amber-200">PLANNED · NOT YET BUILT</span>
+              <span className="rounded-full bg-amber-400/15 px-3 py-1 text-[11px] font-bold text-amber-200">LOCAL NON-LLM SYSTEM TESTED · LIVE AI EVALUATION PENDING</span>
               <span className="rounded-full bg-sky-400/15 px-3 py-1 text-[11px] font-bold text-sky-200">LOCAL OLLAMA IN LAB</span>
               <span className="rounded-full bg-emerald-400/15 px-3 py-1 text-[11px] font-bold text-emerald-200">INTERNSHIP → FULL-TIME</span>
             </div>
@@ -152,6 +152,15 @@ export default function AgentReliabilityPage() {
             </div>
           </div>
         </section>
+
+        <Link href="/roadmap/rag-interview" className="group flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-violet-500/30 bg-violet-500/10 p-5 transition hover:border-violet-500/60">
+          <div>
+            <p className="text-xs font-extrabold uppercase tracking-wider text-violet-600 dark:text-violet-300">Separate job interview learning track</p>
+            <h2 className="mt-1 text-lg font-black text-[var(--fg)]">262 numbered topics mapped to the EvidenceOps source files</h2>
+            <p className="mt-1 text-xs text-[var(--muted)]">Python → retrieval → Ollama → FastAPI → SQL → LangGraph → MCP → evaluation → Docker. Save progress in ManuOS.</p>
+          </div>
+          <span className="inline-flex items-center gap-1 text-xs font-extrabold text-violet-600 dark:text-violet-300">Open learning track <ArrowRight size={15}/></span>
+        </Link>
 
         <nav aria-label="Project sections" className="flex flex-wrap gap-2">
           <a className={anchorClass} href="#problem">What it does</a>
