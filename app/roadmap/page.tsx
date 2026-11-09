@@ -48,7 +48,7 @@ const examItems = [
   'Biometrics: distinguish EER, TAR@FMR and 1:N TPIR@FPIR',
   'Research: explain Tokyo ROI work for 90 seconds and your contribution',
   'Research: explain current LAWNet without mixing historical results',
-  'Project truth: completed research versus future unbuilt RAG system',
+  'Project truth: tested non-LLM backend versus live RAG still requiring evaluation',
   'Engineering: git diff/commit, pytest, reproducible setup',
   'Job fit: explain availability, permit limit and why the specific role',
   'Mock interview: answer five follow-up questions without assistance'
@@ -250,6 +250,30 @@ export default function RoadmapPage() {
                 {loading ? 'Connecting to your progress…' : ready ? 'Private cloud progress ready' : 'Cloud progress unavailable'}
               </div>
             </div>
+          </div>
+        </section>
+
+        <section aria-label="Separate job interview learning tracks" className="space-y-3">
+          <div className="flex items-center gap-2">
+            <BookOpen size={19} className="text-sky-500"/>
+            <div>
+              <h2 className="text-lg font-black text-[var(--fg)]">Two separate interview learning tracks</h2>
+              <p className="text-xs text-[var(--muted)]">Study in numbered order. Each track saves its own progress without changing the original 574-topic curriculum.</p>
+            </div>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            <Link href="/roadmap/cv-interview" className="group rounded-2xl border border-sky-500/30 bg-gradient-to-br from-sky-500/15 via-cyan-500/5 to-[var(--surface)] p-5 transition hover:border-sky-500/60 hover:shadow-md">
+              <span className="text-[11px] font-black uppercase tracking-wider text-sky-700 dark:text-sky-300">Track A · Computer Vision / Dorsal-Hand</span>
+              <h3 className="mt-2 text-xl font-black text-[var(--fg)]">OpenCV + Image Processing + PyTorch</h3>
+              <p className="mt-2 text-xs leading-6 text-[var(--muted)]">199 topics: Python, NumPy, images, morphology, thresholds, contours, hand ROI, CNNs, open-set evaluation, ONNX and CV interviews.</p>
+              <div className="mt-4 inline-flex items-center gap-1 text-xs font-extrabold text-sky-700 dark:text-sky-300">Start CV job preparation <ArrowRight size={14}/></div>
+            </Link>
+            <Link href="/roadmap/rag-interview" className="group rounded-2xl border border-violet-500/30 bg-gradient-to-br from-violet-500/15 via-fuchsia-500/5 to-[var(--surface)] p-5 transition hover:border-violet-500/60 hover:shadow-md">
+              <span className="text-[11px] font-black uppercase tracking-wider text-violet-700 dark:text-violet-300">Track B · EvidenceOps / LLM–RAG–Agent</span>
+              <h3 className="mt-2 text-xl font-black text-[var(--fg)]">Learn Every EvidenceOps File</h3>
+              <p className="mt-2 text-xs leading-6 text-[var(--muted)]">262 topics mapped to your Python source: retrieval, Ollama, FastAPI, pgvector, evaluation, LangGraph, MCP, security and Docker.</p>
+              <div className="mt-4 inline-flex items-center gap-1 text-xs font-extrabold text-violet-700 dark:text-violet-300">Start file-by-file RAG preparation <ArrowRight size={14}/></div>
+            </Link>
           </div>
         </section>
 
@@ -580,10 +604,10 @@ export default function RoadmapPage() {
             <p className="mt-2 text-xs leading-5 text-[var(--muted)]">Continue your existing authorized research. Inference, ONNX, API and deployment are future proof gates—not completed claims.</p>
             <div className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-violet-600">Open project milestones <ArrowRight size={14}/></div>
           </Link>
-          <Link href="/roadmap/production-ai" className="group rounded-2xl border border-sky-500/25 bg-gradient-to-br from-sky-500/10 to-emerald-500/5 p-5 hover:border-sky-500/50">
-            <div className="mb-3 flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-wider text-sky-600"><BookOpen size={16}/> Project 2 • Not yet built</div>
+          <Link href="/roadmap/agent-reliability" className="group rounded-2xl border border-sky-500/25 bg-gradient-to-br from-sky-500/10 to-emerald-500/5 p-5 hover:border-sky-500/50">
+            <div className="mb-3 flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-wider text-sky-600"><BookOpen size={16}/> Project 2 • Local backend tested</div>
             <h3 className="text-lg font-black text-[var(--fg)]">Agent Reliability Lab</h3>
-            <p className="mt-2 text-xs leading-5 text-[var(--muted)]">Public-document retrieval → grounded RAG → evaluation → read-only tools → AI security. Start after core Python/API checkpoints.</p>
+            <p className="mt-2 text-xs leading-5 text-[var(--muted)]">Document search, real MCP tools, FastAPI, incident workflows and lab Ollama integration. Live RAG benchmarks still require verified evidence.</p>
             <div className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-sky-600">View separate plan <ArrowRight size={14}/></div>
           </Link>
         </section>

@@ -211,6 +211,14 @@ export default function ProductionAIRoadmapPage() {
     >
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="space-y-5">
+          <Link href="/roadmap/cv-interview" className="group flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-sky-500/30 bg-sky-500/10 p-5 transition hover:border-sky-500/60">
+            <div>
+              <p className="text-[11px] font-black uppercase tracking-wider text-sky-700 dark:text-sky-300">Separate computer vision job-preparation track</p>
+              <h2 className="mt-1 text-lg font-black text-[var(--fg)]">199 numbered OpenCV, image processing, PyTorch and biometrics topics</h2>
+              <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Learn foundations in order and mark your interview practice without affecting the research milestones below.</p>
+            </div>
+            <span className="text-xs font-black text-sky-700 dark:text-sky-300">Open CV learning track →</span>
+          </Link>
           <Card className="overflow-hidden bg-[var(--accent-subtle)]/20">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
