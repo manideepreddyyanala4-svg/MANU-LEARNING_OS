@@ -102,6 +102,7 @@ export default function RagCorePath({ track, completed, saving, status, message,
             <div className="rounded-xl bg-emerald-500/5 p-4">
               <h3 className="flex items-center gap-2 text-sm font-extrabold text-[var(--fg)]"><Target size={16} className="text-emerald-600"/> Your practice — do it yourself</h3>
               <p className="mt-2 text-sm leading-7 text-[var(--fg)]">{active.task}</p>
+              {["python", "data", "search", "backend", "proof"].includes(stage.id) && <Link href="/python-lab" className="mt-3 inline-flex items-center gap-2 rounded-lg border border-emerald-500/30 px-3 py-2 text-xs font-bold text-emerald-700 hover:bg-emerald-500/10 dark:text-emerald-300"><Code2 size={14}/> Open ManuOS Python Lab <ArrowRight size={13}/></Link>}
               <p className="mt-3 border-t border-emerald-500/20 pt-3 text-xs leading-6 text-[var(--fg)]"><strong>Ready to continue when:</strong> {active.check}</p>
             </div>
             <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-[var(--line)] p-3">
