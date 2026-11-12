@@ -190,8 +190,8 @@ const specs: StageSpec[] = [
     "why": "Start with plain word matching. Only then learn BM25, vectors and combining rankings.",
     "ready": "Given three short documents, choose which one matches a question and explain why.",
     "resource": {
-      "label": "LangChain docs — search concepts (no installation required)",
-      "url": "https://docs.langchain.com/oss/python/langchain/knowledge-base"
+      "label": "IBM guide — keyword search vs vector search",
+      "url": "https://www.ibm.com/think/topics/vector-search"
     },
     "lessons": [
       {
@@ -342,8 +342,8 @@ const specs: StageSpec[] = [
     "why": "Tests can prove specific behaviors; evaluation measures answer quality and evidence relevance. These are separate.",
     "ready": "Test one function and review one answer's supporting document.",
     "resource": {
-      "label": "DeepLearning.AI — RAG evaluation overview (optional)",
-      "url": "https://www.deeplearning.ai/courses/building-evaluating-advanced-rag"
+      "label": "Ragas docs — answer and evidence evaluation (optional)",
+      "url": "https://docs.ragas.io/en/latest/concepts/metrics/available_metrics/"
     },
     "lessons": [
       {
