@@ -9,7 +9,7 @@ import {
 import { Page } from '@/components/ui';
 import { createClient } from '@/lib/supabase';
 import type { LearningTrack } from '@/lib/career-learning-tracks';
-import RagStudyPath from '@/components/roadmap/RagStudyPath';
+import RagCorePath from '@/components/roadmap/RagCorePath';
 
 type Row = { number: number; slug: string; title: string; sectionId: string };
 type Status = 'loading' | 'ready' | 'error';
@@ -131,7 +131,7 @@ export default function TrackChecklist({ track }: { track: LearningTrack }) {
   const isRag = track.key === 'rag';
   // Keep the 262 legacy slugs in all[] for saved progress; only the display order changes.
   if (isRag) {
-    return <RagStudyPath track={track} completed={completed} saving={saving} status={status} message={message} onToggle={slug => { void toggle(slug); }} />;
+    return <RagCorePath track={track} completed={completed} saving={saving} status={status} message={message} onToggle={slug => { void toggle(slug); }} />;
   }
   const sectionColors = isRag
     ? 'from-violet-700 via-indigo-700 to-slate-900'
