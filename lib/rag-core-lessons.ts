@@ -416,8 +416,7 @@ export function getRagCoreStages(track:LearningTrack):CoreStage[]{
     const originalNumber=(offsets.get(sectionId)??0)+index;
     if(used.has(originalNumber))throw new Error('Repeated core learning topic: '+item.source);
     used.add(originalNumber);counter+=1;
-    const {source:ignored,...rest}=item;
-    return {...rest,slug:'career-track-v1-rag-'+String(originalNumber).padStart(3,'0'),originalNumber,number:counter};
+    return {title:item.title,meaning:item.meaning,example:item.example,task:item.task,check:item.check,slug:'career-track-v1-rag-'+String(originalNumber).padStart(3,'0'),originalNumber,number:counter};
   })
  }));
  if(result.length!==10||used.size!==34)throw new Error('Core path size changed: '+result.length+' stages, '+used.size+' lessons');
