@@ -21,9 +21,9 @@ export type LearningTrack = {
 export const ragTrack: LearningTrack = {
   "key": "rag",
   "eyebrow": "Job preparation · Project 2",
-  "title": "LLM · RAG · MCP · Agent Interview Track",
-  "subtitle": "EvidenceOps source files → every concept → practical proof. Study the real project one file at a time.",
-  "summary": "A separate interview syllabus for the existing EvidenceOps repository, not a claim that all model-dependent features are finished.",
+  "title": "LLM → RAG → MCP: Beginner-to-Interview Learning Path",
+  "subtitle": "Understand the idea → practice tiny Python examples → trace project code → explain it in interviews.",
+  "summary": "An ordered study guide, built from the same 262 topics and saved checkmarks; basic concepts come before source files and optional advanced infrastructure.",
   "sections": [
     {
       "id": "r01",
