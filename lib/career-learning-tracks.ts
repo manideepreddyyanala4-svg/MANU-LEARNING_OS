@@ -21,9 +21,9 @@ export type LearningTrack = {
 export const ragTrack: LearningTrack = {
   "key": "rag",
   "eyebrow": "Job preparation · Project 2",
-  "title": "LLM → RAG → MCP: Beginner-to-Interview Learning Path",
-  "subtitle": "Understand the idea → practice tiny Python examples → trace project code → explain it in interviews.",
-  "summary": "An ordered study guide, built from the same 262 topics and saved checkmarks; basic concepts come before source files and optional advanced infrastructure.",
+  "title": "LLM → RAG → MCP: 34 Essentials",
+  "subtitle": "34 lessons from scratch; one simple idea, practice task, and interview-ready result at a time.",
+  "summary": "Only the 34 essential topics are now visible in the beginner path. All original topics and progress remain safely stored.",
   "sections": [
     {
       "id": "r01",

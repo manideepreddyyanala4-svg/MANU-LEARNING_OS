@@ -2,8 +2,8 @@ import TrackChecklist from '@/components/roadmap/TrackChecklist';
 import { ragTrack } from '@/lib/career-learning-tracks';
 
 export const metadata = {
-  title: 'Beginner LLM → RAG → MCP Learning Path | ManuOS',
-  description: 'Learn 262 LLM/RAG/MCP topics in 19 beginner-to-interview stages, with easy explanations, tiny practice examples, and saved progress.',
+  title: '34 Essentials: Beginner LLM → RAG → MCP | ManuOS',
+  description: 'Learn just 34 essential AI engineering lessons, from basic Python and LLMs to RAG, MCP, testing and interviews. No unnecessary frameworks.',
 };
 
 export default function RagInterviewPage() {
