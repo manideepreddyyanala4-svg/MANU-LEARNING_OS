@@ -14,6 +14,7 @@ import {
   Pencil,
 } from 'lucide-react';
 import { DocumentCanvas, textOf } from '@/components/document-canvas';
+import FileHandlingCheatSheet from '@/components/file-handling-cheatsheet';
 import {
   requireClient,
   requireUser,
@@ -386,18 +387,21 @@ export default function TopicPage() {
 
           {/* Open Article Canvas (No border box) */}
           <div className="topic-canvas-wrapper">
-            <DocumentCanvas
-              key={topic.id}
-              topicId={topic.id}
-              initialContent={content}
-              editable={editing}
-              learningGuide={subjectSlug === 'python-a0e156aa' && colorfulPythonGuides.has(topicSlug)}
-              onSave={saveDocument}
-              onUpload={uploadAsset}
-              doneRequest={doneRequest}
-              onDone={() => setEditing(false)}
-              onStartEdit={() => setEditing(true)}
-            />
+            {topicSlug === 'file-handling-0187aaea' && !editing
+              ? <FileHandlingCheatSheet blocks={content} onStartEdit={() => setEditing(true)} />
+              : <DocumentCanvas
+                  key={topic.id}
+                  topicId={topic.id}
+                  initialContent={content}
+                  editable={editing}
+                  learningGuide={subjectSlug === 'python-a0e156aa' && colorfulPythonGuides.has(topicSlug)}
+                  onSave={saveDocument}
+                  onUpload={uploadAsset}
+                  doneRequest={doneRequest}
+                  onDone={() => setEditing(false)}
+                  onStartEdit={() => setEditing(true)}
+                />
+            }
           </div>
 
           {/* Previous / Next Lesson Navigation Cards */}
