@@ -21,9 +21,9 @@ export type LearningTrack = {
 export const ragTrack: LearningTrack = {
   "key": "rag",
   "eyebrow": "Job preparation · Project 2",
-  "title": "LLM → RAG → MCP: 34 Essentials",
-  "subtitle": "34 lessons from scratch; one simple idea, practice task, and interview-ready result at a time.",
-  "summary": "Only the 34 essential topics are now visible in the beginner path. All original topics and progress remain safely stored.",
+  "title": "EvidenceOps Project 2: From Zero to Interview",
+  "subtitle": "100 detailed, ordered topics with worked examples, common mistakes, independent coding and interview checks.",
+  "summary": "The Project 2 learning path presents 100 core, prerequisite-ordered topics while preserving all original progress IDs and the separate dorsal CV roadmap.",
   "sections": [
     {
       "id": "r01",

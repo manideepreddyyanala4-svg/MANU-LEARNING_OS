@@ -153,11 +153,11 @@ export default function AgentReliabilityPage() {
           </div>
         </section>
 
-        <Link href="/roadmap/rag-interview" className="group flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-violet-500/30 bg-violet-500/10 p-5 transition hover:border-violet-500/60">
+        <Link href="/roadmap/evidenceops-from-zero" className="group flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-violet-500/30 bg-violet-500/10 p-5 transition hover:border-violet-500/60">
           <div>
             <p className="text-xs font-extrabold uppercase tracking-wider text-violet-600 dark:text-violet-300">Separate job interview learning track</p>
-            <h2 className="mt-1 text-lg font-black text-[var(--fg)]">262 numbered topics mapped to the EvidenceOps source files</h2>
-            <p className="mt-1 text-xs text-[var(--muted)]">Python → retrieval → Ollama → FastAPI → SQL → LangGraph → MCP → evaluation → Docker. Save progress in ManuOS.</p>
+            <h2 className="mt-1 text-lg font-black text-[var(--fg)]">100 beginner-to-interview topics in prerequisite order</h2>
+            <p className="mt-1 text-xs text-[var(--muted)]">What an LLM is → Python basics → documents → Ollama → BM25 → embeddings → RAG checks → FastAPI → MCP → testing and interviews.</p>
           </div>
           <span className="inline-flex items-center gap-1 text-xs font-extrabold text-violet-600 dark:text-violet-300">Open learning track <ArrowRight size={15}/></span>
         </Link>
