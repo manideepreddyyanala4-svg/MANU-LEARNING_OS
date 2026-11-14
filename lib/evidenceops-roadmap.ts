@@ -28,13 +28,13 @@ const raw=[
       },
       {
         "ref": "r06:1",
-        "title": "What is an LLM?",
-        "what": "A language model generates text by predicting tokens from context.",
-        "how": "Prompt → token predictions → text.",
+        "title": "AI vs ML vs Deep Learning vs NLP vs LLM",
+        "what": "AI is the broad field of intelligent systems. Machine learning learns patterns from data; deep learning uses neural networks; NLP works with human language; an LLM is a deep-learning model that generates and processes text.",
+        "how": "AI → machine learning → deep learning → language model. At use time: prompt → token predictions → generated text.",
         "example": "Qwen2.5 can write 'Threshold is 0.50'.",
         "trap": "Fluent answers are not necessarily true.",
-        "doIt": "Define an LLM without technical acronyms.",
-        "check": "Does an LLM know private factory data automatically?"
+        "doIt": "Make five boxes labeled AI, ML, DL, NLP and LLM; explain how they relate in simple words.",
+        "check": "Explain AI, ML, deep learning, NLP, LLM, and why the LLM cannot automatically know a private SOP."
       },
       {
         "ref": "r15:4",
