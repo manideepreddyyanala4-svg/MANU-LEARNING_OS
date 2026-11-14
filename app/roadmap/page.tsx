@@ -268,11 +268,11 @@ export default function RoadmapPage() {
               <p className="mt-2 text-xs leading-6 text-[var(--muted)]">199 topics: Python, NumPy, images, morphology, thresholds, contours, hand ROI, CNNs, open-set evaluation, ONNX and CV interviews.</p>
               <div className="mt-4 inline-flex items-center gap-1 text-xs font-extrabold text-sky-700 dark:text-sky-300">Start CV job preparation <ArrowRight size={14}/></div>
             </Link>
-            <Link href="/roadmap/rag-interview" className="group rounded-2xl border border-violet-500/30 bg-gradient-to-br from-violet-500/15 via-fuchsia-500/5 to-[var(--surface)] p-5 transition hover:border-violet-500/60 hover:shadow-md">
+            <Link href="/roadmap/evidenceops-from-zero" className="group rounded-2xl border border-violet-500/30 bg-gradient-to-br from-violet-500/15 via-fuchsia-500/5 to-[var(--surface)] p-5 transition hover:border-violet-500/60 hover:shadow-md">
               <span className="text-[11px] font-black uppercase tracking-wider text-violet-700 dark:text-violet-300">Track B · EvidenceOps / LLM–RAG–Agent</span>
-              <h3 className="mt-2 text-xl font-black text-[var(--fg)]">Learn Every EvidenceOps File</h3>
-              <p className="mt-2 text-xs leading-6 text-[var(--muted)]">262 topics mapped to your Python source: retrieval, Ollama, FastAPI, pgvector, evaluation, LangGraph, MCP, security and Docker.</p>
-              <div className="mt-4 inline-flex items-center gap-1 text-xs font-extrabold text-violet-700 dark:text-violet-300">Start file-by-file RAG preparation <ArrowRight size={14}/></div>
+              <h3 className="mt-2 text-xl font-black text-[var(--fg)]">EvidenceOps: Start from Zero → Interview</h3>
+              <p className="mt-2 text-xs leading-6 text-[var(--muted)]">100 sequential topics across 12 stages: Python basics → LLM/Ollama → documents → retrieval → embeddings → verified RAG → APIs → MCP agents → testing and interview practice.</p>
+              <div className="mt-4 inline-flex items-center gap-1 text-xs font-extrabold text-violet-700 dark:text-violet-300">Start Project 2 from the first topic <ArrowRight size={14}/></div>
             </Link>
           </div>
         </section>
