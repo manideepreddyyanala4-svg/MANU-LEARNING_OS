@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, BookOpen, CheckCircle2, ChevronDown, ChevronRight, Circle, Cloud, Search, Target } from 'lucide-react';
 import { Page } from '@/components/ui';
+import { LessonNotes } from '@/components/study-now/lesson-notes';
 import { createClient } from '@/lib/supabase';
 import { internshipCurriculum, internshipTopicKey, type InternshipPriority } from '@/lib/internship-curriculum';
 
@@ -235,6 +236,8 @@ export default function StudyNowPage() {
           </div>
           {current ? topicLine(current, true) :
             <p className="text-base text-[var(--fg)]">All listed topics have been marked complete.</p>}
+          {current && !loading && ownerId &&
+            <LessonNotes topicKey={current.key} topicTitle={current.title} validKeys={rows.map(r => r.key)} />}
         </section>
         {next && <section aria-label="Next lesson" className="space-y-2">
           <h2 className="flex items-center gap-2 text-lg font-black text-[var(--fg)]">
