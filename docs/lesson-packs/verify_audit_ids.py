@@ -2,7 +2,9 @@
 Usage: python docs/lesson-packs/verify_audit_ids.py [path to internship_master_audit]
 Read-only. Prints counts only."""
 import csv, json, re, sys, os
-AUDIT = sys.argv[1] if len(sys.argv) > 1 else r"C:\Users\manideepreddy\Desktop\Roadmap\internship_master_audit"
+AUDIT = sys.argv[1] if len(sys.argv) > 1 else os.environ.get("MANU_AUDIT_DIR", "")
+if not AUDIT or not os.path.isdir(AUDIT):
+    sys.exit("Give the internship_master_audit folder as the 1st argument or set MANU_AUDIT_DIR")
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(os.path.dirname(HERE))
 ts = open(os.path.join(ROOT, "lib", "internship-curriculum.ts"), encoding="utf-8").read()
 

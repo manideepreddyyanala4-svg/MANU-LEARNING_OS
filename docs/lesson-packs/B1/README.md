@@ -25,8 +25,8 @@ Exact names, required depth, prerequisites, exercises and completion criteria co
 Needs Python with `numpy` and `opencv-python-headless` (a virtual environment is enough):
 
 ```
-python docs/lesson-packs/verify_audit_ids.py
-python docs/lesson-packs/B1/build_b1.py <python-exe>
+python docs/lesson-packs/verify_audit_ids.py <path-to-internship_master_audit>
+python docs/lesson-packs/B1/build_b1.py <python-exe> <path-to-internship_master_audit>
 python docs/lesson-packs/B1/validate_b1.py <python-exe>
 ```
 

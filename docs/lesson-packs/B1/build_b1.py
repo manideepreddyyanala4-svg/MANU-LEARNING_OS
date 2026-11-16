@@ -11,13 +11,20 @@ from lessons_m07 import L as L07
 from lessons_m11 import L as L11
 import run_examples
 if len(sys.argv) > 1: run_examples.PY = sys.argv[1]
-AUDIT = sys.argv[2] if len(sys.argv) > 2 else r"C:\Users\manideepreddy\Desktop\Roadmap\internship_master_audit"
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
 LESSONS = {**L07, **L11}
 B1 = [f"M07-T{n:02d}" for n in list(range(1, 12)) + [16]] + [f"M11-T{n:02d}" for n in range(1, 8)]
 key = lambda tid: f"internship-v1-m{tid[1:3]}-t{int(tid[-2:]):03d}"
-rows = {r["topic_id"]: r for r in csv.DictReader(open(os.path.join(AUDIT, "08b_ROADMAP_TOPIC_LEVEL.csv"), encoding="utf-8"))}
-units = {r["topic_id"]: r["title"] for r in csv.DictReader(open(os.path.join(AUDIT, "08_ROADMAP_TOPICS.csv"), encoding="utf-8"))}
+rows, units = {}, {}
+
+
+def load_audit():
+    """The audit folder is needed only to BUILD the pack (not to validate it): 2nd CLI argument or MANU_AUDIT_DIR."""
+    audit = sys.argv[2] if len(sys.argv) > 2 else os.environ.get("MANU_AUDIT_DIR", "")
+    if not audit or not os.path.isdir(audit):
+        sys.exit("Give the internship_master_audit folder as the 2nd argument or set MANU_AUDIT_DIR")
+    rows.update({r["topic_id"]: r for r in csv.DictReader(open(os.path.join(audit, "08b_ROADMAP_TOPIC_LEVEL.csv"), encoding="utf-8"))})
+    units.update({r["topic_id"]: r["title"] for r in csv.DictReader(open(os.path.join(audit, "08_ROADMAP_TOPICS.csv"), encoding="utf-8"))})
 
 
 def curriculum_titles():
@@ -49,6 +56,7 @@ def clean(s):
 
 
 def build():
+    load_audit()
     pack, report = [], []
     for tid in B1:
         r, L = rows[tid], LESSONS[tid]
