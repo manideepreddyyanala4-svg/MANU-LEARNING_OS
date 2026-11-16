@@ -115,11 +115,11 @@ export default function ProgressPage() {
       <section className="mb-8 grid gap-4 grid-cols-2 lg:grid-cols-4">
         <Card>
           <div className="flex items-center justify-between text-[var(--muted)]">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Curriculum Mastery</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Curriculum Mastery</span>
             <BookOpen size={16} className="text-[var(--accent)]" />
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-black text-[var(--fg)]">{statusCounts.mastered}</span>
+            <span className="text-3xl font-bold text-[var(--fg)]">{statusCounts.mastered}</span>
             <span className="text-xs font-semibold text-[var(--muted)]">/ {topicsList.length} lessons</span>
           </div>
           <div className="mt-3 flex items-center gap-2">
@@ -135,11 +135,11 @@ export default function ProgressPage() {
 
         <Card>
           <div className="flex items-center justify-between text-[var(--muted)]">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Roadmap Milestones</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Roadmap Milestones</span>
             <CheckCircle2 size={16} className="text-emerald-500" />
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-black text-[var(--fg)]">{completedMilestones}</span>
+            <span className="text-3xl font-bold text-[var(--fg)]">{completedMilestones}</span>
             <span className="text-xs font-semibold text-[var(--muted)]">/ {items.length} completed</span>
           </div>
           <p className="mt-3 text-xs text-[var(--muted)] truncate">
@@ -149,11 +149,11 @@ export default function ProgressPage() {
 
         <Card>
           <div className="flex items-center justify-between text-[var(--muted)]">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Active Career Pipeline</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Active Career Pipeline</span>
             <Briefcase size={16} className="text-indigo-500" />
           </div>
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-black text-[var(--fg)]">{activePipelineCount}</span>
+            <span className="text-3xl font-bold text-[var(--fg)]">{activePipelineCount}</span>
             <span className="text-xs font-semibold text-[var(--muted)]">/ {totalApps} total</span>
           </div>
           <p className="mt-3 text-xs text-[var(--muted)]">
@@ -163,7 +163,7 @@ export default function ProgressPage() {
 
         <Card>
           <div className="flex items-center justify-between text-[var(--muted)]">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Operating Protocol</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Operating Protocol</span>
             <Target size={16} className="text-amber-500" />
           </div>
           <p className="mt-3 text-sm font-bold text-[var(--fg)]">Paper → ChatGPT → MANU OS</p>
@@ -211,7 +211,7 @@ export default function ProgressPage() {
 
                     <div className="text-right shrink-0">
                       <span className="text-xs font-bold text-[var(--fg)]">{sub.total} {sub.total === 1 ? 'topic' : 'topics'}</span>
-                      <span className="ml-2 rounded-md bg-[var(--accent-subtle)] px-2 py-0.5 text-[11px] font-bold text-[var(--accent)]">
+                      <span className="ml-2 rounded-md bg-[var(--accent-subtle)] px-2 py-0.5 text-xs font-bold text-[var(--accent)]">
                         {sub.pct}%
                       </span>
                     </div>
@@ -241,7 +241,7 @@ export default function ProgressPage() {
                       )}
                     </div>
 
-                    <div className="mt-1.5 flex items-center justify-between text-[10px] text-[var(--muted)]">
+                    <div className="mt-1.5 flex items-center justify-between text-xs text-[var(--muted)]">
                       <div className="flex items-center gap-3">
                         <span className="flex items-center gap-1">
                           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> {sub.mastered} Mastered
@@ -299,7 +299,7 @@ export default function ProgressPage() {
                         isCompleted
                           ? 'bg-emerald-500 text-white'
                           : isCurrent
-                          ? 'bg-[var(--accent)] text-white'
+                          ? 'bg-[var(--accent)] text-[var(--on-accent)]'
                           : 'bg-[var(--line)] text-[var(--muted)]'
                       }`}>
                         {isCompleted ? <Check size={14} /> : idx + 1}
@@ -311,7 +311,7 @@ export default function ProgressPage() {
                             {item.title}
                           </p>
                           {isCurrent && (
-                            <span className="rounded-md bg-[var(--accent)] px-2 py-0.5 text-[10px] font-bold text-white uppercase tracking-wider">
+                            <span className="rounded-md bg-[var(--accent)] px-2 py-0.5 text-xs font-bold text-[var(--on-accent)] uppercase tracking-wider">
                               Active Focus
                             </span>
                           )}
@@ -320,7 +320,7 @@ export default function ProgressPage() {
                     </div>
 
                     <div className="shrink-0 text-right">
-                      <span className={`text-[11px] font-semibold uppercase tracking-wider ${
+                      <span className={`text-xs font-semibold uppercase tracking-wider ${
                         isCompleted
                           ? 'text-emerald-600 dark:text-emerald-400'
                           : isCurrent
@@ -438,7 +438,7 @@ export default function ProgressPage() {
                 ['applied', 'Applied', 'border-blue-500/20 bg-blue-500/5 text-blue-600 dark:text-blue-400'],
                 ['screening', 'Screening', 'border-indigo-500/20 bg-indigo-500/5 text-indigo-600 dark:text-indigo-400'],
                 ['interview', 'Interview', 'border-purple-500/20 bg-purple-500/5 text-purple-600 dark:text-purple-400 font-bold'],
-                ['offer', 'Offer Received', 'border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-extrabold col-span-2'],
+                ['offer', 'Offer Received', 'border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold col-span-2'],
                 ['rejected', 'Rejected', 'border-red-500/20 bg-red-500/5 text-red-500'],
                 ['withdrawn', 'Withdrawn', 'border-[var(--line)] bg-[var(--bg)] text-[var(--muted)]'],
               ].map(([st, label, style]) => (
@@ -446,8 +446,8 @@ export default function ProgressPage() {
                   key={st}
                   className={`rounded-xl border p-3 ${style}`}
                 >
-                  <p className="text-[10px] uppercase font-bold tracking-wider opacity-80">{label}</p>
-                  <p className="mt-1 text-xl font-black">{appsCount[st] ?? 0}</p>
+                  <p className="text-xs uppercase font-bold tracking-wider">{label}</p>
+                  <p className="mt-1 text-xl font-bold">{appsCount[st] ?? 0}</p>
                 </div>
               ))}
             </div>

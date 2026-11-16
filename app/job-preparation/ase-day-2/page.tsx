@@ -6,10 +6,10 @@ export default function AseDay2Page() {
     <main className="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--accent)]">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--accent)]">
             Job Preparation · ASE
           </p>
-          <h1 className="mt-1 text-2xl font-extrabold text-[var(--fg)]">
+          <h1 className="mt-1 text-2xl font-bold text-[var(--fg)]">
             Day 2 Interview Preparation
           </h1>
         </div>

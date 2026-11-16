@@ -38,7 +38,7 @@ export default function SettingsPage() {
   const [priorities, setPriorities] = useState<string[]>([]);
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
-  const [userEmail, setUserEmail] = useState<string>('man@gmail.com');
+  const [userEmail, setUserEmail] = useState<string>('');
   const [confirmLogoutOpen, setConfirmLogoutOpen] = useState(false);
 
   useEffect(() => {
@@ -149,7 +149,7 @@ export default function SettingsPage() {
         <button
           disabled={busy}
           onClick={save}
-          className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-[var(--accent-hover)] disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-xs transition hover:bg-[var(--accent-hover)] disabled:opacity-50"
         >
           <Save size={14} />
           <span>{busy ? 'Saving…' : 'Save Changes'}</span>
@@ -237,7 +237,7 @@ export default function SettingsPage() {
             <div className="mt-4 space-y-3 text-xs">
               <div className="flex items-center justify-between py-2 border-b border-[var(--line-subtle)]">
                 <span className="text-[var(--muted)]">Active User</span>
-                <span className="font-semibold text-[var(--fg)]">{userEmail}</span>
+                <span className="font-semibold text-[var(--fg)]">{userEmail || "Not signed in"}</span>
               </div>
 
               <div className="flex items-center justify-between py-2 border-b border-[var(--line-subtle)]">
@@ -423,7 +423,7 @@ export default function SettingsPage() {
                   <button
                     disabled={busy}
                     onClick={save}
-                    className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-5 py-2.5 text-xs font-semibold text-white shadow-xs transition hover:bg-[var(--accent-hover)] disabled:opacity-50"
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-5 py-2.5 text-xs font-semibold text-[var(--on-accent)] shadow-xs transition hover:bg-[var(--accent-hover)] disabled:opacity-50"
                   >
                     <Save size={14} />
                     <span>{busy ? 'Saving…' : 'Save System Settings'}</span>

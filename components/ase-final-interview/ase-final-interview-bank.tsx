@@ -57,10 +57,10 @@ export function AseFinalInterviewBank() {
   return (
     <section className="space-y-5">
       <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-5">
-        <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-red-600 dark:text-red-400">
+        <div className="text-xs font-bold uppercase tracking-[0.18em] text-red-600 dark:text-red-400">
           ASE FINAL INTERVIEW BANK
         </div>
-        <h2 className="mt-2 text-xl font-extrabold text-[var(--fg)]">
+        <h2 className="mt-2 text-xl font-bold text-[var(--fg)]">
           {total} questions · separate from Day 1 / Day 2 technical study
         </h2>
         <p className="mt-2 max-w-4xl text-sm leading-6 text-[var(--muted)]">
@@ -68,15 +68,15 @@ export function AseFinalInterviewBank() {
         </p>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">Total bank</p>
-            <p className="mt-1 text-2xl font-extrabold text-[var(--fg)]">{total}</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Total bank</p>
+            <p className="mt-1 text-2xl font-bold text-[var(--fg)]">{total}</p>
           </div>
           <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-3">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-red-600 dark:text-red-400">CORE first</p>
-            <p className="mt-1 text-2xl font-extrabold text-[var(--fg)]">{coreCount}</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-red-600 dark:text-red-400">CORE first</p>
+            <p className="mt-1 text-2xl font-bold text-[var(--fg)]">{coreCount}</p>
           </div>
           <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">Rule</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Rule</p>
             <p className="mt-1 text-sm font-bold leading-5 text-[var(--fg)]">Answer first → one example → stop.</p>
           </div>
         </div>
@@ -138,8 +138,8 @@ export function AseFinalInterviewBank() {
         <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
           <button
             onClick={() => setActiveCategory('all')}
-            className={`shrink-0 rounded-lg px-3 py-1.5 text-[11px] font-bold ${
-              activeCategory === 'all' ? 'bg-[var(--accent)] text-white' : 'bg-black/5 text-[var(--muted)] dark:bg-white/5'
+            className={`shrink-0 rounded-lg px-3 py-1.5 text-xs font-bold ${
+              activeCategory === 'all' ? 'bg-[var(--accent)] text-[var(--on-accent)]' : 'bg-black/5 text-[var(--muted)] dark:bg-white/5'
             }`}
           >
             All
@@ -148,8 +148,8 @@ export function AseFinalInterviewBank() {
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`shrink-0 rounded-lg px-3 py-1.5 text-[11px] font-bold ${
-                activeCategory === cat.id ? 'bg-[var(--accent)] text-white' : 'bg-black/5 text-[var(--muted)] dark:bg-white/5'
+              className={`shrink-0 rounded-lg px-3 py-1.5 text-xs font-bold ${
+                activeCategory === cat.id ? 'bg-[var(--accent)] text-[var(--on-accent)]' : 'bg-black/5 text-[var(--muted)] dark:bg-white/5'
               }`}
             >
               {cat.title.split('. ')[0]} · {cat.range}
@@ -164,17 +164,17 @@ export function AseFinalInterviewBank() {
 
       <div className="grid gap-3 lg:grid-cols-3">
         <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4">
-          <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[var(--accent)]">Tell me about yourself</p>
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--accent)]">Tell me about yourself</p>
           <p className="mt-2 text-sm font-bold text-[var(--fg)]">PRESENT → PROOF → FIT</p>
           <p className="mt-2 text-xs leading-5 text-[var(--muted)]">Who you are now → one strong piece of evidence → why PTE/ASE is the logical next step. Default target: about 45–60 seconds.</p>
         </div>
         <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4">
-          <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[var(--accent)]">Behavioral question</p>
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--accent)]">Behavioral question</p>
           <p className="mt-2 text-sm font-bold text-[var(--fg)]">STAR — keep ACTION biggest</p>
           <p className="mt-2 text-xs leading-5 text-[var(--muted)]">Situation/Task briefly → what YOU did → result/learning. Do not spend one minute explaining background before your action.</p>
         </div>
         <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4">
-          <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[var(--accent)]">Short-event rule</p>
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--accent)]">Short-event rule</p>
           <p className="mt-2 text-sm font-bold text-[var(--fg)]">ANSWER → EXAMPLE → STOP</p>
           <p className="mt-2 text-xs leading-5 text-[var(--muted)]">Do not dump every technical detail. Let the manager pull you deeper with follow-up questions.</p>
         </div>
@@ -185,10 +185,10 @@ export function AseFinalInterviewBank() {
           <div className="border-b border-[var(--line)] p-5">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <h3 className="text-lg font-extrabold text-[var(--fg)]">{category.title}</h3>
+                <h3 className="text-lg font-bold text-[var(--fg)]">{category.title}</h3>
                 <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{category.subtitle}</p>
               </div>
-              <span className="rounded-full bg-black/5 px-3 py-1 text-[10px] font-bold text-[var(--muted)] dark:bg-white/5">
+              <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-bold text-[var(--muted)] dark:bg-white/5">
                 {category.range}
               </span>
             </div>
@@ -198,12 +198,12 @@ export function AseFinalInterviewBank() {
             {category.items.map((item) => (
               <details key={`${item.number}-${recallMode}`} id={`question-${item.number}`} className="group p-4 sm:p-5">
                 <summary className="flex cursor-pointer list-none items-start gap-3">
-                  <span className="grid h-8 min-w-8 place-items-center rounded-lg bg-[var(--accent-subtle)] text-[11px] font-extrabold text-[var(--accent)]">
+                  <span className="grid h-8 min-w-8 place-items-center rounded-lg bg-[var(--accent-subtle)] text-xs font-bold text-[var(--accent)]">
                     {item.number}
                   </span>
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className={`rounded-full border px-2 py-0.5 text-[9px] font-extrabold tracking-wide ${priorityStyles[item.priority]}`}>
+                      <span className={`rounded-full border px-2 py-0.5 text-xs font-bold tracking-wide ${priorityStyles[item.priority]}`}>
                         {item.priority}
                       </span>
                       <span className="text-sm font-bold leading-6 text-[var(--fg)]">{item.question}</span>
@@ -220,7 +220,7 @@ export function AseFinalInterviewBank() {
                   <details open={!recallMode} className="rounded-xl border border-[var(--line)] p-3">
                     <summary className="cursor-pointer text-xs font-bold text-[var(--muted)]">{recallMode ? 'Say it aloud, then reveal the answer' : 'Simple interview answer'}</summary>
                   <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
-                    <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-emerald-600 dark:text-emerald-400">
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-emerald-600 dark:text-emerald-400">
                       {item.number >= 380 && item.number <= 388 ? "Ask the interviewer" : item.answer.includes("[") ? "Fill your facts first" : "Say this naturally"}
                     </p>
                     <p className="mt-2 whitespace-pre-line text-sm font-medium leading-7 text-[var(--fg)]">{item.answer}</p>
@@ -230,7 +230,7 @@ export function AseFinalInterviewBank() {
 
                   {item.note && (
                     <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-3">
-                      <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-amber-700 dark:text-amber-400">
+                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700 dark:text-amber-400">
                         Follow-up / study note
                       </p>
                       <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{item.note}</p>
@@ -250,7 +250,7 @@ export function AseFinalInterviewBank() {
       )}
 
       <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
-        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--accent)]">Interview use</p>
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--accent)]">Interview use</p>
         <p className="mt-2 text-sm leading-6 text-[var(--fg)]">
           Start with the 12 core stories. Practice CORE answers aloud, then use PREPARE for coverage and BACKUP for deeper questions. Short factual answers can take less than 10 seconds. Do not add words just to reach a time target.
         </p>

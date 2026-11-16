@@ -80,7 +80,7 @@ export function FinanceDayBreakdown(){
     <Card>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-lg font-extrabold text-[var(--fg)]">Where your daily budget goes</h2>
+          <h2 className="text-lg font-bold text-[var(--fg)]">Where your daily budget goes</h2>
           <p className="mt-1 text-xs text-[var(--muted)]">
             Grocery cost allocations and ordinary daily expenses. These are not extra bank payments.
           </p>
@@ -107,21 +107,21 @@ export function FinanceDayBreakdown(){
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           <div className="rounded-xl border border-[var(--line)] p-3">
             <p className="text-xs text-[var(--muted)]">Attributed daily consumption</p>
-            <p className="mt-2 text-xl font-black text-[var(--fg)]">{formatMoney(spent,'TWD')}</p>
+            <p className="mt-2 text-xl font-bold text-[var(--fg)]">{formatMoney(spent,'TWD')}</p>
           </div>
           <div className="rounded-xl border border-[var(--line)] p-3">
             <p className="text-xs text-[var(--muted)]">Actually paid on this date</p>
-            <p className="mt-2 text-xl font-black text-[var(--fg)]">{formatMoney(cash,'TWD')}</p>
+            <p className="mt-2 text-xl font-bold text-[var(--fg)]">{formatMoney(cash,'TWD')}</p>
           </div>
           <div className="rounded-xl border border-[var(--line)] p-3">
             <p className="text-xs text-[var(--muted)]">Remaining standard allowance</p>
-            <p className="mt-2 text-xl font-black text-[var(--fg)]">
+            <p className="mt-2 text-xl font-bold text-[var(--fg)]">
               {remaining?displayFraction(remaining):'No monthly budget set'}</p>
             {remaining&&minorBigInt(remaining.numerator)<BigInt(0)&&
               <p className="mt-1 text-xs font-semibold text-[var(--fg)]">Daily target exceeded.</p>}
           </div>
         </div>
-        <h3 className="mt-5 text-sm font-extrabold text-[var(--fg)]">
+        <h3 className="mt-5 text-sm font-bold text-[var(--fg)]">
           <CalendarDays size={15} className="mr-2 inline"/>{formatFinanceDate(date)} cost breakdown
         </h3>
         {lines.length===0?<p className="mt-3 text-sm text-[var(--muted)]">

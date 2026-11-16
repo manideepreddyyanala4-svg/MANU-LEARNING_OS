@@ -61,9 +61,9 @@ const records = [
   ...extraRows.map((row,i) => ({ slug: row.key, title: row.title, order_index: 2200 + i }))
 ];
 const colors: Record<InternshipPriority, { dot: string; chip: string; bar: string; soft: string }> = {
-  P0: { dot: 'bg-rose-500', chip: 'bg-rose-500/10 text-rose-600 dark:text-rose-300', bar: 'bg-gradient-to-r from-rose-500 to-orange-400', soft: 'from-rose-500/10 to-orange-500/5' },
-  P1: { dot: 'bg-sky-500', chip: 'bg-sky-500/10 text-sky-600 dark:text-sky-300', bar: 'bg-gradient-to-r from-sky-500 to-cyan-400', soft: 'from-sky-500/10 to-cyan-500/5' },
-  P2: { dot: 'bg-violet-500', chip: 'bg-violet-500/10 text-violet-600 dark:text-violet-300', bar: 'bg-gradient-to-r from-violet-500 to-fuchsia-400', soft: 'from-violet-500/10 to-fuchsia-500/5' },
+  P0: { dot: 'bg-rose-500', chip: 'bg-rose-500/10 text-rose-600 dark:text-rose-300', bar: 'bg-[var(--surface)]  ', soft: ' ' },
+  P1: { dot: 'bg-sky-500', chip: 'bg-sky-500/10 text-sky-600 dark:text-sky-300', bar: 'bg-[var(--surface)]  ', soft: ' ' },
+  P2: { dot: 'bg-violet-500', chip: 'bg-violet-500/10 text-violet-600 dark:text-violet-300', bar: 'bg-[var(--surface)]  ', soft: ' ' },
 };
 const pLabel: Record<InternshipPriority, string> = { P0: 'Interview essentials', P1: 'Learn next', P2: 'Specialize later' };
 const demand = [
@@ -211,14 +211,14 @@ export default function RoadmapPage() {
       title="Your path to a paid technical internship"
       subtitle="574 specific skills and actions from 31 employer-audited modules. Apply and interview while learning; tick a topic only after an independent demonstration.">
       <div className="space-y-6">
-        <section className="relative overflow-hidden rounded-3xl border border-sky-500/20 bg-gradient-to-br from-sky-500/15 via-violet-500/10 to-fuchsia-500/10 p-5 sm:p-7">
+        <section className="relative overflow-hidden rounded-3xl border border-sky-500/20 bg-[var(--surface)]    p-5 sm:p-7">
           <div className="pointer-events-none absolute -right-16 -top-24 h-72 w-72 rounded-full bg-sky-400/15 blur-3xl" />
           <div className="relative grid gap-6 lg:grid-cols-[1fr_230px] lg:items-center">
             <div>
-              <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-sky-500/15 px-3 py-1.5 text-[11px] font-bold text-sky-700 dark:text-sky-300">
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-sky-500/15 px-3 py-1.5 text-xs font-bold text-sky-700 dark:text-sky-300">
                 <Sparkles size={13} /> NOVEMBER 2026 • EVIDENCE-FIRST ROADMAP
               </div>
-              <h2 className="text-2xl font-black leading-tight text-[var(--fg)] sm:text-3xl">
+              <h2 className="text-2xl font-bold leading-tight text-[var(--fg)] sm:text-3xl">
                 Build interview skills. <span className="text-sky-600 dark:text-sky-300">Keep applying.</span>
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-[var(--muted)]">
@@ -226,10 +226,10 @@ export default function RoadmapPage() {
                 a bilingual enterprise RAG + MCP agent application with a verified reliability test suite. Keep applying while building both.
               </p>
               <div className="mt-5 flex flex-wrap gap-2">
-                <Link href="/roadmap/agent-reliability" className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2.5 text-xs font-extrabold text-white hover:bg-violet-700">
+                <Link href="/roadmap/agent-reliability" className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2.5 text-xs font-bold text-white hover:bg-violet-700">
                   <Sparkles size={16} /> Project 2: EvidenceOps roadmap <ArrowRight size={14} />
                 </Link>
-                <Link href="/python-lab" className="inline-flex items-center gap-2 rounded-xl bg-sky-600 px-4 py-2.5 text-xs font-extrabold text-white hover:bg-sky-700">
+                <Link href="/python-lab" className="inline-flex items-center gap-2 rounded-xl bg-sky-600 px-4 py-2.5 text-xs font-bold text-white hover:bg-sky-700">
                   <Code2 size={16} /> Open Python coding lab <ArrowRight size={14} />
                 </Link>
                 <Link href="/learning" className="inline-flex items-center gap-2 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-2.5 text-xs font-bold text-[var(--fg)] hover:border-sky-400">
@@ -241,10 +241,10 @@ export default function RoadmapPage() {
               </div>
             </div>
             <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)]/90 p-5 shadow-sm">
-              <div className="text-[11px] font-extrabold uppercase tracking-widest text-[var(--muted)]">Learning progress</div>
-              <div className="mt-1 text-4xl font-black text-[var(--fg)]">{overallProgress}%</div>
+              <div className="text-xs font-bold uppercase tracking-widest text-[var(--muted)]">Learning progress</div>
+              <div className="mt-1 text-4xl font-bold text-[var(--fg)]">{overallProgress}%</div>
               <p className="mb-4 text-xs text-[var(--muted)]">{totalDone} of {internshipTopicCount} topics completed</p>
-              <Meter value={overallProgress} color="bg-gradient-to-r from-sky-500 via-violet-500 to-fuchsia-500" label="Overall technical learning" />
+              <Meter value={overallProgress} color="bg-[var(--surface)]   " label="Overall technical learning" />
               <div className="mt-4 flex items-center gap-2 text-xs text-[var(--muted)]">
                 {loading ? <LoaderCircle size={14} className="animate-spin" /> : ready ? <Cloud size={14} className="text-emerald-500" /> : <AlertCircle size={14} />}
                 {loading ? 'Connecting to your progress…' : ready ? 'Private cloud progress ready' : 'Cloud progress unavailable'}
@@ -257,22 +257,22 @@ export default function RoadmapPage() {
           <div className="flex items-center gap-2">
             <BookOpen size={19} className="text-sky-500"/>
             <div>
-              <h2 className="text-lg font-black text-[var(--fg)]">Two separate interview learning tracks</h2>
+              <h2 className="text-lg font-bold text-[var(--fg)]">Two separate interview learning tracks</h2>
               <p className="text-xs text-[var(--muted)]">Study in numbered order. Each track saves its own progress without changing the original 574-topic curriculum.</p>
             </div>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
-            <Link href="/roadmap/cv-interview" className="group rounded-2xl border border-sky-500/30 bg-gradient-to-br from-sky-500/15 via-cyan-500/5 to-[var(--surface)] p-5 transition hover:border-sky-500/60 hover:shadow-md">
-              <span className="text-[11px] font-black uppercase tracking-wider text-sky-700 dark:text-sky-300">Track A · Computer Vision / Dorsal-Hand</span>
-              <h3 className="mt-2 text-xl font-black text-[var(--fg)]">OpenCV + Image Processing + PyTorch</h3>
+            <Link href="/roadmap/cv-interview" className="group rounded-2xl border border-sky-500/30 bg-[var(--surface)]    p-5 transition hover:border-sky-500/60 hover:shadow-md">
+              <span className="text-xs font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300">Track A · Computer Vision / Dorsal-Hand</span>
+              <h3 className="mt-2 text-xl font-bold text-[var(--fg)]">OpenCV + Image Processing + PyTorch</h3>
               <p className="mt-2 text-xs leading-6 text-[var(--muted)]">199 topics: Python, NumPy, images, morphology, thresholds, contours, hand ROI, CNNs, open-set evaluation, ONNX and CV interviews.</p>
-              <div className="mt-4 inline-flex items-center gap-1 text-xs font-extrabold text-sky-700 dark:text-sky-300">Start CV job preparation <ArrowRight size={14}/></div>
+              <div className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-sky-700 dark:text-sky-300">Start CV job preparation <ArrowRight size={14}/></div>
             </Link>
-            <Link href="/roadmap/evidenceops-from-zero" className="group rounded-2xl border border-violet-500/30 bg-gradient-to-br from-violet-500/15 via-fuchsia-500/5 to-[var(--surface)] p-5 transition hover:border-violet-500/60 hover:shadow-md">
-              <span className="text-[11px] font-black uppercase tracking-wider text-violet-700 dark:text-violet-300">Track B · EvidenceOps / LLM–RAG–Agent</span>
-              <h3 className="mt-2 text-xl font-black text-[var(--fg)]">EvidenceOps: Start from Zero → Interview</h3>
+            <Link href="/roadmap/evidenceops-from-zero" className="group rounded-2xl border border-violet-500/30 bg-[var(--surface)]    p-5 transition hover:border-violet-500/60 hover:shadow-md">
+              <span className="text-xs font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300">Track B · EvidenceOps / LLM–RAG–Agent</span>
+              <h3 className="mt-2 text-xl font-bold text-[var(--fg)]">EvidenceOps: Start from Zero → Interview</h3>
               <p className="mt-2 text-xs leading-6 text-[var(--muted)]">100 sequential topics across 12 stages: Python basics → LLM/Ollama → documents → retrieval → embeddings → verified RAG → APIs → MCP agents → testing and interview practice.</p>
-              <div className="mt-4 inline-flex items-center gap-1 text-xs font-extrabold text-violet-700 dark:text-violet-300">Start Project 2 from the first topic <ArrowRight size={14}/></div>
+              <div className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-violet-700 dark:text-violet-300">Start Project 2 from the first topic <ArrowRight size={14}/></div>
             </Link>
           </div>
         </section>
@@ -284,12 +284,12 @@ export default function RoadmapPage() {
 
         <div className="grid gap-3 sm:grid-cols-3">
           {stats.map(({ priority, total, done }) => <div key={priority}
-            className={'rounded-2xl border border-[var(--line)] bg-gradient-to-br p-4 ' + colors[priority].soft}>
+            className={'rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 ' + colors[priority].soft}>
             <div className="flex items-center justify-between gap-2">
-              <span className={'rounded-full px-2.5 py-1 text-[10px] font-black ' + colors[priority].chip}>{priority}</span>
+              <span className={'rounded-full px-2.5 py-1 text-xs font-bold ' + colors[priority].chip}>{priority}</span>
               <span className="text-xs font-bold text-[var(--muted)]">{done}/{total}</span>
             </div>
-            <h3 className="mb-3 mt-2 text-base font-extrabold text-[var(--fg)]">{pLabel[priority]}</h3>
+            <h3 className="mb-3 mt-2 text-base font-bold text-[var(--fg)]">{pLabel[priority]}</h3>
             <Meter label={pLabel[priority] + ' progress'} value={pct(done,total)} color={colors[priority].bar} />
             <p className="mt-2 text-xs text-[var(--muted)]">{pct(done,total)}% • {priority==='P0'?'Practice these while interviewing':priority==='P1'?'Start after core practical passes':'Only for specific target jobs'}</p>
           </div>)}
@@ -298,8 +298,8 @@ export default function RoadmapPage() {
         <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
           <Card className="border-sky-500/25 bg-sky-500/5">
             <div className="flex items-center gap-2 text-sky-600 dark:text-sky-300"><Zap size={18} />
-              <span className="text-[11px] font-black uppercase tracking-wider">Your next focused action</span></div>
-            <h3 className="mt-2 text-base font-extrabold text-[var(--fg)]">
+              <span className="text-xs font-bold uppercase tracking-wider">Your next focused action</span></div>
+            <h3 className="mt-2 text-base font-bold text-[var(--fg)]">
               {nextFocus ? nextFocus.title : 'All P0 items have been checked'}
             </h3>
             <p className="mt-2 text-xs leading-5 text-[var(--muted)]">
@@ -317,10 +317,10 @@ export default function RoadmapPage() {
           </Card>
           <Card>
             <div className="flex items-center gap-2"><Trophy size={17} className="text-amber-500" />
-              <h3 className="font-extrabold text-[var(--fg)]">Evidence checkpoints</h3></div>
+              <h3 className="font-bold text-[var(--fg)]">Evidence checkpoints</h3></div>
             <div className="mt-4 grid grid-cols-2 gap-3">
-              <div><p className="text-2xl font-black text-[var(--fg)]">{gatesPassed}/31</p><p className="text-xs text-[var(--muted)]">Module proof gates</p></div>
-              <div><p className="text-2xl font-black text-[var(--fg)]">{examDone}/20</p><p className="text-xs text-[var(--muted)]">Mock interview tests</p></div>
+              <div><p className="text-2xl font-bold text-[var(--fg)]">{gatesPassed}/31</p><p className="text-xs text-[var(--muted)]">Module proof gates</p></div>
+              <div><p className="text-2xl font-bold text-[var(--fg)]">{examDone}/20</p><p className="text-xs text-[var(--muted)]">Mock interview tests</p></div>
             </div>
             <p className="mt-3 text-xs leading-5 text-[var(--muted)]">
               A checked topic is self-reported learning. Pass its module exercise and a mock interview to demonstrate readiness.
@@ -331,18 +331,18 @@ export default function RoadmapPage() {
         <Card>
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <h3 className="flex items-center gap-2 text-base font-black text-[var(--fg)]">
+              <h3 className="flex items-center gap-2 text-base font-bold text-[var(--fg)]">
                 <GraduationCap size={19} className="text-sky-500" /> Skills from real employer requirements
               </h3>
               <p className="mt-1 text-xs text-[var(--muted)]">
                 Audited mentions among 15 sufficiently detailed job descriptions, not all 69 opportunities or the whole Taiwan market.
               </p>
             </div>
-            <span className="rounded-full bg-violet-500/10 px-2.5 py-1 text-[10px] font-bold text-violet-600">15 detailed / 69 recovered</span>
+            <span className="rounded-full bg-violet-500/10 px-2.5 py-1 text-xs font-bold text-violet-600">15 detailed / 69 recovered</span>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
             {demand.map(d => <span key={d.title} className="rounded-xl border border-[var(--line)] bg-[var(--bg)] px-3 py-2 text-xs font-semibold text-[var(--fg)]">
-              {d.title} <span className="ml-1 font-black text-sky-600 dark:text-sky-300">{d.count}</span>
+              {d.title} <span className="ml-1 font-bold text-sky-600 dark:text-sky-300">{d.count}</span>
             </span>)}
           </div>
           <p className="mt-3 text-xs text-[var(--muted)]">
@@ -353,7 +353,7 @@ export default function RoadmapPage() {
         <section className="space-y-4" aria-label="Complete learning roadmap">
           <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
             <div>
-              <h2 className="text-xl font-black text-[var(--fg)]">All 31 learning modules</h2>
+              <h2 className="text-xl font-bold text-[var(--fg)]">All 31 learning modules</h2>
               <p className="mt-1 text-sm text-[var(--muted)]">574 specific topics with private cloud checkboxes, review status and a practical proof gate.</p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -375,7 +375,7 @@ export default function RoadmapPage() {
               <div className="flex flex-wrap gap-1.5" aria-label="Filter by priority">
                 {(['all','P0','P1','P2'] as const).map(f => <button key={f} type="button" onClick={() => setFilter(f)}
                   aria-pressed={filter===f}
-                  className={'rounded-lg px-3 py-2 text-xs font-black transition ' + (filter===f?'bg-sky-600 text-white':'bg-[var(--bg)] text-[var(--muted)] hover:text-[var(--fg)]')}>
+                  className={'rounded-lg px-3 py-2 text-xs font-bold transition ' + (filter===f?'bg-sky-600 text-white':'bg-[var(--bg)] text-[var(--muted)] hover:text-[var(--fg)]')}>
                   {f==='all'?'All priorities':f}</button>)}
               </div>
             </div>
@@ -392,14 +392,14 @@ export default function RoadmapPage() {
               <button type="button" onClick={() => toggleModule(m.id)} aria-expanded={open}
                 className="flex w-full flex-col gap-3 p-4 text-left transition hover:bg-[var(--bg)]/50 sm:flex-row sm:items-center sm:p-5">
                 <div className="flex min-w-0 flex-1 items-start gap-3">
-                  <div className={'flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br font-black ' + (m.priority==='P0'?'from-rose-500/20 to-orange-500/15 text-rose-500':m.priority==='P1'?'from-sky-500/20 to-cyan-500/15 text-sky-500':'from-violet-500/20 to-fuchsia-500/15 text-violet-500')}>{m.id}</div>
+                  <div className={'flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--surface)] font-bold ' + (m.priority==='P0'?'  text-rose-500':m.priority==='P1'?'  text-sky-500':'  text-violet-500')}>{m.id}</div>
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className={'rounded-full px-2 py-0.5 text-[10px] font-bold ' + c.chip}>{m.priority}</span>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">{m.group}</span>
-                      {passed && <span className="inline-flex items-center gap-1 text-[10px] font-black text-emerald-600"><ShieldCheck size={12} /> Gate passed</span>}
+                      <span className={'rounded-full px-2 py-0.5 text-xs font-bold ' + c.chip}>{m.priority}</span>
+                      <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">{m.group}</span>
+                      {passed && <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600"><ShieldCheck size={12} /> Gate passed</span>}
                     </div>
-                    <h3 className="mt-1 text-sm font-extrabold leading-5 text-[var(--fg)] sm:text-base">{m.title}</h3>
+                    <h3 className="mt-1 text-sm font-bold leading-5 text-[var(--fg)] sm:text-base">{m.title}</h3>
                     <p className="mt-1 text-xs text-[var(--muted)]">{m.topics.length} items • Prerequisites: {m.prerequisites}</p>
                   </div>
                 </div>
@@ -414,45 +414,45 @@ export default function RoadmapPage() {
                 </div>
               </button>
               {open && <div className="border-t border-[var(--line-subtle)] px-3 pb-4 pt-3 sm:px-5">
-                {m.id === '01' && <Link href="/roadmap/python/1" className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-sky-500/20 bg-gradient-to-r from-sky-500/15 via-violet-500/10 to-fuchsia-500/10 p-4 transition hover:border-sky-500/50">
+                {m.id === '01' && <Link href="/roadmap/python/1" className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-sky-500/20 bg-[var(--surface)]    p-4 transition hover:border-sky-500/50">
                   <div className="flex items-center gap-3">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-sky-600 text-white"><BookOpen size={20}/></span>
-                    <div><span className="block text-sm font-black text-[var(--fg)]">Python Fundamentals · 24 Code & Explanation Topics</span>
+                    <div><span className="block text-sm font-bold text-[var(--fg)]">Python Fundamentals · 24 Code & Explanation Topics</span>
                       <span className="mt-0.5 block text-xs text-[var(--muted)]">Individual code examples • expected output • easy explanations • no quizzes</span></div>
                   </div>
-                  <span className="inline-flex items-center gap-1 rounded-xl bg-sky-600 px-3 py-2 text-xs font-black text-white">Start lesson 01 <ArrowRight size={14}/></span>
+                  <span className="inline-flex items-center gap-1 rounded-xl bg-sky-600 px-3 py-2 text-xs font-bold text-white">Start lesson 01 <ArrowRight size={14}/></span>
                 </Link>}
-                {m.id === '02' && <Link href="/roadmap/python-interviews/1" className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-violet-500/25 bg-gradient-to-r from-violet-500/15 via-sky-500/10 to-fuchsia-500/10 p-4 transition hover:border-violet-500/50">
+                {m.id === '02' && <Link href="/roadmap/python-interviews/1" className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-violet-500/25 bg-[var(--surface)]    p-4 transition hover:border-violet-500/50">
                   <div className="flex items-center gap-3">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-violet-600 text-white"><Code2 size={20}/></span>
                     <div>
-                      <span className="block text-sm font-black text-[var(--fg)]">Python Coding Interviews · 20 Code Topics</span>
+                      <span className="block text-sm font-bold text-[var(--fg)]">Python Coding Interviews · 20 Code Topics</span>
                       <span className="mt-0.5 block text-xs text-[var(--muted)]">Code • expected output • simple explanations • no quizzes</span>
                     </div>
                   </div>
-                  <span className="inline-flex items-center gap-1 rounded-xl bg-violet-600 px-3 py-2 text-xs font-black text-white">Open Topic 01 <ArrowRight size={14}/></span>
+                  <span className="inline-flex items-center gap-1 rounded-xl bg-violet-600 px-3 py-2 text-xs font-bold text-white">Open Topic 01 <ArrowRight size={14}/></span>
                 </Link>}
                 {m.id === '03' && <Link href="/roadmap/numpy/1"
-                  className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-emerald-500/25 bg-gradient-to-r from-emerald-500/15 via-cyan-500/10 to-violet-500/10 p-4 transition hover:border-emerald-500/50">
+                  className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-emerald-500/25 bg-[var(--surface)]    p-4 transition hover:border-emerald-500/50">
                   <div className="flex items-center gap-3">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-emerald-600 text-white"><Code2 size={20}/></span>
                     <div>
-                      <span className="block text-sm font-black text-[var(--fg)]">NumPy for AI & Computer Vision · 21 Topics</span>
+                      <span className="block text-sm font-bold text-[var(--fg)]">NumPy for AI & Computer Vision · 21 Topics</span>
                       <span className="mt-0.5 block text-xs text-[var(--muted)]">Small Python examples • expected output • 3 simple explanations • no quizzes</span>
                     </div>
                   </div>
-                  <span className="inline-flex items-center gap-1 rounded-xl bg-emerald-600 px-3 py-2 text-xs font-black text-white">Open Topic 01 <ArrowRight size={14}/></span>
+                  <span className="inline-flex items-center gap-1 rounded-xl bg-emerald-600 px-3 py-2 text-xs font-bold text-white">Open Topic 01 <ArrowRight size={14}/></span>
                 </Link>}
                 {m.id === '04' && <Link href="/roadmap/pandas/1"
-                  className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-500/25 bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-sky-500/10 p-4 transition hover:border-amber-500/50">
+                  className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-500/25 bg-[var(--surface)]    p-4 transition hover:border-amber-500/50">
                   <div className="flex items-center gap-3">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-amber-600 text-white"><Code2 size={20}/></span>
                     <div>
-                      <span className="block text-sm font-black text-[var(--fg)]">Pandas & Dataset Engineering · 20 Topics</span>
+                      <span className="block text-sm font-bold text-[var(--fg)]">Pandas & Dataset Engineering · 20 Topics</span>
                       <span className="mt-0.5 block text-xs text-[var(--muted)]">Easy code • correct output • 3 simple explanations • no quizzes</span>
                     </div>
                   </div>
-                  <span className="inline-flex items-center gap-1 rounded-xl bg-amber-600 px-3 py-2 text-xs font-black text-white">Open Topic 01 <ArrowRight size={14}/></span>
+                  <span className="inline-flex items-center gap-1 rounded-xl bg-amber-600 px-3 py-2 text-xs font-bold text-white">Open Topic 01 <ArrowRight size={14}/></span>
                 </Link>}
                 <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--muted)]">
                   <span>Check = independently demonstrated • Review = revisit later</span>
@@ -482,16 +482,16 @@ export default function RoadmapPage() {
                           {((m.id === '01' ? pythonCodeExamples : m.id === '02' ? pythonInterviewCodeExamples : m.id === '03' ? numpyCodeExamples : pandasCodeExamples)[String(i+1).padStart(2, '0')] || []).map(example => (
                             <Link key={example.anchor}
                               href={((m.id === '01' ? '/roadmap/python/' : m.id === '02' ? '/roadmap/python-interviews/' : m.id === '03' ? '/roadmap/numpy/' : '/roadmap/pandas/')+(i+1)+'#'+example.anchor) as Route}
-                              className="rounded-md border border-sky-500/20 bg-sky-500/5 px-2 py-1.5 text-[10px] font-semibold leading-4 text-sky-700 transition hover:border-sky-500 hover:bg-sky-500/15 dark:text-sky-300">
+                              className="rounded-md border border-sky-500/20 bg-sky-500/5 px-2 py-1.5 text-xs font-semibold leading-4 text-sky-700 transition hover:border-sky-500 hover:bg-sky-500/15 dark:text-sky-300">
                               {example.label}
                             </Link>
                           ))}
                         </div>}
-                        {review && <span className="mt-1 inline-block text-[10px] font-bold text-amber-600">Review needed</span>}
+                        {review && <span className="mt-1 inline-block text-xs font-bold text-amber-600">Review needed</span>}
                       </div>
                       {!isDone && <button type="button" disabled={!ready || busy}
                         onClick={() => void change(key,review?'upcoming':'review')}
-                        className={'shrink-0 rounded-lg px-2 py-1 text-[10px] font-bold disabled:opacity-40 ' + (review?'bg-amber-500/20 text-amber-700 dark:text-amber-300':'text-[var(--muted)] hover:bg-amber-500/10 hover:text-amber-600')}>
+                        className={'shrink-0 rounded-lg px-2 py-1 text-xs font-bold disabled:opacity-40 ' + (review?'bg-amber-500/20 text-amber-700 dark:text-amber-300':'text-[var(--muted)] hover:bg-amber-500/10 hover:text-amber-600')}>
                         {review?'Clear review':'Review'}
                       </button>}
                     </div>;
@@ -501,7 +501,7 @@ export default function RoadmapPage() {
                   <div className="flex items-center gap-2 text-sm font-bold text-[var(--fg)]"><ShieldCheck size={17} className="text-emerald-500" /> Practical proof gate</div>
                   <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{m.proof}</p>
                   <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-                    <span className="text-[11px] text-[var(--muted)]">{allDone?'All lessons checked. Verify the evidence before passing.':'Complete '+(m.topics.length-done)+' more lessons to unlock this proof gate.'}</span>
+                    <span className="text-xs text-[var(--muted)]">{allDone?'All lessons checked. Verify the evidence before passing.':'Complete '+(m.topics.length-done)+' more lessons to unlock this proof gate.'}</span>
                     <button type="button" disabled={!ready || !allDone || pending.includes(internshipGateKey(m.id))}
                       onClick={() => void change(internshipGateKey(m.id),passed?'upcoming':'completed')}
                       className={'inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-bold disabled:cursor-not-allowed disabled:opacity-40 ' + (passed?'border border-emerald-500/40 text-emerald-600':'bg-emerald-600 text-white')}>
@@ -520,7 +520,7 @@ export default function RoadmapPage() {
             <div className="flex items-center gap-3">
               <div className="rounded-xl bg-fuchsia-500/10 p-3 text-fuchsia-600"><ListChecks size={22}/></div>
               <div>
-                <h2 className="text-lg font-black text-[var(--fg)]">Supporting action & evidence checklists</h2>
+                <h2 className="text-lg font-bold text-[var(--fg)]">Supporting action & evidence checklists</h2>
                 <p className="mt-1 text-xs leading-5 text-[var(--muted)]">85 additional PDF checks: hiring eligibility, top-30 exercises, accurate claims, both projects and application records.</p>
               </div>
             </div>
@@ -530,7 +530,7 @@ export default function RoadmapPage() {
             </div>
           </button>
           {extraOpen && <div className="border-t border-[var(--line)] p-4 sm:p-5">
-            <Meter value={pct(extraDone,internshipExtraCount)} color="bg-gradient-to-r from-fuchsia-500 to-rose-400" label="Supporting application and evidence checklist progress" />
+            <Meter value={pct(extraDone,internshipExtraCount)} color="bg-[var(--surface)]  " label="Supporting application and evidence checklist progress" />
             <p className="mt-3 text-xs leading-5 text-[var(--muted)]">
               These checks are useful actions or repeated practice, not additional independently mastered technical topics.
               Progress is saved in your ManuOS account.
@@ -542,10 +542,10 @@ export default function RoadmapPage() {
                 return <div key={group.id} className="overflow-hidden rounded-xl border border-[var(--line)] bg-[var(--bg)]/60">
                   <button type="button" onClick={()=>setExpandedExtra(curr=>curr.includes(group.id)?curr.filter(x=>x!==group.id):[...curr,group.id])}
                     aria-expanded={open} className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left">
-                    <div><h3 className="text-sm font-extrabold text-[var(--fg)]">{group.title}</h3>
-                      <p className="mt-1 text-[10px] text-[var(--muted)]">{done}/{group.items.length} tasks checked</p></div>
+                    <div><h3 className="text-sm font-bold text-[var(--fg)]">{group.title}</h3>
+                      <p className="mt-1 text-xs text-[var(--muted)]">{done}/{group.items.length} tasks checked</p></div>
                     <div className="flex w-28 shrink-0 items-center gap-2">
-                      <div className="flex-1"><Meter value={pct(done,group.items.length)} color="bg-gradient-to-r from-fuchsia-500 to-rose-400" label={group.title+' progress'}/></div>
+                      <div className="flex-1"><Meter value={pct(done,group.items.length)} color="bg-[var(--surface)]  " label={group.title+' progress'}/></div>
                       <ChevronDown size={14} className={'text-[var(--muted)] '+(open?'rotate-180':'')}/>
                     </div>
                   </button>
@@ -575,13 +575,13 @@ export default function RoadmapPage() {
             className="flex w-full items-center justify-between gap-4 p-5 text-left">
             <div className="flex items-center gap-3">
               <div className="rounded-xl bg-amber-500/10 p-3 text-amber-600"><Trophy size={21}/></div>
-              <div><h2 className="text-lg font-black text-[var(--fg)]">Weekly interview qualification exam</h2>
+              <div><h2 className="text-lg font-bold text-[var(--fg)]">Weekly interview qualification exam</h2>
                 <p className="mt-1 text-xs text-[var(--muted)]">20 independent tests • aim for 16/20 initially, with no serious research or eligibility errors.</p></div>
             </div>
             <div className="flex shrink-0 items-center gap-2 text-sm font-bold text-amber-600">{examDone}/20 <ChevronDown size={16} className={examOpen?'rotate-180':''}/></div>
           </button>
           {examOpen && <div className="border-t border-[var(--line)] p-4 sm:p-5">
-            <Meter value={pct(examDone,20)} color="bg-gradient-to-r from-amber-500 to-orange-400" label="Interview test progress"/>
+            <Meter value={pct(examDone,20)} color="bg-[var(--surface)]  " label="Interview test progress"/>
             <div className="mt-4 grid gap-2 lg:grid-cols-2">
               {examItems.map((title,i) => {
                 const key=examKey(i), done=completed(key), busy=pending.includes(key);
@@ -598,15 +598,15 @@ export default function RoadmapPage() {
         </section>
 
         <section className="grid gap-4 md:grid-cols-2">
-          <Link href="/roadmap/production-ai" className="group rounded-2xl border border-violet-500/25 bg-gradient-to-br from-violet-500/10 to-sky-500/5 p-5 hover:border-violet-500/50">
-            <div className="mb-3 flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-wider text-violet-600"><Sparkles size={16}/> Project 1</div>
-            <h3 className="text-lg font-black text-[var(--fg)]">Dorsal research → Production AI</h3>
+          <Link href="/roadmap/production-ai" className="group rounded-2xl border border-violet-500/25 bg-[var(--surface)]   p-5 hover:border-violet-500/50">
+            <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-violet-600"><Sparkles size={16}/> Project 1</div>
+            <h3 className="text-lg font-bold text-[var(--fg)]">Dorsal research → Production AI</h3>
             <p className="mt-2 text-xs leading-5 text-[var(--muted)]">Continue your existing authorized research. Inference, ONNX, API and deployment are future proof gates—not completed claims.</p>
             <div className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-violet-600">Open project milestones <ArrowRight size={14}/></div>
           </Link>
-          <Link href="/roadmap/agent-reliability" className="group rounded-2xl border border-sky-500/25 bg-gradient-to-br from-sky-500/10 to-emerald-500/5 p-5 hover:border-sky-500/50">
-            <div className="mb-3 flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-wider text-sky-600"><BookOpen size={16}/> Project 2 • Local backend tested</div>
-            <h3 className="text-lg font-black text-[var(--fg)]">Agent Reliability Lab</h3>
+          <Link href="/roadmap/agent-reliability" className="group rounded-2xl border border-sky-500/25 bg-[var(--surface)]   p-5 hover:border-sky-500/50">
+            <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-sky-600"><BookOpen size={16}/> Project 2 • Local backend tested</div>
+            <h3 className="text-lg font-bold text-[var(--fg)]">Agent Reliability Lab</h3>
             <p className="mt-2 text-xs leading-5 text-[var(--muted)]">Document search, real MCP tools, FastAPI, incident workflows and lab Ollama integration. Live RAG benchmarks still require verified evidence.</p>
             <div className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-sky-600">View separate plan <ArrowRight size={14}/></div>
           </Link>
@@ -615,14 +615,14 @@ export default function RoadmapPage() {
         <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)]">
           <button type="button" className="flex w-full items-center justify-between px-5 py-4 text-left"
             onClick={() => setLegacyOpen(v => !v)} aria-expanded={legacyOpen}>
-            <div><h2 className="text-sm font-extrabold text-[var(--fg)]">Original ManuOS roadmap milestones</h2>
+            <div><h2 className="text-sm font-bold text-[var(--fg)]">Original ManuOS roadmap milestones</h2>
               <p className="mt-1 text-xs text-[var(--muted)]">Your pre-existing roadmap is preserved, not reset or replaced.</p></div>
             <ChevronDown size={17} className={'text-[var(--muted)] '+(legacyOpen?'rotate-180':'')}/>
           </button>
           {legacyOpen && <div className="grid gap-2 border-t border-[var(--line)] p-4 sm:grid-cols-2 lg:grid-cols-3">
             {legacy.map(item => <Link key={item.id} href={(`/roadmap/${item.slug}`)} className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3 hover:border-sky-500">
               <h3 className="text-xs font-bold text-[var(--fg)]">{item.title}</h3>
-              <span className="mt-1 block text-[10px] capitalize text-[var(--muted)]">{item.status.replace('_',' ')}</span>
+              <span className="mt-1 block text-xs capitalize text-[var(--muted)]">{item.status.replace('_',' ')}</span>
             </Link>)}
             {legacy.length===0 && <p className="text-xs text-[var(--muted)]">Original milestones unavailable; existing records have not been modified.</p>}
           </div>}

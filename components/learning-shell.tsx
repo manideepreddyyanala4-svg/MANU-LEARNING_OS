@@ -561,6 +561,7 @@ export function LearningShell({ children }: { children: ReactNode }) {
 
           <Link
             href="/"
+            aria-label="ManuOS home"
             className="flex items-center gap-2 text-xs font-semibold text-[var(--muted)] transition hover:text-[var(--fg)]"
           >
             <ArrowLeft size={14} />
@@ -571,9 +572,9 @@ export function LearningShell({ children }: { children: ReactNode }) {
 
           <Link
             href="/learning"
-            className="flex items-center gap-2 text-sm font-extrabold tracking-tight text-[var(--fg)]"
+            className="flex items-center gap-2 text-sm font-bold tracking-tight text-[var(--fg)]"
           >
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-[var(--accent)] text-white">
+            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-[var(--accent)] text-[var(--on-accent)]">
               <BookOpen size={14} />
             </div>
             <span>MANU LEARN</span>
@@ -588,7 +589,7 @@ export function LearningShell({ children }: { children: ReactNode }) {
           >
             <Search size={14} />
             <span>Search library, topics & notes…</span>
-            <kbd className="ml-3 rounded border border-[var(--line)] bg-[var(--bg)] px-1.5 py-0.5 text-[10px] font-mono">
+            <kbd className="ml-3 rounded border border-[var(--line)] bg-[var(--bg)] px-1.5 py-0.5 text-xs font-mono">
               ⌘K
             </kbd>
           </Link>
@@ -633,10 +634,10 @@ export function LearningShell({ children }: { children: ReactNode }) {
               className="flex items-center gap-1.5 rounded-lg border border-[var(--line)] bg-[var(--surface)] px-2.5 py-1 text-xs font-semibold text-[var(--fg)] hover:border-color-mix(in srgb, var(--accent) 30%, var(--line))"
               aria-label="User profile"
             >
-              <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[var(--accent)] text-white text-[10px]">
+              <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[var(--accent)] text-[var(--on-accent)] text-xs">
                 <User size={11} />
               </div>
-              <span className="hidden sm:inline max-w-[120px] truncate text-[11px]">
+              <span className="hidden sm:inline max-w-[120px] truncate text-xs">
                 {userEmail?.split('@')[0] ?? 'User'}
               </span>
             </button>
@@ -691,7 +692,7 @@ export function LearningShell({ children }: { children: ReactNode }) {
             <div className="learning-switcher-wrap">
               <button
                 className="learning-switcher"
-                aria-label="Switch subject"
+                aria-haspopup="menu"
                 aria-expanded={switcher}
                 onClick={() => setSwitcher((x) => !x)}
               >
@@ -701,7 +702,7 @@ export function LearningShell({ children }: { children: ReactNode }) {
 
               {switcher && (
                 <div className="learning-switcher-menu">
-                  <div className="px-3 py-1.5 text-[10.5px] font-bold uppercase tracking-wider text-[var(--muted)]">
+                  <div className="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
                     Subjects
                   </div>
                   {subjectList.map((s) => (

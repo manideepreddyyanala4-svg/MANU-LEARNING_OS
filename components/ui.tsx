@@ -13,19 +13,19 @@ type PageProps = {
 
 export function Page({ eyebrow, title, subtitle, children, actions, className = '' }: PageProps) {
   return (
-    <div className={`mx-auto w-full max-w-[1680px] px-5 py-7 md:px-10 md:py-9 ${className}`}>
+    <div className={`mx-auto w-full max-w-[1280px] px-4 py-6 sm:px-6 md:px-10 md:py-9 ${className}`}>
       <div className="flex flex-col gap-4 border-b border-[var(--line)] pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
           {eyebrow && (
-            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--accent)]">
+            <p className="text-sm font-medium text-[var(--muted)]">
               {eyebrow}
             </p>
           )}
-          <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-[var(--fg)] md:text-3xl lg:text-4xl">
+          <h1 className="mt-1 text-2xl font-bold tracking-tight text-[var(--fg)] md:text-3xl">
             {title}
           </h1>
           {subtitle && (
-            <p className="mt-1.5 max-w-2xl text-sm text-[var(--muted)]">
+            <p className="mt-2 max-w-2xl text-base leading-relaxed text-[var(--muted)]">
               {subtitle}
             </p>
           )}
@@ -48,7 +48,7 @@ export function Card({
 }) {
   const content = (
     <div
-      className={`rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-6 shadow-2xs transition hover:border-color-mix(in srgb, var(--accent) 30%, var(--line)) ${className}`}
+      className={`rounded-xl border border-[var(--line)] bg-[var(--surface)] p-5 transition hover:border-[var(--line-strong)] ${className}`}
     >
       {children}
     </div>
@@ -74,10 +74,10 @@ export function Empty({
   icon?: ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)]/60 p-10 text-center">
+    <div className="rounded-xl border border-dashed border-[var(--line-strong)] bg-[var(--surface)] p-10 text-center">
       {icon && <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--accent-subtle)] text-[var(--accent)]">{icon}</div>}
-      <h3 className="text-base font-bold text-[var(--fg)]">{title}</h3>
-      <p className="mx-auto mt-1.5 max-w-md text-sm text-[var(--muted)]">{description}</p>
+      <h3 className="text-base font-semibold text-[var(--fg)]">{title}</h3>
+      <p className="mx-auto mt-1.5 max-w-md text-sm leading-relaxed text-[var(--muted)]">{description}</p>
       {action && <div className="mt-5">{action}</div>}
     </div>
   );

@@ -110,8 +110,8 @@ export function FinanceReportedPayments() {
       className="mb-5 space-y-4 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 shadow-2xs sm:p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[var(--accent)]">November 2026 · your reported payments</p>
-          <h2 className="mt-1.5 flex items-center gap-2 text-lg font-extrabold text-[var(--fg)]">
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--accent)]">November 2026 · your reported payments</p>
+          <h2 className="mt-1.5 flex items-center gap-2 text-lg font-bold text-[var(--fg)]">
             <Wallet size={19} className="text-[var(--accent)]"/> Gym already paid · everyday spending
           </h2>
           <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
@@ -127,26 +127,26 @@ export function FinanceReportedPayments() {
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3">
           <p className="text-xs font-semibold text-[var(--muted)]">Monthly limit</p>
-          <p className="mt-1 text-xl font-black tabular-nums text-[var(--fg)]">{money(totalBudget)}</p>
+          <p className="mt-1 text-xl font-bold tabular-nums text-[var(--fg)]">{money(totalBudget)}</p>
         </div>
         <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3">
           <p className="text-xs font-semibold text-[var(--muted)]">Gym · paid</p>
-          <p className="mt-1 text-xl font-black tabular-nums text-[var(--fg)]">{money(gymReported)}</p>
+          <p className="mt-1 text-xl font-bold tabular-nums text-[var(--fg)]">{money(gymReported)}</p>
         </div>
         <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3">
           <p className="text-xs font-semibold text-[var(--muted)]">Other reported spending</p>
-          <p className="mt-1 text-xl font-black tabular-nums text-[var(--fg)]">{money(otherReported)}</p>
+          <p className="mt-1 text-xl font-bold tabular-nums text-[var(--fg)]">{money(otherReported)}</p>
         </div>
         <div className="rounded-xl border border-[var(--accent)] bg-[var(--accent-subtle)] p-3">
           <p className="text-xs font-bold text-[var(--accent)]">Available after reported spending</p>
-          <p className="mt-1 text-xl font-black tabular-nums text-[var(--fg)]">{money(available)}</p>
+          <p className="mt-1 text-xl font-bold tabular-nums text-[var(--fg)]">{money(available)}</p>
         </div>
       </div>
 
       <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3.5">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="text-sm font-extrabold text-[var(--fg)]">Food and daily necessities envelope</p>
-          <p className="text-sm font-extrabold tabular-nums text-[var(--fg)]">{money(totalBudget - gymReported)} limit</p>
+          <p className="text-sm font-bold text-[var(--fg)]">Food and daily necessities envelope</p>
+          <p className="text-sm font-bold tabular-nums text-[var(--fg)]">{money(totalBudget - gymReported)} limit</p>
         </div>
         <p className="mt-1.5 text-xs leading-5 text-[var(--muted)]">
           At a {money((totalBudget - gymReported) / BigInt(30))} average daily target across 30 days.
@@ -155,7 +155,7 @@ export function FinanceReportedPayments() {
       </div>
 
       <div>
-        <p className="mb-2 text-xs font-extrabold uppercase tracking-wider text-[var(--muted)]">Saved payment details</p>
+        <p className="mb-2 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Saved payment details</p>
         <div className="divide-y divide-[var(--line)] overflow-hidden rounded-xl border border-[var(--line)]">
           {snapshot.entries.map((entry) => (
             <div key={entry.id} className="flex flex-wrap items-start justify-between gap-3 bg-[var(--bg)] px-3 py-3">
@@ -171,7 +171,7 @@ export function FinanceReportedPayments() {
                   </p>
                 </div>
               </div>
-              <p className="shrink-0 font-mono text-sm font-extrabold tabular-nums text-[var(--fg)]">{money(BigInt(entry.amount_minor))}</p>
+              <p className="shrink-0 font-mono text-sm font-bold tabular-nums text-[var(--fg)]">{money(BigInt(entry.amount_minor))}</p>
             </div>
           ))}
         </div>

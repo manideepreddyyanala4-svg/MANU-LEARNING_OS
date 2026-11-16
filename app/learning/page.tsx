@@ -250,7 +250,7 @@ function LearningContent() {
             setTitle('');
             setCreateOpen(true);
           }}
-          className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-4 py-2.5 text-xs font-semibold text-white shadow-xs transition hover:bg-[var(--accent-hover)]"
+          className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-4 py-2.5 text-xs font-semibold text-[var(--on-accent)] shadow-xs transition hover:bg-[var(--accent-hover)]"
         >
           <Plus size={15} /> New subject
         </button>
@@ -266,7 +266,7 @@ function LearningContent() {
       <section className="mb-10 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-6 md:p-8 shadow-xs">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div className="max-w-2xl">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--accent-subtle)] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-[var(--accent)]">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--accent-subtle)] px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
               <Clock size={12} /> Continue learning
             </span>
             {continueTopic ? (
@@ -281,7 +281,7 @@ function LearningContent() {
                 <div className="mt-5">
                   <Link
                     aria-label="Continue →"
-                    className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[var(--accent-hover)]"
+                    className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] transition hover:bg-[var(--accent-hover)]"
                     href={`/learning/${continueTopic.subject.slug}/${continueTopic.topic.slug}`}
                   >
                     Continue →
@@ -302,7 +302,7 @@ function LearningContent() {
                       setTitle('');
                       setCreateOpen(true);
                     }}
-                    className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[var(--accent-hover)]"
+                    className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] transition hover:bg-[var(--accent-hover)]"
                   >
                     <Plus size={14} /> Create your first subject
                   </button>
@@ -314,18 +314,18 @@ function LearningContent() {
           {/* Quick stats highlight */}
           <div className="grid grid-cols-2 gap-4 border-t border-[var(--line)] pt-4 md:border-l md:border-t-0 md:pl-8 md:pt-0 shrink-0">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--muted)]">
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
                 Subjects
               </p>
-              <p className="mt-1 text-2xl font-extrabold text-[var(--fg)]">
+              <p className="mt-1 text-2xl font-bold text-[var(--fg)]">
                 {list.length}
               </p>
             </div>
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--muted)]">
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
                 Topics
               </p>
-              <p className="mt-1 text-2xl font-extrabold text-[var(--fg)]">
+              <p className="mt-1 text-2xl font-bold text-[var(--fg)]">
                 {allTopics.length}
               </p>
             </div>
@@ -528,7 +528,7 @@ function LearningContent() {
                   setTitle('');
                   setCreateOpen(true);
                 }}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white hover:bg-[var(--accent-hover)]"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] hover:bg-[var(--accent-hover)]"
               >
                 <Plus size={14} /> New subject
               </button>
@@ -572,10 +572,10 @@ function LearningContent() {
                     </div>
 
                     <div className="flex items-center gap-4 text-xs shrink-0">
-                      <span className="capitalize rounded-full border border-[var(--line)] bg-[var(--bg)] px-2.5 py-0.5 text-[11px] font-medium text-[var(--muted)]">
+                      <span className="capitalize rounded-full border border-[var(--line)] bg-[var(--bg)] px-2.5 py-0.5 text-xs font-medium text-[var(--muted)]">
                         {top.status.replace('_', ' ')}
                       </span>
-                      <span className="text-[var(--muted)] text-[11px]">
+                      <span className="text-[var(--muted)] text-xs">
                         {new Date(top.updated_at).toLocaleDateString()}
                       </span>
                     </div>

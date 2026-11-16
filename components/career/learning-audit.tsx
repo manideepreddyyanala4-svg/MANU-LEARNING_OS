@@ -107,7 +107,7 @@ export function LearningAudit() {
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--line)] px-5 py-4 sm:px-6">
         <div>
           <p className="text-xs font-bold uppercase tracking-wider text-[var(--accent)]">Live private records · audit</p>
-          <h2 className="mt-1 text-lg font-extrabold text-[var(--fg)]">What you have prepared so far</h2>
+          <h2 className="mt-1 text-lg font-bold text-[var(--fg)]">What you have prepared so far</h2>
           <p className="mt-1 text-xs leading-5 text-[var(--muted)]">This reads your existing ManuOS notes and tracking data, not a guessed proficiency score.</p>
         </div>
         <button type="button" disabled={loading} onClick={() => void load()}
@@ -130,7 +130,7 @@ export function LearningAudit() {
             ].map(({ label, value, icon: Icon }) => (
               <div key={label} className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3">
                 <Icon size={17} className="text-[var(--accent)]" />
-                <p className="mt-3 text-xl font-extrabold tabular-nums text-[var(--fg)]">{value}</p>
+                <p className="mt-3 text-xl font-bold tabular-nums text-[var(--fg)]">{value}</p>
                 <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{label}</p>
               </div>
             ))}
@@ -155,7 +155,7 @@ export function LearningAudit() {
 
           {review.length > 0 && (
             <div>
-              <div className="mb-3 flex items-center gap-2 text-sm font-extrabold text-[var(--fg)]">
+              <div className="mb-3 flex items-center gap-2 text-sm font-bold text-[var(--fg)]">
                 <SearchCheck size={17} className="text-[var(--accent)]" />
                 Reuse your saved learning notes
               </div>

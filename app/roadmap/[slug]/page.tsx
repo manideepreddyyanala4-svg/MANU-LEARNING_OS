@@ -82,13 +82,13 @@ export default function RoadmapDetail() {
           <Card>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--line)]">
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--muted)]">
+                <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
                   Milestone Status
                 </span>
                 <p className="mt-1 text-sm font-bold capitalize text-[var(--fg)]">
                   {item.status.replace('_', ' ')}
                   {item.is_current && (
-                    <span className="ml-2 rounded-md bg-[var(--accent)] px-2 py-0.5 text-[10px] font-bold text-white uppercase tracking-wider">
+                    <span className="ml-2 rounded-md bg-[var(--accent)] px-2 py-0.5 text-xs font-bold text-[var(--on-accent)] uppercase tracking-wider">
                       Active Focus
                     </span>
                   )}
@@ -113,7 +113,7 @@ export default function RoadmapDetail() {
                 {!item.is_current && (
                   <button
                     onClick={() => void setCurrent()}
-                    className="rounded-xl bg-[var(--accent)] px-3.5 py-2 text-xs font-semibold text-white shadow-2xs hover:bg-[var(--accent-hover)] transition"
+                    className="rounded-xl bg-[var(--accent)] px-3.5 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-2xs hover:bg-[var(--accent-hover)] transition"
                   >
                     Set as active focus
                   </button>

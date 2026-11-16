@@ -150,7 +150,7 @@ export default function LifeVisionPage() {
       subtitle="The life you choose to build. Keep your values clear while your plans evolve."
       actions={
         <button type="button" onClick={() => beginEdit()} disabled={busy || loading || editingId !== null}
-          className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-2.5 text-sm font-bold text-white transition hover:opacity-90 disabled:opacity-50">
+          className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-2.5 text-sm font-bold text-[var(--on-accent)] transition hover:opacity-90 disabled:opacity-50">
           <Plus size={17} /> Add principle
         </button>
       }
@@ -161,7 +161,7 @@ export default function LifeVisionPage() {
             <span className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-subtle)] px-3 py-1.5 text-xs font-bold text-[var(--accent)]">
               <Compass size={14} /> Your long-term compass
             </span>
-            <h2 className="mt-4 max-w-2xl text-xl font-extrabold tracking-tight text-[var(--fg)] sm:text-2xl">
+            <h2 className="mt-4 max-w-2xl text-xl font-bold tracking-tight text-[var(--fg)] sm:text-2xl">
               A life defined by your own values
             </h2>
             <p className="mt-2 max-w-2xl text-sm leading-7 text-[var(--muted)]">
@@ -174,11 +174,11 @@ export default function LifeVisionPage() {
           </div>
           <div className="flex gap-3 lg:flex-col lg:items-end">
             <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] px-5 py-3 text-center">
-              <p className="text-2xl font-extrabold tabular-nums text-[var(--fg)]">{principles.length}</p>
+              <p className="text-2xl font-bold tabular-nums text-[var(--fg)]">{principles.length}</p>
               <p className="text-xs text-[var(--muted)]">Principles</p>
             </div>
             <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] px-5 py-3 text-center">
-              <p className="text-2xl font-extrabold tabular-nums text-[var(--fg)]">{activeCount}</p>
+              <p className="text-2xl font-bold tabular-nums text-[var(--fg)]">{activeCount}</p>
               <p className="text-xs text-[var(--muted)]">Active</p>
             </div>
           </div>
@@ -216,7 +216,7 @@ export default function LifeVisionPage() {
                     </label>
                     <div className="flex flex-wrap gap-2">
                       <button type="button" onClick={() => void save()} disabled={busy}
-                        className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-bold text-white disabled:opacity-50"><Check size={16} /> Save</button>
+                        className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-bold text-[var(--on-accent)] disabled:opacity-50"><Check size={16} /> Save</button>
                       <button type="button" onClick={cancelEdit} disabled={busy}
                         className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--line)] px-4 py-2 text-sm font-semibold text-[var(--fg)] disabled:opacity-50"><X size={16} /> Cancel</button>
                     </div>
@@ -237,7 +237,7 @@ export default function LifeVisionPage() {
                           className="rounded-lg p-2 text-[var(--muted)] hover:bg-red-500/10 hover:text-red-500 disabled:opacity-40"><Trash2 size={16} /></button>
                       </div>
                     </div>
-                    <h3 className="mt-4 text-lg font-extrabold leading-7 tracking-tight text-[var(--fg)]">{principle.title}</h3>
+                    <h3 className="mt-4 text-lg font-bold leading-7 tracking-tight text-[var(--fg)]">{principle.title}</h3>
                     <p className="mt-3 flex-1 whitespace-pre-line text-sm leading-7 text-[var(--muted)]">{principle.body}</p>
                   </>
                 )}
@@ -263,7 +263,7 @@ export default function LifeVisionPage() {
                 </label>
                 <div className="flex gap-2">
                   <button type="button" onClick={() => void save()} disabled={busy}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-bold text-white disabled:opacity-50"><Check size={16} /> Save</button>
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-bold text-[var(--on-accent)] disabled:opacity-50"><Check size={16} /> Save</button>
                   <button type="button" onClick={cancelEdit} disabled={busy}
                     className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--line)] px-4 py-2 text-sm font-semibold text-[var(--fg)] disabled:opacity-50"><X size={16} /> Cancel</button>
                 </div>
@@ -276,7 +276,7 @@ export default function LifeVisionPage() {
               <Compass className="mx-auto text-[var(--accent)]" size={30} />
               <h3 className="mt-3 text-lg font-bold text-[var(--fg)]">Your vision starts here</h3>
               <p className="mx-auto mt-2 max-w-md text-sm text-[var(--muted)]">Add your first principle to keep it available whenever you need direction.</p>
-              <button type="button" onClick={() => beginEdit()} className="mt-5 rounded-xl bg-[var(--accent)] px-4 py-2 text-sm font-bold text-white">Add first principle</button>
+              <button type="button" onClick={() => beginEdit()} className="mt-5 rounded-xl bg-[var(--accent)] px-4 py-2 text-sm font-bold text-[var(--on-accent)]">Add first principle</button>
             </div>
           )}
         </div>

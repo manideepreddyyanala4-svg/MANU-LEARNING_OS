@@ -148,16 +148,16 @@ export default function TrackChecklist({ track }: { track: LearningTrack }) {
       actions={<Link href="/roadmap" className="inline-flex items-center gap-2 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-2 text-xs font-bold text-[var(--fg)]"><ArrowLeft size={15}/> All roadmaps</Link>}
     >
       <div className="space-y-6">
-        <section className={'overflow-hidden rounded-3xl bg-gradient-to-br ' + sectionColors + ' p-6 text-white shadow-lg md:p-8'}>
-          <div className="flex flex-wrap items-center gap-2 text-[11px] font-black uppercase tracking-widest text-white/75">
+        <section className={'overflow-hidden rounded-3xl bg-[var(--surface)] ' + sectionColors + ' p-6 text-white shadow-lg md:p-8'}>
+          <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-widest text-white/75">
             <BookOpen size={15}/> Dedicated interview track
           </div>
-          <h2 className="mt-3 text-2xl font-black leading-tight md:text-3xl">{isRag ? 'Understand every EvidenceOps file.' : 'Master image processing and defend your research.'}</h2>
+          <h2 className="mt-3 text-2xl font-bold leading-tight md:text-3xl">{isRag ? 'Understand every EvidenceOps file.' : 'Master image processing and defend your research.'}</h2>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-white/85">{track.summary}</p>
           <div className="mt-5 grid grid-cols-3 gap-2 sm:max-w-xl">
-            <div className="rounded-xl bg-white/10 p-3"><p className="text-2xl font-black">{track.sections.length}</p><p className="text-[10px] text-white/75">Learning modules</p></div>
-            <div className="rounded-xl bg-white/10 p-3"><p className="text-2xl font-black">{all.length}</p><p className="text-[10px] text-white/75">Numbered topics</p></div>
-            <div className="rounded-xl bg-white/10 p-3"><p className="text-2xl font-black">{completed.length}</p><p className="text-[10px] text-white/75">Completed</p></div>
+            <div className="rounded-xl bg-white/10 p-3"><p className="text-2xl font-bold">{track.sections.length}</p><p className="text-xs text-white/75">Learning modules</p></div>
+            <div className="rounded-xl bg-white/10 p-3"><p className="text-2xl font-bold">{all.length}</p><p className="text-xs text-white/75">Numbered topics</p></div>
+            <div className="rounded-xl bg-white/10 p-3"><p className="text-2xl font-bold">{completed.length}</p><p className="text-xs text-white/75">Completed</p></div>
           </div>
           <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/20">
             <div className="h-full rounded-full bg-emerald-300 transition-all" style={{ width: percentage + '%' }}/>
@@ -168,9 +168,9 @@ export default function TrackChecklist({ track }: { track: LearningTrack }) {
         </section>
 
         <section className="grid gap-3 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 md:grid-cols-3">
-          <div className="flex gap-2"><Target className={'mt-0.5 shrink-0 ' + accent} size={18}/><div><p className="text-xs font-extrabold text-[var(--fg)]">01 · Learn</p><p className="mt-1 text-xs leading-5 text-[var(--muted)]">Read the concept and inspect the matching project file.</p></div></div>
-          <div className="flex gap-2"><FileCode2 className={'mt-0.5 shrink-0 ' + accent} size={18}/><div><p className="text-xs font-extrabold text-[var(--fg)]">02 · Rebuild</p><p className="mt-1 text-xs leading-5 text-[var(--muted)]">Write a tiny example without copying generated code.</p></div></div>
-          <div className="flex gap-2"><ShieldCheck className={'mt-0.5 shrink-0 ' + accent} size={18}/><div><p className="text-xs font-extrabold text-[var(--fg)]">03 · Defend</p><p className="mt-1 text-xs leading-5 text-[var(--muted)]">Explain inputs, outputs, errors and trade-offs aloud.</p></div></div>
+          <div className="flex gap-2"><Target className={'mt-0.5 shrink-0 ' + accent} size={18}/><div><p className="text-xs font-bold text-[var(--fg)]">01 · Learn</p><p className="mt-1 text-xs leading-5 text-[var(--muted)]">Read the concept and inspect the matching project file.</p></div></div>
+          <div className="flex gap-2"><FileCode2 className={'mt-0.5 shrink-0 ' + accent} size={18}/><div><p className="text-xs font-bold text-[var(--fg)]">02 · Rebuild</p><p className="mt-1 text-xs leading-5 text-[var(--muted)]">Write a tiny example without copying generated code.</p></div></div>
+          <div className="flex gap-2"><ShieldCheck className={'mt-0.5 shrink-0 ' + accent} size={18}/><div><p className="text-xs font-bold text-[var(--fg)]">03 · Defend</p><p className="mt-1 text-xs leading-5 text-[var(--muted)]">Explain inputs, outputs, errors and trade-offs aloud.</p></div></div>
         </section>
 
         <div className="flex flex-wrap items-center gap-2">
@@ -214,20 +214,20 @@ export default function TrackChecklist({ track }: { track: LearningTrack }) {
                 <button type="button" onClick={() => toggleSection(section.id)} aria-expanded={show}
                   className="flex w-full items-start justify-between gap-3 p-4 text-left md:p-5">
                   <span className="flex min-w-0 items-start gap-3">
-                    <span className={'grid h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-black ' + (isRag ? 'bg-violet-500/10 text-violet-600 dark:text-violet-300' : 'bg-sky-500/10 text-sky-600 dark:text-sky-300')}>
+                    <span className={'grid h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-bold ' + (isRag ? 'bg-violet-500/10 text-violet-600 dark:text-violet-300' : 'bg-sky-500/10 text-sky-600 dark:text-sky-300')}>
                       {String(index + 1).padStart(2, '0')}
                     </span>
                     <span className="min-w-0">
-                      <span className="block text-sm font-black text-[var(--fg)] md:text-base">{section.title}</span>
+                      <span className="block text-sm font-bold text-[var(--fg)] md:text-base">{section.title}</span>
                       <span className="mt-1 block text-xs leading-5 text-[var(--muted)]">{section.goal}</span>
                       <span className="mt-2 flex flex-wrap gap-1">
-                        {section.files.map(file => <span key={file} className="rounded-lg bg-sky-500/10 px-2 py-1 font-mono text-[10px] font-semibold text-sky-700 dark:text-sky-300">{file}</span>)}
+                        {section.files.map(file => <span key={file} className="rounded-lg bg-sky-500/10 px-2 py-1 font-mono text-xs font-semibold text-sky-700 dark:text-sky-300">{file}</span>)}
                       </span>
                     </span>
                   </span>
                   <span className="flex shrink-0 items-center gap-2">
                     <span className="hidden text-right text-xs font-bold text-[var(--muted)] sm:block">{first}–{last}<br/>{done}/{rows.length} done</span>
-                    <span className={'rounded-md px-2 py-1 text-[10px] font-black ' + (section.priority === 'P0' ? 'bg-rose-500/10 text-rose-600 dark:text-rose-300' : 'bg-sky-500/10 text-sky-600 dark:text-sky-300')}>{section.priority}</span>
+                    <span className={'rounded-md px-2 py-1 text-xs font-bold ' + (section.priority === 'P0' ? 'bg-rose-500/10 text-rose-600 dark:text-rose-300' : 'bg-sky-500/10 text-sky-600 dark:text-sky-300')}>{section.priority}</span>
                     <ChevronDown size={17} className={'text-[var(--muted)] transition ' + (show ? 'rotate-180' : '')}/>
                   </span>
                 </button>
@@ -258,7 +258,7 @@ export default function TrackChecklist({ track }: { track: LearningTrack }) {
         </div>
 
         <section className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
-          <div className="flex items-center gap-2"><BookOpen size={18} className={accent}/><h2 className="text-base font-black text-[var(--fg)]">Official learning references</h2></div>
+          <div className="flex items-center gap-2"><BookOpen size={18} className={accent}/><h2 className="text-base font-bold text-[var(--fg)]">Official learning references</h2></div>
           <div className="mt-4 grid gap-2 md:grid-cols-2">
             {track.references.map(link => <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer"
               className="flex items-center justify-between gap-2 rounded-xl border border-[var(--line)] px-3 py-3 text-xs font-bold text-[var(--fg)] hover:border-sky-500">

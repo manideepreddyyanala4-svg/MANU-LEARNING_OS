@@ -1,49 +1,106 @@
 @import "tailwindcss";
 
+/* Warm cream design system (docs/ux/GLOBAL_DESIGN_RESEARCH.md). Contrast verified by docs/ux/contrast-check.mjs. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --bg: #f8fafc;
-  --surface: #ffffff;
-  --paper: #ffffff;
-  --sidebar: #f1f5f9;
-  --sidebar-border: #e2e8f0;
-  --fg: #0f172a;
-  --muted: #64748b;
-  --muted-light: #94a3b8;
-  --line: #e2e8f0;
-  --line-subtle: #f1f5f9;
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
-  --accent-subtle: #eff6ff;
-  --accent-border: #bfdbfe;
-  --rust: #2563eb;
-  --slate: #475569;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --danger: #ef4444;
+  --bg: #F5F1E8;
+  --surface: #FBF9F4;
+  --paper: #FBF9F4;
+  --sidebar: #F0EAE0;
+  --sidebar-border: #DCD5C8;
+  --fg: #252A30;
+  --muted: #535A5D;
+  --muted-light: #6B6F6C;
+  --line: #DCD5C8;
+  --line-subtle: #E8E2D5;
+  --line-strong: #8C8678;
+  --accent: #2F5D46;
+  --accent-hover: #244A37;
+  --accent-subtle: #E4EBDD;
+  --accent-border: #A9BFA9;
+  --on-accent: #FBF9F4;
+  --rust: #2F5D46;
+  --slate: #535A5D;
+  --success: #2F6B3F;
+  --warning: #8A5A00;
+  --danger: #A32A2A;
+  --code-bg: #2B2F33;
+  --code-fg: #F1EEE6;
+  --code-line: #454A4F;
+  --reading-size: 1.125rem;
+  --reading-leading: 1.7;
+  --reading-measure: 68ch;
   color-scheme: light;
 }
 
 .dark {
-  --bg: #090d16;
-  --surface: #111827;
-  --paper: #111827;
-  --sidebar: #0d131f;
-  --sidebar-border: #1e293b;
-  --fg: #f8fafc;
-  --muted: #94a3b8;
-  --muted-light: #64748b;
-  --line: #1e293b;
-  --line-subtle: #15202e;
-  --accent: #3b82f6;
-  --accent-hover: #60a5fa;
-  --accent-subtle: #172554;
-  --accent-border: #1d4ed8;
-  --rust: #3b82f6;
-  --slate: #94a3b8;
-  --success: #34d399;
-  --warning: #fbbf24;
-  --danger: #f87171;
+  --bg: #1E2323;
+  --surface: #282E2D;
+  --paper: #282E2D;
+  --sidebar: #222827;
+  --sidebar-border: #414A46;
+  --fg: #ECE9E1;
+  --muted: #BBC3BF;
+  --muted-light: #9AA5A1;
+  --line: #414A46;
+  --line-subtle: #2D3533;
+  --line-strong: #7D8A85;
+  --accent: #9CC3A8;
+  --accent-hover: #B3D3BD;
+  --accent-subtle: #2B3B34;
+  --accent-border: #4E6F5C;
+  --on-accent: #14201A;
+  --rust: #9CC3A8;
+  --slate: #BBC3BF;
+  --success: #8CC79B;
+  --warning: #E0B35A;
+  --danger: #EB9C9C;
+  --code-bg: #171C1B;
+  --code-fg: #ECE9E1;
+  --code-line: #3A4440;
   color-scheme: dark;
+}
+
+/* Hardcoded Tailwind palette classes across the app are remapped onto the cream system, so one restrained accent
+   (forest green) replaces sky/blue/indigo/violet/purple/fuchsia/cyan/teal, and neutrals become warm. Scales are
+   fixed (not inverted in dark mode) so existing `dark:` variants keep working. 500+ shades are >= 4.5:1 on #FBF9F4. */
+@theme {
+  --color-white: #FBF9F4;
+  --color-slate-50: #FBF9F4; --color-slate-100: #F5F1E8; --color-slate-200: #ECE6DA; --color-slate-300: #DCD5C8; --color-slate-400: #A8A294;
+  --color-slate-500: #5F6360; --color-slate-600: #535A5D; --color-slate-700: #3F454A; --color-slate-800: #2F343A; --color-slate-900: #26251F; --color-slate-950: #171612;
+  --color-gray-50: #FBF9F4; --color-gray-100: #F5F1E8; --color-gray-200: #ECE6DA; --color-gray-300: #DCD5C8; --color-gray-400: #A8A294;
+  --color-gray-500: #5F6360; --color-gray-600: #535A5D; --color-gray-700: #3F454A; --color-gray-800: #2F343A; --color-gray-900: #26251F; --color-gray-950: #171612;
+  --color-zinc-50: #FBF9F4; --color-zinc-100: #F5F1E8; --color-zinc-200: #ECE6DA; --color-zinc-300: #DCD5C8; --color-zinc-400: #A8A294;
+  --color-zinc-500: #5F6360; --color-zinc-600: #535A5D; --color-zinc-700: #3F454A; --color-zinc-800: #2F343A; --color-zinc-900: #26251F; --color-zinc-950: #171612;
+  --color-neutral-50: #FBF9F4; --color-neutral-100: #F5F1E8; --color-neutral-200: #ECE6DA; --color-neutral-300: #DCD5C8; --color-neutral-400: #A8A294;
+  --color-neutral-500: #5F6360; --color-neutral-600: #535A5D; --color-neutral-700: #3F454A; --color-neutral-800: #2F343A; --color-neutral-900: #26251F; --color-neutral-950: #171612;
+  --color-stone-50: #FBF9F4; --color-stone-100: #F5F1E8; --color-stone-200: #ECE6DA; --color-stone-300: #DCD5C8; --color-stone-400: #A8A294;
+  --color-stone-500: #5F6360; --color-stone-600: #535A5D; --color-stone-700: #3F454A; --color-stone-800: #2F343A; --color-stone-900: #26251F; --color-stone-950: #171612;
+  --color-sky-50: #F1F5EE; --color-sky-100: #E4EBDD; --color-sky-200: #CBD9C5; --color-sky-300: #A9C8B4; --color-sky-400: #7FAA90; --color-sky-500: #335C47; --color-sky-600: #2F5D46; --color-sky-700: #244A37; --color-sky-800: #1B3A2B; --color-sky-900: #142B20; --color-sky-950: #0E1F16;
+  --color-blue-50: #F1F5EE; --color-blue-100: #E4EBDD; --color-blue-200: #CBD9C5; --color-blue-300: #A9C8B4; --color-blue-400: #7FAA90; --color-blue-500: #335C47; --color-blue-600: #2F5D46; --color-blue-700: #244A37; --color-blue-800: #1B3A2B; --color-blue-900: #142B20; --color-blue-950: #0E1F16;
+  --color-indigo-50: #F1F5EE; --color-indigo-100: #E4EBDD; --color-indigo-200: #CBD9C5; --color-indigo-300: #A9C8B4; --color-indigo-400: #7FAA90; --color-indigo-500: #335C47; --color-indigo-600: #2F5D46; --color-indigo-700: #244A37; --color-indigo-800: #1B3A2B; --color-indigo-900: #142B20; --color-indigo-950: #0E1F16;
+  --color-violet-50: #F1F5EE; --color-violet-100: #E4EBDD; --color-violet-200: #CBD9C5; --color-violet-300: #A9C8B4; --color-violet-400: #7FAA90; --color-violet-500: #335C47; --color-violet-600: #2F5D46; --color-violet-700: #244A37; --color-violet-800: #1B3A2B; --color-violet-900: #142B20; --color-violet-950: #0E1F16;
+  --color-purple-50: #F1F5EE; --color-purple-100: #E4EBDD; --color-purple-200: #CBD9C5; --color-purple-300: #A9C8B4; --color-purple-400: #7FAA90; --color-purple-500: #335C47; --color-purple-600: #2F5D46; --color-purple-700: #244A37; --color-purple-800: #1B3A2B; --color-purple-900: #142B20; --color-purple-950: #0E1F16;
+  --color-fuchsia-50: #F1F5EE; --color-fuchsia-100: #E4EBDD; --color-fuchsia-200: #CBD9C5; --color-fuchsia-300: #A9C8B4; --color-fuchsia-400: #7FAA90; --color-fuchsia-500: #335C47; --color-fuchsia-600: #2F5D46; --color-fuchsia-700: #244A37; --color-fuchsia-800: #1B3A2B; --color-fuchsia-900: #142B20; --color-fuchsia-950: #0E1F16;
+  --color-cyan-50: #F1F5EE; --color-cyan-100: #E4EBDD; --color-cyan-200: #CBD9C5; --color-cyan-300: #A9C8B4; --color-cyan-400: #7FAA90; --color-cyan-500: #335C47; --color-cyan-600: #2F5D46; --color-cyan-700: #244A37; --color-cyan-800: #1B3A2B; --color-cyan-900: #142B20; --color-cyan-950: #0E1F16;
+  --color-teal-50: #F1F5EE; --color-teal-100: #E4EBDD; --color-teal-200: #CBD9C5; --color-teal-300: #A9C8B4; --color-teal-400: #7FAA90; --color-teal-500: #335C47; --color-teal-600: #2F5D46; --color-teal-700: #244A37; --color-teal-800: #1B3A2B; --color-teal-900: #142B20; --color-teal-950: #0E1F16;
+  --color-emerald-50: #EEF4EC; --color-emerald-100: #DDEADB; --color-emerald-200: #BFD6BC; --color-emerald-300: #98BE98; --color-emerald-400: #6FA277; --color-emerald-500: #2D6137; --color-emerald-600: #295E37; --color-emerald-700: #25562F; --color-emerald-800: #1D4325; --color-emerald-900: #15301B; --color-emerald-950: #0E2012;
+  --color-green-50: #EEF4EC; --color-green-100: #DDEADB; --color-green-200: #BFD6BC; --color-green-300: #98BE98; --color-green-400: #6FA277; --color-green-500: #2D6137; --color-green-600: #295E37; --color-green-700: #25562F; --color-green-800: #1D4325; --color-green-900: #15301B; --color-green-950: #0E2012;
+  --color-lime-50: #EEF4EC; --color-lime-100: #DDEADB; --color-lime-200: #BFD6BC; --color-lime-300: #98BE98; --color-lime-400: #6FA277; --color-lime-500: #2D6137; --color-lime-600: #295E37; --color-lime-700: #25562F; --color-lime-800: #1D4325; --color-lime-900: #15301B; --color-lime-950: #0E2012;
+  --color-amber-50: #FBF3E2; --color-amber-100: #F5E6C4; --color-amber-200: #EBD095; --color-amber-300: #DDB56A; --color-amber-400: #C99A3F; --color-amber-500: #724C06; --color-amber-600: #744B00; --color-amber-700: #6F4700; --color-amber-800: #573700; --color-amber-900: #3F2800; --color-amber-950: #2A1A00;
+  --color-orange-50: #FBF3E2; --color-orange-100: #F5E6C4; --color-orange-200: #EBD095; --color-orange-300: #DDB56A; --color-orange-400: #C99A3F; --color-orange-500: #724C06; --color-orange-600: #744B00; --color-orange-700: #6F4700; --color-orange-800: #573700; --color-orange-900: #3F2800; --color-orange-950: #2A1A00;
+  --color-yellow-50: #FBF3E2; --color-yellow-100: #F5E6C4; --color-yellow-200: #EBD095; --color-yellow-300: #DDB56A; --color-yellow-400: #C99A3F; --color-yellow-500: #724C06; --color-yellow-600: #744B00; --color-yellow-700: #6F4700; --color-yellow-800: #573700; --color-yellow-900: #3F2800; --color-yellow-950: #2A1A00;
+  --color-red-50: #FBEFEC; --color-red-100: #F5DCD6; --color-red-200: #EBBBB1; --color-red-300: #DE9588; --color-red-400: #CC6F61; --color-red-500: #903026; --color-red-600: #992727; --color-red-700: #862222; --color-red-800: #6A1C1C; --color-red-900: #4E1616; --color-red-950: #330E0E;
+  --color-rose-50: #FBEFEC; --color-rose-100: #F5DCD6; --color-rose-200: #EBBBB1; --color-rose-300: #DE9588; --color-rose-400: #CC6F61; --color-rose-500: #903026; --color-rose-600: #992727; --color-rose-700: #862222; --color-rose-800: #6A1C1C; --color-rose-900: #4E1616; --color-rose-950: #330E0E;
+  --color-pink-50: #FBEFEC; --color-pink-100: #F5DCD6; --color-pink-200: #EBBBB1; --color-pink-300: #DE9588; --color-pink-400: #CC6F61; --color-pink-500: #903026; --color-pink-600: #992727; --color-pink-700: #862222; --color-pink-800: #6A1C1C; --color-pink-900: #4E1616; --color-pink-950: #330E0E;
+  --shadow-2xs: 0 1px 1px rgb(60 50 30 / 0.04);
+  --shadow-xs: 0 1px 2px rgb(60 50 30 / 0.05);
+  --shadow-sm: 0 1px 3px rgb(60 50 30 / 0.06);
+  --shadow-md: 0 2px 8px rgb(60 50 30 / 0.07);
+  --shadow-lg: 0 6px 16px rgb(60 50 30 / 0.08);
+  --shadow-xl: 0 10px 24px rgb(60 50 30 / 0.09);
+  --shadow-2xl: 0 16px 36px rgb(60 50 30 / 0.12);
 }
 
 * {
@@ -166,7 +223,7 @@ button {
   font-size: 13.5px;
   font-weight: 700;
   color: var(--fg);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  box-shadow: 0 1px 2px rgba(60,50,30,0.03);
 }
 .learning-switcher:hover {
   background: color-mix(in srgb, var(--fg) 4%, var(--surface));
@@ -191,7 +248,7 @@ button {
   border-radius: 10px;
   background: var(--surface);
   padding: 6px;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.04);
+  box-shadow: 0 12px 32px rgba(60,50,30,0.12), 0 2px 6px rgba(60,50,30,0.04);
 }
 
 .learning-switcher-menu a,
@@ -265,7 +322,7 @@ button {
   border-radius: 6px;
   text-align: left;
   color: var(--fg);
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -279,7 +336,7 @@ button {
   white-space: nowrap;
 }
 .learning-side-section-toggle small {
-  font-size: 10.5px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--muted);
   background: color-mix(in srgb, var(--muted) 15%, transparent);
@@ -330,7 +387,7 @@ button {
   border-left-color: var(--accent);
 }
 .learning-side-topic span:first-child {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--muted);
 }
@@ -369,7 +426,7 @@ button {
 }
 .learning-side-headings a.is-h3 {
   padding-left: 14px;
-  font-size: 11.5px;
+  font-size: 12px;
   opacity: 0.9;
 }
 .learning-side-headings a.is-active {
@@ -381,7 +438,7 @@ button {
 .learning-side-other {
   padding: 8px 6px 4px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -454,7 +511,7 @@ button {
   border-radius: 9px;
   background: var(--surface);
   padding: 5px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.04);
+  box-shadow: 0 10px 30px rgba(60,50,30,0.12), 0 2px 6px rgba(60,50,30,0.04);
 }
 .learning-actions button,
 .learning-actions label {
@@ -483,7 +540,7 @@ button {
   background: var(--surface);
   color: var(--fg);
   padding: 4px 6px;
-  font-size: 11.5px;
+  font-size: 12px;
 }
 .learning-actions .danger {
   color: var(--danger);
@@ -632,7 +689,7 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 650;
   color: var(--accent);
   background: color-mix(in srgb, var(--accent) 10%, transparent);
@@ -899,7 +956,7 @@ h3.study-h {
   border: 1px solid var(--line);
   background: var(--surface);
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 20px rgba(60,50,30,0.04);
 }
 .study-figure-frame img {
   display: block;
@@ -920,7 +977,7 @@ h3.study-h {
   border-radius: 6px;
   background: rgba(0, 0, 0, 0.65);
   color: #fff;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -938,18 +995,18 @@ h3.study-h {
   gap: 3px;
   padding: 4px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(251, 249, 244, 0.94);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(60,50,30,0.1);
+  box-shadow: 0 4px 14px rgba(60,50,30,0.08);
   opacity: 0;
   transition: opacity 0.15s ease, transform 0.15s ease;
   transform: translateY(-2px);
   z-index: 10;
 }
 .dark .study-figure-toolbar {
-  background: rgba(24, 24, 27, 0.92);
+  background: rgba(40, 46, 45, 0.92);
   border-color: rgba(255, 255, 255, 0.12);
 }
 .study-figure:hover .study-figure-toolbar,
@@ -965,7 +1022,7 @@ h3.study-h {
   height: 28px;
   padding: 0 7px;
   border-radius: 6px;
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--muted);
   background: transparent;
@@ -995,10 +1052,10 @@ h3.study-h {
   margin-inline: auto;
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: #0f172a;
-  color: #f8fafc;
+  background: #2B2F33;
+  color: #F1EEE6;
   overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 16px rgba(60,50,30,0.06);
 }
 .study-code-bar {
   display: flex;
@@ -1006,13 +1063,13 @@ h3.study-h {
   align-items: center;
   padding: 8px 16px;
   border-bottom: 1px solid rgba(255,255,255,0.1);
-  color: #94a3b8;
+  color: #B3AE9F;
   font-size: 12px;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 .study-code-bar button {
-  color: #cbd5e1;
-  font-size: 11.5px;
+  color: #D8D3C7;
+  font-size: 12px;
   border: 0;
   background: rgba(255,255,255,0.08);
   padding: 3px 8px;
@@ -1056,7 +1113,7 @@ h3.study-h {
   border: 1px solid var(--line);
   border-radius: 10px;
   background: var(--surface);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  box-shadow: 0 2px 8px rgba(60,50,30,0.02);
 }
 .study-table-wrap table {
   width: 100%;
@@ -1117,10 +1174,10 @@ h3.study-h {
   border-color: var(--accent);
   background: var(--accent-subtle);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  box-shadow: 0 4px 12px rgba(60,50,30,0.04);
 }
 .topic-pagination-card span:first-child {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -1163,7 +1220,7 @@ h3.study-h {
   border: 1px solid var(--line);
   border-radius: 10px;
   background: var(--surface);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 24px rgba(60,50,30,0.06);
 }
 
 .editor-toolbar {
@@ -1256,7 +1313,7 @@ h3.study-h {
 .editor-footnote {
   margin-top: 32px;
   color: var(--muted);
-  font-size: 11.5px;
+  font-size: 12px;
   text-align: center;
 }
 .editor-footnote kbd, .editor-help kbd {
@@ -1265,7 +1322,7 @@ h3.study-h {
   border-radius: 4px;
   background: var(--surface);
   font-family: inherit;
-  font-size: 10.5px;
+  font-size: 12px;
 }
 
 .study-empty-state {
@@ -1325,7 +1382,7 @@ h3.study-h {
 .document-canvas [data-content-type="image"] img {
   border-radius: 10px;
   border: 1px solid var(--line);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 16px rgba(60,50,30,0.04);
   max-height: 720px;
   object-fit: contain;
 }
@@ -1345,7 +1402,7 @@ h3.study-h {
   border-radius: 12px;
   background: var(--surface);
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 3px rgba(60,50,30,0.02);
 }
 
 .learning-section-card-header {
@@ -1401,7 +1458,7 @@ h3.study-h {
   color: var(--accent);
 }
 .learning-topic-table-link span:first-child {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--muted);
   width: 20px;
@@ -1440,7 +1497,7 @@ h3.study-h {
   }
 }
 .manu-page-eyebrow {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 750;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -1485,29 +1542,29 @@ h3.study-h {
 .study-guide-welcome {
   padding: 18px 22px;
   border-radius: 16px;
-  border: 1px solid color-mix(in srgb, #6366f1 28%, var(--line));
-  background: linear-gradient(115deg, color-mix(in srgb, #6366f1 11%, var(--surface)), color-mix(in srgb, #06b6d4 9%, var(--surface)));
+  border: 1px solid color-mix(in srgb, #2F5D46 28%, var(--line));
+  background: var(--surface);
 }
 .study-guide-welcome-label {
   display: block; margin-bottom: 8px;
-  color: #4f46e5; font-weight: 800; font-size: 11px; letter-spacing: 0.1em;
+  color: #2F5D46; font-weight: 800; font-size: 12px; letter-spacing: 0.1em;
 }
-.dark .study-guide-welcome-label { color: #a5b4fc; }
+.dark .study-guide-welcome-label { color: #A9C8B4; }
 .study-guide-welcome .study-p { max-width: none; margin: 0; font-size: 14px; line-height: 1.6; }
 .study-guide-lessons { display: grid; gap: 22px; margin-top: 22px; }
 .study-guide-lesson {
-  --guide-accent: #2563eb;
+  --guide-accent: #2F5D46;
   padding: 0 24px 22px;
   border: 1px solid color-mix(in srgb, var(--guide-accent) 23%, var(--line));
   border-top: 5px solid var(--guide-accent);
   border-radius: 16px;
   background: var(--surface);
-  box-shadow: 0 7px 22px rgba(15,23,42,.045);
+  box-shadow: 0 7px 22px rgba(60,50,30,.04);
   overflow: hidden;
 }
-.study-guide-lesson--1 { --guide-accent: #7c3aed; }
-.study-guide-lesson--2 { --guide-accent: #0f9488; }
-.study-guide-lesson--3 { --guide-accent: #ea580c; }
+.study-guide-lesson--1 { --guide-accent: #2F5D46; }
+.study-guide-lesson--2 { --guide-accent: #3D6D54; }
+.study-guide-lesson--3 { --guide-accent: #8A5A00; }
 .study-guide-lesson .study-h {
   max-width: none; margin: 0 -24px 18px; padding: 18px 24px;
   font-size: clamp(18px, 2.1vw, 21px); line-height: 1.35;
@@ -1521,10 +1578,10 @@ h3.study-h {
   border: 1px solid color-mix(in srgb, var(--note-accent) 24%, var(--line));
   background: color-mix(in srgb, var(--note-accent) 7%, var(--surface));
 }
-.study-guide-note--concept { --note-accent: #0891b2; }
-.study-guide-note--output { --note-accent: #059669; }
-.study-guide-note--practice { --note-accent: #d97706; }
-.study-guide-note--interview { --note-accent: #7c3aed; }
+.study-guide-note--concept { --note-accent: #3D6D54; }
+.study-guide-note--output { --note-accent: #2F6B3F; }
+.study-guide-note--practice { --note-accent: #8A5A00; }
+.study-guide-note--interview { --note-accent: #2F5D46; }
 .study-guide-note-title {
   display: flex; align-items: center; gap: 8px; margin-bottom: 5px;
   font-size: 12px; font-weight: 850; text-transform: uppercase;
@@ -1533,15 +1590,15 @@ h3.study-h {
 .study-guide-note p { color: var(--fg); line-height: 1.6; font-size: 14px; margin: 0; }
 .study-guide-lesson .study-code {
   max-width: none; margin: 13px 0; border-radius: 12px;
-  border: 1px solid #334155; box-shadow: none;
+  border: 1px solid #454A4F; box-shadow: none;
 }
-.study-guide-lesson .study-code-bar { background: #172033; color: #cbd5e1; font-weight: 700; }
+.study-guide-lesson .study-code-bar { background: #33373B; color: #D8D3C7; font-weight: 700; }
 .study-guide-lesson .study-code-bar::before { content: '💻'; margin-right: 7px; }
 .study-guide-lesson .study-pre { font-size: 13px; padding: 16px 18px; line-height: 1.7; }
-.dark .study-guide-note--concept { --note-accent: #22d3ee; }
-.dark .study-guide-note--output { --note-accent: #34d399; }
-.dark .study-guide-note--practice { --note-accent: #fbbf24; }
-.dark .study-guide-note--interview { --note-accent: #c4b5fd; }
+.dark .study-guide-note--concept { --note-accent: #A9C8B4; }
+.dark .study-guide-note--output { --note-accent: #7FC08F; }
+.dark .study-guide-note--practice { --note-accent: #E0B35A; }
+.dark .study-guide-note--interview { --note-accent: #A9C8B4; }
 @media (max-width: 640px) {
   .study-guide-welcome { padding: 15px 16px; }
   .study-guide-lesson { padding: 0 14px 16px; border-radius: 13px; }
@@ -1556,10 +1613,10 @@ h3.study-h {
   max-width: 100%;
   margin-top: 22px;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, #2563eb 40%, var(--line));
+  border: 1px solid color-mix(in srgb, #2F5D46 40%, var(--line));
   border-radius: 16px;
   background: var(--surface);
-  box-shadow: 0 8px 24px rgba(37,99,235,.06);
+  box-shadow: 0 8px 24px rgba(47,93,70,.05);
   font-size: 14px;
 }
 .python-lab-toggle {
@@ -1572,81 +1629,81 @@ h3.study-h {
   cursor: pointer;
   text-align: left;
   color: var(--fg);
-  background: linear-gradient(110deg, color-mix(in srgb,#2563eb 12%,var(--surface)),color-mix(in srgb,#7c3aed 8%,var(--surface)));
+  background: var(--surface);
   border: 0;
 }
-.python-lab-toggle-title { display:flex; align-items:center; gap:12px; min-width:0; color:#2563eb; }
-.dark .python-lab-toggle-title { color:#93c5fd; }
+.python-lab-toggle-title { display:flex; align-items:center; gap:12px; min-width:0; color:#2F5D46; }
+.dark .python-lab-toggle-title { color:#A9C8B4; }
 .python-lab-toggle-title > span:nth-child(2) { display:grid; gap:3px; }
 .python-lab-toggle-title strong { font-weight:850; font-size:15px; color:var(--fg); }
 .python-lab-toggle-title small { font-size:12px; color:var(--muted); font-weight:550; }
-.python-lab-passed-tag { display:inline-flex; align-items:center; gap:4px; margin-left:8px; padding:4px 8px; border-radius:999px; background:color-mix(in srgb,#10b981 11%,var(--surface)); color:#047857; font-size:11px; white-space:nowrap; }
-.dark .python-lab-passed-tag { color:#6ee7b7; }
+.python-lab-passed-tag { display:inline-flex; align-items:center; gap:4px; margin-left:8px; padding:4px 8px; border-radius:999px; background:color-mix(in srgb,#3A7D44 11%,var(--surface)); color:#25562F; font-size: 12px; white-space:nowrap; }
+.dark .python-lab-passed-tag { color:#98BE98; }
 .python-lab-body { padding:16px 19px 20px; border-top:1px solid var(--line); }
 .python-lab-intro { color:var(--muted); font-size:12px; line-height:1.55; margin:0 0 13px; }
 .python-lab-mode { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:13px; }
 .python-lab-mode button { padding:7px 11px; border:1px solid var(--line); color:var(--muted); border-radius:9px; background:var(--surface); font-weight:700; font-size:12px; cursor:pointer; }
-.python-lab-mode button.active { border-color: #2563eb; color:#1d4ed8; background:color-mix(in srgb,#2563eb 9%,var(--surface)); }
-.dark .python-lab-mode button.active { color:#93c5fd; }
-.python-lab-challenge { border:1px solid color-mix(in srgb,#d97706 30%,var(--line)); background:color-mix(in srgb,#f59e0b 7%,var(--surface)); border-radius:10px; padding:10px 14px; margin-bottom:13px; }
-.python-lab-challenge strong { color:#b45309; font-size:11px; font-weight:850; letter-spacing:.08em; }
-.dark .python-lab-challenge strong { color:#fbbf24; }
+.python-lab-mode button.active { border-color: #2F5D46; color:#244A37; background:color-mix(in srgb,#2F5D46 9%,var(--surface)); }
+.dark .python-lab-mode button.active { color:#A9C8B4; }
+.python-lab-challenge { border:1px solid color-mix(in srgb,#8A5A00 30%,var(--line)); background:color-mix(in srgb,#C99A3F 7%,var(--surface)); border-radius:10px; padding:10px 14px; margin-bottom:13px; }
+.python-lab-challenge strong { color:#7E5200; font-size: 12px; font-weight:850; letter-spacing:.08em; }
+.dark .python-lab-challenge strong { color:#E0B35A; }
 .python-lab-challenge p { font-size:13px; color:var(--fg); margin:5px 0 0; line-height:1.55; }
-.python-lab-editor-head { display:flex; align-items:center; justify-content:space-between; background:#1e293b; border:1px solid #334155; border-radius:11px 11px 0 0; color:#e2e8f0; font-size:12px; font-family:ui-monospace,monospace; padding:9px 13px; }
+.python-lab-editor-head { display:flex; align-items:center; justify-content:space-between; background:#33373B; border:1px solid #454A4F; border-radius:11px 11px 0 0; color:#DCD5C8; font-size:12px; font-family:ui-monospace,monospace; padding:9px 13px; }
 .python-lab-editor-head > span { display:flex;align-items:center;gap:9px; }
-.python-lab-file-dot { width:8px;height:8px; background:#facc15; border-radius:50%; }
-.python-lab-language { font-size:10px; color:#94a3b8; margin-left:5px; }
+.python-lab-file-dot { width:8px;height:8px; background:#C99A3F; border-radius:50%; }
+.python-lab-language { font-size: 12px; color:#B3AE9F; margin-left:5px; }
 .python-lab-tools { display:flex; align-items:center; gap:5px; }
-.python-lab-tools button { background:transparent; border:0; cursor:pointer; color:#cbd5e1; width:28px;height:26px; display:grid;place-items:center; border-radius:6px; }
-.python-lab-tools button:hover { background:#334155;color:white; }
-.python-lab-editor { display:flex; min-width:0; width:100%; background:#0f172a; border:1px solid #334155; border-top:0; border-radius:0 0 11px 11px; }
-.python-lab-line-numbers { display:flex;flex-direction:column; min-width:45px; padding:13px 10px; align-items:flex-end; border-right:1px solid #243247; background:#111d30; color:#64748b; font:13px/21px ui-monospace,monospace; user-select:none; }
+.python-lab-tools button { background:transparent; border:0; cursor:pointer; color:#D8D3C7; width:28px;height:26px; display:grid;place-items:center; border-radius:6px; }
+.python-lab-tools button:hover { background:#454A4F;color:white; }
+.python-lab-editor { display:flex; min-width:0; width:100%; background:#2B2F33; border:1px solid #454A4F; border-top:0; border-radius:0 0 11px 11px; }
+.python-lab-line-numbers { display:flex;flex-direction:column; min-width:45px; padding:13px 10px; align-items:flex-end; border-right:1px solid #454A4F; background:#2B2F33; color:#8F8A7C; font:13px/21px ui-monospace,monospace; user-select:none; }
 .python-lab-line-numbers span { height:21px; }
-.python-lab-editor textarea { display:block; flex:1; min-width:0; resize:vertical; padding:13px 15px; border:0; outline:0; background:#0f172a; color:#c7edff; font:13px/21px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; white-space:pre; overflow:auto; tab-size:4; }
-.python-lab-editor textarea:focus { box-shadow:inset 0 0 0 1px #38bdf8; border-radius:0 0 10px 0; }
+.python-lab-editor textarea { display:block; flex:1; min-width:0; resize:vertical; padding:13px 15px; border:0; outline:0; background:#2B2F33; color:#A9C8B4; font:13px/21px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; white-space:pre; overflow:auto; tab-size:4; }
+.python-lab-editor textarea:focus { box-shadow:inset 0 0 0 1px #8DBB9B; border-radius:0 0 10px 0; }
 .python-lab-toolbar { display:flex;align-items:center;flex-wrap:wrap;gap:8px; margin:13px 0; }
 .python-lab-toolbar button { display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;padding:9px 13px;border-radius:9px;font-size:12px;font-weight:800;cursor:pointer; }
-.python-lab-run { background:#2563eb;color:white; }
-.python-lab-run:hover { background:#1d4ed8; }
-.python-lab-test { background:#059669; color:white; }
-.python-lab-test:hover { background:#047857; }
+.python-lab-run { background:#2F5D46;color:white; }
+.python-lab-run:hover { background:#244A37; }
+.python-lab-test { background:#2F6B3F; color:white; }
+.python-lab-test:hover { background:#25562F; }
 .python-lab-toolbar button:disabled { opacity:.45;cursor:not-allowed; }
-.python-lab-test span { opacity:.7; }
-.python-lab-toolbar .python-lab-stop { background:#fee2e2;color:#b91c1c; }
+.python-lab-test span { opacity:1; }
+.python-lab-toolbar .python-lab-stop { background:#F5DCD6;color:#862222; }
 .python-lab-loading { display:inline-flex;align-items:center;gap:6px; color:var(--muted);font-size:12px; }
-.python-lab-shortcut { margin-left:auto; font-size:11px;color:var(--muted); }
+.python-lab-shortcut { margin-left:auto; font-size: 12px;color:var(--muted); }
 .python-lab-stdin { margin-bottom:13px; }
 .python-lab-stdin summary { font-size:12px;color:var(--muted);cursor:pointer;user-select:none; }
 .python-lab-stdin textarea { margin-top:8px;width:100%;min-height:64px;padding:9px 11px;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:9px;font:12px/1.5 ui-monospace,monospace; }
 .python-lab-console { border:1px solid var(--line);border-radius:11px; overflow:hidden; background:color-mix(in srgb,var(--sidebar) 40%,var(--surface)); }
 .python-lab-console-title { display:flex;align-items:center;gap:7px; background:var(--sidebar);color:var(--fg);font-size:12px;font-weight:800;padding:9px 12px;border-bottom:1px solid var(--line); }
-.python-lab-console-title button { margin-left:auto; padding:2px 5px; background:transparent;border:0;color:var(--muted);font-size:11px;cursor:pointer; }
+.python-lab-console-title button { margin-left:auto; padding:2px 5px; background:transparent;border:0;color:var(--muted);font-size: 12px;cursor:pointer; }
 .python-lab-console > pre { padding:12px 14px; margin:0; min-height:58px; max-height:320px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--fg);font:12px/1.65 ui-monospace,SFMono-Regular,Menlo,monospace; }
-.python-lab-console .python-lab-error { display:flex;align-items:flex-start;gap:8px; background:color-mix(in srgb,#ef4444 10%,var(--surface));color:#b91c1c;border-top:1px solid #fecaca; }
-.dark .python-lab-console .python-lab-error { color:#fca5a5;border-color:#7f1d1d; }
-.python-lab-results { display:grid;gap:7px;padding:12px 14px;border:1px solid color-mix(in srgb,#10b981 30%,var(--line));border-radius:11px;margin-top:13px;background:color-mix(in srgb,#10b981 5%,var(--surface)); }
+.python-lab-console .python-lab-error { display:flex;align-items:flex-start;gap:8px; background:color-mix(in srgb,#B03A2E 10%,var(--surface));color:#862222;border-top:1px solid #EBBBB1; }
+.dark .python-lab-console .python-lab-error { color:#DE9588;border-color:#6A1C1C; }
+.python-lab-results { display:grid;gap:7px;padding:12px 14px;border:1px solid color-mix(in srgb,#3A7D44 30%,var(--line));border-radius:11px;margin-top:13px;background:color-mix(in srgb,#3A7D44 5%,var(--surface)); }
 .python-lab-results > strong { display:flex;justify-content:space-between;gap:12px;color:var(--fg);font-size:13px; }
 .python-lab-results > strong span { color:var(--muted);font-size:12px; }
 .python-lab-results > div { display:flex; align-items:flex-start; gap:7px; font-size:12px; }
-.python-lab-test-pass { color:#059669; }
-.python-lab-test-fail { color:#dc2626; }
+.python-lab-test-pass { color:#2F6B3F; }
+.python-lab-test-fail { color:#A32A2A; }
 .python-lab-results > div span { color:var(--fg); }
-.python-lab-results > div small { display:block;color:var(--muted);margin-top:3px;font-family:ui-monospace,monospace;font-size:11px;overflow-wrap:anywhere; }
-.python-lab-footnote { color:var(--muted);font-size:11px;line-height:1.65;margin:14px 0 0; }
+.python-lab-results > div small { display:block;color:var(--muted);margin-top:3px;font-family:ui-monospace,monospace;font-size: 12px;overflow-wrap:anywhere; }
+.python-lab-footnote { color:var(--muted);font-size: 12px;line-height:1.65;margin:14px 0 0; }
 .python-lab-page { width:100%;max-width:1280px;margin:0 auto; }
-.python-lab-page-header { border:1px solid color-mix(in srgb,#2563eb 24%,var(--line));padding:22px 24px;border-radius:18px;background:linear-gradient(120deg,color-mix(in srgb,#2563eb 12%,var(--surface)),color-mix(in srgb,#8b5cf6 9%,var(--surface)));margin-bottom:20px; }
+.python-lab-page-header { border:1px solid color-mix(in srgb,#2F5D46 24%,var(--line));padding:22px 24px;border-radius:18px;background:var(--surface);margin-bottom:20px; }
 .python-lab-page-header h1 { font-size:clamp(24px,3vw,34px);font-weight:850;letter-spacing:-.03em;color:var(--fg); }
 .python-lab-page-header p { font-size:14px;color:var(--muted);max-width:650px;line-height:1.5;margin-top:6px; }
 .python-lab-page-grid { display:grid; grid-template-columns:minmax(240px,290px) minmax(0,1fr);gap:19px;align-items:start; }
 .python-lab-sidebar { border-radius:14px;padding:15px;border:1px solid var(--line);background:var(--surface);max-height:78vh;overflow:auto; }
 .python-lab-sidebar-title { font-weight:850;color:var(--fg);font-size:14px;margin-bottom:10px; }
 .python-lab-sidebar-group { margin-top:14px; }
-.python-lab-sidebar-group-label { color:var(--muted);font-size:11px;font-weight:850;letter-spacing:.055em;text-transform:uppercase;margin-bottom:7px; }
+.python-lab-sidebar-group-label { color:var(--muted);font-size: 12px;font-weight:850;letter-spacing:.055em;text-transform:uppercase;margin-bottom:7px; }
 .python-lab-sidebar button { display:flex;gap:8px;justify-content:space-between;align-items:center;text-align:left;width:100%;font-size:12px;color:var(--fg);padding:8px 9px;border:0;background:transparent;border-radius:8px;cursor:pointer; }
 .python-lab-sidebar button:hover { background:var(--sidebar); }
-.python-lab-sidebar button.active { color:#1d4ed8;background:color-mix(in srgb,#2563eb 10%,var(--surface));font-weight:800; }
-.dark .python-lab-sidebar button.active { color:#93c5fd; }
-.python-lab-sidebar .python-lab-sidebar-num { color:var(--muted);font-family:ui-monospace,monospace;font-size:11px; }
+.python-lab-sidebar button.active { color:#244A37;background:color-mix(in srgb,#2F5D46 10%,var(--surface));font-weight:800; }
+.dark .python-lab-sidebar button.active { color:#A9C8B4; }
+.python-lab-sidebar .python-lab-sidebar-num { color:var(--muted);font-family:ui-monospace,monospace;font-size: 12px; }
 .python-lab-workspace { min-width:0; }
 .python-lab-workspace > .python-lab { margin-top:12px; }
 .python-lab-workspace-heading { color:var(--fg);font-weight:850;font-size:20px; }
@@ -1663,3 +1720,114 @@ h3.study-h {
   .python-lab-line-numbers { min-width:35px;padding:13px 6px; }
   .python-lab-editor textarea { padding:13px 9px; font-size:12px; }
 }
+
+
+/* ==========================================================================
+   FOCUS MODE (global): hides application chrome so only the lesson remains.
+   Toggled by adding/removing the `focus-mode` class on <html>. Shell removes it on navigation.
+   ========================================================================== */
+.focus-mode .manu-shell > aside,
+.focus-mode .manu-shell > main > header,
+.focus-mode .manu-shell > [role="presentation"] {
+  display: none !important;
+}
+.focus-mode .manu-shell > main {
+  margin-left: 0 !important;
+}
+.focus-mode .study-chrome {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus indicator: 2px accent ring, >= 3:1 against all cream surfaces (docs/ux/contrast-check.mjs). */
+:is(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+
+/* ==========================================================================
+   READING VIEW (Study Now lesson notes and other long-form content)
+   Single column, <= ~68ch, 18px body, 1.7 line height, paragraph spacing >= 1em.
+   ========================================================================== */
+.reading {
+  font-size: var(--reading-size);
+  line-height: var(--reading-leading);
+  color: var(--fg);
+  max-width: var(--reading-measure);
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+.reading > * + * { margin-top: 1.1em; }
+.reading h1, .reading h2, .reading h3, .reading h4 { font-weight: 700; line-height: 1.3; color: var(--fg); }
+.reading h1 { font-size: 1.6em; margin-top: 1.6em; }
+.reading h2 { font-size: 1.35em; margin-top: 1.7em; padding-top: 0.2em; }
+.reading h3 { font-size: 1.15em; margin-top: 1.4em; }
+.reading h1:first-child, .reading h2:first-child, .reading h3:first-child { margin-top: 0; }
+.reading ul, .reading ol { padding-left: 1.5em; }
+.reading ul { list-style: disc; }
+.reading ol { list-style: decimal; }
+.reading li + li { margin-top: 0.35em; }
+.reading li > ul, .reading li > ol { margin-top: 0.35em; }
+.reading a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.reading strong { font-weight: 700; }
+.reading blockquote { border-left: 3px solid var(--accent-border); padding: 0.1em 0 0.1em 1em; color: var(--muted); }
+.reading hr { border: 0; border-top: 1px solid var(--line); margin: 2em 0; }
+.reading :not(pre) > code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.88em;
+  background: var(--accent-subtle);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.1em 0.4em;
+}
+.reading .code-block { position: relative; }
+.reading pre {
+  margin: 0;
+  overflow-x: auto;
+  background: var(--code-bg);
+  color: var(--code-fg);
+  border: 1px solid var(--code-line);
+  border-radius: 10px;
+  padding: 1em 1.1em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.86em;
+  line-height: 1.6;
+  tab-size: 4;
+  white-space: pre;
+  text-align: left;
+}
+.reading pre code { background: none; border: 0; padding: 0; font-size: inherit; }
+.reading .code-copy {
+  position: absolute; top: 8px; right: 8px; min-height: 32px; padding: 4px 10px;
+  border-radius: 8px; border: 1px solid var(--code-line); background: var(--code-bg); color: var(--code-fg);
+  font-size: 13px; font-weight: 600; opacity: 0.9;
+}
+.reading .code-copy:hover { opacity: 1; border-color: var(--code-fg); }
+.reading .table-wrap { overflow-x: auto; }
+.reading table { border-collapse: collapse; width: 100%; font-size: 0.92em; }
+.reading th, .reading td { border: 1px solid var(--line-strong); padding: 0.5em 0.7em; text-align: left; vertical-align: top; }
+.reading th { background: var(--sidebar); font-weight: 700; }
+@media (max-width: 640px) {
+  .reading { --reading-size: 1.0625rem; --reading-leading: 1.65; }
+}
+
+
+/* Dark theme: fixed light-theme text shades (500-700) would be too dark on charcoal; use the light tints instead.
+   Explicit `dark:text-*-300` classes resolve to the same values, so there is no conflict. Text utilities only. */
+.dark :is(.text-sky-500,.text-sky-600,.text-sky-700,.text-blue-500,.text-blue-600,.text-blue-700,.text-indigo-500,.text-indigo-600,.text-indigo-700,
+  .text-violet-500,.text-violet-600,.text-violet-700,.text-purple-500,.text-purple-600,.text-purple-700,.text-fuchsia-500,.text-fuchsia-600,.text-fuchsia-700,
+  .text-cyan-500,.text-cyan-600,.text-cyan-700,.text-teal-500,.text-teal-600,.text-teal-700) { color: #A9C8B4; }
+.dark :is(.text-emerald-500,.text-emerald-600,.text-emerald-700,.text-green-500,.text-green-600,.text-green-700) { color: #98BE98; }
+.dark :is(.text-amber-500,.text-amber-600,.text-amber-700,.text-orange-500,.text-orange-600,.text-orange-700,.text-yellow-600,.text-yellow-700) { color: #DDB56A; }
+.dark :is(.text-red-500,.text-red-600,.text-red-700,.text-rose-500,.text-rose-600,.text-rose-700,.text-pink-500,.text-pink-600,.text-pink-700) { color: #DE9588; }
+.dark :is(.text-slate-500,.text-slate-600,.text-gray-500,.text-gray-600,.text-zinc-500,.text-zinc-600,.text-neutral-500,.text-neutral-600,.text-stone-500,.text-stone-600) { color: #BBC3BF; }
+.dark :is(.text-slate-700,.text-slate-800,.text-slate-900,.text-gray-700,.text-gray-800,.text-gray-900,.text-zinc-700,.text-zinc-800,.text-zinc-900) { color: #ECE9E1; }

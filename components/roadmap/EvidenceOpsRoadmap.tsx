@@ -43,9 +43,9 @@ export default function EvidenceOpsRoadmap({ track, completed, saving, status, m
       actions={<Link href="/roadmap" className="inline-flex items-center gap-2 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-2 text-xs font-bold text-[var(--fg)]"><ArrowLeft size={15}/> All roadmaps</Link>}
     >
       <div className="space-y-5">
-        <section className="rounded-3xl bg-gradient-to-br from-indigo-700 via-violet-700 to-slate-900 p-6 text-white md:p-8">
+        <section className="rounded-3xl bg-sky-700    p-6 text-white md:p-8">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80"><GraduationCap size={17}/> Beginner to interview · concept first</div>
-          <h2 className="mt-3 text-2xl font-black md:text-3xl">One topic. One example. One practice task.</h2>
+          <h2 className="mt-3 text-2xl font-bold md:text-3xl">One topic. One example. One practice task.</h2>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-white/85">
             Study from Python fundamentals and LLM meaning to document retrieval, embeddings, verified RAG, APIs, MCP agents and evaluation.
             Each topic explains what, how, an example, a mistake, a practical task and an interview check. Project files come after the concept.
@@ -63,14 +63,14 @@ export default function EvidenceOpsRoadmap({ track, completed, saving, status, m
 
         <div className="grid items-start gap-4 lg:grid-cols-[300px_minmax(0,1fr)]">
           <nav aria-label="Project 2 learning stages" className="space-y-2 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-3">
-            <p className="px-2 py-2 text-xs font-black uppercase tracking-wider text-[var(--muted)]">Learn in this order</p>
+            <p className="px-2 py-2 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Learn in this order</p>
             {stages.map((s,i)=>{
               const d=s.topics.filter(t=>done.has(t.legacySlug)).length;
               const isOpen=expanded===s.id;
               return <div key={s.id} className={'overflow-hidden rounded-xl border '+(stage.id===s.id?'border-violet-500/40 bg-violet-500/5':'border-[var(--line)]')}>
                 <button type="button" aria-expanded={isOpen} onClick={()=>setOpen(isOpen?'-':s.id)} className="flex w-full items-start gap-2 p-3 text-left">
-                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-violet-500/10 text-xs font-black text-violet-700 dark:text-violet-300">{String(i+1).padStart(2,'0')}</span>
-                  <span className="min-w-0 flex-1"><span className="block text-xs font-bold leading-5 text-[var(--fg)]">{s.title}</span><span className="mt-1 block text-[10px] text-[var(--muted)]">{d}/{s.topics.length} complete</span></span>
+                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-violet-500/10 text-xs font-bold text-violet-700 dark:text-violet-300">{String(i+1).padStart(2,'0')}</span>
+                  <span className="min-w-0 flex-1"><span className="block text-xs font-bold leading-5 text-[var(--fg)]">{s.title}</span><span className="mt-1 block text-xs text-[var(--muted)]">{d}/{s.topics.length} complete</span></span>
                   <ChevronDown size={16} className={'mt-1 shrink-0 text-[var(--muted)] '+(isOpen?'rotate-180':'')}/>
                 </button>
                 {isOpen && <div className="space-y-1 border-t border-[var(--line)] p-2">
@@ -89,38 +89,38 @@ export default function EvidenceOpsRoadmap({ track, completed, saving, status, m
               <span className="rounded-lg bg-violet-500/10 px-3 py-1.5 text-xs font-bold text-violet-700 dark:text-violet-300">Topic {String(selected.number).padStart(3,'0')} / {topics.length}</span>
               {done.has(selected.legacySlug)&&<span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600"><CheckCircle2 size={15}/> Complete</span>}
             </div>
-            <h2 className="text-xl font-black leading-tight text-[var(--fg)] md:text-2xl">{selected.title}</h2>
+            <h2 className="text-xl font-bold leading-tight text-[var(--fg)] md:text-2xl">{selected.title}</h2>
             <p className="text-xs leading-6 text-[var(--muted)]">Stage goal: {stage.aim}</p>
             <section className="rounded-xl bg-violet-500/5 p-4">
-              <h3 className="flex items-center gap-2 text-sm font-black text-[var(--fg)]"><BookOpen size={16} className="text-violet-600"/> 1. Understand — what is it and why?</h3>
+              <h3 className="flex items-center gap-2 text-sm font-bold text-[var(--fg)]"><BookOpen size={16} className="text-violet-600"/> 1. Understand — what is it and why?</h3>
               <p className="mt-2 text-sm leading-7 text-[var(--fg)]">{selected.what}</p>
             </section>
             <section className="rounded-xl border border-[var(--line)] p-4">
-              <h3 className="text-sm font-black text-[var(--fg)]">2. Mechanism — input → processing → output</h3>
+              <h3 className="text-sm font-bold text-[var(--fg)]">2. Mechanism — input → processing → output</h3>
               <p className="mt-2 text-sm leading-7 text-[var(--fg)]">{selected.how}</p>
             </section>
             <section className="rounded-xl border border-[var(--line)] p-4">
-              <h3 className="flex items-center gap-2 text-sm font-black text-[var(--fg)]"><Code2 size={16} className="text-sky-600"/> 3. Worked EvidenceOps example</h3>
+              <h3 className="flex items-center gap-2 text-sm font-bold text-[var(--fg)]"><Code2 size={16} className="text-sky-600"/> 3. Worked EvidenceOps example</h3>
               <pre className="mt-3 whitespace-pre-wrap break-words rounded-lg bg-[var(--bg)] p-4 font-mono text-xs leading-6 text-[var(--fg)]">{selected.example}</pre>
             </section>
             <section className="rounded-xl bg-amber-500/5 p-4">
-              <h3 className="flex items-center gap-2 text-sm font-black text-[var(--fg)]"><ShieldAlert size={16} className="text-amber-600"/> 4. Common mistake</h3>
+              <h3 className="flex items-center gap-2 text-sm font-bold text-[var(--fg)]"><ShieldAlert size={16} className="text-amber-600"/> 4. Common mistake</h3>
               <p className="mt-2 text-sm leading-7 text-[var(--fg)]">{selected.trap}</p>
             </section>
             <section className="rounded-xl bg-emerald-500/5 p-4">
-              <h3 className="flex items-center gap-2 text-sm font-black text-[var(--fg)]"><Target size={16} className="text-emerald-600"/> 5. Your exercise — no AI-generated code</h3>
+              <h3 className="flex items-center gap-2 text-sm font-bold text-[var(--fg)]"><Target size={16} className="text-emerald-600"/> 5. Your exercise — no AI-generated code</h3>
               <p className="mt-2 text-sm leading-7 text-[var(--fg)]">{selected.doIt}</p>
               {['python','data','lexical','semantic','backend','quality'].includes(stage.id)&&<Link href="/python-lab" className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-300">Open ManuOS Python Lab <ArrowRight size={13}/></Link>}
             </section>
             <section className="rounded-xl border border-violet-500/20 p-4">
-              <h3 className="text-sm font-black text-[var(--fg)]">Interview check — answer without notes</h3>
+              <h3 className="text-sm font-bold text-[var(--fg)]">Interview check — answer without notes</h3>
               <p className="mt-2 text-sm leading-7 text-[var(--fg)]">{selected.check}</p>
             </section>
             <section className="rounded-xl border border-[var(--line)] p-4">
-              <h3 className="text-sm font-black text-[var(--fg)]">Stage completion check</h3>
+              <h3 className="text-sm font-bold text-[var(--fg)]">Stage completion check</h3>
               <p className="mt-2 text-xs leading-6 text-[var(--muted)]">{stage.gate}</p>
-              <p className="mt-3 text-[11px] font-bold text-[var(--muted)]">Read actual code only after the concepts:</p>
-              <div className="mt-1 flex flex-wrap gap-1">{stage.files.map(file=><span key={file} className="rounded-md bg-sky-500/10 px-2 py-1 font-mono text-[10px] text-sky-700 dark:text-sky-300">{file}</span>)}</div>
+              <p className="mt-3 text-xs font-bold text-[var(--muted)]">Read actual code only after the concepts:</p>
+              <div className="mt-1 flex flex-wrap gap-1">{stage.files.map(file=><span key={file} className="rounded-md bg-sky-500/10 px-2 py-1 font-mono text-xs text-sky-700 dark:text-sky-300">{file}</span>)}</div>
               <a href={stage.resource.url} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-violet-700 dark:text-violet-300">Optional source: {stage.resource.label} <ExternalLink size={12}/></a>
             </section>
             <div className="flex flex-wrap items-center justify-between gap-2 border-t border-[var(--line)] pt-4">

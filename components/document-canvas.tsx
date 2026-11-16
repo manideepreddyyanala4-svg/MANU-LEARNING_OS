@@ -568,7 +568,7 @@ export function DocumentCanvas({
               />
             </label>
           )}
-          <span className="mt-3 text-[11px] text-[var(--muted)]">
+          <span className="mt-3 text-xs text-[var(--muted)]">
             Or paste rich ChatGPT text · type <kbd className="font-mono bg-[var(--line-subtle)] px-1 rounded">/</kbd> for blocks
           </span>
         </div>
@@ -759,7 +759,7 @@ export function StudyDocument({
               <button
                 type="button"
                 onClick={onStartEdit}
-                className="mt-4 inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[var(--accent-hover)]"
+                className="mt-4 inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-sm transition hover:bg-[var(--accent-hover)]"
               >
                 <Pencil size={14} /> Start Writing / Add Note
               </button>
@@ -1134,7 +1134,7 @@ function StudyLightbox({
         <span className="truncate max-w-lg">
           {current.caption || current.name || 'Original high-resolution study note'}
         </span>
-        <span className="hidden sm:inline font-mono text-[11px] text-white/40">
+        <span className="hidden sm:inline font-mono text-xs text-white/40">
           Double-click to zoom · Drag to pan · Scroll wheel to zoom · Esc to exit
         </span>
       </div>

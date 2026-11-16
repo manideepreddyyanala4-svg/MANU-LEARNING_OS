@@ -224,7 +224,7 @@ export function FinanceAnalytics(){
  return <section id="finance-analytics" className="mt-8 scroll-mt-20 space-y-5" aria-label="Finance analytics">
    <div className="flex flex-wrap items-start justify-between gap-3">
      <div>
-       <h2 className="text-xl font-extrabold text-[var(--fg)]">
+       <h2 className="text-xl font-bold text-[var(--fg)]">
          <BarChart3 size={21} className="mr-2 inline"/> Spending analytics</h2>
        <p className="mt-1 text-sm text-[var(--muted)]">
          What you actually paid, where it went, and how grocery costs spread across days.
@@ -294,8 +294,8 @@ export function FinanceAnalytics(){
      <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
        {metrics.map(([name,value,info])=><div key={name} className="min-w-0 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-3">
          <p className="text-xs font-semibold text-[var(--muted)]">{name}</p>
-         <p className="mt-2 break-words text-base font-extrabold text-[var(--fg)] sm:text-lg">{value}</p>
-         <p className="mt-1 text-[11px] leading-relaxed text-[var(--muted)]">{info}</p>
+         <p className="mt-2 break-words text-base font-bold text-[var(--fg)] sm:text-lg">{value}</p>
+         <p className="mt-1 text-xs leading-relaxed text-[var(--muted)]">{info}</p>
        </div>)}
      </div>
      <Card>
@@ -408,7 +408,7 @@ export function FinanceAnalytics(){
                  {m.coverage!=='unknown'&&<div className="h-full rounded-full bg-[var(--accent)]"
                    style={{width:percentBar(m.expenseMinor,maxMonth)+'%'}}/>}
                </div>
-               <p className="mt-1 text-[11px] text-[var(--muted)]">{monthStatus(m,today)}</p>
+               <p className="mt-1 text-xs text-[var(--muted)]">{monthStatus(m,today)}</p>
              </div>
              <p className="col-span-2 text-xs text-[var(--fg)] sm:col-span-1 sm:text-right">
                {m.coverage==='unknown'?'Unknown':num(m.expenseMinor)}
@@ -453,7 +453,7 @@ export function FinanceAnalytics(){
                <div className="w-full rounded-t bg-[var(--accent)]"
                  style={{height:percentBar(amount,maxDay)+'%'}}/>
              </div>
-             <p className="mt-1 text-center text-[10px] font-semibold text-[var(--fg)]">{Number(d.date.slice(8))}</p>
+             <p className="mt-1 text-center text-xs font-semibold text-[var(--fg)]">{Number(d.date.slice(8))}</p>
            </div>;
          })}
        </div>

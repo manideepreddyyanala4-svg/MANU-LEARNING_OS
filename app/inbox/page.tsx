@@ -280,7 +280,7 @@ export default function InboxPage() {
                 key={t.id}
                 type="button"
                 onClick={() => setType(t.id)}
-                className={`rounded-lg px-2.5 py-1 text-[11px] font-semibold transition ${
+                className={`rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
                   isSelected
                     ? `${t.color} font-bold ring-2 ring-[var(--accent)]/30`
                     : 'border border-[var(--line)] bg-[var(--bg)] text-[var(--muted)] hover:text-[var(--fg)]'
@@ -313,14 +313,14 @@ export default function InboxPage() {
             onClick={() => void save()}
             disabled={!value.trim()}
             aria-label={editingId ? 'Save edit' : 'Add capture'}
-            className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-semibold text-white shadow-xs transition hover:bg-[var(--accent-hover)] disabled:opacity-40"
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[var(--accent)] px-6 py-3 text-xs font-semibold text-[var(--on-accent)] shadow-xs transition hover:bg-[var(--accent-hover)] disabled:opacity-40"
           >
             {editingId ? <Check size={16} /> : <Plus size={16} />}
             <span>{editingId ? 'Save Changes' : 'Capture'}</span>
           </button>
         </div>
 
-        <p className="mt-2 text-[11px] text-[var(--muted)]">
+        <p className="mt-2 text-xs text-[var(--muted)]">
           Tip: Captured items can be transformed into full study notes or tagged for technical interview preparation.
         </p>
       </section>
@@ -336,12 +336,12 @@ export default function InboxPage() {
                 onClick={() => setFilter(tab)}
                 className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold capitalize transition ${
                   filter === tab
-                    ? 'bg-[var(--accent)] text-white shadow-2xs'
+                    ? 'bg-[var(--accent)] text-[var(--on-accent)] shadow-2xs'
                     : 'text-[var(--muted)] hover:text-[var(--fg)] hover:bg-[var(--surface)]'
                 }`}
               >
                 <span>{tab}</span>
-                <span className={`ml-1.5 rounded-full px-1.5 py-0.2 text-[10px] ${
+                <span className={`ml-1.5 rounded-full px-1.5 py-0.2 text-xs ${
                   filter === tab ? 'bg-white/20 text-white' : 'bg-[var(--line-subtle)] text-[var(--muted)]'
                 }`}>
                   {tab === 'active' ? activeCount : tab === 'archived' ? archivedCount : items.length}
@@ -367,10 +367,10 @@ export default function InboxPage() {
 
         {/* Type tag filter pills */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
-          <span className="text-[11px] font-semibold text-[var(--muted)] mr-1">Filter:</span>
+          <span className="text-xs font-semibold text-[var(--muted)] mr-1">Filter:</span>
           <button
             onClick={() => setTypeFilter('all')}
-            className={`rounded-lg px-2.5 py-1 text-[11px] font-semibold transition ${
+            className={`rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
               typeFilter === 'all'
                 ? 'bg-[var(--fg)] text-[var(--bg)] shadow-2xs'
                 : 'border border-[var(--line)] bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--fg)]'
@@ -382,9 +382,9 @@ export default function InboxPage() {
             <button
               key={t.id}
               onClick={() => setTypeFilter(t.id)}
-              className={`rounded-lg px-2.5 py-1 text-[11px] font-semibold transition ${
+              className={`rounded-lg px-2.5 py-1 text-xs font-semibold transition ${
                 typeFilter === t.id
-                  ? 'bg-[var(--accent)] text-white shadow-2xs'
+                  ? 'bg-[var(--accent)] text-[var(--on-accent)] shadow-2xs'
                   : 'border border-[var(--line)] bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--fg)]'
               }`}
             >
@@ -407,11 +407,11 @@ export default function InboxPage() {
             >
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${typeConfig.color}`}>
+                  <span className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs font-bold uppercase tracking-wider ${typeConfig.color}`}>
                     <Tag size={10} />
                     <span>{typeConfig.label}</span>
                   </span>
-                  <span className="text-[11px] text-[var(--muted)]">
+                  <span className="text-xs text-[var(--muted)]">
                     {new Date(item.created_at).toLocaleDateString(undefined, {
                       month: 'short',
                       day: 'numeric',
@@ -419,7 +419,7 @@ export default function InboxPage() {
                     })}
                   </span>
                   {item.archived_at && (
-                    <span className="rounded-md bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-bold text-amber-600 dark:text-amber-400">
+                    <span className="rounded-md bg-amber-500/10 px-1.5 py-0.5 text-xs font-bold text-amber-600 dark:text-amber-400">
                       Archived
                     </span>
                   )}

@@ -105,7 +105,7 @@ function Counter({ label, value, target, busy, onChange }: {
     <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3">
       <p className="text-xs font-semibold text-[var(--muted)]">{label}</p>
       <div className="mt-2 flex items-center justify-between gap-2">
-        <span className="text-lg font-black tabular-nums text-[var(--fg)]">
+        <span className="text-lg font-bold tabular-nums text-[var(--fg)]">
           {value}
           {target !== undefined && <span className="ml-1 text-xs font-medium text-[var(--muted)]">/ {target}</span>}
         </span>
@@ -256,8 +256,8 @@ export default function TodayLearningPage() {
         <section className="relative overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)] px-5 py-5 shadow-2xs sm:px-7 sm:py-6">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-xs font-black uppercase tracking-[0.14em] text-[var(--accent)]">Your focus today</p>
-              <h2 className="mt-2 text-xl font-extrabold tracking-tight text-[var(--fg)] sm:text-2xl">
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--accent)]">Your focus today</p>
+              <h2 className="mt-2 text-xl font-bold tracking-tight text-[var(--fg)] sm:text-2xl">
                 {date ? longDay(date) : 'Loading Taiwan date'}
               </h2>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--muted)]">
@@ -266,22 +266,22 @@ export default function TodayLearningPage() {
             </div>
             <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] px-4 py-3 text-right">
               <p className="text-xs font-semibold text-[var(--muted)]">Taiwan time</p>
-              <p className="mt-1 font-mono text-xl font-black tabular-nums text-[var(--fg)]">{clock || '—:—'}</p>
+              <p className="mt-1 font-mono text-xl font-bold tabular-nums text-[var(--fg)]">{clock || '—:—'}</p>
             </div>
           </div>
           {day && (
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
               <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3">
                 <p className="text-xs font-semibold text-[var(--muted)]">Study topics passed</p>
-                <p className="mt-1 text-xl font-black text-[var(--fg)]">{passed} / {tasks.length}</p>
+                <p className="mt-1 text-xl font-bold text-[var(--fg)]">{passed} / {tasks.length}</p>
               </div>
               <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3">
                 <p className="text-xs font-semibold text-[var(--muted)]">Study budget</p>
-                <p className="mt-1 text-xl font-black text-[var(--fg)]">{studyMinutes} min</p>
+                <p className="mt-1 text-xl font-bold text-[var(--fg)]">{studyMinutes} min</p>
               </div>
               <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3">
                 <p className="text-xs font-semibold text-[var(--muted)]">Study and routine completed</p>
-                <p className="mt-1 text-xl font-black text-[var(--fg)]">{completeCount} / {tasks.length + 4}</p>
+                <p className="mt-1 text-xl font-bold text-[var(--fg)]">{completeCount} / {tasks.length + 4}</p>
               </div>
             </div>
           )}
@@ -297,7 +297,7 @@ export default function TodayLearningPage() {
           </div>
         ) : !day ? (
           <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-6">
-            <h3 className="text-lg font-extrabold text-[var(--fg)]">No daily plan found for this date</h3>
+            <h3 className="text-lg font-bold text-[var(--fg)]">No daily plan found for this date</h3>
             <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
               This page deliberately never substitutes yesterday's or tomorrow's tasks. Plans currently cover
               October 31 through December 31, 2026. If today's date is within that period, make sure
@@ -312,7 +312,7 @@ export default function TodayLearningPage() {
             <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.83fr)]">
               <section className="min-w-0 overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)]">
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--line)] p-4 sm:p-5">
-                  <h3 className="flex items-center gap-2 text-base font-extrabold text-[var(--fg)]"><Clock3 size={19} className="text-[var(--accent)]"/> Your schedule</h3>
+                  <h3 className="flex items-center gap-2 text-base font-bold text-[var(--fg)]"><Clock3 size={19} className="text-[var(--accent)]"/> Your schedule</h3>
                   <span className="text-xs font-semibold text-[var(--muted)]">Today only · Asia/Taipei</span>
                 </div>
                 <div className="space-y-0 px-4 py-2 sm:px-5">
@@ -331,7 +331,7 @@ export default function TodayLearningPage() {
                           <p className={'flex-1 text-sm leading-6 ' + (finished ? 'text-[var(--muted)]' : 'text-[var(--fg)]')}>
                             {block.title}
                           </p>
-                          {active && <span className="rounded-full bg-[var(--accent)] px-2 py-1 text-[10px] font-extrabold text-white">Now</span>}
+                          {active && <span className="rounded-full bg-[var(--accent)] px-2 py-1 text-xs font-bold text-[var(--on-accent)]">Now</span>}
                         </div>
                       </div>
                     );
@@ -343,7 +343,7 @@ export default function TodayLearningPage() {
               <section className="min-w-0 overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)]">
                 <div className="border-b border-[var(--line)] p-4 sm:p-5">
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <h3 className="flex items-center gap-2 text-base font-extrabold text-[var(--fg)]"><BookOpenCheck size={19} className="text-[var(--accent)]"/> Exactly what to learn</h3>
+                    <h3 className="flex items-center gap-2 text-base font-bold text-[var(--fg)]"><BookOpenCheck size={19} className="text-[var(--accent)]"/> Exactly what to learn</h3>
                     <span className="text-xs font-bold text-[var(--accent)]">{passed} / {tasks.length} passed</span>
                   </div>
                   <div className="mt-3"><Meter value={passed} total={tasks.length} /></div>
@@ -369,19 +369,19 @@ export default function TodayLearningPage() {
                             {lesson && (
                               <div className="mt-3 space-y-3 rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3">
                                 <div>
-                                  <p className="text-[10px] font-black uppercase tracking-wider text-[var(--accent)]">1. Read this — actual explanation</p>
+                                  <p className="text-xs font-bold uppercase tracking-wider text-[var(--accent)]">1. Read this — actual explanation</p>
                                   <p className="mt-1.5 whitespace-pre-line text-sm leading-6 text-[var(--fg)]">{lesson.read}</p>
                                 </div>
                                 <div className="border-t border-[var(--line)] pt-3">
-                                  <p className="text-[10px] font-black uppercase tracking-wider text-[var(--accent)]">2. Worked example</p>
+                                  <p className="text-xs font-bold uppercase tracking-wider text-[var(--accent)]">2. Worked example</p>
                                   <p className="mt-1.5 whitespace-pre-line font-mono text-xs leading-6 text-[var(--fg)]">{lesson.worked}</p>
                                 </div>
                                 <div className="border-t border-[var(--line)] pt-3">
-                                  <p className="text-[10px] font-black uppercase tracking-wider text-[var(--accent)]">3. Practice independently</p>
+                                  <p className="text-xs font-bold uppercase tracking-wider text-[var(--accent)]">3. Practice independently</p>
                                   <p className="mt-1.5 text-sm leading-6 text-[var(--fg)]">{lesson.practice}</p>
                                 </div>
                                 <div className="border-t border-[var(--line)] pt-3">
-                                  <p className="text-[10px] font-black uppercase tracking-wider text-[var(--accent)]">4. Interview self-test</p>
+                                  <p className="text-xs font-bold uppercase tracking-wider text-[var(--accent)]">4. Interview self-test</p>
                                   <p className="mt-1.5 text-sm font-semibold leading-6 text-[var(--fg)]">{lesson.question}</p>
                                   <button type="button" aria-expanded={Boolean(revealed[answerKey])}
                                     onClick={() => setRevealed((current) => ({ ...current, [answerKey]: !current[answerKey] }))}
@@ -431,7 +431,7 @@ export default function TodayLearningPage() {
 
             <div className="grid gap-5 xl:grid-cols-2">
               <section className="min-w-0 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 sm:p-5">
-                <h3 className="flex items-center gap-2 text-base font-extrabold text-[var(--fg)]"><Target size={19} className="text-[var(--accent)]"/> Internship actions</h3>
+                <h3 className="flex items-center gap-2 text-base font-bold text-[var(--fg)]"><Target size={19} className="text-[var(--accent)]"/> Internship actions</h3>
                 <p className="mt-2 text-xs leading-5 text-[var(--muted)]">Only count actual applications, direct outreach and booked interviews.</p>
                 <div className="mt-4 grid gap-3 sm:grid-cols-3">
                   <Counter label="Applications" value={day.applications_done} target={day.applications_target}
@@ -447,7 +447,7 @@ export default function TodayLearningPage() {
               </section>
 
               <section className="min-w-0 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 sm:p-5">
-                <h3 className="flex items-center gap-2 text-base font-extrabold text-[var(--fg)]"><Coffee size={19} className="text-[var(--accent)]"/> Everyday foundation</h3>
+                <h3 className="flex items-center gap-2 text-base font-bold text-[var(--fg)]"><Coffee size={19} className="text-[var(--accent)]"/> Everyday foundation</h3>
                 <p className="mt-2 text-xs leading-5 text-[var(--muted)]">Exercise, food, Gita and sleep are part of your daily plan, not additional study subjects.</p>
                 <div className="mt-4 grid gap-2 sm:grid-cols-2">
                   {habitData.map(({ field, title, icon: Icon }) => (
@@ -466,7 +466,7 @@ export default function TodayLearningPage() {
 
             {(day.conference_focus.trim() || day.admin_focus.trim()) && (
               <section className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 sm:p-5">
-                <h3 className="flex items-center gap-2 text-base font-extrabold text-[var(--fg)]"><ShieldCheck size={19} className="text-[var(--accent)]"/> Research and administration</h3>
+                <h3 className="flex items-center gap-2 text-base font-bold text-[var(--fg)]"><ShieldCheck size={19} className="text-[var(--accent)]"/> Research and administration</h3>
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
                   {day.conference_focus.trim() && (
                     <button type="button" disabled={busy} onClick={() => void save({ conference_done: !day.conference_done })}
@@ -488,9 +488,9 @@ export default function TodayLearningPage() {
 
             <section className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 sm:p-5">
               <div className="flex items-center justify-between gap-3">
-                <h3 className="text-base font-extrabold text-[var(--fg)]">Today's notes and evidence</h3>
+                <h3 className="text-base font-bold text-[var(--fg)]">Today's notes and evidence</h3>
                 <button type="button" disabled={busy || notes === day.notes} onClick={() => void save({ notes })}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-3 py-2 text-xs font-bold text-white disabled:opacity-40">
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-3 py-2 text-xs font-bold text-[var(--on-accent)] disabled:opacity-40">
                   <Save size={14}/> Save
                 </button>
               </div>

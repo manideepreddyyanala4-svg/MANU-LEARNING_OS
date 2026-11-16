@@ -66,15 +66,15 @@ export function AseDay1InterviewPrep() {
   return (
     <section className="space-y-5">
       <div className="rounded-2xl border border-[var(--accent-border)] bg-[var(--accent-subtle)]/50 p-5">
-        <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--accent)]">ASE Interview · Day 1</div>
-        <h3 className="mt-2 text-xl font-extrabold text-[var(--fg)]">Project Foundations + ASE Basics</h3>
+        <div className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--accent)]">ASE Interview · Day 1</div>
+        <h3 className="mt-2 text-xl font-bold text-[var(--fg)]">Project Foundations + ASE Basics</h3>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--muted)]">
           Study only what you need for the interview. For each question: understand the idea, look at one simple example, learn the short interview answer, then stop at the boundary shown.
         </p>
       </div>
 
       <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
-        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--muted)]">Two mental pictures to know today</p>
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--muted)]">Two mental pictures to know today</p>
         <p className="mt-3 text-sm font-semibold leading-7 text-[var(--fg)]">Project: RGB image → landmarks / ROI → preprocessing → 224×224 → network → embedding → cosine similarity → threshold → same / different</p>
         <p className="mt-2 text-sm font-semibold leading-7 text-[var(--fg)]">ASE flow: Design → wafer fabrication → wafer probe → packaging → final test → customer</p>
       </div>
@@ -82,47 +82,47 @@ export function AseDay1InterviewPrep() {
       {sections.map((section) => (
         <div key={section.title} className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] shadow-2xs">
           <div className="flex items-center justify-between gap-3 border-b border-[var(--line)] px-5 py-4">
-            <h4 className="font-extrabold text-[var(--fg)]">{section.title}</h4>
-            <span className="rounded-full bg-black/5 px-2.5 py-1 text-[10px] font-bold text-[var(--muted)] dark:bg-white/5">{section.range}</span>
+            <h4 className="font-bold text-[var(--fg)]">{section.title}</h4>
+            <span className="rounded-full bg-black/5 px-2.5 py-1 text-xs font-bold text-[var(--muted)] dark:bg-white/5">{section.range}</span>
           </div>
 
           <div className="divide-y divide-[var(--line-subtle)]">
             {section.questions.map((item) => (
               <details key={item.number} className="group px-5 py-4">
                 <summary className="flex cursor-pointer list-none items-start gap-3">
-                  <span className="mt-0.5 grid h-7 min-w-7 place-items-center rounded-lg bg-[var(--accent-subtle)] text-[11px] font-extrabold text-[var(--accent)]">{item.number}</span>
+                  <span className="mt-0.5 grid h-7 min-w-7 place-items-center rounded-lg bg-[var(--accent-subtle)] text-xs font-bold text-[var(--accent)]">{item.number}</span>
                   <span className="flex-1 text-sm font-bold leading-6 text-[var(--fg)]">{item.question}</span>
                   <span className="mt-1 text-xs text-[var(--muted)] transition group-open:rotate-180">⌄</span>
                 </summary>
 
                 <div className="ml-10 mt-4 space-y-3">
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--accent)]">Understand</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--accent)]">Understand</p>
                     <p className="mt-1 text-sm leading-6 text-[var(--fg)]">{item.understand}</p>
                   </div>
 
                   {item.example && (
                     <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--muted)]">Simple example / mental picture</p>
+                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--muted)]">Simple example / mental picture</p>
                       <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{item.example}</p>
                     </div>
                   )}
 
                   {item.connection && (
                     <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-3">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-blue-600 dark:text-blue-400">Why it matters for you</p>
+                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-blue-600 dark:text-blue-400">Why it matters for you</p>
                       <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{item.connection}</p>
                     </div>
                   )}
 
                   <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-600 dark:text-emerald-400">Say this in the interview</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-emerald-600 dark:text-emerald-400">Say this in the interview</p>
                     <p className="mt-1 text-sm font-medium leading-6 text-[var(--fg)]">{item.interview}</p>
                   </div>
 
                   {item.stop && (
                     <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-3">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-amber-600 dark:text-amber-400">Stop here</p>
+                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-600 dark:text-amber-400">Stop here</p>
                       <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{item.stop}</p>
                     </div>
                   )}
@@ -134,7 +134,7 @@ export function AseDay1InterviewPrep() {
       ))}
 
       <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-5">
-        <h4 className="font-extrabold text-[var(--fg)]">Day 1 pass gate</h4>
+        <h4 className="font-bold text-[var(--fg)]">Day 1 pass gate</h4>
         <div className="mt-3 space-y-2 text-sm leading-6 text-[var(--muted)]">
           <p>□ Draw the complete project pipeline without notes.</p>
           <p>□ Explain verification vs classification.</p>

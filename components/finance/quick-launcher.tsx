@@ -5,7 +5,7 @@ import { Plus } from 'lucide-react';
 export function FinanceQuickLauncher(){
   return <button type="button"
     onClick={()=>window.dispatchEvent(new Event('manuos:finance-open-expense'))}
-    className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[var(--accent)] px-4 text-sm font-bold text-white hover:opacity-90">
+    className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[var(--accent)] px-4 text-sm font-bold text-[var(--on-accent)] hover:opacity-90">
     <Plus size={16}/> Add Expense
   </button>;
 }

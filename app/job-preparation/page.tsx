@@ -472,7 +472,7 @@ export default function JobPreparation() {
                 setAppStatus('saved');
                 setAppModalOpen(true);
               }}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-[var(--accent-hover)]"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-xs transition hover:bg-[var(--accent-hover)]"
             >
               <Plus size={14} /> Track Application
             </button>
@@ -484,13 +484,13 @@ export default function JobPreparation() {
                 setCompanyWebsite('');
                 setCompanyModalOpen(true);
               }}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-[var(--accent-hover)]"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-xs transition hover:bg-[var(--accent-hover)]"
             >
               <Plus size={14} /> Add Company
             </button>
           )}
           {activeTab === 'resumes' && (
-            <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-[var(--accent-hover)]">
+            <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-xs transition hover:bg-[var(--accent-hover)]">
               <Upload size={14} /> Upload New Resume
               <input
                 type="file"
@@ -511,13 +511,13 @@ export default function JobPreparation() {
                 setNoteCategoryId('');
                 setNoteModalOpen(true);
               }}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-[var(--accent-hover)]"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-xs transition hover:bg-[var(--accent-hover)]"
             >
               <Plus size={14} /> New Interview Note
             </button>
           )}
           {activeTab === 'files' && (
-            <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-[var(--accent-hover)]">
+            <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-xs transition hover:bg-[var(--accent-hover)]">
               <Upload size={14} /> Upload Job Document
               <input
                 type="file"
@@ -539,10 +539,10 @@ export default function JobPreparation() {
       )}
 
       <section className="mb-6 rounded-2xl border border-sky-500/25 bg-sky-500/5 p-5 md:p-6">
-        <p className="text-[10px] font-black uppercase tracking-[0.16em] text-sky-700 dark:text-sky-300">
+        <p className="text-xs font-bold uppercase tracking-[0.16em] text-sky-700 dark:text-sky-300">
           Active Mission · Internship Applications
         </p>
-        <h2 className="mt-2 text-xl font-black text-[var(--fg)]">
+        <h2 className="mt-2 text-xl font-bold text-[var(--fg)]">
           Find your first relevant AI / CV / Software internship
         </h2>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--muted)]">
@@ -562,7 +562,7 @@ export default function JobPreparation() {
               setAppStatus('saved');
               setAppModalOpen(true);
             }}
-            className="rounded-xl bg-[var(--accent)] px-4 py-2.5 text-xs font-bold text-white"
+            className="rounded-xl bg-[var(--accent)] px-4 py-2.5 text-xs font-bold text-[var(--on-accent)]"
           >
             + Track an Internship
           </button>
@@ -576,34 +576,34 @@ export default function JobPreparation() {
       <section className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 shadow-2xs">
           <div className="flex items-center justify-between text-[var(--muted)]">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Total Tracked</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Total Tracked</span>
             <Briefcase size={16} className="text-[var(--accent)]" />
           </div>
-          <p className="mt-2 text-3xl font-black text-[var(--fg)]">{apps.length}</p>
+          <p className="mt-2 text-3xl font-bold text-[var(--fg)]">{apps.length}</p>
           <p className="mt-0.5 text-xs text-[var(--muted)]">Applications across all stages</p>
         </div>
 
         <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 shadow-2xs">
           <div className="flex items-center justify-between text-[var(--muted)]">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Active Pipeline</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Active Pipeline</span>
             <Clock size={16} className="text-indigo-500" />
           </div>
-          <p className="mt-2 text-3xl font-black text-indigo-600">{activePipelineCount}</p>
+          <p className="mt-2 text-3xl font-bold text-indigo-600">{activePipelineCount}</p>
           <p className="mt-0.5 text-xs text-[var(--muted)]">Screening & Interview stages</p>
         </div>
 
         <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-5 shadow-2xs">
           <div className="flex items-center justify-between text-emerald-600">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Offers Received</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Offers Received</span>
             <CheckCircle2 size={16} />
           </div>
-          <p className="mt-2 text-3xl font-black text-emerald-600">{apps.filter((a) => a.status === 'offer').length}</p>
-          <p className="mt-0.5 text-xs text-emerald-600/80 font-medium">Internship conversion targets</p>
+          <p className="mt-2 text-3xl font-bold text-emerald-600">{apps.filter((a) => a.status === 'offer').length}</p>
+          <p className="mt-0.5 text-xs text-emerald-600 font-medium">Internship conversion targets</p>
         </div>
 
         <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 shadow-2xs">
           <div className="flex items-center justify-between text-[var(--muted)]">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Current Resume</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Current Resume</span>
             <FileText size={16} className="text-amber-500" />
           </div>
           <p className="mt-2 text-lg font-bold text-[var(--fg)] truncate">
@@ -632,14 +632,14 @@ export default function JobPreparation() {
               onClick={() => setActiveTab(tab.id as typeof activeTab)}
               className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-semibold transition shrink-0 ${
                 active
-                  ? 'bg-[var(--accent)] text-white shadow-xs'
+                  ? 'bg-[var(--accent)] text-[var(--on-accent)] shadow-xs'
                   : 'text-[var(--muted)] hover:bg-black/5 hover:text-[var(--fg)] dark:hover:bg-white/5'
               }`}
             >
               <Icon size={14} />
               <span>{tab.label}</span>
               <span
-                className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${
+                className={`rounded-full px-1.5 py-0.2 text-xs font-bold ${
                   active ? 'bg-white/20 text-white' : 'bg-[var(--line)] text-[var(--muted)]'
                 }`}
               >
@@ -668,12 +668,12 @@ export default function JobPreparation() {
             </div>
 
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--muted)] mr-1">Status:</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted)] mr-1">Status:</span>
               {['all', ...statuses].map((st) => (
                 <button
                   key={st}
                   onClick={() => setStatusFilter(st)}
-                  className={`rounded-lg px-2.5 py-1 text-[11px] font-semibold capitalize transition ${
+                  className={`rounded-lg px-2.5 py-1 text-xs font-semibold capitalize transition ${
                     statusFilter === st
                       ? 'bg-[var(--accent-subtle)] text-[var(--accent)] border border-[var(--accent-border)] font-bold'
                       : 'border border-[var(--line)] bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--fg)]'
@@ -690,7 +690,7 @@ export default function JobPreparation() {
             {filteredApps.length ? (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="border-b border-[var(--line)] bg-[var(--bg)]/75 text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">
+                  <thead className="border-b border-[var(--line)] bg-[var(--bg)]/75 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
                     <tr>
                       <th className="py-3 px-4">Role & Company</th>
                       <th className="py-3 px-4">Location</th>
@@ -707,7 +707,7 @@ export default function JobPreparation() {
                         <tr key={a.id} className="transition hover:bg-black/[0.015] dark:hover:bg-white/[0.015]">
                           <td className="py-3.5 px-4">
                             <p className="font-bold text-[var(--fg)] text-sm">{a.role}</p>
-                            <div className="flex items-center gap-2 mt-0.5 text-[11px] text-[var(--muted)]">
+                            <div className="flex items-center gap-2 mt-0.5 text-xs text-[var(--muted)]">
                               <Building2 size={12} />
                               {comp ? (
                                 <span>{comp.name}</span>
@@ -795,7 +795,7 @@ export default function JobPreparation() {
                       setAppStatus('saved');
                       setAppModalOpen(true);
                     }}
-                    className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white shadow-xs"
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-xs"
                   >
                     <Plus size={14} /> Track Application
                   </button>
@@ -876,7 +876,7 @@ export default function JobPreparation() {
                     setCompanyWebsite('');
                     setCompanyModalOpen(true);
                   }}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white shadow-xs"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-xs"
                 >
                   <Plus size={14} /> Add Company
                 </button>
@@ -893,10 +893,10 @@ export default function JobPreparation() {
             <div className="rounded-2xl border border-[var(--accent-border)] bg-[var(--accent-subtle)]/50 p-6">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <span className="rounded-full bg-[var(--accent)] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                  <span className="rounded-full bg-[var(--accent)] px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-[var(--on-accent)]">
                     Active Primary Resume
                   </span>
-                  <h3 className="mt-2 text-xl font-extrabold text-[var(--fg)]">
+                  <h3 className="mt-2 text-xl font-bold text-[var(--fg)]">
                     {currentResume.version_label}
                   </h3>
                   <p className="mt-0.5 text-xs text-[var(--muted)]">
@@ -905,7 +905,7 @@ export default function JobPreparation() {
                 </div>
                 <button
                   onClick={() => void downloadResume(currentResume)}
-                  className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-[var(--accent-hover)] transition shrink-0"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-xs hover:bg-[var(--accent-hover)] transition shrink-0"
                 >
                   <Download size={14} /> Download PDF
                 </button>
@@ -927,12 +927,12 @@ export default function JobPreparation() {
                         <div className="flex items-center gap-2">
                           <p className="font-bold text-[var(--fg)]">{r.version_label}</p>
                           {r.is_current && (
-                            <span className="rounded-md bg-emerald-500/10 px-1.5 py-0.2 text-[10px] font-bold text-emerald-600">
+                            <span className="rounded-md bg-emerald-500/10 px-1.5 py-0.2 text-xs font-bold text-emerald-600">
                               Current
                             </span>
                           )}
                         </div>
-                        <p className="text-[11px] text-[var(--muted)]">
+                        <p className="text-xs text-[var(--muted)]">
                           {r.original_filename} · {new Date(r.created_at).toLocaleDateString()}
                         </p>
                       </div>
@@ -942,7 +942,7 @@ export default function JobPreparation() {
                       {!r.is_current && (
                         <button
                           onClick={() => void setResumeCurrent(r)}
-                          className="rounded-lg border border-[var(--line)] bg-[var(--surface)] px-2.5 py-1 text-[11px] font-semibold text-[var(--muted)] hover:text-[var(--fg)]"
+                          className="rounded-lg border border-[var(--line)] bg-[var(--surface)] px-2.5 py-1 text-xs font-semibold text-[var(--muted)] hover:text-[var(--fg)]"
                         >
                           Make current
                         </button>
@@ -998,10 +998,10 @@ export default function JobPreparation() {
             className="flex items-center justify-between gap-4 rounded-2xl border border-red-500/25 bg-red-500/5 p-5 transition hover:brightness-[0.98]"
           >
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-red-600 dark:text-red-400">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-red-600 dark:text-red-400">
                 ASE PTE FINAL INTERVIEW · ARCHIVED
               </p>
-              <h3 className="mt-1 text-lg font-extrabold text-[var(--fg)]">
+              <h3 className="mt-1 text-lg font-bold text-[var(--fg)]">
                 Open Final Interview Bank — Q1–Q397 with Answers
               </h3>
               <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
@@ -1015,10 +1015,10 @@ export default function JobPreparation() {
             className="flex items-center justify-between gap-4 rounded-2xl border border-[var(--accent-border)] bg-[var(--accent-subtle)] p-5 transition hover:brightness-[0.98]"
           >
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--accent)]">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--accent)]">
                 ASE Interview · Start Here
               </p>
-              <h3 className="mt-1 text-lg font-extrabold text-[var(--fg)]">
+              <h3 className="mt-1 text-lg font-bold text-[var(--fg)]">
                 Open Day 1 — Q1–Q40 with Answers
               </h3>
               <p className="mt-1 text-xs text-[var(--muted)]">
@@ -1032,10 +1032,10 @@ export default function JobPreparation() {
             className="flex items-center justify-between gap-4 rounded-2xl border border-purple-500/20 bg-purple-500/5 p-5 transition hover:brightness-[0.98]"
           >
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-purple-600 dark:text-purple-400">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-purple-600 dark:text-purple-400">
                 ASE Interview · Day 2
               </p>
-              <h3 className="mt-1 text-lg font-extrabold text-[var(--fg)]">
+              <h3 className="mt-1 text-lg font-bold text-[var(--fg)]">
                 Open Day 2 — Q41–Q123 with Answers
               </h3>
               <p className="mt-1 text-xs text-[var(--muted)]">
@@ -1058,7 +1058,7 @@ export default function JobPreparation() {
                   <div className="flex items-start justify-between">
                     <div>
                       {cat && (
-                        <span className="rounded-full bg-[var(--accent-subtle)] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--accent)]">
+                        <span className="rounded-full bg-[var(--accent-subtle)] px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
                           {cat.name}
                         </span>
                       )}
@@ -1074,7 +1074,7 @@ export default function JobPreparation() {
                   <p className="mt-3 text-xs leading-relaxed text-[var(--muted)] whitespace-pre-wrap">
                     {n.content}
                   </p>
-                  <div className="mt-4 pt-3 border-t border-[var(--line)] text-[11px] text-[var(--muted)]">
+                  <div className="mt-4 pt-3 border-t border-[var(--line)] text-xs text-[var(--muted)]">
                     Created {new Date(n.created_at).toLocaleDateString()}
                   </div>
                 </div>
@@ -1095,7 +1095,7 @@ export default function JobPreparation() {
                     setNoteCategoryId('');
                     setNoteModalOpen(true);
                   }}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white shadow-xs"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-xs"
                 >
                   <Plus size={14} /> Create Interview Note
                 </button>
@@ -1120,7 +1120,7 @@ export default function JobPreparation() {
                       <FolderOpen size={18} className="text-[var(--accent)]" />
                       <div>
                         <p className="font-bold text-[var(--fg)]">{f.original_filename}</p>
-                        <p className="text-[11px] text-[var(--muted)]">
+                        <p className="text-xs text-[var(--muted)]">
                           Uploaded {new Date(f.created_at).toLocaleDateString()}
                         </p>
                       </div>
@@ -1170,7 +1170,7 @@ export default function JobPreparation() {
             className="w-full max-w-lg rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-6 shadow-2xl"
           >
             <div className="flex items-center justify-between border-b border-[var(--line)] pb-4">
-              <h3 className="text-base font-extrabold text-[var(--fg)]">
+              <h3 className="text-base font-bold text-[var(--fg)]">
                 {editingApp ? 'Edit Application' : 'Track New Application'}
               </h3>
               <button
@@ -1255,7 +1255,7 @@ export default function JobPreparation() {
                 <button
                   type="submit"
                   disabled={!appRole.trim() || busy}
-                  className="rounded-xl bg-[var(--accent)] px-5 py-2 text-xs font-semibold text-white hover:bg-[var(--accent-hover)] disabled:opacity-50"
+                  className="rounded-xl bg-[var(--accent)] px-5 py-2 text-xs font-semibold text-[var(--on-accent)] hover:bg-[var(--accent-hover)] disabled:opacity-50"
                 >
                   {busy ? 'Saving…' : editingApp ? 'Update Application' : 'Save Application'}
                 </button>
@@ -1280,7 +1280,7 @@ export default function JobPreparation() {
             className="w-full max-w-md rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-6 shadow-2xl"
           >
             <div className="flex items-center justify-between border-b border-[var(--line)] pb-4">
-              <h3 className="text-base font-extrabold text-[var(--fg)]">Add Target Company</h3>
+              <h3 className="text-base font-bold text-[var(--fg)]">Add Target Company</h3>
               <button
                 onClick={() => setCompanyModalOpen(false)}
                 className="grid h-7 w-7 place-items-center rounded-lg text-[var(--muted)] hover:bg-black/5"
@@ -1329,7 +1329,7 @@ export default function JobPreparation() {
                 <button
                   type="submit"
                   disabled={!companyName.trim() || busy}
-                  className="rounded-xl bg-[var(--accent)] px-5 py-2 text-xs font-semibold text-white hover:bg-[var(--accent-hover)] disabled:opacity-50"
+                  className="rounded-xl bg-[var(--accent)] px-5 py-2 text-xs font-semibold text-[var(--on-accent)] hover:bg-[var(--accent-hover)] disabled:opacity-50"
                 >
                   {busy ? 'Saving…' : 'Add Company'}
                 </button>
@@ -1354,7 +1354,7 @@ export default function JobPreparation() {
             className="w-full max-w-lg rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-6 shadow-2xl"
           >
             <div className="flex items-center justify-between border-b border-[var(--line)] pb-4">
-              <h3 className="text-base font-extrabold text-[var(--fg)]">Create Interview Note</h3>
+              <h3 className="text-base font-bold text-[var(--fg)]">Create Interview Note</h3>
               <button
                 onClick={() => setNoteModalOpen(false)}
                 className="grid h-7 w-7 place-items-center rounded-lg text-[var(--muted)] hover:bg-black/5"
@@ -1404,7 +1404,7 @@ export default function JobPreparation() {
                 <button
                   type="submit"
                   disabled={!noteTitle.trim() || busy}
-                  className="rounded-xl bg-[var(--accent)] px-5 py-2 text-xs font-semibold text-white hover:bg-[var(--accent-hover)] disabled:opacity-50"
+                  className="rounded-xl bg-[var(--accent)] px-5 py-2 text-xs font-semibold text-[var(--on-accent)] hover:bg-[var(--accent-hover)] disabled:opacity-50"
                 >
                   {busy ? 'Saving…' : 'Save Note'}
                 </button>
@@ -1432,7 +1432,7 @@ export default function JobPreparation() {
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-red-500/10">
                 <AlertCircle size={20} />
               </div>
-              <h3 className="text-base font-extrabold text-[var(--fg)]">Confirm Deletion</h3>
+              <h3 className="text-base font-bold text-[var(--fg)]">Confirm Deletion</h3>
             </div>
             <p className="mt-3 text-xs text-[var(--muted)] leading-relaxed">
               {deleteDialog.description}

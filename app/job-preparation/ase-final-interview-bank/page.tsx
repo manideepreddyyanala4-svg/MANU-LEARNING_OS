@@ -6,10 +6,10 @@ export default function AseFinalInterviewBankPage() {
     <main className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--accent)]">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--accent)]">
             Job Preparation · ASE
           </p>
-          <h1 className="mt-1 text-2xl font-extrabold text-[var(--fg)]">
+          <h1 className="mt-1 text-2xl font-bold text-[var(--fg)]">
             Final Interview Bank
           </h1>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--muted)]">

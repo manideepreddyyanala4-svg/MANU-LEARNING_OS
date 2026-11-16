@@ -19,7 +19,7 @@ import type { Currency, ManualFxRate, MonthlyBudget, MonthlySummary } from '@/li
 
 const input='min-h-11 w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--fg)] outline-none focus:border-[var(--accent)]';
 const button='inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-2.5 text-xs font-bold text-[var(--fg)] disabled:opacity-50';
-const primary='inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[var(--accent)] px-5 py-2.5 text-sm font-bold text-white disabled:opacity-50';
+const primary='inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[var(--accent)] px-5 py-2.5 text-sm font-bold text-[var(--on-accent)] disabled:opacity-50';
 const label='block space-y-1 text-xs font-semibold text-[var(--fg)]';
 const initialMonth=()=>todayInFinanceTimezone('Asia/Taipei').slice(0,7)+'-01';
 function readable(e:unknown){return e instanceof Error?e.message:'Budget data unavailable';}
@@ -182,7 +182,7 @@ export function FinanceBudgetWorkspace(){
   return <section id="finance-budget" aria-label="Monthly spending budget" className="mt-8 space-y-5">
     <div className="flex flex-wrap items-center justify-between gap-3">
       <div>
-        <h2 className="text-xl font-extrabold text-[var(--fg)]">Monthly spending budget</h2>
+        <h2 className="text-xl font-bold text-[var(--fg)]">Monthly spending budget</h2>
         <p className="mt-1 text-xs text-[var(--muted)]">
           Separate from tracked bank balances · Calendar-based planning · No automatic budget
         </p>
@@ -230,14 +230,14 @@ export function FinanceBudgetWorkspace(){
         <div className="grid gap-3 md:grid-cols-3">
           <Card>
             <p className="text-xs font-bold text-[var(--muted)]">Monthly limit</p>
-            <p className="mt-2 break-words text-2xl font-extrabold text-[var(--fg)]">
+            <p className="mt-2 break-words text-2xl font-bold text-[var(--fg)]">
               {formatMoney(budget.budgetMinor,currencyCode)}</p>
             {currencyCode==='INR'&&<p className="mt-1 text-xs text-[var(--muted)]">
               Frozen planning equivalent: {formatMoney(budget.resolvedTwdMinor,'TWD')}</p>}
           </Card>
           <Card>
             <p className="text-xs font-bold text-[var(--muted)]">Posted account expenses</p>
-            <p className="mt-2 break-words text-2xl font-extrabold text-[var(--fg)]">
+            <p className="mt-2 break-words text-2xl font-bold text-[var(--fg)]">
               {formatMoney(state.summary.actualExpenseMinor,'TWD')}</p>
             <p className="mt-1 text-xs text-[var(--muted)]">Expenses only. No transfers, income or reconciliations.</p>
           </Card>
@@ -245,7 +245,7 @@ export function FinanceBudgetWorkspace(){
             <p className="text-xs font-bold text-[var(--muted)]">
               {minorBigInt(projection.actualRemainingMinor)<BigInt(0)?'Ledger over limit':'Ledger-only budget remainder'}
             </p>
-            <p className="mt-2 break-words text-2xl font-extrabold text-[var(--fg)]">
+            <p className="mt-2 break-words text-2xl font-bold text-[var(--fg)]">
               {formatMoney(projection.actualRemainingMinor,'TWD')}</p>
             <p className="mt-1 text-xs text-[var(--muted)]">Account-ledger remainder only. The reported-payments card above also subtracts unmatched payments.</p>
           </Card>
@@ -253,7 +253,7 @@ export function FinanceBudgetWorkspace(){
         <Card>
           <div className="flex items-center justify-between gap-3">
             <p className="text-sm font-bold text-[var(--fg)]">Budget utilization</p>
-            <p className="text-sm font-extrabold text-[var(--fg)]">{percentLabel(basisPoints)}</p>
+            <p className="text-sm font-bold text-[var(--fg)]">{percentLabel(basisPoints)}</p>
           </div>
           <div className="mt-3 h-3 overflow-hidden rounded-full bg-[var(--line)]"
             role="progressbar" aria-label="Monthly budget utilization"
@@ -281,7 +281,7 @@ export function FinanceBudgetWorkspace(){
         <div className="grid gap-3 md:grid-cols-3">
           <Card>
             <p className="text-xs font-bold text-[var(--muted)]">Full-budget daily average</p>
-            <p className="mt-2 text-2xl font-extrabold text-[var(--fg)]">
+            <p className="mt-2 text-2xl font-bold text-[var(--fg)]">
               {displayFraction({numerator:budget.budgetMinor,denominator:totalDays},currencyCode)}</p>
             {currencyCode==='INR'&&<p className="mt-1 text-xs text-[var(--muted)]">
               Planning equivalent: {displayFraction(projection.dailyStandard,'TWD')} per day.</p>}
@@ -292,7 +292,7 @@ export function FinanceBudgetWorkspace(){
             <p className="text-xs font-bold text-[var(--muted)]">
               {projection.period==='current'?'Ledger-only daily allowance':'Daily allowance status'}
             </p>
-            <p className="mt-2 text-2xl font-extrabold text-[var(--fg)]">
+            <p className="mt-2 text-2xl font-bold text-[var(--fg)]">
               {projection.dailyToday?displayFraction(projection.dailyToday.standardRemaining,'TWD'):'Not applicable'}</p>
             <p className="mt-1 text-xs text-[var(--muted)]">
               {projection.dailyToday?
@@ -310,7 +310,7 @@ export function FinanceBudgetWorkspace(){
               {projection.period==='past'?'Historical month':
                 projection.period==='future'?'Future monthly plan':'Dynamic remaining-days average'}
             </p>
-            <p className="mt-2 text-2xl font-extrabold text-[var(--fg)]">
+            <p className="mt-2 text-2xl font-bold text-[var(--fg)]">
               {projection.dynamicAllowance?displayFraction(projection.dynamicAllowance,'TWD'):'Not applicable'}
             </p>
             <p className="mt-1 text-xs text-[var(--muted)]">
@@ -322,7 +322,7 @@ export function FinanceBudgetWorkspace(){
         </div>
         <Card>
           <p className="text-sm font-bold text-[var(--fg)]">Separate planned consumption</p>
-          <p className="mt-2 text-xl font-extrabold text-[var(--fg)]">
+          <p className="mt-2 text-xl font-bold text-[var(--fg)]">
             {formatMoney(state.summary.allocatedConsumptionMinor,'TWD')}
           </p>
           <p className="mt-1 text-xs text-[var(--muted)]">
@@ -336,7 +336,7 @@ export function FinanceBudgetWorkspace(){
 
     {!loading&&!error&&state&&!budget&&<Card>
       <p className="text-xs font-bold text-[var(--muted)]">Actual spending already recorded</p>
-      <p className="mt-1 text-xl font-extrabold text-[var(--fg)]">
+      <p className="mt-1 text-xl font-bold text-[var(--fg)]">
         {formatMoney(state.summary.actualExpenseMinor,'TWD')}</p>
       <p className="mt-1 text-xs text-[var(--muted)]">
         Expenses are preserved independently of whether you set a budget.</p>

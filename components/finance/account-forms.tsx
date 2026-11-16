@@ -10,7 +10,7 @@ import type { FinanceAccount, FinanceAccountOverview, OpeningBalanceEntry } from
 const inputStyle='mt-1.5 w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-3 text-sm text-[var(--fg)] outline-none focus:border-[var(--accent)] min-h-11';
 const labelStyle='block text-xs font-bold text-[var(--fg)]';
 const buttonStyle='inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold disabled:cursor-not-allowed disabled:opacity-50';
-const mainButton=buttonStyle+' bg-[var(--accent)] text-white hover:opacity-90';
+const mainButton=buttonStyle+' bg-[var(--accent)] text-[var(--on-accent)] hover:opacity-90';
 const secondaryButton=buttonStyle+' border border-[var(--line)] bg-[var(--surface)] text-[var(--fg)]';
 
 function failMessage(error:unknown):string{
@@ -66,7 +66,7 @@ export function OpeningSetup({
           <ShieldCheck size={21}/>
         </div>
         <div>
-          <h2 id="finance-setup-title" className="text-lg font-black text-[var(--fg)]">Set up your real opening balances</h2>
+          <h2 id="finance-setup-title" className="text-lg font-bold text-[var(--fg)]">Set up your real opening balances</h2>
           <p className="mt-1 text-xs text-[var(--muted)]">
             Enter the amount you personally checked. Blank means not configured; 0 means an intentionally empty account.
           </p>
@@ -209,7 +209,7 @@ export function AccountActionForm({
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-xs font-bold uppercase tracking-wide text-[var(--accent)]">Account action</p>
-          <h2 className="mt-1 text-lg font-black">{title}</h2>
+          <h2 className="mt-1 text-lg font-bold">{title}</h2>
           <p className="mt-1 text-sm text-[var(--muted)]">{account.name}</p>
         </div>
         <button type="button" onClick={onCancel} className={secondaryButton} disabled={busy}>

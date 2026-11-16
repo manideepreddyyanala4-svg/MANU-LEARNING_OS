@@ -67,7 +67,7 @@ export function FinanceDataOwnership(){
  }
  return <section id="finance-data" className="mt-8 space-y-4 scroll-mt-24" aria-label="Finance data ownership and export">
    <div>
-     <h2 className="text-xl font-extrabold text-[var(--fg)]">Finance data and backups</h2>
+     <h2 className="text-xl font-bold text-[var(--fg)]">Finance data and backups</h2>
      <p className="mt-2 text-sm text-[var(--muted)]">
        You own your manually entered transactions. The account balances shown in ManuOS
        are ledger estimates, not live bank balances or confirmations from CTBC or Post Bank.

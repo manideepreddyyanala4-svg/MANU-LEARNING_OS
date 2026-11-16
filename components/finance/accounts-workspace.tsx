@@ -17,7 +17,7 @@ import type { AccountHistoryPage, FinanceAccount, FinanceAccountOverview,
   FinanceTransaction, OpeningBalanceEntry } from '@/lib/finance/types';
 
 const actionButton='inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3.5 py-2.5 text-xs font-bold text-[var(--fg)] hover:border-[var(--accent-border)] hover:text-[var(--accent)] disabled:opacity-50';
-const primaryButton='inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-2.5 text-sm font-bold text-white hover:opacity-90 disabled:opacity-50';
+const primaryButton='inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-2.5 text-sm font-bold text-[var(--on-accent)] hover:opacity-90 disabled:opacity-50';
 type LoadState='loading'|'ready'|'error';
 
 function AccountIcon({kind,code}:{kind:FinanceAccount['kind'];code:string}){
@@ -228,7 +228,7 @@ export function FinanceAccountsWorkspace(){
     <Card>
       <div role="alert" className="space-y-3">
         <div className="flex items-center gap-3 text-[var(--danger)]">
-          <CircleAlert size={22}/><h2 className="text-lg font-black">Finance is not available yet</h2>
+          <CircleAlert size={22}/><h2 className="text-lg font-bold">Finance is not available yet</h2>
         </div>
         <p className="text-sm text-[var(--muted)]">
           Your account data could not be loaded. The finance migrations may not have been
@@ -248,11 +248,11 @@ export function FinanceAccountsWorkspace(){
       <section className="overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--surface)]">
         <div className="grid gap-5 p-6 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[var(--muted)]">
+            <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[var(--muted)]">
               <ShieldCheck size={15} className="text-[var(--accent)]"/> Manually tracked • TWD
             </p>
             <h2 className="mt-3 text-sm font-semibold text-[var(--muted)]">Total available money</h2>
-            <p className="mt-1 break-words text-4xl font-black tracking-tight text-[var(--fg)] sm:text-5xl"
+            <p className="mt-1 break-words text-4xl font-bold tracking-tight text-[var(--fg)] sm:text-5xl"
               aria-label={'Total tracked money '+formatMoney(total,'TWD')}>
               {formatMoney(total,'TWD')}
             </p>
@@ -292,7 +292,7 @@ export function FinanceAccountsWorkspace(){
       <section aria-labelledby="finance-accounts-heading">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 id="finance-accounts-heading" className="text-xl font-black">Your accounts</h2>
+            <h2 id="finance-accounts-heading" className="text-xl font-bold">Your accounts</h2>
             <p className="mt-1 text-xs text-[var(--muted)]">Select an account to inspect its activity and correct balances.</p>
           </div>
           <span className="rounded-full bg-[var(--accent-subtle)] px-3 py-1.5 text-xs font-bold text-[var(--accent)]">
@@ -314,21 +314,21 @@ export function FinanceAccountsWorkspace(){
                     <div className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--accent-subtle)] text-[var(--accent)]">
                       <AccountIcon kind={a.kind} code={a.code}/>
                     </div>
-                    <span className="rounded-full border border-[var(--line)] px-2.5 py-1 text-[10px] font-bold text-[var(--muted)]">
+                    <span className="rounded-full border border-[var(--line)] px-2.5 py-1 text-xs font-bold text-[var(--muted)]">
                       {a.currency}
                     </span>
                   </div>
                   <h3 className="mt-4 min-h-10 text-sm font-bold text-[var(--fg)]">{a.name}</h3>
-                  <p className="mt-1 break-all text-2xl font-black tracking-tight">{formatMoney(a.balanceMinor,'TWD')}</p>
+                  <p className="mt-1 break-all text-2xl font-bold tracking-tight">{formatMoney(a.balanceMinor,'TWD')}</p>
                   <div className="mt-2 text-xs text-[var(--muted)]">
                     {overview?.openingTransactionId ? 'Opening recorded' : 'Opening balance not set'}
                   </div>
-                  <p className="mt-3 flex items-center gap-1.5 text-[11px] text-[var(--muted)]">
+                  <p className="mt-3 flex items-center gap-1.5 text-xs text-[var(--muted)]">
                     <Clock3 size={12}/>{formatFinanceTimestamp(overview?.lastActivityAt??null)}
                   </p>
                   <div className="mt-4 min-h-14 space-y-1 border-t border-[var(--line)] pt-3">
                     {items.length ? items.map(t=>(
-                      <div key={t.id} className="flex justify-between gap-3 text-[11px]">
+                      <div key={t.id} className="flex justify-between gap-3 text-xs">
                         <span className="min-w-0 truncate text-[var(--muted)]">{accountActivityLabel(t,a.accountId)}</span>
                         <span className="shrink-0 font-bold">{t.voidedAt?'Voided':signedMoney(transactionEffectOnAccount(t,a.accountId))}</span>
                       </div>
@@ -356,7 +356,7 @@ export function FinanceAccountsWorkspace(){
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <p className="text-xs font-bold uppercase text-[var(--muted)]">Account breakdown</p>
-                  <h2 className="mt-1 text-xl font-black">{selected.name}</h2>
+                  <h2 className="mt-1 text-xl font-bold">{selected.name}</h2>
                   <p className="mt-1 text-xs text-[var(--muted)]">
                     All values are calculated from saved transactions, not manually overwritten.
                   </p>
@@ -382,7 +382,7 @@ export function FinanceAccountsWorkspace(){
                     <dd className="font-bold tabular-nums">{value===null?'Not set':formatMoney(value,'TWD')}</dd>
                   </div>
                 ))}
-                <div className="flex items-center justify-between gap-3 pt-1 text-sm font-black">
+                <div className="flex items-center justify-between gap-3 pt-1 text-sm font-bold">
                   <dt>Calculated balance</dt><dd>{formatMoney(expectedBalanceFromOverview(selectedOverview),'TWD')}</dd>
                 </div>
               </dl>
@@ -402,7 +402,7 @@ export function FinanceAccountsWorkspace(){
               </div>
             </Card>
             <Card>
-              <h2 className="text-lg font-black">How to keep this accurate</h2>
+              <h2 className="text-lg font-bold">How to keep this accurate</h2>
               <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
                 Check your balance in your actual bank app or wallet occasionally.
                 If the number is different, use <strong>Reconcile</strong> to record the difference
@@ -440,7 +440,7 @@ export function FinanceAccountsWorkspace(){
           <section aria-labelledby="finance-history-title">
             <div className="mb-4 flex items-center justify-between gap-3">
               <div>
-                <h2 id="finance-history-title" className="text-xl font-black">Account history</h2>
+                <h2 id="finance-history-title" className="text-xl font-bold">Account history</h2>
                 <p className="mt-1 text-xs text-[var(--muted)]">Includes previous corrections and voided entries for audit context.</p>
               </div>
               <span className="text-xs font-medium text-[var(--muted)]">{history.count} records</span>
@@ -469,7 +469,7 @@ export function FinanceAccountsWorkspace(){
                       </div>
                     </div>
                     <div className="ml-auto flex items-center gap-3">
-                      <p className={'whitespace-nowrap text-sm font-black tabular-nums '+(t.voidedAt?'text-[var(--muted)]':'text-[var(--fg)]')}>
+                      <p className={'whitespace-nowrap text-sm font-bold tabular-nums '+(t.voidedAt?'text-[var(--muted)]':'text-[var(--fg)]')}>
                         {t.voidedAt?'Voided':signedMoney(effect)}
                       </p>
                       {t.kind==='adjustment' && !t.voidedAt && (

@@ -18,7 +18,7 @@ import { listFinanceAccounts, listAccountOverviews,
 import type { FinanceAccount, FinanceAccountOverview, FinanceCategory, FinanceTransaction } from '@/lib/finance/types';
 
 const control='min-h-11 w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--fg)] outline-none focus:border-[var(--accent)]';
-const primary='inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[var(--accent)] px-5 py-2.5 text-sm font-bold text-white disabled:opacity-50';
+const primary='inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[var(--accent)] px-5 py-2.5 text-sm font-bold text-[var(--on-accent)] disabled:opacity-50';
 const secondary='inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-2.5 text-sm font-semibold text-[var(--fg)] disabled:opacity-50';
 const label='block space-y-1 text-xs font-semibold text-[var(--fg)]';
 const PAGE_SIZE=15;
@@ -352,7 +352,7 @@ export function FinanceTransactions(){
     <section id="finance-transactions" className="mt-8 space-y-6" aria-label="Financial transactions">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-xl font-extrabold text-[var(--fg)]">Money in and out</h2>
+          <h2 className="text-xl font-bold text-[var(--fg)]">Money in and out</h2>
           <p className="mt-1 text-sm text-[var(--muted)]">
             Actual entries change your tracked balances. Future scheduled entries do not.
           </p>
@@ -379,7 +379,7 @@ export function FinanceTransactions(){
             <form className="mt-5 grid gap-4 sm:grid-cols-2" onSubmit={submit}>
               <label className={label+' sm:col-span-2'}>Amount in NT$
                 <input autoFocus type="text" inputMode="decimal" autoComplete="off" required
-                  placeholder="0.00" className={control+' text-2xl font-extrabold'}
+                  placeholder="0.00" className={control+' text-2xl font-bold'}
                   value={amount} onChange={e=>{setAmount(e.target.value);setAllocation(a=>({...a,amountInput:e.target.value}));}}
                   aria-label="Transaction amount"/>
               </label>
@@ -542,7 +542,7 @@ export function FinanceTransactions(){
                   </div>
                 </div>
                 <div className="flex shrink-0 items-center gap-2 pl-12 sm:pl-2">
-                  <span className={'mr-auto whitespace-nowrap text-sm font-extrabold sm:mr-2 '+(t.kind==='income'?'text-emerald-600':'text-[var(--fg)]')}>
+                  <span className={'mr-auto whitespace-nowrap text-sm font-bold sm:mr-2 '+(t.kind==='income'?'text-emerald-600':'text-[var(--fg)]')}>
                     {amountText(t.amountMinor,t.kind)}
                   </span>
                   {!t.voidedAt&&(t.kind==='expense'||t.kind==='income')&&<>

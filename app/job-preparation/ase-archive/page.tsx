@@ -44,7 +44,7 @@ export default function AseArchivePage() {
         </p>
         <Link
           href="/job-preparation"
-          className="mt-4 inline-flex rounded-xl bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-white"
+          className="mt-4 inline-flex rounded-xl bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-[var(--on-accent)]"
         >
           Back to internship applications
         </Link>

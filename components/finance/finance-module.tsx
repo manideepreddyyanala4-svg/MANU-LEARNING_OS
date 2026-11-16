@@ -87,7 +87,7 @@ export function FinanceModule(){
          aria-current={section===s.id?'page':undefined}
          onClick={()=>go(s.id)}
          className={'min-h-11 min-w-0 rounded-xl border px-2 py-2 text-xs font-bold leading-snug sm:px-4 sm:text-sm '+
-           (section===s.id?'border-[var(--accent)] bg-[var(--accent)] text-white':
+           (section===s.id?'border-[var(--accent)] bg-[var(--accent)] text-[var(--on-accent)]':
              'border-[var(--line)] bg-[var(--surface)] text-[var(--fg)]')}>
          {s.label}
        </button>)}

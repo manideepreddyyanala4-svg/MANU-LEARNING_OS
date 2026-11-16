@@ -66,7 +66,7 @@ export default function IdeasPage() {
               <p className="text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
                 {idea.type}
               </p>
-              <h2 className="mt-2 text-2xl font-black tracking-tight text-[var(--fg)] sm:text-3xl">
+              <h2 className="mt-2 text-2xl font-bold tracking-tight text-[var(--fg)] sm:text-3xl">
                 {idea.title}
               </h2>
               <p className="mt-4 max-w-3xl text-[15px] leading-7 text-[var(--muted)]">
@@ -84,7 +84,7 @@ export default function IdeasPage() {
 
               <div className="mt-7 grid gap-6 lg:grid-cols-2">
                 <section>
-                  <h3 className="text-sm font-extrabold text-[var(--fg)]">Episode ideas</h3>
+                  <h3 className="text-sm font-bold text-[var(--fg)]">Episode ideas</h3>
                   <div className="mt-3 space-y-2">
                     {idea.episodes.map((episode) => (
                       <div
@@ -98,14 +98,14 @@ export default function IdeasPage() {
                 </section>
 
                 <section>
-                  <h3 className="text-sm font-extrabold text-[var(--fg)]">Video formula</h3>
+                  <h3 className="text-sm font-bold text-[var(--fg)]">Video formula</h3>
                   <div className="mt-3 space-y-2">
                     {idea.format.map((step, index) => (
                       <div
                         key={step}
                         className="flex gap-3 rounded-xl border border-[var(--line)] bg-[var(--bg)] px-4 py-3"
                       >
-                        <span className="font-black text-[var(--accent)]">{index + 1}</span>
+                        <span className="font-bold text-[var(--accent)]">{index + 1}</span>
                         <p className="text-sm leading-6 text-[var(--muted)]">{step}</p>
                       </div>
                     ))}
@@ -117,7 +117,7 @@ export default function IdeasPage() {
                 <p className="text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
                   First test — do this before building the channel
                 </p>
-                <p className="mt-2 text-base font-extrabold leading-6 text-[var(--fg)]">
+                <p className="mt-2 text-base font-bold leading-6 text-[var(--fg)]">
                   {idea.firstPilot}
                 </p>
               </div>

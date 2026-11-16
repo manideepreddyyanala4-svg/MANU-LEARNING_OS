@@ -53,7 +53,7 @@ export function FinanceOverviewSnapshot(){
    (minorBigInt(state.targetDay)-minorBigInt(state.consumptionDay)).toString();
  return <section className="mt-6 space-y-4" aria-label="Monthly and daily financial overview">
    <div className="flex flex-wrap items-center justify-between gap-2">
-     <div><h2 className="text-xl font-extrabold text-[var(--fg)]">Your financial snapshot</h2>
+     <div><h2 className="text-xl font-bold text-[var(--fg)]">Your financial snapshot</h2>
        <p className="mt-1 text-xs text-[var(--muted)]">
          Your balances above are manually tracked, not verified by a bank.</p></div>
      <button type="button" className={action} disabled={loading} onClick={()=>void refresh()}>
@@ -74,7 +74,7 @@ export function FinanceOverviewSnapshot(){
        ].map(([name,value,description])=><div key={name}
          className="min-w-0 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-3">
          <p className="text-xs font-semibold text-[var(--muted)]">{name}</p>
-         <p className="mt-2 break-words text-lg font-extrabold text-[var(--fg)]">{value}</p>
+         <p className="mt-2 break-words text-lg font-bold text-[var(--fg)]">{value}</p>
          <p className="mt-1 text-xs text-[var(--muted)]">{description}</p>
        </div>)}
      </div>

@@ -380,12 +380,12 @@ function SubjectPageContent() {
               {noteKinds ? (
                 <span
                   title="Based on saved content, not learning completion"
-                  className={'shrink-0 whitespace-nowrap rounded-full border px-2 py-1 text-[10px] font-bold leading-none ' + noteBadge(noteKinds[item.id] ?? 'none').className}
+                  className={'shrink-0 whitespace-nowrap rounded-full border px-2 py-1 text-xs font-bold leading-none ' + noteBadge(noteKinds[item.id] ?? 'none').className}
                 >
                   {noteBadge(noteKinds[item.id] ?? 'none').text}
                 </span>
               ) : (
-                <span className="shrink-0 text-[10px] text-[var(--muted)]">Checking notes…</span>
+                <span className="shrink-0 text-xs text-[var(--muted)]">Checking notes…</span>
               )}
               {item.status === 'mastered' && (
                 <span className="text-xs font-bold text-emerald-500">✓</span>
@@ -433,7 +433,7 @@ function SubjectPageContent() {
             <Plus size={14} /> New section
           </button>
           <button
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-3.5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-[var(--accent-hover)]"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-3.5 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-xs hover:bg-[var(--accent-hover)]"
             onClick={() => {
               setTitle('');
               setCreator({
@@ -494,7 +494,7 @@ function SubjectPageContent() {
                 {label} {noteKinds ? count : '…'}
               </button>
             ))}
-            <span className="text-[11px] text-[var(--muted)]">
+            <span className="text-xs text-[var(--muted)]">
               Based on saved text, images or files — not mastery
             </span>
           </div>
@@ -522,7 +522,7 @@ function SubjectPageContent() {
                   >
                     <div className="learning-section-heading learning-section-card-header">
                       <div className="flex items-center gap-2">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--accent)]">
+                        <span className="text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
                           Section {String(secIndex + 1).padStart(2, '0')}
                         </span>
                         <span className="text-[var(--muted)]">·</span>
@@ -587,7 +587,7 @@ function SubjectPageContent() {
                     setTitle('');
                     setCreator({ kind: 'section', sectionId: null });
                   }}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white hover:bg-[var(--accent-hover)]"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] hover:bg-[var(--accent-hover)]"
                 >
                   <Plus size={14} /> Add section
                 </button>

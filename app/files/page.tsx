@@ -254,7 +254,7 @@ export default function FilesPage() {
           <button
             onClick={() => fileInputRef.current?.click()}
             disabled={uploading}
-            className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-[var(--accent-hover)] transition disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-xs hover:bg-[var(--accent-hover)] transition disabled:opacity-50"
           >
             <Upload size={14} />
             <span>{uploading ? 'Uploading…' : 'Upload file'}</span>
@@ -262,6 +262,7 @@ export default function FilesPage() {
           <input
             ref={fileInputRef}
             type="file"
+            aria-label="Upload file"
             className="sr-only"
             onChange={(e) => {
               const f = e.target.files?.[0];
@@ -283,34 +284,34 @@ export default function FilesPage() {
       <section className="mb-8 grid gap-4 grid-cols-2 lg:grid-cols-4">
         <Card>
           <div className="flex items-center justify-between text-[var(--muted)]">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Total Documents</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Total Documents</span>
             <FileText size={16} className="text-[var(--accent)]" />
           </div>
-          <p className="mt-3 text-2xl font-black text-[var(--fg)]">{files.length}</p>
+          <p className="mt-3 text-2xl font-bold text-[var(--fg)]">{files.length}</p>
           <p className="mt-1 text-xs text-[var(--muted)]">Across all project directories</p>
         </Card>
 
         <Card>
           <div className="flex items-center justify-between text-[var(--muted)]">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Storage Consumed</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Storage Consumed</span>
             <HardDrive size={16} className="text-emerald-500" />
           </div>
-          <p className="mt-3 text-2xl font-black text-[var(--fg)]">{formatFileSize(totalSizeBytes)}</p>
+          <p className="mt-3 text-2xl font-bold text-[var(--fg)]">{formatFileSize(totalSizeBytes)}</p>
           <p className="mt-1 text-xs text-[var(--muted)]">Encrypted Supabase private storage</p>
         </Card>
 
         <Card>
           <div className="flex items-center justify-between text-[var(--muted)]">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Folders Created</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Folders Created</span>
             <Folder size={16} className="text-indigo-500" />
           </div>
-          <p className="mt-3 text-2xl font-black text-[var(--fg)]">{folders.length}</p>
+          <p className="mt-3 text-2xl font-bold text-[var(--fg)]">{folders.length}</p>
           <p className="mt-1 text-xs text-[var(--muted)]">Hierarchical categories</p>
         </Card>
 
         <Card>
           <div className="flex items-center justify-between text-[var(--muted)]">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Storage Security</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Storage Security</span>
             <ShieldCheck size={16} className="text-emerald-500" />
           </div>
           <p className="mt-3 text-sm font-bold text-emerald-600 dark:text-emerald-400">Private Bucket RLS</p>
@@ -321,7 +322,7 @@ export default function FilesPage() {
       {/* Main Workspace Layout: Folders Rail & Files Table */}
       <div className="grid gap-6 lg:grid-cols-12">
         {/* Left Navigation: Folder Directory */}
-        <aside className="lg:col-span-3 space-y-4">
+        <aside className="min-w-0 lg:col-span-3 space-y-4">
           <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 shadow-2xs">
             <div className="flex items-center justify-between pb-3 border-b border-[var(--line)]">
               <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
@@ -332,7 +333,7 @@ export default function FilesPage() {
                   setNewFolderName('');
                   setFolderModalOpen(true);
                 }}
-                className="inline-flex items-center gap-1 text-[11px] font-semibold text-[var(--accent)] hover:underline"
+                className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--accent)] hover:underline"
               >
                 <Plus size={12} /> New
               </button>
@@ -343,7 +344,7 @@ export default function FilesPage() {
                 onClick={() => setSelectedFolder(null)}
                 className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold transition ${
                   selectedFolder === null
-                    ? 'bg-[var(--accent)] text-white shadow-2xs'
+                    ? 'bg-[var(--accent)] text-[var(--on-accent)] shadow-2xs'
                     : 'text-[var(--fg)] hover:bg-[var(--accent-subtle)]'
                 }`}
               >
@@ -351,7 +352,7 @@ export default function FilesPage() {
                   <Folder size={15} className={selectedFolder === null ? 'text-white' : 'text-[var(--accent)]'} />
                   <span className="truncate">All Files</span>
                 </div>
-                <span className={`text-[11px] ${selectedFolder === null ? 'text-white/80' : 'text-[var(--muted)]'}`}>
+                <span className={`text-xs ${selectedFolder === null ? 'text-white/80' : 'text-[var(--muted)]'}`}>
                   {files.length}
                 </span>
               </button>
@@ -365,7 +366,7 @@ export default function FilesPage() {
                     onClick={() => setSelectedFolder(f.id)}
                     className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold transition ${
                       isSelected
-                        ? 'bg-[var(--accent)] text-white shadow-2xs'
+                        ? 'bg-[var(--accent)] text-[var(--on-accent)] shadow-2xs'
                         : 'text-[var(--fg)] hover:bg-[var(--accent-subtle)]'
                     }`}
                   >
@@ -377,7 +378,7 @@ export default function FilesPage() {
                       )}
                       <span className="truncate">{f.name}</span>
                     </div>
-                    <span className={`text-[11px] ${isSelected ? 'text-white/80' : 'text-[var(--muted)]'}`}>
+                    <span className={`text-xs ${isSelected ? 'text-white/80' : 'text-[var(--muted)]'}`}>
                       {count}
                     </span>
                   </button>
@@ -412,14 +413,14 @@ export default function FilesPage() {
             <p className="mt-2 text-xs font-bold text-[var(--fg)]">
               {isDragOver ? 'Drop to upload' : 'Quick file upload'}
             </p>
-            <p className="mt-1 text-[11px] text-[var(--muted)]">
+            <p className="mt-1 text-xs text-[var(--muted)]">
               Drop file here or click to browse
             </p>
           </div>
         </aside>
 
         {/* Right Main Panel: File Workspace */}
-        <section className="lg:col-span-9 space-y-4">
+        <section className="min-w-0 lg:col-span-9 space-y-4">
           {/* Search, Folder Filter & Type Pills */}
           <div className="flex flex-col gap-3 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-3.5 shadow-2xs sm:flex-row sm:items-center sm:justify-between">
             <div className="relative flex-1">
@@ -441,9 +442,9 @@ export default function FilesPage() {
                 <button
                   key={t}
                   onClick={() => setTypeFilter(t)}
-                  className={`rounded-lg px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-wider transition ${
+                  className={`rounded-lg px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider transition ${
                     typeFilter === t
-                      ? 'bg-[var(--accent)] text-white shadow-2xs'
+                      ? 'bg-[var(--accent)] text-[var(--on-accent)] shadow-2xs'
                       : 'border border-[var(--line)] bg-[var(--bg)] text-[var(--muted)] hover:text-[var(--fg)]'
                   }`}
                 >
@@ -455,7 +456,7 @@ export default function FilesPage() {
 
           {/* Files Data Table */}
           <div className="overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)] shadow-2xs">
-            <div className="grid grid-cols-12 gap-4 border-b border-[var(--line)] bg-[var(--sidebar)] px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-[var(--muted)]">
+            <div className="grid grid-cols-12 gap-4 border-b border-[var(--line)] bg-[var(--sidebar)] px-5 py-3 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
               <div className="col-span-6 sm:col-span-5">File Name</div>
               <div className="hidden sm:block sm:col-span-2">Folder</div>
               <div className="hidden sm:block sm:col-span-2">Size</div>
@@ -490,13 +491,13 @@ export default function FilesPage() {
                           />
                           <button
                             onClick={() => void saveRename()}
-                            className="rounded-lg bg-[var(--accent)] px-2.5 py-1 text-[11px] font-semibold text-white"
+                            className="rounded-lg bg-[var(--accent)] px-2.5 py-1 text-xs font-semibold text-[var(--on-accent)]"
                           >
                             Save
                           </button>
                           <button
                             onClick={() => setEditingFile(null)}
-                            className="text-[11px] text-[var(--muted)] hover:underline"
+                            className="text-xs text-[var(--muted)] hover:underline"
                           >
                             Cancel
                           </button>
@@ -515,21 +516,21 @@ export default function FilesPage() {
                     {/* Folder Column */}
                     <div className="hidden sm:block sm:col-span-2 text-[var(--muted)] truncate">
                       {folderName !== '—' ? (
-                        <span className="inline-flex items-center gap-1 rounded-md bg-[var(--bg)] px-2 py-0.5 text-[11px] font-medium border border-[var(--line)]">
+                        <span className="inline-flex items-center gap-1 rounded-md bg-[var(--bg)] px-2 py-0.5 text-xs font-medium border border-[var(--line)]">
                           <Folder size={11} /> {folderName}
                         </span>
                       ) : (
-                        <span className="text-[var(--muted)] text-[11px]">Root</span>
+                        <span className="text-[var(--muted)] text-xs">Root</span>
                       )}
                     </div>
 
                     {/* Size Column */}
-                    <div className="hidden sm:block sm:col-span-2 text-[11px] font-mono text-[var(--muted)]">
+                    <div className="hidden sm:block sm:col-span-2 text-xs font-mono text-[var(--muted)]">
                       {formatFileSize(file.size_bytes)}
                     </div>
 
                     {/* Upload Date Column */}
-                    <div className="col-span-3 sm:col-span-2 text-[11px] text-[var(--muted)]">
+                    <div className="col-span-3 sm:col-span-2 text-xs text-[var(--muted)]">
                       {file.created_at ? new Date(file.created_at).toLocaleDateString() : '—'}
                     </div>
 
@@ -567,7 +568,7 @@ export default function FilesPage() {
 
                             <div className="my-1 border-t border-[var(--line)]" />
 
-                            <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">
+                            <div className="px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
                               Move to folder
                             </div>
                             <div className="max-h-32 overflow-y-auto space-y-0.5">
@@ -631,7 +632,7 @@ export default function FilesPage() {
                   <div className="mt-4 flex justify-center">
                     <button
                       onClick={() => fileInputRef.current?.click()}
-                      className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-[var(--accent-hover)] transition"
+                      className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-xs hover:bg-[var(--accent-hover)] transition"
                     >
                       <Upload size={14} /> Upload First Document
                     </button>

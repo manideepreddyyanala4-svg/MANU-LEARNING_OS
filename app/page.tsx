@@ -164,25 +164,25 @@ export default function Home() {
     >
       {/* First screen: one stable place to continue learning, especially on mobile. */}
       <section aria-label="Continue technical learning"
-        className="mb-6 rounded-3xl border border-sky-500/30 bg-gradient-to-br from-sky-600 to-indigo-700 p-5 text-white shadow-sm sm:p-7">
+        className="mb-6 rounded-3xl border border-sky-500/30 bg-sky-700   p-5 text-white shadow-sm sm:p-7">
         <p className="text-sm font-bold uppercase tracking-widest text-sky-100">Start here</p>
-        <h2 className="mt-2 text-2xl font-black leading-tight sm:text-3xl">One lesson. One next step.</h2>
+        <h2 className="mt-2 text-2xl font-bold leading-tight sm:text-3xl">One lesson. One next step.</h2>
         <p className="mt-2 max-w-2xl text-base leading-6 text-sky-50">
           Open the lesson you chose, see what comes next, or browse the full topic map.
           Your existing roadmap and notes are preserved.
         </p>
         <Link href="/study-now"
-          className="mt-5 inline-flex min-h-12 items-center gap-2 rounded-xl bg-white px-5 py-3 text-base font-black text-indigo-800 shadow-sm transition hover:bg-sky-50">
+          className="mt-5 inline-flex min-h-12 items-center gap-2 rounded-xl bg-white px-5 py-3 text-base font-bold text-indigo-800 shadow-sm transition hover:bg-sky-50">
           Continue studying <ArrowRight size={19} />
         </Link>
       </section>
 
       {/* Current career priority — applications first, ASE resources preserved */}
-      <section className="mb-6 rounded-3xl border border-sky-500/30 bg-gradient-to-br from-sky-500/10 via-[var(--surface)] to-indigo-500/10 p-6 shadow-sm md:p-8">
-        <p className="text-[11px] font-black uppercase tracking-[0.16em] text-sky-700 dark:text-sky-300">
+      <section className="mb-6 rounded-3xl border border-sky-500/30 bg-[var(--surface)]    p-6 shadow-sm md:p-8">
+        <p className="text-xs font-bold uppercase tracking-[0.16em] text-sky-700 dark:text-sky-300">
           Active Career Plan · From October 29, 2026
         </p>
-        <h2 className="mt-3 max-w-4xl text-2xl font-black leading-tight text-[var(--fg)] md:text-3xl">
+        <h2 className="mt-3 max-w-4xl text-2xl font-bold leading-tight text-[var(--fg)] md:text-3xl">
           {INTERNSHIP_PLAN.mission}
         </h2>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-[var(--muted)]">
@@ -191,7 +191,7 @@ export default function Home() {
           not equipment maintenance or rotating factory shifts.
         </p>
         <div className="mt-5 flex flex-wrap gap-2">
-          <Link href="/job-preparation" className="rounded-xl bg-[var(--accent)] px-4 py-2.5 text-xs font-bold text-white">
+          <Link href="/job-preparation" className="rounded-xl bg-[var(--accent)] px-4 py-2.5 text-xs font-bold text-[var(--on-accent)]">
             Open Internship Applications →
           </Link>
           <Link href="/settings" className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-2.5 text-xs font-bold text-[var(--fg)]">
@@ -203,24 +203,37 @@ export default function Home() {
         </div>
       </section>
 
+      {error && (
+        <p role="alert" className="mb-6 rounded-xl bg-red-50 p-4 text-xs font-medium text-red-600 dark:bg-red-950/20">
+          {error}
+        </p>
+      )}
+
+      {/* Progressive disclosure: everything below the two primary cards is available but collapsed by default. */}
+      <details className="mb-8 rounded-xl border border-[var(--line)] bg-[var(--surface)] open:pb-5">
+        <summary className="flex min-h-12 cursor-pointer items-center justify-between gap-3 px-5 py-3 text-base font-semibold text-[var(--fg)]">
+          <span>Direction, projects and workspace overview</span>
+          <span className="text-sm font-normal text-[var(--muted)]">Why I am here · North Star · Projects · Roadmap milestone</span>
+        </summary>
+        <div className="mt-2 px-4 sm:px-5">
       {/* Personal Why — long-term motivation */}
-      <section className="relative mb-8 overflow-hidden rounded-[2rem] border border-rose-500/25 bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white shadow-xl">
+      <section className="relative mb-8 overflow-hidden rounded-[2rem] border border-rose-500/25 bg-sky-700    text-white shadow-sm">
         <div className="pointer-events-none absolute -left-16 -top-24 h-64 w-64 rounded-full bg-rose-500/20 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-24 -right-16 h-72 w-72 rounded-full bg-sky-500/20 blur-3xl" />
 
         <div className="relative px-6 py-8 md:px-10 md:py-11 lg:px-12 lg:py-12">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-rose-100 backdrop-blur">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-rose-100">
             <Heart size={13} />
             Why I am here
           </div>
 
           <div className="mt-5 max-w-5xl">
-            <p className="text-sm font-extrabold uppercase tracking-[0.2em] text-sky-300">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-sky-300">
               Taiwan → Build → Earn → Return Stronger
             </p>
-            <h2 className="mt-3 text-4xl font-black leading-[1.02] tracking-tight sm:text-5xl lg:text-6xl">
+            <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
               I CAME HERE TO BUILD A LIFE —
-              <span className="block bg-gradient-to-r from-rose-300 via-amber-200 to-sky-300 bg-clip-text text-transparent">
+              <span className="block      text-[var(--accent)]">
                 NOT TO WASTE ONE.
               </span>
             </h2>
@@ -230,14 +243,14 @@ export default function Home() {
           </div>
 
           <div className="mt-7 grid gap-4 lg:grid-cols-2">
-            <div className="rounded-2xl border border-rose-300/20 bg-white/[0.07] p-5 backdrop-blur">
+            <div className="rounded-2xl border border-rose-300/20 bg-white/[0.07] p-5">
               <div className="flex items-center gap-2 text-rose-200">
                 <Heart size={17} />
-                <p className="text-[11px] font-black uppercase tracking-[0.16em]">
+                <p className="text-xs font-bold uppercase tracking-[0.16em]">
                   My family is the reason
                 </p>
               </div>
-              <p className="mt-3 text-2xl font-black tracking-tight text-white">
+              <p className="mt-3 text-2xl font-bold tracking-tight text-white">
                 MOTHER • FATHER • SISTER • FAMILY
               </p>
               <p className="mt-2 text-sm font-medium leading-6 text-slate-300">
@@ -245,14 +258,14 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-emerald-300/25 bg-emerald-400/[0.08] p-5 backdrop-blur">
+            <div className="rounded-2xl border border-emerald-300/25 bg-emerald-400/[0.08] p-5">
               <div className="flex items-center gap-2 text-emerald-200">
                 <ShieldCheck size={17} />
-                <p className="text-[11px] font-black uppercase tracking-[0.16em]">
+                <p className="text-xs font-bold uppercase tracking-[0.16em]">
                   My promise from today
                 </p>
               </div>
-              <p className="mt-3 text-3xl font-black tracking-tight text-white">
+              <p className="mt-3 text-3xl font-bold tracking-tight text-white">
                 NO ALCOHOL. NO EXCUSES.
               </p>
               <p className="mt-2 text-sm font-semibold leading-6 text-slate-300">
@@ -263,17 +276,17 @@ export default function Home() {
 
           <div className="mt-7 flex flex-col gap-5 border-t border-white/10 pt-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <p className="max-w-3xl text-xl font-black leading-8 text-white md:text-2xl">
+              <p className="max-w-3xl text-xl font-bold leading-8 text-white md:text-2xl">
                 “I can celebrate later. First, I build the life I came here for.”
               </p>
-              <p className="mt-3 text-xs font-black uppercase tracking-[0.18em] text-slate-400">
+              <p className="mt-3 text-xs font-bold uppercase tracking-[0.18em] text-slate-300">
                 Career • Money • Family • Freedom
               </p>
             </div>
 
             <Link
               href="/job-preparation"
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 text-xs font-black uppercase tracking-[0.12em] text-slate-950 shadow-lg transition hover:-translate-y-0.5 hover:bg-slate-100"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 text-xs font-bold uppercase tracking-[0.12em] text-slate-950 shadow-lg transition hover:-translate-y-0.5 hover:bg-slate-100"
             >
               Start today&apos;s work <ArrowRight size={15} />
             </Link>
@@ -281,24 +294,18 @@ export default function Home() {
         </div>
       </section>
 
-      {error && (
-        <p role="alert" className="mb-6 rounded-xl bg-red-50 p-4 text-xs font-medium text-red-600 dark:bg-red-950/20">
-          {error}
-        </p>
-      )}
-
       {/* North Star — fixed long-term goal */}
-      <section className="mb-6 overflow-hidden rounded-3xl border border-emerald-500/30 bg-gradient-to-r from-emerald-500/15 via-sky-500/10 to-fuchsia-500/15 shadow-sm">
+      <section className="mb-6 overflow-hidden rounded-3xl border border-emerald-500/30 bg-[var(--surface)]    shadow-sm">
         <div className="grid gap-5 p-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:p-7">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-emerald-700 dark:text-emerald-300">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-emerald-700 dark:text-emerald-300">
               <Target size={13} />
               North Star
             </div>
-            <h2 className="mt-4 text-3xl font-black tracking-tight text-[var(--fg)] md:text-5xl">
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-[var(--fg)] md:text-5xl">
               ₹1 CRORE / YEAR
             </h2>
-            <p className="mt-2 text-base font-extrabold text-[var(--fg)] md:text-lg">
+            <p className="mt-2 text-base font-bold text-[var(--fg)] md:text-lg">
               Reach this earning level within 5–7 years.
             </p>
             <p className="mt-3 max-w-2xl text-sm font-semibold leading-6 text-[var(--muted)]">
@@ -316,22 +323,22 @@ export default function Home() {
                 key={title}
                 className="rounded-2xl border border-[var(--line)] bg-[var(--surface)]/80 px-3 py-4 text-center shadow-2xs backdrop-blur"
               >
-                <p className="text-xs font-black tracking-wider text-[var(--fg)]">{title}</p>
-                <p className="mt-1 text-[10px] font-semibold text-[var(--muted)]">{note}</p>
+                <p className="text-xs font-bold tracking-wider text-[var(--fg)]">{title}</p>
+                <p className="mt-1 text-xs font-semibold text-[var(--muted)]">{note}</p>
               </div>
             ))}
           </div>
         </div>
 
         <div className="border-t border-[var(--line)] bg-[var(--surface)]/55 px-5 py-3 text-center md:px-7">
-          <p className="text-xs font-black uppercase tracking-[0.12em] text-[var(--fg)]">
+          <p className="text-xs font-bold uppercase tracking-[0.12em] text-[var(--fg)]">
             Everything else can come and go. Health • Food • Study stay the foundation.
           </p>
         </div>
       </section>
 
       {/* Career Focus Lock — intentionally the first thing visible on Home */}
-      <section className="mb-8 overflow-hidden rounded-3xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-[var(--surface)] to-violet-500/10 shadow-sm">
+      <section className="mb-8 overflow-hidden rounded-3xl border border-amber-500/30 bg-[var(--surface)]    shadow-sm">
         <div className="border-b border-amber-500/20 bg-amber-500/10 px-5 py-4 md:px-7">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-start gap-3">
@@ -339,10 +346,10 @@ export default function Home() {
                 <Target size={20} />
               </div>
               <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-amber-700 dark:text-amber-300">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-300">
                   Career Focus Lock
                 </p>
-                <h2 className="mt-1 text-2xl font-black tracking-tight text-[var(--fg)] md:text-3xl">
+                <h2 className="mt-1 text-2xl font-bold tracking-tight text-[var(--fg)] md:text-3xl">
                   INTERNSHIP APPLICATIONS FIRST. TWO STRONG PROJECTS.
                 </h2>
                 <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-[var(--muted)]">
@@ -350,7 +357,7 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <span className="shrink-0 rounded-full border border-amber-500/30 bg-amber-500/15 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-amber-700 dark:text-amber-300">
+            <span className="shrink-0 rounded-full border border-amber-500/30 bg-amber-500/15 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-amber-700 dark:text-amber-300">
               Depth &gt; Quantity
             </span>
           </div>
@@ -359,17 +366,17 @@ export default function Home() {
         <div className="grid gap-4 p-5 md:grid-cols-2 md:p-7">
           <Link
             href="/roadmap/production-ai"
-            className="group rounded-2xl border border-sky-500/30 bg-gradient-to-br from-sky-500/12 to-emerald-500/8 p-5 transition hover:-translate-y-0.5 hover:border-sky-500/50 hover:shadow-md"
+            className="group rounded-2xl border border-sky-500/30 bg-[var(--surface)]   p-5 transition hover:-translate-y-0.5 hover:border-sky-500/50 hover:shadow-md"
           >
             <div className="flex items-start justify-between gap-3">
               <div className="grid h-10 w-10 place-items-center rounded-xl bg-sky-500 text-white">
                 <Layers size={18} />
               </div>
-              <span className="rounded-full bg-sky-500/15 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-sky-700 dark:text-sky-300">
+              <span className="rounded-full bg-sky-500/15 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300">
                 Project 1
               </span>
             </div>
-            <h3 className="mt-4 text-xl font-black text-[var(--fg)]">
+            <h3 className="mt-4 text-xl font-bold text-[var(--fg)]">
               Dorsal-Hand Verification → Production AI
             </h3>
             <p className="mt-2 text-xs font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300">
@@ -380,26 +387,26 @@ export default function Home() {
             </p>
             <div className="mt-4 flex flex-wrap gap-1.5">
               {['Understand', 'Research', 'ONNX', 'API', 'SQL', 'Docker', 'AWS'].map((item) => (
-                <span key={item} className="rounded-lg border border-sky-500/20 bg-sky-500/8 px-2 py-1 text-[10px] font-bold text-[var(--fg)]">
+                <span key={item} className="rounded-lg border border-sky-500/20 bg-sky-500/8 px-2 py-1 text-xs font-bold text-[var(--fg)]">
                   {item}
                 </span>
               ))}
             </div>
-            <p className="mt-4 flex items-center gap-1.5 text-xs font-extrabold text-sky-700 dark:text-sky-300">
+            <p className="mt-4 flex items-center gap-1.5 text-xs font-bold text-sky-700 dark:text-sky-300">
               Open full roadmap <ArrowRight size={13} className="transition group-hover:translate-x-0.5" />
             </p>
           </Link>
 
-          <Link href="/roadmap/agent-reliability" className="group rounded-2xl border border-violet-500/30 bg-gradient-to-br from-violet-500/12 to-fuchsia-500/8 p-5 transition hover:-translate-y-0.5 hover:border-violet-500/50 hover:shadow-md">
+          <Link href="/roadmap/agent-reliability" className="group rounded-2xl border border-violet-500/30 bg-[var(--surface)]   p-5 transition hover:-translate-y-0.5 hover:border-violet-500/50 hover:shadow-md">
             <div className="flex items-start justify-between gap-3">
               <div className="grid h-10 w-10 place-items-center rounded-xl bg-violet-500 text-white">
                 <Sparkles size={18} />
               </div>
-              <span className="rounded-full bg-violet-500/15 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-violet-700 dark:text-violet-300">
+              <span className="rounded-full bg-violet-500/15 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300">
                 Project 2
               </span>
             </div>
-            <h3 className="mt-4 text-xl font-black text-[var(--fg)]">
+            <h3 className="mt-4 text-xl font-bold text-[var(--fg)]">
               Agent Reliability Lab — EvidenceOps
             </h3>
             <p className="mt-2 text-xs font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300">
@@ -410,12 +417,12 @@ export default function Home() {
             </p>
             <div className="mt-4 flex flex-wrap gap-1.5">
               {['Ollama', 'Hybrid RAG', '繁體中文', 'MCP', 'LangGraph', 'FastAPI', 'pgvector', 'Security', 'Evaluation'].map((item) => (
-                <span key={item} className="rounded-lg border border-violet-500/20 bg-violet-500/8 px-2 py-1 text-[10px] font-bold text-[var(--fg)]">
+                <span key={item} className="rounded-lg border border-violet-500/20 bg-violet-500/8 px-2 py-1 text-xs font-bold text-[var(--fg)]">
                   {item}
                 </span>
               ))}
             </div>
-            <p className="mt-4 text-xs font-extrabold text-violet-700 dark:text-violet-300">
+            <p className="mt-4 text-xs font-bold text-violet-700 dark:text-violet-300">
               Open full Project 2 roadmap <ArrowRight size={13} className="ml-1 inline transition group-hover:translate-x-0.5" />
             </p>
           </Link>
@@ -447,10 +454,10 @@ export default function Home() {
       <section className="mb-8 overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-6 md:p-8 shadow-xs">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-subtle)] px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[var(--accent)]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-subtle)] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
               <Target size={13} /> Mission Objective
             </div>
-            <h2 className="mt-3 text-2xl font-black tracking-tight text-[var(--fg)] md:text-3xl lg:text-4xl">
+            <h2 className="mt-3 text-2xl font-bold tracking-tight text-[var(--fg)] md:text-3xl lg:text-4xl">
               {settings?.mission && !/\b(ase|pte)\b|interview/i.test(settings.mission) ? settings.mission : INTERNSHIP_PLAN.mission}
             </h2>
             <p className="mt-2 text-sm font-medium leading-relaxed text-[var(--muted)]">
@@ -471,7 +478,7 @@ export default function Home() {
           <div className="flex flex-wrap items-center gap-2.5 lg:flex-col lg:items-end shrink-0">
             <Link
               href="/learning"
-              className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-2.5 text-xs font-semibold text-white shadow-xs transition hover:bg-[var(--accent-hover)]"
+              className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-2.5 text-xs font-semibold text-[var(--on-accent)] shadow-xs transition hover:bg-[var(--accent-hover)]"
             >
               Resume Study <ArrowRight size={14} />
             </Link>
@@ -503,10 +510,10 @@ export default function Home() {
 
             <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--accent)]">
+                <p className="text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
                   Current Execution Focus
                 </p>
-                <h4 className="mt-1 text-xl font-extrabold text-[var(--fg)]">
+                <h4 className="mt-1 text-xl font-bold text-[var(--fg)]">
                   {current?.title ?? 'Technical Curriculum Synthesis'}
                 </h4>
                 <p className="mt-1 text-xs text-[var(--muted)] max-w-lg">
@@ -517,14 +524,14 @@ export default function Home() {
               {current ? (
                 <Link
                   href={`/roadmap/${current.slug}`}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent-subtle)] px-3.5 py-2 text-xs font-semibold text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white transition shrink-0"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent-subtle)] px-3.5 py-2 text-xs font-semibold text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] transition shrink-0"
                 >
                   Continue Milestone <ArrowRight size={13} />
                 </Link>
               ) : (
                 <Link
                   href="/learning"
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent-subtle)] px-3.5 py-2 text-xs font-semibold text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white transition shrink-0"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent-subtle)] px-3.5 py-2 text-xs font-semibold text-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] transition shrink-0"
                 >
                   Browse Library <ArrowRight size={13} />
                 </Link>
@@ -533,7 +540,7 @@ export default function Home() {
 
             {/* Progress Bar */}
             <div className="mt-5">
-              <div className="flex justify-between text-[11px] font-semibold text-[var(--muted)] mb-1.5">
+              <div className="flex justify-between text-xs font-semibold text-[var(--muted)] mb-1.5">
                 <span>Curriculum Completion</span>
                 <span>{roadmap.length ? Math.round((completed / roadmap.length) * 100) : 0}%</span>
               </div>
@@ -580,14 +587,14 @@ export default function Home() {
                             <p className="text-xs font-bold text-[var(--fg)] group-hover:text-[var(--accent)] truncate">
                               {topic.title}
                             </p>
-                            <span className="text-[11px] text-[var(--muted)]">
+                            <span className="text-xs text-[var(--muted)]">
                               {parent?.title ?? 'Subject'} · Updated {new Date(topic.updated_at).toLocaleDateString()}
                             </span>
                           </div>
                         </div>
 
                         <div className="flex items-center gap-2 shrink-0">
-                          <span className="rounded-full border border-[var(--line)] bg-[var(--surface)] px-2 py-0.5 text-[10px] font-semibold text-[var(--muted)] capitalize">
+                          <span className="rounded-full border border-[var(--line)] bg-[var(--surface)] px-2 py-0.5 text-xs font-semibold text-[var(--muted)] capitalize">
                             {topic.status.replace('_', ' ')}
                           </span>
                           <ChevronRight size={14} className="text-[var(--muted)] opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition" />
@@ -604,7 +611,7 @@ export default function Home() {
                   action={
                     <Link
                       href="/learning"
-                      className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-3.5 py-2 text-xs font-semibold text-white shadow-xs"
+                      className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-3.5 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-xs"
                     >
                       <Plus size={14} /> Open Learning Library
                     </Link>
@@ -621,7 +628,7 @@ export default function Home() {
                 <h3 className="text-sm font-bold text-[var(--fg)]">Operating Priorities</h3>
                 <p className="text-xs text-[var(--muted)]">Ranked order of focus during daily execution.</p>
               </div>
-              <span className="rounded-full bg-blue-500/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--accent)]">
+              <span className="rounded-full bg-blue-500/10 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
                 Discipline
               </span>
             </div>
@@ -653,7 +660,7 @@ export default function Home() {
           <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-6 shadow-2xs">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-bold text-[var(--fg)]">Fast Capture</h3>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">
+              <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
                 Inbox
               </span>
             </div>
@@ -673,7 +680,7 @@ export default function Home() {
                 <select
                   value={quickType}
                   onChange={(e) => setQuickType(e.target.value)}
-                  className="rounded-lg border border-[var(--line)] bg-[var(--bg)] px-2.5 py-1 text-[11px] font-semibold text-[var(--muted)] outline-none"
+                  className="rounded-lg border border-[var(--line)] bg-[var(--bg)] px-2.5 py-1 text-xs font-semibold text-[var(--muted)] outline-none"
                 >
                   <option value="question">Question</option>
                   <option value="learn_later">Learn Later</option>
@@ -684,7 +691,7 @@ export default function Home() {
                 <button
                   type="submit"
                   disabled={!quickText.trim() || quickSaving}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:opacity-40"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-3 py-1.5 text-xs font-semibold text-[var(--on-accent)] transition hover:bg-[var(--accent-hover)] disabled:opacity-40"
                 >
                   {quickSuccess ? (
                     <>
@@ -717,14 +724,14 @@ export default function Home() {
 
             <div className="mt-5 grid grid-cols-2 gap-3 text-center">
               <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3.5">
-                <p className="text-2xl font-black text-[var(--fg)]">{inPipelineCount}</p>
-                <p className="mt-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">
+                <p className="text-2xl font-bold text-[var(--fg)]">{inPipelineCount}</p>
+                <p className="mt-0.5 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
                   Active Pipeline
                 </p>
               </div>
               <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3.5">
-                <p className="text-2xl font-black text-emerald-600">{appsSummary.offer ?? 0}</p>
-                <p className="mt-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-600">
+                <p className="text-2xl font-bold text-emerald-600">{appsSummary.offer ?? 0}</p>
+                <p className="mt-0.5 text-xs font-bold uppercase tracking-wider text-emerald-600">
                   Offers Received
                 </p>
               </div>
@@ -750,21 +757,21 @@ export default function Home() {
           <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-6 shadow-2xs">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-bold text-[var(--fg)]">Study Protocol Standard</h3>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">
+              <span className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
                 Workflow
               </span>
             </div>
             <div className="mt-3 space-y-2.5 text-xs text-[var(--muted)]">
               <div className="flex items-start gap-2.5">
-                <span className="h-5 w-5 rounded-full bg-[var(--accent-subtle)] flex items-center justify-center font-bold text-[10px] text-[var(--accent)] shrink-0">1</span>
+                <span className="h-5 w-5 rounded-full bg-[var(--accent-subtle)] flex items-center justify-center font-bold text-xs text-[var(--accent)] shrink-0">1</span>
                 <span><strong>Paper First:</strong> Draft raw mathematical proofs, diagrams, and code snippets on paper.</span>
               </div>
               <div className="flex items-start gap-2.5">
-                <span className="h-5 w-5 rounded-full bg-[var(--accent-subtle)] flex items-center justify-center font-bold text-[10px] text-[var(--accent)] shrink-0">2</span>
+                <span className="h-5 w-5 rounded-full bg-[var(--accent-subtle)] flex items-center justify-center font-bold text-xs text-[var(--accent)] shrink-0">2</span>
                 <span><strong>ChatGPT Synthesis:</strong> Refine technical accuracy and verify intuition with LLM prompts.</span>
               </div>
               <div className="flex items-start gap-2.5">
-                <span className="h-5 w-5 rounded-full bg-[var(--accent-subtle)] flex items-center justify-center font-bold text-[10px] text-[var(--accent)] shrink-0">3</span>
+                <span className="h-5 w-5 rounded-full bg-[var(--accent-subtle)] flex items-center justify-center font-bold text-xs text-[var(--accent)] shrink-0">3</span>
                 <span><strong>MANU OS Commit:</strong> Store canonical, distraction-free notes into your learning library.</span>
               </div>
             </div>
@@ -786,7 +793,7 @@ export default function Home() {
                       <span className="font-semibold text-[var(--fg)] capitalize truncate">
                         {x.event_type.replaceAll('_', ' ')}
                       </span>
-                      <span className="text-[11px] text-[var(--muted)] shrink-0 ml-2">
+                      <span className="text-xs text-[var(--muted)] shrink-0 ml-2">
                         {new Date(x.created_at).toLocaleDateString()}
                       </span>
                     </li>
@@ -801,6 +808,8 @@ export default function Home() {
           </div>
         </div>
       </div>
+        </div>
+      </details>
     </Page>
   );
 }

@@ -200,7 +200,7 @@ function Flow({ steps }: { steps: string[] }) {
     <div className="flex flex-col items-stretch gap-2 md:flex-row md:flex-wrap md:items-center">
       {steps.map((step, index) => (
         <div key={`${step}-${index}`} className="contents">
-          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-3 text-center text-[11px] font-extrabold tracking-wide text-[var(--fg)] shadow-2xs md:min-w-[132px] md:flex-1">
+          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-3 text-center text-xs font-bold tracking-wide text-[var(--fg)] shadow-2xs md:min-w-[132px] md:flex-1">
             {step}
           </div>
           {index < steps.length - 1 && (
@@ -217,7 +217,7 @@ function MiniFlow({ steps }: { steps: string[] }) {
     <div className="flex flex-wrap items-center gap-2 rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3">
       {steps.map((step, index) => (
         <div key={`${step}-${index}`} className="flex items-center gap-2">
-          <span className="rounded-lg bg-[var(--surface)] px-2.5 py-1.5 text-[11px] font-bold text-[var(--fg)] shadow-2xs">
+          <span className="rounded-lg bg-[var(--surface)] px-2.5 py-1.5 text-xs font-bold text-[var(--fg)] shadow-2xs">
             {step}
           </span>
           {index < steps.length - 1 && <span className="text-xs font-bold text-[var(--accent)]">→</span>}
@@ -246,11 +246,11 @@ function Section({
     <section id={id} className="scroll-mt-28">
       <div className={`mb-4 rounded-2xl border p-5 ${important ? 'border-[var(--accent-border)] bg-[var(--accent-subtle)]/50' : 'border-[var(--line)] bg-[var(--surface)]'}`}>
         <div className="flex items-start gap-3">
-          <span className="grid h-8 min-w-8 place-items-center rounded-xl bg-[var(--accent)] text-xs font-black text-white">
+          <span className="grid h-8 min-w-8 place-items-center rounded-xl bg-[var(--accent)] text-xs font-bold text-[var(--on-accent)]">
             {number}
           </span>
           <div>
-            <h2 className="text-xl font-extrabold tracking-tight text-[var(--fg)] md:text-2xl">{title}</h2>
+            <h2 className="text-xl font-bold tracking-tight text-[var(--fg)] md:text-2xl">{title}</h2>
             {subtitle && <p className="mt-1 text-sm leading-6 text-[var(--muted)]">{subtitle}</p>}
           </div>
         </div>
@@ -263,7 +263,7 @@ function Section({
 function Definition({ term, text }: { term: string; text: string }) {
   return (
     <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3">
-      <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[var(--accent)]">{term}</p>
+      <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--accent)]">{term}</p>
       <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{text}</p>
     </div>
   );
@@ -271,7 +271,7 @@ function Definition({ term, text }: { term: string; text: string }) {
 
 function Memory({ children }: { children: ReactNode }) {
   return (
-    <div className="mt-4 rounded-xl border border-[var(--accent-border)] bg-[var(--accent-subtle)] px-4 py-3 text-sm font-extrabold leading-6 text-[var(--fg)]">
+    <div className="mt-4 rounded-xl border border-[var(--accent-border)] bg-[var(--accent-subtle)] px-4 py-3 text-sm font-bold leading-6 text-[var(--fg)]">
       {children}
     </div>
   );
@@ -282,19 +282,19 @@ export function AseQuickPrep() {
     <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
       <header className="rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-5 shadow-2xs sm:p-7">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent-border)] bg-[var(--accent-subtle)] px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-[var(--accent)]">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent-border)] bg-[var(--accent-subtle)] px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] text-[var(--accent)]">
             <Zap size={12} /> Interview Quick Revision
           </span>
-          <span className="text-[11px] font-semibold text-[var(--muted)]">Temporary high-priority prep page</span>
+          <span className="text-xs font-semibold text-[var(--muted)]">Temporary high-priority prep page</span>
         </div>
-        <h1 className="mt-4 text-3xl font-black tracking-tight text-[var(--fg)] sm:text-4xl">ASE Semiconductor Quick Prep</h1>
+        <h1 className="mt-4 text-3xl font-bold tracking-tight text-[var(--fg)] sm:text-4xl">ASE Semiconductor Quick Prep</h1>
         <p className="mt-2 text-sm font-medium leading-6 text-[var(--muted)]">Semiconductor Flow • ASE&apos;s Role • Packaging • CP &amp; FT • PTE Basics</p>
 
         <div className="mt-6 rounded-2xl border border-[var(--line)] bg-[var(--bg)] p-4 sm:p-5">
-          <p className="mb-3 text-[10px] font-black uppercase tracking-[0.16em] text-[var(--muted)]">Big picture</p>
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-[var(--muted)]">Big picture</p>
           <Flow steps={mainFlow} />
           <Memory>DESIGN → MAKE THE WAFER → TEST THE WAFER → CUT → PACKAGE → TEST AGAIN → SHIP</Memory>
-          <div className="mt-3 rounded-xl bg-[var(--fg)] px-4 py-3 text-center text-sm font-black tracking-wide text-[var(--bg)]">
+          <div className="mt-3 rounded-xl bg-[var(--fg)] px-4 py-3 text-center text-sm font-bold tracking-wide text-[var(--bg)]">
             ASE MAIN AREA: TEST → PACKAGE → FINAL TEST
           </div>
         </div>
@@ -303,7 +303,7 @@ export function AseQuickPrep() {
       <div className="mt-5 rounded-2xl border border-[var(--accent-border)] bg-[var(--accent-subtle)]/70 p-4 sm:p-5">
         <div className="flex items-center gap-2">
           <CheckCircle2 size={17} className="text-[var(--accent)]" />
-          <h2 className="text-sm font-black text-[var(--fg)]">30-SECOND REVISION</h2>
+          <h2 className="text-sm font-bold text-[var(--fg)]">30-SECOND REVISION</h2>
         </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Definition term="FLOW" text="DESIGN → WAFER FAB → CP → DICING → PACKAGE → FT → SHIP" />
@@ -318,7 +318,7 @@ export function AseQuickPrep() {
       </div>
 
       <nav className="sticky top-[54px] z-10 mt-5 overflow-x-auto rounded-xl border border-[var(--line)] bg-[var(--bg)]/95 p-2 shadow-2xs backdrop-blur-md">
-        <div className="flex min-w-max gap-1 text-[11px] font-bold">
+        <div className="flex min-w-max gap-1 text-xs font-bold">
           {[
             ['flow', 'Flow'],
             ['packaging', 'Packaging'],
@@ -343,21 +343,21 @@ export function AseQuickPrep() {
             {semiconductorStages.map((stage) => (
               <article key={stage.number} className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 shadow-2xs">
                 <div className="flex items-start gap-3">
-                  <span className="grid h-8 min-w-8 place-items-center rounded-xl bg-[var(--accent-subtle)] text-xs font-black text-[var(--accent)]">{stage.number}</span>
+                  <span className="grid h-8 min-w-8 place-items-center rounded-xl bg-[var(--accent-subtle)] text-xs font-bold text-[var(--accent)]">{stage.number}</span>
                   <div>
-                    <h3 className="text-base font-extrabold text-[var(--fg)]">{stage.title}</h3>
+                    <h3 className="text-base font-bold text-[var(--fg)]">{stage.title}</h3>
                     {stage.subtitle && <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{stage.subtitle}</p>}
                   </div>
                 </div>
                 <div className="mt-4">
-                  <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[var(--muted)]">What happens</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--muted)]">What happens</p>
                   <div className="mt-2 space-y-1.5 text-sm leading-6 text-[var(--fg)]">
                     {stage.happens.map((line) => <p key={line}>{line}</p>)}
                   </div>
                 </div>
                 {stage.extra && <div className="mt-4">{stage.extra}</div>}
                 <div className="mt-4 border-t border-[var(--line-subtle)] pt-4">
-                  <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[var(--accent)]">ASE&apos;s role</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--accent)]">ASE&apos;s role</p>
                   <div className="mt-2 space-y-1.5 text-sm leading-6 text-[var(--muted)]">
                     {stage.ase.map((line) => <p key={line}>{line}</p>)}
                   </div>
@@ -375,7 +375,7 @@ export function AseQuickPrep() {
           <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {packagingSteps.map((step) => (
               <article key={step.title} className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 shadow-2xs">
-                <h3 className="text-sm font-extrabold text-[var(--fg)]">{step.title}</h3>
+                <h3 className="text-sm font-bold text-[var(--fg)]">{step.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{step.body}</p>
                 {step.note && <p className="mt-3 rounded-lg border border-[var(--line)] bg-[var(--bg)] p-3 text-xs font-semibold leading-5 text-[var(--fg)]">{step.note}</p>}
                 <Memory>{step.memory}</Memory>
@@ -404,10 +404,10 @@ export function AseQuickPrep() {
           <div className="overflow-x-auto rounded-2xl border border-[var(--line)] bg-[var(--surface)] shadow-2xs">
             <table className="w-full min-w-[720px] border-collapse text-left text-sm">
               <thead>
-                <tr className="border-b border-[var(--line)] bg-[var(--bg)] text-[11px] uppercase tracking-wider text-[var(--muted)]">
-                  <th className="px-4 py-3 font-black">Point</th>
-                  <th className="px-4 py-3 font-black">CP / Wafer Probe</th>
-                  <th className="px-4 py-3 font-black">FT / Final Test</th>
+                <tr className="border-b border-[var(--line)] bg-[var(--bg)] text-xs uppercase tracking-wider text-[var(--muted)]">
+                  <th className="px-4 py-3 font-bold">Point</th>
+                  <th className="px-4 py-3 font-bold">CP / Wafer Probe</th>
+                  <th className="px-4 py-3 font-bold">FT / Final Test</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[var(--line-subtle)] text-[var(--fg)]">
@@ -420,7 +420,7 @@ export function AseQuickPrep() {
                   ['Memory', 'CP = BEFORE PACKAGE', 'FT = AFTER PACKAGE'],
                 ].map((row) => (
                   <tr key={row[0]}>
-                    <th className="px-4 py-3 text-xs font-extrabold text-[var(--muted)]">{row[0]}</th>
+                    <th className="px-4 py-3 text-xs font-bold text-[var(--muted)]">{row[0]}</th>
                     <td className="px-4 py-3 font-semibold">{row[1]}</td>
                     <td className="px-4 py-3 font-semibold">{row[2]}</td>
                   </tr>
@@ -429,8 +429,8 @@ export function AseQuickPrep() {
             </table>
           </div>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-2xl bg-[var(--fg)] p-4 text-center text-lg font-black text-[var(--bg)]">CP = BEFORE PACKAGING</div>
-            <div className="rounded-2xl bg-[var(--accent)] p-4 text-center text-lg font-black text-white">FT = AFTER PACKAGING</div>
+            <div className="rounded-2xl bg-[var(--fg)] p-4 text-center text-lg font-bold text-[var(--bg)]">CP = BEFORE PACKAGING</div>
+            <div className="rounded-2xl bg-[var(--accent)] p-4 text-center text-lg font-bold text-[var(--on-accent)]">FT = AFTER PACKAGING</div>
           </div>
         </Section>
 
@@ -438,16 +438,16 @@ export function AseQuickPrep() {
           <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
             <div className="grid gap-4 lg:grid-cols-3">
               <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[var(--muted)]">Chip company / customer</p>
-                <p className="mt-2 text-base font-extrabold text-[var(--fg)]">CHIP DESIGN</p>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--muted)]">Chip company / customer</p>
+                <p className="mt-2 text-base font-bold text-[var(--fg)]">CHIP DESIGN</p>
               </div>
               <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] p-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[var(--muted)]">Foundry</p>
-                <p className="mt-2 text-base font-extrabold text-[var(--fg)]">WAFER FABRICATION</p>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--muted)]">Foundry</p>
+                <p className="mt-2 text-base font-bold text-[var(--fg)]">WAFER FABRICATION</p>
               </div>
               <div className="rounded-xl border-2 border-[var(--accent)] bg-[var(--accent-subtle)] p-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[var(--accent)]">ASE</p>
-                <p className="mt-2 text-sm font-extrabold leading-6 text-[var(--fg)]">WAFER TEST / CP → ASSEMBLY &amp; PACKAGING → FINAL TEST / FT → PACK / SHIP</p>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--accent)]">ASE</p>
+                <p className="mt-2 text-sm font-bold leading-6 text-[var(--fg)]">WAFER TEST / CP → ASSEMBLY &amp; PACKAGING → FINAL TEST / FT → PACK / SHIP</p>
               </div>
             </div>
             <div className="mt-5 space-y-2 text-sm leading-6 text-[var(--muted)]">
@@ -459,10 +459,10 @@ export function AseQuickPrep() {
           </div>
 
           <div className="mt-4 rounded-2xl border-2 border-[var(--accent)] bg-[var(--accent-subtle)] p-5 sm:p-6">
-            <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[var(--accent)]">Interview answer · What does ASE do?</p>
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--accent)]">Interview answer · What does ASE do?</p>
             <p className="mt-3 text-base font-semibold leading-7 text-[var(--fg)]">“ASE is mainly a semiconductor assembly and test company. After wafers or dies are manufactured, ASE can perform wafer testing, package the good dies, and then perform final testing on the packaged chips. ASE checks whether the devices meet the customer&apos;s specifications before shipment.”</p>
             <div className="mt-4 rounded-xl border border-[var(--line)] bg-[var(--surface)] p-4">
-              <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[var(--muted)]">Shorter version</p>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--muted)]">Shorter version</p>
               <p className="mt-2 text-sm font-semibold leading-6 text-[var(--fg)]">“ASE mainly packages and tests semiconductor chips. It can test dies at wafer level, package the good dies, and test the packaged devices again before shipment.”</p>
             </div>
           </div>
@@ -489,13 +489,13 @@ export function AseQuickPrep() {
         <Section id="yield" number="8" title="YIELD" subtitle="Yield tells you what percentage of tested devices passed.">
           <div className="grid gap-4 lg:grid-cols-2">
             <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-6 text-center shadow-2xs">
-              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[var(--muted)]">Formula</p>
-              <p className="mt-3 text-xl font-black text-[var(--fg)] sm:text-2xl">YIELD = GOOD UNITS / TOTAL TESTED UNITS × 100%</p>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--muted)]">Formula</p>
+              <p className="mt-3 text-xl font-bold text-[var(--fg)] sm:text-2xl">YIELD = GOOD UNITS / TOTAL TESTED UNITS × 100%</p>
             </div>
             <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-6 shadow-2xs">
-              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[var(--muted)]">Example</p>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--muted)]">Example</p>
               <p className="mt-3 text-sm font-semibold leading-7 text-[var(--fg)]">100 chips tested · 95 pass</p>
-              <p className="text-lg font-black text-[var(--accent)]">95 / 100 × 100 = 95%</p>
+              <p className="text-lg font-bold text-[var(--accent)]">95 / 100 × 100 = 95%</p>
               <p className="mt-3 text-sm leading-6 text-[var(--muted)]">High yield = more devices passing. Sudden yield drop = something may be wrong and needs investigation.</p>
             </div>
           </div>
@@ -514,7 +514,7 @@ export function AseQuickPrep() {
               ['8. DOCUMENT', 'Record what was found and what was changed.'],
             ].map(([title, body]) => (
               <div key={title} className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 shadow-2xs">
-                <h3 className="text-sm font-extrabold text-[var(--fg)]">{title}</h3>
+                <h3 className="text-sm font-bold text-[var(--fg)]">{title}</h3>
                 <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{body}</p>
               </div>
             ))}
@@ -534,8 +534,8 @@ export function AseQuickPrep() {
             <Definition term="CURRENT" text="Flow of electric charge." />
             <Definition term="RESISTANCE" text="Opposition to current." />
             <div className="rounded-xl border border-[var(--accent-border)] bg-[var(--accent-subtle)] p-4">
-              <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[var(--accent)]">OHM&apos;S LAW</p>
-              <p className="mt-2 text-xl font-black text-[var(--fg)]">V = I × R</p>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--accent)]">OHM&apos;S LAW</p>
+              <p className="mt-2 text-xl font-bold text-[var(--fg)]">V = I × R</p>
             </div>
             <Definition term="OPEN CIRCUIT" text="The electrical path is broken. Current cannot flow normally." />
             <Definition term="SHORT CIRCUIT" text="Two points become connected through an unintended low-resistance path. This can produce abnormal current." />
@@ -545,15 +545,15 @@ export function AseQuickPrep() {
         <Section id="research" number="12" title="CONNECTION TO MY RESEARCH" subtitle="The domain is different, but the debugging mindset transfers.">
           <div className="grid gap-4 lg:grid-cols-2">
             <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
-              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[var(--muted)]">My research</p>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--muted)]">My research</p>
               <MiniFlow steps={['run experiment', 'get results', 'see abnormal behavior', 'compare conditions', 'investigate', 'change one thing', 'test again', 'verify']} />
             </div>
             <div className="rounded-2xl border border-[var(--accent-border)] bg-[var(--accent-subtle)]/40 p-5">
-              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[var(--accent)]">PTE</p>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--accent)]">PTE</p>
               <MiniFlow steps={['run semiconductor test', 'get test data', 'see abnormal yield/result', 'compare lots/testers/sites/conditions', 'investigate', 'test possible causes', 'verify', 'document']} />
             </div>
           </div>
-          <div className="mt-4 rounded-2xl bg-[var(--fg)] p-5 text-center text-base font-black tracking-wide text-[var(--bg)]">
+          <div className="mt-4 rounded-2xl bg-[var(--fg)] p-5 text-center text-base font-bold tracking-wide text-[var(--bg)]">
             THE DOMAIN IS DIFFERENT. THE PROBLEM-SOLVING PROCESS IS SIMILAR.
           </div>
         </Section>
@@ -564,12 +564,12 @@ export function AseQuickPrep() {
               {interviewQuestions.map((item, index) => (
                 <details key={item.q} className="group px-5 py-4">
                   <summary className="flex cursor-pointer list-none items-start gap-3">
-                    <span className="grid h-7 min-w-7 place-items-center rounded-lg bg-[var(--accent-subtle)] text-[11px] font-black text-[var(--accent)]">{index + 1}</span>
-                    <span className="flex-1 text-sm font-extrabold leading-6 text-[var(--fg)]">Q: {item.q}</span>
+                    <span className="grid h-7 min-w-7 place-items-center rounded-lg bg-[var(--accent-subtle)] text-xs font-bold text-[var(--accent)]">{index + 1}</span>
+                    <span className="flex-1 text-sm font-bold leading-6 text-[var(--fg)]">Q: {item.q}</span>
                     <span className="mt-1 text-xs text-[var(--muted)] transition group-open:rotate-180">⌄</span>
                   </summary>
                   <div className="ml-10 mt-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
-                    <p className="text-[10px] font-black uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-400">Answer</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-400">Answer</p>
                     <p className="mt-2 text-sm font-medium leading-6 text-[var(--fg)]">{item.a}</p>
                   </div>
                 </details>
@@ -580,7 +580,7 @@ export function AseQuickPrep() {
 
         <Section id="final-revision" number="14" title="FINAL 30-SECOND REVISION" subtitle="Before the interview, this is the minimum picture to keep in your head." important>
           <div className="rounded-2xl border border-[var(--accent-border)] bg-[var(--accent-subtle)] p-5 sm:p-6">
-            <p className="text-lg font-black leading-8 text-[var(--fg)]">DESIGN → WAFER FAB → CP → DICING → PACKAGE → FT → SHIP</p>
+            <p className="text-lg font-bold leading-8 text-[var(--fg)]">DESIGN → WAFER FAB → CP → DICING → PACKAGE → FT → SHIP</p>
             <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               <Definition term="ASE" text="TEST → PACKAGE → TEST AGAIN" />
               <Definition term="CP" text="Before packaging" />

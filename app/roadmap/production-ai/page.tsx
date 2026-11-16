@@ -213,25 +213,25 @@ export default function ProductionAIRoadmapPage() {
         <div className="space-y-5">
           <Link href="/roadmap/cv-interview" className="group flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-sky-500/30 bg-sky-500/10 p-5 transition hover:border-sky-500/60">
             <div>
-              <p className="text-[11px] font-black uppercase tracking-wider text-sky-700 dark:text-sky-300">Separate computer vision job-preparation track</p>
-              <h2 className="mt-1 text-lg font-black text-[var(--fg)]">199 numbered OpenCV, image processing, PyTorch and biometrics topics</h2>
+              <p className="text-xs font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300">Separate computer vision job-preparation track</p>
+              <h2 className="mt-1 text-lg font-bold text-[var(--fg)]">199 numbered OpenCV, image processing, PyTorch and biometrics topics</h2>
               <p className="mt-1 text-xs leading-5 text-[var(--muted)]">Learn foundations in order and mark your interview practice without affecting the research milestones below.</p>
             </div>
-            <span className="text-xs font-black text-sky-700 dark:text-sky-300">Open CV learning track →</span>
+            <span className="text-xs font-bold text-sky-700 dark:text-sky-300">Open CV learning track →</span>
           </Link>
           <Card className="overflow-hidden bg-[var(--accent-subtle)]/20">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[var(--accent)]">
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--accent)]">
                   Simple master flow
                 </p>
-                <h2 className="mt-2 text-xl font-extrabold text-[var(--fg)]">
+                <h2 className="mt-2 text-xl font-bold text-[var(--fg)]">
                   Research → Deployment → Security
                 </h2>
               </div>
               <div className="min-w-32 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-right">
-                <p className="text-2xl font-black text-[var(--fg)]">{progress}%</p>
-                <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">
+                <p className="text-2xl font-bold text-[var(--fg)]">{progress}%</p>
+                <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
                   completed
                 </p>
               </div>
@@ -281,10 +281,10 @@ export default function ProductionAIRoadmapPage() {
 
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
-                          <h2 className="text-base font-extrabold text-[var(--fg)] md:text-lg">
+                          <h2 className="text-base font-bold text-[var(--fg)] md:text-lg">
                             {stage.title}
                           </h2>
-                          <span className="rounded-full bg-[var(--accent-subtle)] px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-[var(--accent)]">
+                          <span className="rounded-full bg-[var(--accent-subtle)] px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
                             {stage.phase}
                           </span>
                         </div>
@@ -293,19 +293,19 @@ export default function ProductionAIRoadmapPage() {
 
                         <div className="mt-4 grid gap-3 md:grid-cols-3">
                           <div className="rounded-xl border border-[var(--line-subtle)] bg-[var(--bg)]/50 p-3.5">
-                            <p className="text-[10px] font-black uppercase tracking-wider text-[var(--muted)]">
+                            <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
                               Learn
                             </p>
                             <p className="mt-1.5 text-xs leading-5 text-[var(--fg)]">{stage.learn}</p>
                           </div>
                           <div className="rounded-xl border border-[var(--line-subtle)] bg-[var(--bg)]/50 p-3.5">
-                            <p className="text-[10px] font-black uppercase tracking-wider text-[var(--muted)]">
+                            <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
                               Use in Dorsal
                             </p>
                             <p className="mt-1.5 text-xs leading-5 text-[var(--fg)]">{stage.dorsal}</p>
                           </div>
                           <div className="rounded-xl border border-[var(--line-subtle)] bg-[var(--bg)]/50 p-3.5">
-                            <p className="text-[10px] font-black uppercase tracking-wider text-[var(--muted)]">
+                            <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
                               Finish when
                             </p>
                             <p className="mt-1.5 text-xs leading-5 text-[var(--fg)]">{stage.done}</p>
@@ -329,7 +329,7 @@ export default function ProductionAIRoadmapPage() {
           <Card>
             <div className="flex items-center gap-2">
               <Rocket size={18} className="text-[var(--accent)]" />
-              <h2 className="text-sm font-extrabold text-[var(--fg)]">Graduation target</h2>
+              <h2 className="text-sm font-bold text-[var(--fg)]">Graduation target</h2>
             </div>
             <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
               Be able to say: “I took my PyTorch biometric model from research to a tested ONNX API, database, Docker container, cloud deployment and secure production workflow.”
@@ -339,17 +339,17 @@ export default function ProductionAIRoadmapPage() {
           <Card>
             <div className="flex items-center gap-2">
               <Server size={18} className="text-[var(--accent)]" />
-              <h2 className="text-sm font-extrabold text-[var(--fg)]">Priority order</h2>
+              <h2 className="text-sm font-bold text-[var(--fg)]">Priority order</h2>
             </div>
             <div className="mt-4 space-y-3 text-xs">
               <div>
-                <p className="font-extrabold text-[var(--fg)]">Before graduation</p>
+                <p className="font-bold text-[var(--fg)]">Before graduation</p>
                 <p className="mt-1 leading-5 text-[var(--muted)]">
                   Stages 1–10. Understand and finish the research first, then build the main job-ready production signal.
                 </p>
               </div>
               <div>
-                <p className="font-extrabold text-[var(--fg)]">After core deployment works</p>
+                <p className="font-bold text-[var(--fg)]">After core deployment works</p>
                 <p className="mt-1 leading-5 text-[var(--muted)]">
                   Kubernetes, security hardening and TensorRT optimization.
                 </p>
@@ -360,7 +360,7 @@ export default function ProductionAIRoadmapPage() {
           <Card className="border-[var(--accent)]/30">
             <div className="flex items-center gap-2">
               <BrainCircuit size={18} className="text-[var(--accent)]" />
-              <h2 className="text-sm font-extrabold text-[var(--fg)]">
+              <h2 className="text-sm font-bold text-[var(--fg)]">
                 Project 2 — Agent Reliability Lab: EvidenceOps
               </h2>
             </div>
@@ -369,7 +369,7 @@ export default function ProductionAIRoadmapPage() {
             </p>
 
             <div className="mt-4 rounded-xl border border-[var(--line)] bg-[var(--bg)]/50 p-3.5">
-              <p className="text-xs font-extrabold text-[var(--fg)]">
+              <p className="text-xs font-bold text-[var(--fg)]">
                 EvidenceOps — Bilingual Enterprise AI Investigation + Workflow Automation
               </p>
               <p className="mt-1 text-xs leading-5 text-[var(--muted)]">
@@ -380,7 +380,7 @@ export default function ProductionAIRoadmapPage() {
             <div className="mt-4 space-y-2">
               {ragFlow.map((step, index) => (
                 <div key={step} className="flex items-start gap-2 text-xs">
-                  <span className="grid h-5 w-5 shrink-0 place-items-center rounded-md bg-[var(--accent-subtle)] text-[10px] font-black text-[var(--accent)]">
+                  <span className="grid h-5 w-5 shrink-0 place-items-center rounded-md bg-[var(--accent-subtle)] text-xs font-bold text-[var(--accent)]">
                     {index + 1}
                   </span>
                   <span className="leading-5 text-[var(--fg)]">{step}</span>
@@ -389,33 +389,33 @@ export default function ProductionAIRoadmapPage() {
             </div>
 
             <div className="mt-4 border-t border-[var(--line-subtle)] pt-4">
-              <p className="text-[10px] font-black uppercase tracking-wider text-[var(--muted)]">
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
                 Learn
               </p>
               <p className="mt-1.5 text-xs leading-5 text-[var(--fg)]">
                 Python • existing Ollama • bilingual embeddings • PDF/tables • PostgreSQL/pgvector • hybrid RAG • LangGraph • MCP • SQL/REST • FastAPI • Next.js • AI security • tracing • Docker/CI
               </p>
             </div>
-            <Link href="/roadmap/agent-reliability" className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-2.5 text-xs font-bold text-white">Open complete Project 2 roadmap →</Link>
+            <Link href="/roadmap/agent-reliability" className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-2.5 text-xs font-bold text-[var(--on-accent)]">Open complete Project 2 roadmap →</Link>
           </Card>
 
           <Card>
             <div className="grid grid-cols-2 gap-3 text-center">
               <div>
                 <Database className="mx-auto text-[var(--accent)]" size={18} />
-                <p className="mt-1 text-[10px] font-bold text-[var(--muted)]">Data</p>
+                <p className="mt-1 text-xs font-bold text-[var(--muted)]">Data</p>
               </div>
               <div>
                 <Cloud className="mx-auto text-[var(--accent)]" size={18} />
-                <p className="mt-1 text-[10px] font-bold text-[var(--muted)]">Cloud</p>
+                <p className="mt-1 text-xs font-bold text-[var(--muted)]">Cloud</p>
               </div>
               <div>
                 <GitBranch className="mx-auto text-[var(--accent)]" size={18} />
-                <p className="mt-1 text-[10px] font-bold text-[var(--muted)]">CI/CD</p>
+                <p className="mt-1 text-xs font-bold text-[var(--muted)]">CI/CD</p>
               </div>
               <div>
                 <LockKeyhole className="mx-auto text-[var(--accent)]" size={18} />
-                <p className="mt-1 text-[10px] font-bold text-[var(--muted)]">Security</p>
+                <p className="mt-1 text-xs font-bold text-[var(--muted)]">Security</p>
               </div>
             </div>
           </Card>

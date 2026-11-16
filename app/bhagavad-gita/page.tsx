@@ -102,7 +102,7 @@ export default function BhagavadGitaPage() {
         <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[.16em] text-[var(--accent)]">
           <BookMarked size={15}/> Spiritual reading · Bhagavad-gītā
         </div>
-        <h1 className="max-w-3xl text-3xl font-extrabold tracking-tight text-[var(--fg)] sm:text-4xl">
+        <h1 className="max-w-3xl text-3xl font-bold tracking-tight text-[var(--fg)] sm:text-4xl">
           Chapter 1 <span className="font-normal text-[var(--muted)]">—</span> Observing the Armies on the Battlefield of Kurukshetra
         </h1>
         <p className="mt-3 max-w-3xl text-sm leading-7 text-[var(--muted)]">
@@ -112,14 +112,14 @@ export default function BhagavadGitaPage() {
         </p>
         <div className="mt-5 grid gap-3 sm:grid-cols-3">
           <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] px-4 py-3">
-            <p className="text-2xl font-extrabold text-[var(--fg)]">46</p><p className="text-xs text-[var(--muted)]">All verses covered · 39 book sections</p>
+            <p className="text-2xl font-bold text-[var(--fg)]">46</p><p className="text-xs text-[var(--muted)]">All verses covered · 39 book sections</p>
           </div>
           <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] px-4 py-3">
-            <p className="text-2xl font-extrabold text-[var(--fg)]">{completed}<span className="text-base font-normal text-[var(--muted)]"> / 46</span></p>
+            <p className="text-2xl font-bold text-[var(--fg)]">{completed}<span className="text-base font-normal text-[var(--muted)]"> / 46</span></p>
             <p className="text-xs text-[var(--muted)]">Verses marked as read on this device</p>
           </div>
           <div className="rounded-xl border border-[var(--line)] bg-[var(--bg)] px-4 py-3">
-            <p className="text-2xl font-extrabold text-[var(--fg)]">{pdfStart}–{pdfEnd}</p>
+            <p className="text-2xl font-bold text-[var(--fg)]">{pdfStart}–{pdfEnd}</p>
             <p className="text-xs text-[var(--muted)]">PDF page references from your uploaded edition</p>
           </div>
         </div>
@@ -146,7 +146,7 @@ export default function BhagavadGitaPage() {
                   const nums=Array.from({length:covered(p.start,p.end)},(_,j)=>p.start+j);
                   const done=nums.every(n=>read.includes(n));
                   return <button key={i} onClick={()=>select(i)} type="button" className={'flex w-full items-start justify-between rounded-xl px-3 py-2 text-left text-sm transition '+(i===selected?'bg-[var(--accent-subtle)] font-bold text-[var(--accent)]':'text-[var(--fg)] hover:bg-[var(--bg)]')}>
-                    <span>Verse {p.start}{p.end>p.start?'–'+p.end:''}<span className="block text-[11px] font-normal text-[var(--muted)]">PDF p. {p.pageStart}</span></span>
+                    <span>Verse {p.start}{p.end>p.start?'–'+p.end:''}<span className="block text-xs font-normal text-[var(--muted)]">PDF p. {p.pageStart}</span></span>
                     {done&&<Check size={15} className="mt-1 text-emerald-600" aria-label="Read"/>}
                   </button>
                 })}
@@ -167,7 +167,7 @@ export default function BhagavadGitaPage() {
                   PDF page {passage.pageStart}{passage.pageEnd>passage.pageStart?'–'+passage.pageEnd:''}
                 </span>
               </div>
-              <h2 className="mt-4 text-2xl font-extrabold text-[var(--fg)]">Verse {title}</h2>
+              <h2 className="mt-4 text-2xl font-bold text-[var(--fg)]">Verse {title}</h2>
               <p className="mt-1 text-xs text-[var(--muted)]">Original reading order from the book · Section {selected+1} of {gitaChapterOne.length}</p>
             </header>
 
@@ -205,7 +205,7 @@ export default function BhagavadGitaPage() {
               <section className="rounded-2xl border-l-4 border-[var(--accent)] bg-[var(--accent-subtle)]/50 p-5 sm:p-6">
                 <div className="mb-3 flex flex-wrap items-center gap-2">
                   <BookOpen size={18} className="text-[var(--accent)]"/>
-                  <h3 className="text-lg font-extrabold text-[var(--fg)]">Purport — in simple English</h3>
+                  <h3 className="text-lg font-bold text-[var(--fg)]">Purport — in simple English</h3>
                 </div>
                 {passage.simplePurport
                   ? passage.simplePurport.split('\n\n').map((part,i)=><p key={i} className="mt-3 whitespace-pre-line text-[15px] leading-8 text-[var(--fg)]">{part}</p>)
@@ -213,7 +213,7 @@ export default function BhagavadGitaPage() {
               </section>
 
               <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[var(--line)] pt-5">
-                <button type="button" onClick={toggleRead} className={'inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition '+(isRead?'border border-emerald-600/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300':'bg-[var(--accent)] text-white')}>
+                <button type="button" onClick={toggleRead} className={'inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition '+(isRead?'border border-emerald-600/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300':'bg-[var(--accent)] text-[var(--on-accent)]')}>
                   {isRead?<Check size={17}/>:<Bookmark size={17}/>} {isRead?'Marked as read':'Mark verse as read'}
                 </button>
                 <div className="flex items-center gap-2">
@@ -227,7 +227,7 @@ export default function BhagavadGitaPage() {
           <div className="mt-5 flex items-center justify-between gap-3">
             <button onClick={()=>select(selected-1)} disabled={selected===0} className="inline-flex items-center gap-2 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-sm font-bold text-[var(--fg)] disabled:opacity-40"><ChevronLeft size={18}/> Previous</button>
             <span className="text-center text-xs text-[var(--muted)]">{selected+1} / {gitaChapterOne.length} sections</span>
-            <button onClick={()=>select(selected+1)} disabled={selected===gitaChapterOne.length-1} className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-3 text-sm font-bold text-white disabled:opacity-40">Next <ChevronRight size={18}/></button>
+            <button onClick={()=>select(selected+1)} disabled={selected===gitaChapterOne.length-1} className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-3 text-sm font-bold text-[var(--on-accent)] disabled:opacity-40">Next <ChevronRight size={18}/></button>
           </div>
           <p className="mt-6 text-center text-xs leading-6 text-[var(--muted)]">
             Source: <em>Bhagavad-gītā As It Is</em>, A. C. Bhaktivedanta Swami Prabhupada, Bhaktivedanta Book Trust, 1998. 

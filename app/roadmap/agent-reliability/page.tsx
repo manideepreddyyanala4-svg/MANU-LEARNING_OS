@@ -121,7 +121,7 @@ const sources = [
   ['Taiwan employer requirements — 104 search', 'https://www.104.com.tw/jobs/search/?action=jobSearch&jobcat=2007001020'],
 ] as const;
 
-const anchorClass = 'rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-2 text-xs font-extrabold text-[var(--fg)] transition hover:border-violet-400 hover:text-violet-600';
+const anchorClass = 'rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-2 text-xs font-bold text-[var(--fg)] transition hover:border-violet-400 hover:text-violet-600';
 
 export default function AgentReliabilityPage() {
   return (
@@ -132,16 +132,16 @@ export default function AgentReliabilityPage() {
       actions={<Link href="/roadmap" className="inline-flex items-center gap-2 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-2 text-xs font-bold text-[var(--fg)]"><ArrowLeft size={15} /> Roadmap</Link>}
     >
       <div className="space-y-7">
-        <section className="relative overflow-hidden rounded-3xl border border-violet-500/25 bg-gradient-to-br from-slate-950 via-indigo-950 to-violet-950 p-6 text-white shadow-lg md:p-8">
+        <section className="relative overflow-hidden rounded-3xl border border-violet-500/25 bg-sky-700    p-6 text-white shadow-lg md:p-8">
           <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-violet-500/20 blur-3xl" aria-hidden="true" />
           <div className="relative">
             <div className="flex flex-wrap gap-2">
-              <span className="rounded-full bg-amber-400/15 px-3 py-1 text-[11px] font-bold text-amber-200">LOCAL NON-LLM SYSTEM TESTED · LIVE AI EVALUATION PENDING</span>
-              <span className="rounded-full bg-sky-400/15 px-3 py-1 text-[11px] font-bold text-sky-200">LOCAL OLLAMA IN LAB</span>
-              <span className="rounded-full bg-emerald-400/15 px-3 py-1 text-[11px] font-bold text-emerald-200">INTERNSHIP → FULL-TIME</span>
+              <span className="rounded-full bg-amber-400/15 px-3 py-1 text-xs font-bold text-amber-200">LOCAL NON-LLM SYSTEM TESTED · LIVE AI EVALUATION PENDING</span>
+              <span className="rounded-full bg-sky-400/15 px-3 py-1 text-xs font-bold text-sky-200">LOCAL OLLAMA IN LAB</span>
+              <span className="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-bold text-emerald-200">INTERNSHIP → FULL-TIME</span>
             </div>
-            <p className="mt-5 text-xs font-extrabold uppercase tracking-[0.2em] text-violet-200">One flagship project, not another chatbot clone</p>
-            <h2 className="mt-2 max-w-4xl text-3xl font-black leading-tight md:text-4xl">Evidence-backed answers. Controlled AI actions. Measured reliability.</h2>
+            <p className="mt-5 text-xs font-bold uppercase tracking-[0.2em] text-violet-200">One flagship project, not another chatbot clone</p>
+            <h2 className="mt-2 max-w-4xl text-3xl font-bold leading-tight md:text-4xl">Evidence-backed answers. Controlled AI actions. Measured reliability.</h2>
             <p className="mt-4 max-w-4xl text-sm leading-7 text-slate-200">
               Build a reusable AI application for companies that must investigate operational problems using changing documents, databases and tools. The flagship scenario is simulated industrial computer-vision inspection. No private lab data or real factory-control connections.
             </p>
@@ -155,11 +155,11 @@ export default function AgentReliabilityPage() {
 
         <Link href="/roadmap/evidenceops-from-zero" className="group flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-violet-500/30 bg-violet-500/10 p-5 transition hover:border-violet-500/60">
           <div>
-            <p className="text-xs font-extrabold uppercase tracking-wider text-violet-600 dark:text-violet-300">Separate job interview learning track</p>
-            <h2 className="mt-1 text-lg font-black text-[var(--fg)]">100 beginner-to-interview topics in prerequisite order</h2>
+            <p className="text-xs font-bold uppercase tracking-wider text-violet-600 dark:text-violet-300">Separate job interview learning track</p>
+            <h2 className="mt-1 text-lg font-bold text-[var(--fg)]">100 beginner-to-interview topics in prerequisite order</h2>
             <p className="mt-1 text-xs text-[var(--muted)]">What an LLM is → Python basics → documents → Ollama → BM25 → embeddings → RAG checks → FastAPI → MCP → testing and interviews.</p>
           </div>
-          <span className="inline-flex items-center gap-1 text-xs font-extrabold text-violet-600 dark:text-violet-300">Open learning track <ArrowRight size={15}/></span>
+          <span className="inline-flex items-center gap-1 text-xs font-bold text-violet-600 dark:text-violet-300">Open learning track <ArrowRight size={15}/></span>
         </Link>
 
         <nav aria-label="Project sections" className="flex flex-wrap gap-2">
@@ -172,23 +172,23 @@ export default function AgentReliabilityPage() {
         </nav>
 
         <section id="problem" className="scroll-mt-20 space-y-4">
-          <div className="flex items-center gap-2 text-violet-600 dark:text-violet-300"><BrainCircuit size={19} /><h2 className="text-xl font-black text-[var(--fg)]">1. What are we building, in simple words?</h2></div>
+          <div className="flex items-center gap-2 text-violet-600 dark:text-violet-300"><BrainCircuit size={19} /><h2 className="text-xl font-bold text-[var(--fg)]">1. What are we building, in simple words?</h2></div>
           <div className="grid gap-4 md:grid-cols-2">
             <Card>
-              <p className="text-[11px] font-black uppercase tracking-wider text-[var(--muted)]">Why companies need it</p>
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Why companies need it</p>
               <p className="mt-2 text-sm leading-7 text-[var(--fg)]">An LLM understands language but may not know private or changing company facts. RAG searches approved evidence before answering. An AI agent uses permitted tools to check live records or prepare an action. Our reliability lab tests whether all three behave correctly.</p>
             </Card>
             <Card>
-              <p className="text-[11px] font-black uppercase tracking-wider text-[var(--muted)]">What makes it different</p>
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">What makes it different</p>
               <p className="mt-2 text-sm leading-7 text-[var(--fg)]">Not just chat with PDFs: bilingual search, exact versioned citations, numerical investigation, real MCP integration, ticket approvals, multi-tenant access, failure replay, RAG-versus-agent ablations and independent accuracy/security tests.</p>
             </Card>
           </div>
-          <h3 className="text-base font-extrabold text-[var(--fg)]">Three business workflows — deliberately narrow and testable</h3>
+          <h3 className="text-base font-bold text-[var(--fg)]">Three business workflows — deliberately narrow and testable</h3>
           <div className="grid gap-3 lg:grid-cols-3">
             {workflows.map((w) => (
               <div key={w.n} className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5">
-                <span className="text-xs font-black text-violet-600 dark:text-violet-300">WORKFLOW {w.n}</span>
-                <h4 className="mt-2 font-extrabold text-[var(--fg)]">{w.name}</h4>
+                <span className="text-xs font-bold text-violet-600 dark:text-violet-300">WORKFLOW {w.n}</span>
+                <h4 className="mt-2 font-bold text-[var(--fg)]">{w.name}</h4>
                 <p className="mt-3 rounded-xl bg-[var(--bg)] p-3 text-xs font-semibold leading-5 text-[var(--fg)]">{w.ask}</p>
                 <p className="mt-3 text-xs leading-6 text-[var(--muted)]">{w.result}</p>
               </div>
@@ -198,10 +198,10 @@ export default function AgentReliabilityPage() {
         </section>
 
         <section id="architecture" className="scroll-mt-20 space-y-4">
-          <div className="flex items-center gap-2 text-sky-600 dark:text-sky-300"><Workflow size={19} /><h2 className="text-xl font-black text-[var(--fg)]">2. How the complete system works</h2></div>
+          <div className="flex items-center gap-2 text-sky-600 dark:text-sky-300"><Workflow size={19} /><h2 className="text-xl font-bold text-[var(--fg)]">2. How the complete system works</h2></div>
           <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 md:p-6">
             <div className="rounded-xl bg-violet-500/10 p-4 text-center">
-              <p className="text-sm font-black text-[var(--fg)]">Engineer → Next.js investigation dashboard → FastAPI authorization</p>
+              <p className="text-sm font-bold text-[var(--fg)]">Engineer → Next.js investigation dashboard → FastAPI authorization</p>
               <p className="mt-1 text-xs text-[var(--muted)]">Authenticated request, tenant scope, validated inputs</p>
             </div>
             <div className="py-2 text-center text-[var(--muted)]">↓</div>
@@ -212,16 +212,16 @@ export default function AgentReliabilityPage() {
             </div>
             <div className="py-2 text-center text-[var(--muted)]">↓</div>
             <div className="rounded-xl bg-emerald-500/10 p-4 text-center">
-              <p className="text-sm font-black text-[var(--fg)]">Evidence-backed result → human approval if needed → audited action</p>
+              <p className="text-sm font-bold text-[var(--fg)]">Evidence-backed result → human approval if needed → audited action</p>
               <p className="mt-1 text-xs text-[var(--muted)]">Independent evaluation, tracing and regression tests surround the whole system</p>
             </div>
           </div>
           <Card>
-            <h3 className="text-base font-extrabold text-[var(--fg)]">Technology decisions (proposed, not installed)</h3>
+            <h3 className="text-base font-bold text-[var(--fg)]">Technology decisions (proposed, not installed)</h3>
             <div className="mt-4 grid gap-2 md:grid-cols-2">
               {stack.map(([label, detail]) => (
                 <div key={label} className="rounded-xl border border-[var(--line-subtle)] p-3">
-                  <p className="text-xs font-black text-[var(--fg)]">{label}</p>
+                  <p className="text-xs font-bold text-[var(--fg)]">{label}</p>
                   <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{detail}</p>
                 </div>
               ))}
@@ -231,21 +231,21 @@ export default function AgentReliabilityPage() {
         </section>
 
         <section id="build" className="scroll-mt-20 space-y-4">
-          <div className="flex items-center gap-2 text-violet-600 dark:text-violet-300"><Rocket size={19} /><h2 className="text-xl font-black text-[var(--fg)]">3. Learn → build → test → prove: five milestones</h2></div>
+          <div className="flex items-center gap-2 text-violet-600 dark:text-violet-300"><Rocket size={19} /><h2 className="text-xl font-bold text-[var(--fg)]">3. Learn → build → test → prove: five milestones</h2></div>
           <p className="text-sm leading-6 text-[var(--muted)]">Applications continue while building. Milestone 2 is the first employer-facing result. Full-time/platform depth comes later. Mark a stage complete only after its acceptance evidence exists.</p>
           <div className="space-y-3">
             {phases.map((p) => (
               <details key={p.num} className="group overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)]" open={p.num === '01'}>
                 <summary className="flex cursor-pointer list-none items-center gap-4 p-5">
-                  <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-violet-500/10 font-black text-violet-600 dark:text-violet-300">{p.num}</div>
-                  <div className="min-w-0 flex-1"><p className="text-[10px] font-black uppercase tracking-widest text-[var(--muted)]">{p.label}</p><h3 className="mt-1 text-base font-extrabold text-[var(--fg)]">{p.title}</h3></div>
+                  <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-violet-500/10 font-bold text-violet-600 dark:text-violet-300">{p.num}</div>
+                  <div className="min-w-0 flex-1"><p className="text-xs font-bold uppercase tracking-widest text-[var(--muted)]">{p.label}</p><h3 className="mt-1 text-base font-bold text-[var(--fg)]">{p.title}</h3></div>
                   <span className="text-xs font-bold text-violet-600 dark:text-violet-300 group-open:rotate-90 transition-transform">Open →</span>
                 </summary>
                 <div className="grid gap-3 border-t border-[var(--line-subtle)] p-5 lg:grid-cols-2">
-                  <div className="rounded-xl bg-[var(--bg)] p-4"><p className="text-xs font-black text-sky-600 dark:text-sky-300">LEARN</p><p className="mt-2 text-sm leading-6 text-[var(--fg)]">{p.learn}</p></div>
-                  <div className="rounded-xl bg-[var(--bg)] p-4"><p className="text-xs font-black text-violet-600 dark:text-violet-300">BUILD</p><p className="mt-2 text-sm leading-6 text-[var(--fg)]">{p.build}</p></div>
-                  <div className="rounded-xl bg-emerald-500/5 p-4"><p className="text-xs font-black text-emerald-700 dark:text-emerald-300">EVIDENCE TO SHOW</p><p className="mt-2 text-sm leading-6 text-[var(--fg)]">{p.evidence}</p></div>
-                  <div className="rounded-xl bg-amber-500/5 p-4"><p className="text-xs font-black text-amber-700 dark:text-amber-300">PASS GATE</p><p className="mt-2 text-sm leading-6 text-[var(--fg)]">{p.pass}</p></div>
+                  <div className="rounded-xl bg-[var(--bg)] p-4"><p className="text-xs font-bold text-sky-600 dark:text-sky-300">LEARN</p><p className="mt-2 text-sm leading-6 text-[var(--fg)]">{p.learn}</p></div>
+                  <div className="rounded-xl bg-[var(--bg)] p-4"><p className="text-xs font-bold text-violet-600 dark:text-violet-300">BUILD</p><p className="mt-2 text-sm leading-6 text-[var(--fg)]">{p.build}</p></div>
+                  <div className="rounded-xl bg-emerald-500/5 p-4"><p className="text-xs font-bold text-emerald-700 dark:text-emerald-300">EVIDENCE TO SHOW</p><p className="mt-2 text-sm leading-6 text-[var(--fg)]">{p.evidence}</p></div>
+                  <div className="rounded-xl bg-amber-500/5 p-4"><p className="text-xs font-bold text-amber-700 dark:text-amber-300">PASS GATE</p><p className="mt-2 text-sm leading-6 text-[var(--fg)]">{p.pass}</p></div>
                 </div>
               </details>
             ))}
@@ -253,22 +253,22 @@ export default function AgentReliabilityPage() {
         </section>
 
         <section id="evaluation" className="scroll-mt-20 space-y-4">
-          <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-300"><FlaskConical size={19} /><h2 className="text-xl font-black text-[var(--fg)]">4. What will prove it is more than a tutorial?</h2></div>
+          <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-300"><FlaskConical size={19} /><h2 className="text-xl font-bold text-[var(--fg)]">4. What will prove it is more than a tutorial?</h2></div>
           <div className="grid gap-4 lg:grid-cols-2">
             <Card>
-              <h3 className="text-base font-extrabold text-[var(--fg)]">Benchmark: build from 30 → 60 → 120 cases</h3>
+              <h3 className="text-base font-bold text-[var(--fg)]">Benchmark: build from 30 → 60 → 120 cases</h3>
               <p className="mt-2 text-xs leading-5 text-[var(--muted)]">All numbers are targets, not results. Human-check expected answers, evidence IDs, permitted tools and expected state. Keep related incident cases together when splitting development (40) versus locked test (80).</p>
               <div className="mt-4 space-y-2">
                 {testCases.map(([name, count]) => (
                   <div key={name} className="flex items-center justify-between gap-3 text-xs">
-                    <span className="text-[var(--fg)]">{name}</span><span className="rounded-lg bg-[var(--bg)] px-2 py-1 font-black tabular-nums text-[var(--fg)]">{count}</span>
+                    <span className="text-[var(--fg)]">{name}</span><span className="rounded-lg bg-[var(--bg)] px-2 py-1 font-bold tabular-nums text-[var(--fg)]">{count}</span>
                   </div>
                 ))}
               </div>
               <p className="mt-4 border-t border-[var(--line-subtle)] pt-3 text-xs font-bold text-[var(--fg)]">Total: 120 planned scenarios + separate security regressions</p>
             </Card>
             <Card>
-              <h3 className="text-base font-extrabold text-[var(--fg)]">Metrics and controlled comparisons</h3>
+              <h3 className="text-base font-bold text-[var(--fg)]">Metrics and controlled comparisons</h3>
               <div className="mt-3 space-y-2 text-xs leading-6 text-[var(--fg)]">
                 <p><strong>Retrieval:</strong> Recall@5, Precision@k, MRR, cross-language and table accuracy.</p>
                 <p><strong>Generation:</strong> Answer correctness, unsupported claims, citation support, correct abstention.</p>
@@ -280,31 +280,31 @@ export default function AgentReliabilityPage() {
             </Card>
           </div>
           <div className="rounded-2xl border border-rose-500/20 bg-rose-500/5 p-5">
-            <div className="flex items-center gap-2 text-rose-700 dark:text-rose-300"><LockKeyhole size={18}/><h3 className="font-extrabold">Security release gates</h3></div>
+            <div className="flex items-center gap-2 text-rose-700 dark:text-rose-300"><LockKeyhole size={18}/><h3 className="font-bold">Security release gates</h3></div>
             <p className="mt-2 text-sm leading-6 text-[var(--fg)]">Backend-enforced tenant filtering, zero authorized-boundary violations in the defined tests, safe SQL/REST tool allowlists, prompt-injection and poisoned-document tests, no secret leakage, rate limits, human approval for writes, and verifiable source IDs. Passing these tests is not proof that every possible attack is blocked.</p>
           </div>
         </section>
 
         <section id="jobs" className="scroll-mt-20 space-y-4">
-          <div className="flex items-center gap-2 text-sky-600 dark:text-sky-300"><ClipboardCheck size={19} /><h2 className="text-xl font-black text-[var(--fg)]">5. Taiwan internship + full-time job fit</h2></div>
+          <div className="flex items-center gap-2 text-sky-600 dark:text-sky-300"><ClipboardCheck size={19} /><h2 className="text-xl font-bold text-[var(--fg)]">5. Taiwan internship + full-time job fit</h2></div>
           <p className="text-sm leading-6 text-[var(--muted)]">The November 2026 sample of Taiwan AI application positions explicitly mentions AI agents, RAG, function calling, MCP, REST/JSON/SQL, testing, monitoring and responsible deployment. Requirements vary by employer. This is a portfolio skill map, not a promise that one project satisfies every job.</p>
           <div className="grid gap-3 md:grid-cols-2">
             {jobMatrix.map(([role, proof]) => (
               <div key={role} className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4">
-                <p className="text-sm font-extrabold text-[var(--fg)]">{role}</p>
+                <p className="text-sm font-bold text-[var(--fg)]">{role}</p>
                 <p className="mt-2 text-xs leading-6 text-[var(--muted)]">{proof}</p>
               </div>
             ))}
           </div>
           <Card>
-            <h3 className="text-base font-extrabold text-[var(--fg)]">Portfolio / résumé truth policy</h3>
+            <h3 className="text-base font-bold text-[var(--fg)]">Portfolio / résumé truth policy</h3>
             <p className="mt-2 text-sm leading-6 text-[var(--fg)]">Do not list the proposed technology stack as completed experience. When a milestone is independently verified, report its actual implementation, measured comparisons and personal contributions. A working evaluation report beats a polished but untested dashboard.</p>
             <p className="mt-3 text-xs leading-6 text-[var(--muted)]">Project 1 remains your dorsal-hand Computer Vision research. Project 2 is the AI software/RAG/agent platform. No third flagship project and no mixing private research assets into this public portfolio.</p>
           </Card>
         </section>
 
         <section id="start" className="scroll-mt-20 space-y-4">
-          <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-300"><Terminal size={19} /><h2 className="text-xl font-black text-[var(--fg)]">6. Start on the lab computer — no unnecessary installation</h2></div>
+          <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-300"><Terminal size={19} /><h2 className="text-xl font-bold text-[var(--fg)]">6. Start on the lab computer — no unnecessary installation</h2></div>
           <div className="rounded-2xl border border-emerald-500/25 bg-emerald-500/5 p-5">
             <p className="text-sm font-bold text-[var(--fg)]">First task: inventory the actual local model and GPU environment.</p>
             <pre className="mt-3 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm text-emerald-200"><code>{'ollama list\nnvidia-smi\npython --version'}</code></pre>
@@ -319,7 +319,7 @@ export default function AgentReliabilityPage() {
         </section>
 
         <section className="space-y-3">
-          <div className="flex items-center gap-2 text-[var(--muted)]"><FileText size={18}/><h2 className="text-lg font-extrabold text-[var(--fg)]">Research and implementation references</h2></div>
+          <div className="flex items-center gap-2 text-[var(--muted)]"><FileText size={18}/><h2 className="text-lg font-bold text-[var(--fg)]">Research and implementation references</h2></div>
           <div className="grid gap-2 md:grid-cols-2">
             {sources.map(([title, url]) => (
               <a key={title} href={url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between gap-2 rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3 text-xs font-semibold text-[var(--fg)] transition hover:border-violet-500/40">
@@ -331,7 +331,7 @@ export default function AgentReliabilityPage() {
         </section>
         <div className="flex flex-wrap items-center gap-3 border-t border-[var(--line)] pt-5">
           <Link href="/roadmap" className="inline-flex items-center gap-2 rounded-xl border border-[var(--line)] px-4 py-3 text-xs font-bold text-[var(--fg)]"><ArrowLeft size={15}/> All learning modules</Link>
-          <Link href="/job-preparation" className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-3 text-xs font-extrabold text-white">Continue applying while building <ArrowRight size={15}/></Link>
+          <Link href="/job-preparation" className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-3 text-xs font-bold text-white">Continue applying while building <ArrowRight size={15}/></Link>
         </div>
       </div>
     </Page>

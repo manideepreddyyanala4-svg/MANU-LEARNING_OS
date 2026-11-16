@@ -208,7 +208,7 @@ export function FinanceCalendar(){
    aria-label="Personal financial calendar">
    <div className="flex flex-wrap items-start justify-between gap-3">
      <div>
-       <h2 className="text-xl font-extrabold text-[var(--fg)]">Daily finance calendar</h2>
+       <h2 className="text-xl font-bold text-[var(--fg)]">Daily finance calendar</h2>
        <p className="mt-1 text-xs text-[var(--muted)]">
          Consumption planning by default. Your actual bank payments stay separate.
        </p>
@@ -298,7 +298,7 @@ export function FinanceCalendar(){
        {calendar.calculationError}; verify the financial records before using this calendar.
      </p>}
      {!loading&&!error&&!calendar.calculationError&&bundle&&<>
-       <div className="mt-5 grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-[var(--muted)] sm:gap-2 sm:text-xs">
+       <div className="mt-5 grid grid-cols-7 gap-1 text-center text-xs font-bold text-[var(--muted)] sm:gap-2 sm:text-xs">
          {weekdays.map(day=><div key={day} className="py-2">{day}</div>)}
        </div>
        <div className="grid grid-cols-7 gap-1 sm:gap-2" aria-label={'Finance calendar '+monthName(month)}>
@@ -320,18 +320,18 @@ export function FinanceCalendar(){
              className={'relative min-w-0 min-h-[66px] overflow-hidden rounded-xl border p-1 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] sm:min-h-[95px] sm:p-2 '+
                statusClass(cell.status)+(isSelected?' ring-2 ring-[var(--accent)]':'')}>
              <div className="flex items-center justify-between gap-0.5">
-               <span className={'text-xs font-extrabold sm:text-sm '+(cell.isToday?
+               <span className={'text-xs font-bold sm:text-sm '+(cell.isToday?
                  'text-[var(--accent)]':'text-[var(--fg)]')}>{cell.day}</span>
                {cell.isToday&&<span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]"/>}
              </div>
-             <span className="mt-1 block truncate text-[9px] font-bold leading-tight text-[var(--fg)] sm:mt-2 sm:text-xs">
+             <span className="mt-1 block truncate text-xs font-bold leading-tight text-[var(--fg)] sm:mt-2 sm:text-xs">
                {shortAmount(total)}
              </span>
-             <span className="mt-1 block text-[8px] font-medium leading-tight text-[var(--muted)] sm:text-[10px]">
+             <span className="mt-1 block text-xs font-medium leading-tight text-[var(--muted)] sm:text-xs">
                {cell.status==='over'?'Over':cell.status==='near'?'Near':
                  cell.status==='no-budget'?'No budget':'OK'}
              </span>
-             {cell.allocationCount>0&&<span className="mt-1 flex items-center gap-0.5 text-[8px] text-[var(--muted)] sm:text-[10px]">
+             {cell.allocationCount>0&&<span className="mt-1 flex items-center gap-0.5 text-xs text-[var(--muted)] sm:text-xs">
                <ShoppingBasket size={10}/> Allocated</span>}
            </button>;
          })}
@@ -387,13 +387,13 @@ export function FinanceCalendar(){
        </div>
        <div className="mt-3 grid gap-3 sm:grid-cols-3">
          <div><p className="text-xs text-[var(--muted)]">{dailyLabel}</p>
-           <p className="mt-1 text-lg font-extrabold text-[var(--fg)]">
+           <p className="mt-1 text-lg font-bold text-[var(--fg)]">
              {currentDayRatio?displayFraction(currentDayRatio):'No budget'}</p></div>
          <div><p className="text-xs text-[var(--muted)]">Actual payment on this day</p>
-           <p className="mt-1 text-lg font-extrabold text-[var(--fg)]">
+           <p className="mt-1 text-lg font-bold text-[var(--fg)]">
              {selectedCell?formatMoney(bundle.baseline.find(x=>x.date===selected)?.actualMinor??'0','TWD'):'—'}</p></div>
          <div><p className="text-xs text-[var(--muted)]">Complete attributed consumption</p>
-           <p className="mt-1 text-lg font-extrabold text-[var(--fg)]">
+           <p className="mt-1 text-lg font-bold text-[var(--fg)]">
              {selectedCell?formatMoney(bundle.baseline.find(x=>x.date===selected)?.allocatedMinor??'0','TWD'):'—'}</p></div>
        </div>
        {selectedCell&&<div className="mt-3 flex flex-wrap gap-4 border-t border-[var(--line)] pt-3 text-sm">
@@ -407,7 +407,7 @@ export function FinanceCalendar(){
          </span>
          {selectedCell.status==='over'&&<strong className="text-[var(--fg)]">Over daily allowance.</strong>}
        </div>}
-       <h4 className="mt-5 text-sm font-extrabold text-[var(--fg)]">
+       <h4 className="mt-5 text-sm font-bold text-[var(--fg)]">
          <Clock3 size={15} className="mr-2 inline"/> {view==='cash'?'Payments timeline':'Daily consumption timeline'}
        </h4>
        <p className="mt-1 text-xs text-[var(--muted)]">
