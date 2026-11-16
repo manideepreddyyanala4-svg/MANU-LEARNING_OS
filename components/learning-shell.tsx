@@ -78,7 +78,7 @@ const subjectColors = [
 export function LearningShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   const [subjectList, setSubjectList] = useState<Subject[]>([]);
   const [sectionList, setSectionList] = useState<Section[]>([]);
@@ -549,10 +549,10 @@ export function LearningShell({ children }: { children: ReactNode }) {
   return (
     <div className={`learning-context ${focused ? 'focus-mode' : ''}`}>
       {/* 54px Top Bar */}
-      <header className="sticky top-0 z-30 flex h-[54px] items-center justify-between px-4 md:px-6">
-        <div className="flex items-center gap-3">
+      <header className="sticky top-0 z-30 flex h-[54px] items-center justify-between px-3 sm:px-4 md:px-6">
+        <div className="flex items-center gap-1.5 sm:gap-3">
           <button
-            className="lg:hidden text-[var(--muted)] hover:text-[var(--fg)]"
+            className="grid h-10 w-10 place-items-center lg:hidden text-[var(--muted)] hover:text-[var(--fg)]"
             aria-label={open ? 'Close learning navigation' : 'Open learning navigation'}
             onClick={() => setOpen((x) => !x)}
           >
@@ -562,7 +562,7 @@ export function LearningShell({ children }: { children: ReactNode }) {
           <Link
             href="/"
             aria-label="ManuOS home"
-            className="flex items-center gap-2 text-xs font-semibold text-[var(--muted)] transition hover:text-[var(--fg)]"
+            className="flex min-h-10 min-w-8 items-center justify-center gap-2 text-xs font-semibold text-[var(--muted)] transition hover:text-[var(--fg)] sm:min-w-0"
           >
             <ArrowLeft size={14} />
             <span className="hidden sm:inline">ManuOS</span>
@@ -621,10 +621,11 @@ export function LearningShell({ children }: { children: ReactNode }) {
           <button
             aria-label="Toggle theme"
             title="Toggle theme"
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
             className="grid place-items-center h-8 w-8 rounded-lg border border-[var(--line)] bg-[var(--surface)] hover:text-[var(--fg)]"
           >
-            {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+            <Sun size={15} aria-hidden="true" className="hidden dark:block" />
+            <Moon size={15} aria-hidden="true" className="dark:hidden" />
           </button>
 
           {/* User profile */}
@@ -632,7 +633,7 @@ export function LearningShell({ children }: { children: ReactNode }) {
             <button
               onClick={() => setUserMenu((v) => !v)}
               className="flex items-center gap-1.5 rounded-lg border border-[var(--line)] bg-[var(--surface)] px-2.5 py-1 text-xs font-semibold text-[var(--fg)] hover:border-color-mix(in srgb, var(--accent) 30%, var(--line))"
-              aria-label="User profile"
+              aria-label={`User profile ${userEmail?.split('@')[0] ?? 'User'}`}
             >
               <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[var(--accent)] text-[var(--on-accent)] text-xs">
                 <User size={11} />
@@ -776,7 +777,6 @@ export function LearningShell({ children }: { children: ReactNode }) {
                       <button
                         className="learning-side-section-toggle"
                         aria-expanded={expandedNow}
-                        aria-label={`${expandedNow ? 'Collapse' : 'Expand'} ${section.title}`}
                         onClick={() =>
                           setExpanded((x) => ({ ...x, [section.id]: !expandedNow }))
                         }

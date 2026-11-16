@@ -8,7 +8,7 @@ Audit of the original commit `a14450b` (2026-11-16), then the redesign on branch
 |---|---|:-:|:-:|
 | `/` Home | overview, mission, career plan | yes | yes |
 | `/study-now` | current lesson, next lesson, full curriculum | yes + mock-backend E2E | yes (rewritten) |
-| `/learning`, `/learning/[subjectSlug]`, `/learning/[subjectSlug]/[topicSlug]` | personal learning library (own shell `learning-shell.tsx`) | `/learning` yes; the two dynamic routes source-only (need data) | yes (2 of 3) |
+| `/learning`, `/learning/[subjectSlug]`, `/learning/[subjectSlug]/[topicSlug]` | personal learning library (own shell `learning-shell.tsx`) | all three (dynamic ones with mock data) | yes (2 of 3) |
 | `/python-lab` | in-browser Python practice | yes | no (follows tokens; `globals.css` blocks recoloured) |
 | `/roadmap`, `/roadmap/[slug]`, `agent-reliability`, `cv-interview`, `evidenceops-from-zero`, `production-ai`, `rag-interview` | internship roadmaps | all but `[slug]` | yes (4 of 7) |
 | `/roadmap/python/[lesson]`, `numpy`, `pandas`, `python-interviews` | built interactive lessons for modules 01–04 | yes (lesson 1 each) | yes (4) |
@@ -47,7 +47,7 @@ Curriculum file `lib/internship-curriculum.ts` untouched (595 topics, IDs and `i
 
 - The original home page content (mission, "Why I am here", North Star, projects, roadmap milestone) is kept but now behind one collapsed section; the owner may prefer a different split.
 - The Learning Library keeps its own shell and some heavy statistics panels; only recoloured.
-- Dense text-link lists (for example the roadmap topic lists) have 16–21 px link height. They pass axe's automated target-size rule through the spacing exception but fall short of the 44 px used for main controls.
+- Link and button sizes: the study and navigation routes now have no interactive element under 24 px; the sidebar and header controls are 40 px. Other routes were not all measured.
 - Lesson Markdown code has no syntax colouring (adding a highlighter library was avoided); code is monochrome on a themed code surface.
 - Python Lab keeps its dark code editor in both themes.
 - `app/page.tsx`, `roadmap/page.tsx` and others still contain many tiny decorative chips/badges; they are now ≥ 12 px and low-saturation but not removed.

@@ -358,10 +358,11 @@ export function Shell({ children }: { children: ReactNode }) {
             <button
               type="button"
               onClick={() => setTheme(isDark ? 'light' : 'dark')}
-              aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+              aria-label="Toggle light or dark theme"
               className="grid h-10 w-10 place-items-center rounded-lg border border-[var(--line-strong)] bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--fg)]"
             >
-              {isDark ? <Sun size={17} /> : <Moon size={17} />}
+              <Sun size={17} aria-hidden="true" className="hidden dark:block" />
+              <Moon size={17} aria-hidden="true" className="dark:hidden" />
             </button>
           </div>
         </header>

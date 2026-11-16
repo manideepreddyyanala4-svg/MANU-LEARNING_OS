@@ -478,6 +478,7 @@ button {
 .learning-side-empty a {
   display: inline-block;
   margin-top: 12px;
+  padding: 6px 0;
   color: var(--accent);
   font-weight: 600;
 }
@@ -613,7 +614,7 @@ button {
 .learning-dialog > div button:last-child {
   background: var(--accent);
   border-color: var(--accent);
-  color: white;
+  color: var(--on-accent);
 }
 .learning-dialog > div button:last-child:hover {
   background: var(--accent-hover);
@@ -664,6 +665,10 @@ button {
   font-size: 13px;
 }
 .topic-crumbs a {
+  display: inline-block;
+  min-width: 24px;
+  text-align: center;
+  padding: 6px 2px;
   color: var(--muted);
   text-decoration: none;
   font-weight: 500;
@@ -710,7 +715,9 @@ button {
 .topic-icon-button {
   display: grid;
   place-items: center;
+  flex-shrink: 0;
   width: 34px;
+  min-width: 34px;
   height: 34px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -732,7 +739,7 @@ button {
   border-radius: 8px;
   background: var(--accent);
   border: 1px solid var(--accent);
-  color: white;
+  color: var(--on-accent);
   font-size: 13px;
   font-weight: 600;
 }
@@ -1444,6 +1451,7 @@ h3.study-h {
   background: color-mix(in srgb, var(--accent) 3%, transparent);
 }
 .learning-topic-table-link {
+  min-height: 40px;
   display: flex;
   align-items: center;
   gap: 14px;
@@ -1673,11 +1681,11 @@ h3.study-h {
 .python-lab-loading { display:inline-flex;align-items:center;gap:6px; color:var(--muted);font-size:12px; }
 .python-lab-shortcut { margin-left:auto; font-size: 12px;color:var(--muted); }
 .python-lab-stdin { margin-bottom:13px; }
-.python-lab-stdin summary { font-size:12px;color:var(--muted);cursor:pointer;user-select:none; }
+.python-lab-stdin summary { font-size:13px;color:var(--muted);cursor:pointer;user-select:none;min-height:28px;display:flex;align-items:center; }
 .python-lab-stdin textarea { margin-top:8px;width:100%;min-height:64px;padding:9px 11px;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:9px;font:12px/1.5 ui-monospace,monospace; }
 .python-lab-console { border:1px solid var(--line);border-radius:11px; overflow:hidden; background:color-mix(in srgb,var(--sidebar) 40%,var(--surface)); }
 .python-lab-console-title { display:flex;align-items:center;gap:7px; background:var(--sidebar);color:var(--fg);font-size:12px;font-weight:800;padding:9px 12px;border-bottom:1px solid var(--line); }
-.python-lab-console-title button { margin-left:auto; padding:2px 5px; background:transparent;border:0;color:var(--muted);font-size: 12px;cursor:pointer; }
+.python-lab-console-title button { margin-left:auto; min-height:28px; padding:4px 8px; background:transparent;border:0;color:var(--muted);font-size: 12px;cursor:pointer; }
 .python-lab-console > pre { padding:12px 14px; margin:0; min-height:58px; max-height:320px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--fg);font:12px/1.65 ui-monospace,SFMono-Regular,Menlo,monospace; }
 .python-lab-console .python-lab-error { display:flex;align-items:flex-start;gap:8px; background:color-mix(in srgb,#B03A2E 10%,var(--surface));color:#862222;border-top:1px solid #EBBBB1; }
 .dark .python-lab-console .python-lab-error { color:#DE9588;border-color:#6A1C1C; }

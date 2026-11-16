@@ -401,7 +401,7 @@ export function AseQuickPrep() {
         </Section>
 
         <Section id="cp-vs-ft" number="4" title="CP VS FT" subtitle="This difference is easy to ask in an interview. Keep it simple.">
-          <div className="overflow-x-auto rounded-2xl border border-[var(--line)] bg-[var(--surface)] shadow-2xs">
+          <div tabIndex={0} role="region" aria-label="Quick prep table" className="overflow-x-auto rounded-2xl border border-[var(--line)] bg-[var(--surface)] shadow-2xs">
             <table className="w-full min-w-[720px] border-collapse text-left text-sm">
               <thead>
                 <tr className="border-b border-[var(--line)] bg-[var(--bg)] text-xs uppercase tracking-wider text-[var(--muted)]">

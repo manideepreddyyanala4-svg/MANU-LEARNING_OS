@@ -424,7 +424,6 @@ export default function TopicPage() {
             {nextTopic ? (
               <Link
                 href={`/learning/${subject.slug}/${nextTopic.slug}`}
-                aria-label="Next lesson →"
                 className="topic-pagination-card is-next"
               >
                 <span>

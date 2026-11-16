@@ -34,7 +34,7 @@ export default async function PythonCodeLesson({ params }: { params: Promise<{ l
       subtitle={title}>
       <div className="mx-auto max-w-6xl space-y-5 pb-14">
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3">
-          <Link href="/roadmap" className="inline-flex items-center gap-2 text-xs font-bold text-sky-600 hover:underline dark:text-sky-300">
+          <Link href="/roadmap" className="inline-flex min-h-8 items-center gap-2 text-xs font-bold text-sky-600 hover:underline dark:text-sky-300">
             <ArrowLeft size={15}/> Python roadmap
           </Link>
           <span className="text-xs font-bold text-[var(--muted)]">Lesson {current.id} of 24</span>

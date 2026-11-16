@@ -312,7 +312,7 @@ export default function RoadmapPage() {
                 className="rounded-lg bg-sky-600 px-3 py-2 text-xs font-bold text-white disabled:opacity-50">
                 <Check size={13} className="mr-1 inline" /> I independently passed this
               </button>}
-              <Link href="/python-lab" className="text-xs font-bold text-sky-700 underline dark:text-sky-300">Practice in Python Lab</Link>
+              <Link href="/python-lab" className="inline-block py-1.5 text-xs font-bold text-sky-700 underline dark:text-sky-300">Practice in Python Lab</Link>
             </div>
           </Card>
           <Card>
@@ -474,7 +474,7 @@ export default function RoadmapPage() {
                       </button>
                       <div className="min-w-0 flex-1 pt-0.5">
                         {(m.id === '01' || m.id === '02' || m.id === '03' || m.id === '04') ? <Link href={((m.id === '01' ? '/roadmap/python/' : m.id === '02' ? '/roadmap/python-interviews/' : m.id === '03' ? '/roadmap/numpy/' : '/roadmap/pandas/')+(i+1)) as Route}
-                          className={'group/link inline-flex items-start gap-2 text-xs font-bold leading-5 underline decoration-sky-500/40 underline-offset-2 transition hover:text-sky-600 sm:text-sm '+(isDone?'text-[var(--muted)]':'text-[var(--fg)]')}>
+                          className={'group/link inline-flex items-start gap-2 py-1.5 text-xs font-bold leading-5 underline decoration-sky-500/40 underline-offset-2 transition hover:text-sky-600 sm:text-sm '+(isDone?'text-[var(--muted)]':'text-[var(--fg)]')}>
                             <span>{title}</span><ArrowRight size={14} className="mt-0.5 shrink-0 text-sky-600 transition group-hover/link:translate-x-0.5"/>
                           </Link> :
                           <p className={'text-xs leading-5 sm:text-sm ' + (isDone?'text-[var(--muted)] line-through':'text-[var(--fg)]')}>{title}</p>}

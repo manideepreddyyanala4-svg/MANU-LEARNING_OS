@@ -508,7 +508,7 @@ function LearningContent() {
                   </span>
                   <Link
                     href={`/learning/${s.slug}`}
-                    className="font-semibold text-[var(--accent)] hover:underline inline-flex items-center gap-1"
+                    className="font-semibold text-[var(--accent)] hover:underline inline-flex min-h-8 items-center gap-1"
                   >
                     Open <ArrowRight size={12} />
                   </Link>
@@ -562,7 +562,7 @@ function LearningContent() {
                     <div className="min-w-0 flex-1">
                       <Link
                         href={`/learning/${s.slug}/${top.slug}`}
-                        className="font-bold text-sm text-[var(--fg)] hover:text-[var(--accent)] block truncate"
+                        className="font-bold text-sm text-[var(--fg)] hover:text-[var(--accent)] block truncate py-1.5"
                       >
                         {top.title}
                       </Link>

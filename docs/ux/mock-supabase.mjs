@@ -38,8 +38,7 @@ export function start(port = 54399) {
       const m = path.match(/^\/rest\/v1\/(\w+)$/);
       if (!m) return send(res, 404, { message: 'not mocked: ' + path });
       const table = m[1];
-      const rows = state[table];
-      if (!rows) return send(res, 200, []);
+      const rows = (state[table] ??= []);
       if (req.method === 'GET') {
         const out = filterRows(rows, url.searchParams);
         if ((req.headers.accept || '').includes('vnd.pgrst.object')) return out.length ? send(res, 200, out[0]) : send(res, 406, { message: 'no rows', code: 'PGRST116' });
@@ -48,8 +47,9 @@ export function start(port = 54399) {
       if (req.method === 'POST') {
         const items = JSON.parse(body || '[]'); const list = Array.isArray(items) ? items : [items];
         const ignore = (req.headers.prefer || '').includes('ignore-duplicates');
-        const key = table === 'roadmap_items' ? ['user_id', 'slug'] : ['user_id', 'topic_key'];
+        const key = table === 'roadmap_items' ? ['user_id', 'slug'] : table === 'curriculum_lessons' ? ['user_id', 'topic_key'] : table === 'topic_documents' ? ['user_id', 'topic_id'] : ['id'];
         for (const it of list) {
+          if (!it.id && key[0] === 'id') it.id = 'gen-' + Math.random().toString(36).slice(2, 10);
           const i = rows.findIndex((r) => key.every((k) => r[k] === it[k]));
           state.writes.push({ table, ...it });
           if (i >= 0) { if (!ignore) rows[i] = { ...rows[i], ...it }; } else rows.push(it);

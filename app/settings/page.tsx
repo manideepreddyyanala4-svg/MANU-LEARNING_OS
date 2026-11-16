@@ -165,7 +165,7 @@ export default function SettingsPage() {
             <CheckCircle2 size={16} />
             <span>{message}</span>
           </div>
-          <button onClick={() => setMessage('')} className="p-1 hover:opacity-70"><X size={14} /></button>
+          <button onClick={() => setMessage('')} aria-label="Dismiss message" className="p-2.5 hover:opacity-70"><X size={14} /></button>
         </div>
       )}
 

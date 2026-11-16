@@ -562,7 +562,7 @@ export default function Home() {
               </div>
               <Link
                 href="/learning"
-                className="text-xs font-semibold text-[var(--accent)] hover:underline inline-flex items-center gap-1"
+                className="text-xs font-semibold text-[var(--accent)] hover:underline inline-flex min-h-8 items-center gap-1"
               >
                 View all ({topicCount}) <ArrowRight size={12} />
               </Link>
@@ -716,7 +716,7 @@ export default function Home() {
               </div>
               <Link
                 href="/job-preparation"
-                className="text-xs font-semibold text-[var(--accent)] hover:underline"
+                className="inline-flex min-h-8 items-center text-xs font-semibold text-[var(--accent)] hover:underline"
               >
                 Manage →
               </Link>

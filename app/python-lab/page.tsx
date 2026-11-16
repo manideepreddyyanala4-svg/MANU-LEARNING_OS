@@ -61,7 +61,7 @@ export default function PythonLabPage() {
           <div className="mt-3 flex flex-wrap items-center gap-3 text-xs font-semibold">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 px-3 py-1.5 text-blue-700 dark:text-blue-300"><Code2 size={14}/> In-browser Python 3</span>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1.5 text-emerald-700 dark:text-emerald-300"><FlaskConical size={14}/> {mounted ? passed.length : '–'} / 28 practice checks passed</span>
-            <Link href="/learning/python-a0e156aa" className="inline-flex items-center gap-1.5 font-bold text-[var(--accent)] hover:underline"><ArrowLeft size={14}/> Back to lesson notes</Link>
+            <Link href="/learning/python-a0e156aa" className="inline-flex min-h-8 items-center gap-1.5 font-bold text-[var(--accent)] hover:underline"><ArrowLeft size={14}/> Back to lesson notes</Link>
           </div>
         </div>
         <div className="python-lab-page-grid">

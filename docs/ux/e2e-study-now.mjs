@@ -145,7 +145,7 @@ try {
   check('Dark theme applies (green-gray charcoal rgb(30,35,35))', dbg === 'rgb(30, 35, 35)', dbg);
   await dp.screenshot({ path: shots + '/e2e-desktop-dark-study-now.png' });
   // theme toggle persists across reload; 'system' follows the OS; stored choice is never overwritten by the OS
-  await dp.getByRole('button', { name: /Switch to light theme/ }).click();
+  await dp.getByRole('button', { name: /Toggle light or dark theme/ }).click();
   await dp.reload({ waitUntil: 'networkidle' });
   check('Manual theme choice persists after reload', (await dp.evaluate(() => localStorage.getItem('theme'))) === 'light' && !(await dp.evaluate(() => document.documentElement.classList.contains('dark'))));
   await d.close();
