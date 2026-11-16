@@ -53,6 +53,7 @@ const navGroups: NavGroup[] = [
   {
     title: 'Execution Workspace',
     items: [
+      { href: '/study-now', label: 'Study Now', icon: Target, subtext: 'Current Lesson → Next Lesson → Full Path' },
       { href: '/', label: 'Home', icon: LayoutDashboard, subtext: 'Overview & Mission' },
       { href: '/life-vision', label: 'Life Vision', icon: Compass, subtext: 'My Values & Long-Term Direction' },
       { href: '/bhagavad-gita', label: 'Bhagavad Gita', icon: BookOpen, subtext: 'Scripture · Chapter 1 Reading' },
@@ -66,7 +67,6 @@ const navGroups: NavGroup[] = [
       { href: '/learning', label: 'Learning', icon: BookOpen, subtext: 'Technical Curriculum' },
       { href: '/python-lab', label: 'Python Coding Lab', icon: Code2, subtext: 'Run & Verify Python' },
       { href: '/roadmap', label: 'Roadmap', icon: Target, subtext: 'Dorsal → Production AI' },
-      { href: '/today-learning', label: "Today's Learning", icon: BookOpen, subtext: 'Only Today · Auto-Changing Plan' },
       { href: '/internship-sprint', label: 'Internship Sprint', icon: CalendarDays, subtext: '45-Day Hiring Campaign' },
       { href: '/job-preparation', label: 'Job Preparation', icon: Briefcase, subtext: 'Internship Pipeline' },
     ],
