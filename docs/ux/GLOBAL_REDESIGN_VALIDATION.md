@@ -119,3 +119,42 @@ Core: `app/globals.css`, `app/layout.tsx`, `components/shell.tsx`, `components/u
 Pages (29): `bhagavad-gita/page.tsx`, `files/page.tsx`, `globals.css`, `ideas/page.tsx`, `inbox/page.tsx`, `internship-sprint/page.tsx`, `job-preparation/ase-archive/page.tsx`, `job-preparation/ase-day-1/page.tsx`, `job-preparation/ase-day-2/page.tsx`, `job-preparation/ase-final-interview-bank/page.tsx`, `job-preparation/page.tsx`, `layout.tsx`, `learning/[subjectSlug]/page.tsx`, `learning/page.tsx`, `life-vision/page.tsx`, `login/page.tsx`, `page.tsx`, `progress/page.tsx`, `roadmap/[slug]/page.tsx`, `roadmap/agent-reliability/page.tsx`, `roadmap/numpy/[lesson]/page.tsx`, `roadmap/page.tsx`, `roadmap/pandas/[lesson]/page.tsx`, `roadmap/production-ai/page.tsx`, `roadmap/python-interviews/[lesson]/page.tsx`, `roadmap/python/[lesson]/page.tsx`, `settings/page.tsx`, `study-now/page.tsx`, `today-learning/page.tsx`.
 
 Components (28): `ase-day1-interview-prep.tsx`, `ase-day2-interview-prep.tsx`, `ase-final-day-prep.tsx`, `ase-final-interview/ase-final-interview-bank.tsx`, `ase-quick-prep.tsx`, `career/learning-audit.tsx`, `document-canvas.tsx`, `file-handling-cheatsheet.tsx`, `finance/account-forms.tsx`, `finance/accounts-workspace.tsx`, `finance/budget-workspace.tsx`, `finance/day-breakdown.tsx`, `finance/finance-analytics.tsx`, `finance/finance-calendar.tsx`, `finance/finance-data-ownership.tsx`, `finance/finance-module.tsx`, `finance/overview-snapshot.tsx`, `finance/quick-launcher.tsx`, `finance/reported-payments.tsx`, `finance/transactions-workspace.tsx`, `learning-shell.tsx`, `roadmap/EvidenceOpsRoadmap.tsx`, `roadmap/RagCorePath.tsx`, `roadmap/RagStudyPath.tsx`, `roadmap/TrackChecklist.tsx`, `shell.tsx`, `study-now/lesson-notes.tsx`, `ui.tsx`.
+
+
+---
+
+## 2. Production verification after deployment, and Batch B1 preparation (2026-11-16, later)
+
+Production is `main` at `8e19d9c` (GitHub reports the deployment as completed). Nothing in this section changed the live site, the live database or any live content.
+
+### 2.1 Production website (real browser, no login)
+
+`docs/ux/production-check.mjs` run against https://manu-learning-os.vercel.app:
+
+| Check | Result |
+|---|---|
+| Live `/login`, light and dark, at 320, 375, 430, 768, 1440 px | **PASS** 10/10: background `rgb(245,241,232)` (cream) and `rgb(30,35,35)` (dark), no horizontal overflow, no console errors, axe-core 0 violations (WCAG A/AA, 2.2 tags) |
+| Auth wall | **PASS** 16/16 app routes redirect an anonymous visitor to `/login` |
+| Anonymous (no session) reads of `curriculum_lessons`, `roadmap_items`, `subjects`, `topics`, `topic_documents`, `app_settings`, `activity_events` through the site's public client configuration | **PASS** 7/7 return no rows. Caveat: an empty table would also return no rows, so this is consistent with row-level security but is **not proof** of it. The public key and project URL were read from the site's own JavaScript and never stored or printed in full |
+| Deployed commit | `origin/main` = `8e19d9c`; GitHub deployment status `success` |
+| 595 topics and stable IDs | **PASS** `docs/lesson-packs/verify_audit_ids.py`: the live source `lib/internship-curriculum.ts` has 31 modules and 595 unique keys; all 595 key/title pairs match audit file 08b exactly; the audit's inventory is identical to the live source; `lib/`, `supabase/`, `proxy.ts` unchanged since before the redesign |
+
+### 2.2 Signed-in checks: BLOCKED (not passed)
+
+No account credentials or `.env.local` are available here, and none were requested. These remain **BLOCKED**, so nothing below is claimed as verified on production: login and logout, session persistence, existing saved notes, completed and in-progress records, current-lesson selection, note editing and saving, Previous/Next with real data, JSON import into the real `curriculum_lessons`, Finance data loading, per-user row-level security with a real session. The mock-backend suites (Study Now 42/42, five routes 33/33, code readability 22/22, B1 import/render 10/10) prove interface behaviour only, not production behaviour. Section 0.4 remains the checklist to clear this.
+
+### 2.3 Batch B1 (lesson content, not imported)
+
+`docs/lesson-packs/B1/` holds the 19 approved lessons (Module 07 topics 01–11 and 16, Module 11 topics 01–07) as `b1_lesson_pack.json` plus individual Markdown files, built from the hand-reviewed audit rows. Validation:
+
+| Check | Result |
+|---|---|
+| Pack validator (`validate_b1.py`) | **14/14**: 19 unique keys, exactly the approved set in order; titles equal the live curriculum; importer rules (strings, non-empty, ≤ 40,000 characters; longest lesson 3,771); five sections once and in order; balanced Markdown fences and no raw HTML; no secrets, e-mails or links; dorsal paragraphs contain no result figures; code lines ≤ 99 characters |
+| Python examples | **22** distinct examples (NumPy and OpenCV), executed during the build and executed again from the JSON content; all 22 reproduce their embedded outputs exactly. The build also refuses to proceed if a number quoted in the prose is missing from the real output; it caught one of my own mistakes (a rounding change that altered a result) |
+| Browser test against the mock backend (`import-and-render-test.mjs`) | **10/10**: the app's real importer accepts the pack and reports 19 valid keys; "Replace" is unchecked by default; an existing note was **not** overwritten; the other 18 are imported byte-identical; progress rows untouched; all 19 lessons render with the five sections in order, the right title and copyable keyboard-focusable code and no page overflow, in light and dark at 375 and 1440 px |
+
+Import into the real account has **not** been done: it needs your sign-in and your approval. The exact steps are in `docs/lesson-packs/B1/README.md`.
+
+### 2.4 Gates on the final tree (no app code changed since the deployed commit)
+
+`tsc` 0 errors; ESLint 24 errors and 1 warning (the original has 25 and 1, none new); `next build` compiles; Playwright subset 40 passed and 4 failed, the same 4 stale `smoke.spec.ts` tests that fail on the original commit.
