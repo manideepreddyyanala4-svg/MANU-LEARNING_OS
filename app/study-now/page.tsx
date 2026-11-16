@@ -237,7 +237,7 @@ export default function StudyNowPage() {
           {current ? topicLine(current, true) :
             <p className="text-base text-[var(--fg)]">All listed topics have been marked complete.</p>}
           {current && !loading && ownerId &&
-            <LessonNotes topicKey={current.key} topicTitle={current.title} validKeys={rows.map(r => r.key)} />}
+            <LessonNotes topicKey={current.key} topicTitle={current.title} validKeys={rows.map(r => r.key)} topicTitles={Object.fromEntries(rows.map(r => [r.key, r.title]))} />}
         </section>
         {next && <section aria-label="Next lesson" className="space-y-2">
           <h2 className="flex items-center gap-2 text-lg font-black text-[var(--fg)]">
