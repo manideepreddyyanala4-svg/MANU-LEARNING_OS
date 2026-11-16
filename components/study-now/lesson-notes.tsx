@@ -9,8 +9,8 @@ type Lesson = { topic_key: string; content: string };
 const MAX_CHARS = 40000;
 const MAX_BYTES = 12 * 1024 * 1024;
 
-export function LessonNotes({topicKey,topicTitle,validKeys}:{
-  topicKey:string; topicTitle:string; validKeys:string[];
+export function LessonNotes({topicKey,topicTitle,validKeys,topicTitles}:{
+  topicKey:string; topicTitle:string; validKeys:string[]; topicTitles:Record<string,string>;
 }) {
   const [text,setText] = useState('');
   const [draft,setDraft] = useState('');
@@ -155,6 +155,17 @@ export function LessonNotes({topicKey,topicTitle,validKeys}:{
           Prepare a JSON file with lesson content and matching topic keys. Upload once; each topic then opens its own saved notes.
           Your original learning notes and completed-topic records stay separate.
         </p>
+        <button type="button" onClick={()=>{
+          const template={lessons:validKeys.map(key=>({
+            topic_key:key, topic_title:topicTitles[key]||key, content:''
+          }))};
+          const url=URL.createObjectURL(new Blob([JSON.stringify(template,null,2)],{type:'application/json'}));
+          const link=document.createElement('a');link.href=url;
+          link.download='manuos-full-course-template.json';link.click();URL.revokeObjectURL(url);
+        }} className="min-h-11 rounded-xl bg-violet-600 px-4 py-2 text-sm font-bold text-white">
+          Download all-topic preparation template
+        </button>
+        <p className="text-xs leading-5 text-[var(--muted)]">The template has your real topic keys and titles but no lesson content. Prepare and verify notes before importing; empty entries are rejected.</p>
         <details className="rounded-xl border border-[var(--line)] p-3">
           <summary className="cursor-pointer text-sm font-bold text-[var(--fg)]">Show the required JSON format</summary>
           <pre className="mt-3 max-h-64 overflow-auto rounded-lg bg-slate-900 p-3 text-xs text-white">{sample}</pre>
