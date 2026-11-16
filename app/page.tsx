@@ -162,6 +162,21 @@ export default function Home() {
       title="Workspace Overview"
       subtitle="Execution engine for technical mastery, career preparation, and engineering study."
     >
+      {/* First screen: one stable place to continue learning, especially on mobile. */}
+      <section aria-label="Continue technical learning"
+        className="mb-6 rounded-3xl border border-sky-500/30 bg-gradient-to-br from-sky-600 to-indigo-700 p-5 text-white shadow-sm sm:p-7">
+        <p className="text-sm font-bold uppercase tracking-widest text-sky-100">Start here</p>
+        <h2 className="mt-2 text-2xl font-black leading-tight sm:text-3xl">One lesson. One next step.</h2>
+        <p className="mt-2 max-w-2xl text-base leading-6 text-sky-50">
+          Open the lesson you chose, see what comes next, or browse the full topic map.
+          Your existing roadmap and notes are preserved.
+        </p>
+        <Link href="/study-now"
+          className="mt-5 inline-flex min-h-12 items-center gap-2 rounded-xl bg-white px-5 py-3 text-base font-black text-indigo-800 shadow-sm transition hover:bg-sky-50">
+          Continue studying <ArrowRight size={19} />
+        </Link>
+      </section>
+
       {/* Current career priority — applications first, ASE resources preserved */}
       <section className="mb-6 rounded-3xl border border-sky-500/30 bg-gradient-to-br from-sky-500/10 via-[var(--surface)] to-indigo-500/10 p-6 shadow-sm md:p-8">
         <p className="text-[11px] font-black uppercase tracking-[0.16em] text-sky-700 dark:text-sky-300">
