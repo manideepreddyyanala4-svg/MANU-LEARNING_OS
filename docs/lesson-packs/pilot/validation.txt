@@ -1,0 +1,4 @@
+PASS three topic titles, lesson source mapping and all displayed Python outputs
+PASS 300 filter outputs independently agree with OpenCV (all positions, borders, kernels and flip conventions)
+PASS threshold sweep, ties, strict operator, unequal denominators, empty groups and invalid inputs
+PASS canonical curriculum, B1 originals, database migrations and authentication untouched

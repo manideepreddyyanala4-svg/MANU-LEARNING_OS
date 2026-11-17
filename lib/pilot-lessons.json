@@ -1,0 +1,89 @@
+[
+  {
+    "id": "M07-T01",
+    "key": "internship-v1-m07-t001",
+    "title": "Pixels, image coordinates, width/height and resolution",
+    "depth": "L2",
+    "needs": "Python lists, NumPy shape and indexing",
+    "sections": [
+      {
+        "title": "UNDERSTAND",
+        "body": "A **pixel** is one location in an image grid. In a grayscale image, it stores one brightness number. In an RGB image, it stores three colour numbers.\n\n**Width** counts columns across. **Height** counts rows down. **Resolution** here means width × height in pixels; it does not tell us an object's size in centimetres.\n\nFor a hand-image ROI (a selected region of interest), a point's position tells us which pixel to read. We will practise on a tiny synthetic grid, without using research images."
+      },
+      {
+        "title": "MECHANISM",
+        "body": "Image grid → choose (x, y) → find row y → find column x → read img[y, x].\n\nCounting starts at **0**. The top-left pixel is (0, 0). Move right to increase x; move down to increase y.\n\nA 6-column, 4-row grayscale image has shape **(4, 6)**. Shape lists height before width. Its last pixel is (x=5, y=3), not (6, 4).\n\nClick the grid below. Follow the highlighted row and column to the same location in the array. Then change its brightness."
+      },
+      {
+        "title": "WORKED EXAMPLE",
+        "body": "Read this example first, then explore the grid. The grid starts with the same values: 0 through 23, arranged in four rows.\n\n```python\nimport numpy as np\n\nimg = np.arange(24).reshape(4, 6)\nx, y = 4, 1\nprint(\"shape:\", img.shape)\nprint(\"before:\", img[y, x])\nimg[y, x] = 200\nprint(\"after:\", img[y, x])\nprint(\"row 1:\", img[1].tolist())\ncrop = img[0:3, 2:6]\nprint(\"crop shape:\", crop.shape)\nprint(\"pixels:\", img.size)\n```\n\nOutput:\n\n```text\nshape: (4, 6)\nbefore: 10\nafter: 200\nrow 1: [6, 7, 8, 9, 200, 11]\ncrop shape: (3, 4)\npixels: 24\n```\n\n`arange(24)` makes 0 through 23. `reshape(4, 6)` places them in four rows of six. Row 1 is the **second** row. At column 4 it contains 10; assignment replaces just that value with 200.\n\nThe crop keeps rows 0, 1, 2 and columns 2, 3, 4, 5. A slice excludes its stop value, giving three rows and four columns.\n\nFor colour, shape may be (4, 6, 3): 24 pixel locations and 72 channel values. A channel is one colour component at each pixel."
+      },
+      {
+        "title": "COMMON MISTAKES",
+        "body": "- **Swapping x and y:** img[4, 1] fails on this grid because row 4 does not exist. On a square image, swapped indices can silently read a different pixel.\n- **Swapping dimensions:** a 640-wide, 480-high grayscale image has shape (480, 640). OpenCV size arguments such as cv2.resize use (width, height).\n- **Counting the stop:** img[0:3, 2:6] excludes row 3 and column 6."
+      },
+      {
+        "title": "INTERVIEW CHECK",
+        "body": "Without notes: why does a point (x, y) become img[y, x]?\n\nIndependent task: in a six-row, eight-column grid, predict indices for (0, 0), (5, 2), (7, 5) and (3, 4). Then write Python to create the grid and mark (5, 2) as 200.\n\nSuccess means all four positions are correct, you explain row-first indexing, and your code changes only the intended location. Practice checks do not change your roadmap progress."
+      }
+    ]
+  },
+  {
+    "id": "M07-T07",
+    "key": "internship-v1-m07-t007",
+    "title": "Kernels, filtering, convolution and border modes",
+    "depth": "L2",
+    "needs": "M07-T01–T06; multiplying, adding and averaging",
+    "sections": [
+      {
+        "title": "UNDERSTAND",
+        "body": "A **kernel** is a small grid of weights. A weight tells us how much a neighbouring pixel contributes to the output. A **linear filter** multiplies nearby image values by these weights and adds the products.\n\nA 3 × 3 mean filter gives each of nine values weight 1/9. It produces their average. Other kernels can sharpen or detect changes; their outputs are not necessarily averages.\n\nFiltering a hand ROI can change fine patterns and edge pixels. This toy demonstration explains the calculation; it does not recommend changing your research preprocessing."
+      },
+      {
+        "title": "MECHANISM",
+        "body": "Choose an output location → gather its 3 × 3 neighbourhood → multiply by weights → add nine products → write one output value.\n\nOur convention is **cross-correlation**: keep the kernel in its displayed orientation, like OpenCV filter2D. Mathematical **convolution** flips the kernel horizontally and vertically first. For a symmetric mean kernel, both give the same answer.\n\nAt the corner, part of the neighbourhood lies outside the image. A **border mode** supplies those missing values. Zero uses 0. Replicate repeats the nearest edge pixel. Reflect-101 mirrors without repeating the edge pixel: for a row [1, 2, 3], its left extra value is 2.\n\nUse the numbered steps below. Move to a corner and compare border modes. Switch to the asymmetric kernel to see why flipping can matter."
+      },
+      {
+        "title": "WORKED EXAMPLE",
+        "body": "Use numbers 1 through 25 in a 5 × 5 grid. At row 2, column 2, the neighbourhood is [7, 8, 9; 12, 13, 14; 17, 18, 19]. Their sum is 117. Dividing by 9 gives **13**.\n\nAt the top-left corner with zero padding, the neighbourhood is [0, 0, 0; 0, 1, 2; 0, 6, 7]. Its sum is 16; output is **16/9 ≈ 1.778**.\n\nWith reflect-101, it becomes [7, 6, 7; 2, 1, 2; 7, 6, 7]. Sum 45 gives **5**. Same image, same kernel, different border rule.\n\n```python\nimport numpy as np\nimport cv2\n\nimg = np.arange(1, 26, dtype=np.float32).reshape(5, 5)\nk = np.ones((3, 3), dtype=np.float32) / 9\nfor label, mode in [(\"zero\", cv2.BORDER_CONSTANT),\n                    (\"reflect101\", cv2.BORDER_REFLECT_101),\n                    (\"replicate\", cv2.BORDER_REPLICATE)]:\n    out = cv2.filter2D(img, -1, k, borderType=mode)\n    print(label, \"centre\", round(float(out[2, 2]), 3),\n          \"corner\", round(float(out[0, 0]), 3))\n```\n\nOutput:\n\n```text\nzero centre 13.0 corner 1.778\nreflect101 centre 13.0 corner 5.0\nreplicate centre 13.0 corner 3.0\n```\n\n`float32` keeps decimal results. `ones / 9` makes nine equal weights. `filter2D` computes every output location; `-1` keeps the input data type, which is floating point here. Each print reads the centre and corner of the result."
+      },
+      {
+        "title": "COMMON MISTAKES",
+        "body": "- **Calling every filter an average:** a mean kernel sums to 1; an edge kernel can contain negative weights.\n- **Ignoring borders:** invented neighbours affect the outer pixels, even when the image shape stays the same.\n- **Expecting filter2D to flip:** it performs cross-correlation. Flip an asymmetric kernel explicitly for convolution with the corresponding anchor.\n- **Using uint8 output for signed results:** negative outputs can be clipped. Use an appropriate floating-point output for inspection."
+      },
+      {
+        "title": "INTERVIEW CHECK",
+        "body": "Without notes: why can two correct mean filters give different corner values?\n\nIndependent task: calculate the centre and top-left output for the 5 × 5 example with both zero and reflect-101 borders. Explain every included value, then verify with the Python code.\n\nSuccess means your hand calculations match 13 at the centre, 16/9 at the zero-padded corner, and 5 at the reflected corner. Also explain whether the mean kernel needs flipping."
+      }
+    ]
+  },
+  {
+    "id": "M11-T05",
+    "key": "internship-v1-m11-t005",
+    "title": "FAR/FMR versus FRR/FNMR and TAR",
+    "depth": "L3",
+    "needs": "M11-T01–T04; genuine/impostor scores and thresholding",
+    "sections": [
+      {
+        "title": "UNDERSTAND",
+        "body": "A **genuine comparison** compares samples of the same identity. An **impostor comparison** compares different identities. A similarity score is larger when samples look more alike; it is not a probability.\n\nA **threshold** is the cut-off for a decision. Here we accept when score ≥ threshold. A genuine rejection is an error. An impostor acceptance is also an error. Raising the threshold trades fewer impostor accepts for more genuine rejects.\n\nWe count completed 1:1 comparisons. Their precise error names are **FMR** (false match rate) and **FNMR** (false non-match rate). FAR and FRR are often used for these rates in papers, but operational transactions can include capture failures and retries. Always state what was counted.\n\nIn this toy lesson, each transaction has one completed comparison and no capture failures, so FAR = FMR and FRR = FNMR. Do not assume that equality for every deployed system."
+      },
+      {
+        "title": "MECHANISM",
+        "body": "Labelled scores → compare each with threshold → count four outcomes → divide by the correct group total → report rates.\n\n- **FAR/FMR:** accepted impostors / all impostor comparisons.\n- **FRR/FNMR:** rejected genuine / all genuine comparisons.\n- **TAR:** accepted genuine / all genuine comparisons.\n\nTAR + FRR = 1 here because each genuine comparison is either accepted or rejected. FAR + TAR does not have to equal 1: their denominators are different.\n\nMove the threshold below and inspect every sample decision. A score exactly equal to the threshold is accepted under our ≥ rule."
+      },
+      {
+        "title": "WORKED EXAMPLE",
+        "body": "Use four genuine scores [0.90, 0.70, 0.50, 0.40] and five impostor scores [0.10, 0.30, 0.50, 0.60, 0.20]. These are synthetic teaching values, not research measurements.\n\nAt threshold 0.50, genuine decisions are [accept, accept, accept, reject]. Thus TAR = 3/4 = **75%**, and FRR = 1/4 = **25%**.\n\nImpostor decisions are [reject, reject, accept, accept, reject]. Thus FAR = 2/5 = **40%**. Dividing by all nine comparisons would give 2/9, which answers a different question.\n\n```python\ngenuine = [0.90, 0.70, 0.50, 0.40]\nimpostor = [0.10, 0.30, 0.50, 0.60, 0.20]\nt = 0.50\n\nta = sum(s >= t for s in genuine)\nfa = sum(s >= t for s in impostor)\nfr = len(genuine) - ta\nprint(\"genuine accepted:\", ta, \"rejected:\", fr)\nprint(\"impostor accepted:\", fa, \"rejected:\", len(impostor) - fa)\nprint(f\"FAR/FMR: {fa}/{len(impostor)} = {fa / len(impostor):.0%}\")\nprint(f\"FRR/FNMR: {fr}/{len(genuine)} = {fr / len(genuine):.0%}\")\nprint(f\"TAR: {ta}/{len(genuine)} = {ta / len(genuine):.0%}\")\n```\n\nOutput:\n\n```text\ngenuine accepted: 3 rejected: 1\nimpostor accepted: 2 rejected: 3\nFAR/FMR: 2/5 = 40%\nFRR/FNMR: 1/4 = 25%\nTAR: 3/4 = 75%\n```\n\nEach comparison produces True or False. Python treats True as 1 and False as 0 when summing, so `sum(s >= t ...)` counts acceptances. `len` counts the whole group. Formatting as .0% displays a fraction as a percentage."
+      },
+      {
+        "title": "COMMON MISTAKES",
+        "body": "- **Using all comparisons as the denominator:** false accepts belong to the impostor group; false rejects belong to the genuine group.\n- **Replacing ≥ with >:** the samples at 0.50 change decisions. State the rule and use it consistently.\n- **Calling 0/5 proof of zero risk:** five trials provide little evidence. A zero observed rate does not prove a zero population error rate.\n- **Selecting a research threshold here or on dorsal test data:** this slider teaches arithmetic only. In your project, select on eligible source development data, freeze it, then evaluate dorsal without tuning.\n- **Using these rates for 1:N search:** identification counts search events and uses different metrics such as FPIR/TPIR."
+      },
+      {
+        "title": "INTERVIEW CHECK",
+        "body": "Without notes: why does FAR divide by the impostor count while FRR divides by the genuine count?\n\nIndependent task: at threshold 0.60 with the ≥ rule, count all four outcomes. Compute FAR, FRR and TAR and state both denominators. Write a function that reports an undefined rate when its denominator is zero, rather than reporting zero risk.\n\nSuccess means the counts, fractions and percentages agree, the tie at 0.60 is handled correctly, and you explain why this threshold is not a research recommendation."
+      }
+    ]
+  }
+]

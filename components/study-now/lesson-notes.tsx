@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase';
 export const MAX_CHARS = 40000;
 
 /** Wraps fenced code with a copy action; indentation is preserved (white-space: pre). */
-function CodeBlock({ children }: { children?: ReactNode }) {
+export function CodeBlock({ children }: { children?: ReactNode }) {
   const ref = useRef<HTMLPreElement>(null);
   const [copied, setCopied] = useState(false);
   async function copy() {
