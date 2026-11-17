@@ -1,5 +1,8 @@
 'use client';
 
+import { InterviewFoundation } from '@/components/learning/interview-foundation';
+import { cv10Interview, libraryInterview } from '@/lib/interview-cv-library';
+import { cv10Lessons } from '@/lib/cv10-document';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
@@ -384,6 +387,9 @@ export default function TopicPage() {
               <span>{editing ? 'Notebook canvas' : 'Published note'}</span>
             </div>
           </header>
+
+          {/* Interview-first material is display-only; saved BlockNote notes are untouched. */}
+          {!editing && <InterviewFoundation brief={libraryInterview[topic.title] ?? cv10Interview[cv10Lessons.find((entry) => entry.title === topic.title)?.kind ?? '']} />}
 
           {/* Open Article Canvas (No border box) */}
           <div className="topic-canvas-wrapper">
