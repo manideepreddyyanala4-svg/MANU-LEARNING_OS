@@ -1,0 +1,504 @@
+[
+  {
+    "topicId": "23e07a85-8846-4d7f-917c-fda23192b089",
+    "slug": "binary-segmentation-masks-6fc5f600",
+    "title": "Binary Segmentation Masks",
+    "subjectSlug": "what-is-an-image-9243452e",
+    "kind": "binary",
+    "understand": [
+      "A binary mask is a grid with two meanings: foreground means selected, background means not selected. A mask for a hand could select the hand region and leave the desk out. It is a decision about each location, not a new colour photograph.",
+      "We display foreground as 1 and background as 0. OpenCV often stores the same meaning as 255 and 0 in a uint8 array. uint8 means an unsigned 8-bit integer, from 0 to 255. A mask normally has one channel and the same height and width as its image.",
+      "A segmentation method decides which pixels belong to a region. In this lesson you choose them yourself, so you can see exactly what a mask contains. All examples are synthetic; this is not a vein segmentation result."
+    ],
+    "mechanism": [
+      "Image → decide which positions to keep → write 1 or 0 at each position → use the mask to select a region.",
+      "For brightness [20, 180, 220] and the rule brightness > 100, the decisions are [False, True, True]. Writing them as 0/1 gives [0, 1, 1]. Multiplying by 255 gives [0, 255, 255].",
+      "Click the mask grid below. A changed square changes one decision. The foreground count counts selected positions, not the sum of 255-valued pixels."
+    ],
+    "worked": [
+      "Threshold a tiny image. The threshold is only a teaching rule, not an automatically correct way to isolate a hand."
+    ],
+    "code": "import numpy as np\nimg = np.array([[20, 180, 220], [90, 100, 101]], dtype=np.uint8)\nmask01 = (img > 100).astype(np.uint8)\nmask255 = mask01 * 255\nprint(\"mask 0/1:\", mask01.tolist())\nprint(\"mask 0/255:\", mask255.tolist())\nprint(\"selected:\", int(np.count_nonzero(mask255)))",
+    "output": "mask 0/1: [[0, 1, 1], [0, 0, 1]]\nmask 0/255: [[0, 255, 255], [0, 0, 255]]\nselected: 3",
+    "lines": [
+      "img > 100 compares each value. Equality at 100 is not selected because the rule is strictly greater.",
+      "astype converts Boolean decisions into integer 0/1. Multiplication changes the representation, not the selected locations. count_nonzero counts locations whose value is nonzero."
+    ],
+    "mistakes": [
+      "Confusing a mask with an RGB image: use one selected/not-selected value per location.",
+      "Counting mask255.sum() as pixels: three selected pixels sum to 765, but count_nonzero returns 3.",
+      "Assuming 1 and 255 always behave identically in arithmetic: both can mean foreground, but their numeric values differ."
+    ],
+    "question": "What does foreground mean, and why can both 1 and 255 represent it?",
+    "task": "For [0, 120, 121, 255], using value > 120, enter the 0/1 mask as comma-separated numbers.",
+    "answer": "0,0,1,1",
+    "rubric": "Explain the threshold comparison and count two selected positions. Then create a new 2×3 uint8 image, generate both mask representations and assert equal nonzero counts.",
+    "practice": {
+      "prompt": "Write threshold(values, t): return 0/1 decisions using value > t.",
+      "starter": "def threshold(values, t):\n    pass",
+      "solution": "def threshold(values, t):\n    return [int(v > t) for v in values]",
+      "checks": [
+        {
+          "name": "Equality is background",
+          "code": "assert threshold([0,120,121,255],120) == [0,0,1,1]"
+        },
+        {
+          "name": "Empty input",
+          "code": "assert threshold([],100) == []"
+        }
+      ]
+    }
+  },
+  {
+    "topicId": "31a3a7ea-e471-41f0-91f6-fc690b475c1d",
+    "slug": "image-masking-and-bitwise-operations-e074faf8",
+    "title": "Image Masking and Bitwise Operations",
+    "subjectSlug": "what-is-an-image-9243452e",
+    "kind": "masking",
+    "understand": [
+      "A mask can select part of an image while setting the rest to zero. Imagine covering the desk pixels so a program reads only a selected hand region. Black output means zero here; it does not mean the original image was black.",
+      "A bitwise operation works on the binary digits of integer values. AND keeps a bit only if both inputs have it; OR keeps a bit if either has it; XOR keeps a bit when they differ. NOT flips bits. These operations act on values, not on the meaning of a hand.",
+      "For binary masks stored as 0/255, AND gives their intersection, OR their union, and XOR their non-overlapping selection. For image selection, OpenCV also provides a separate mask argument: any nonzero mask value selects a location."
+    ],
+    "mechanism": [
+      "Image and mask → check matching height and width → read each mask decision → copy selected image values → write zero elsewhere.",
+      "Image values [50, 200] and selection [1, 0] produce [50, 0]. A direct bitwise image AND with [1, 0] instead produces [0, 0]: 50 in binary ends in 0, so 50 & 1 is 0.",
+      "Use the mistake switch below to compare a selection mask with direct image & mask arithmetic. For mask-to-mask operations, choose AND, OR, XOR or NOT and inspect the result."
+    ],
+    "worked": [
+      "Contrast a selector mask, a 0/1 bitwise operand, and a 0/255 bitwise operand."
+    ],
+    "code": "import numpy as np\nimport cv2\nimg = np.array([[50, 200, 127]], dtype=np.uint8)\nm = np.array([[1, 0, 1]], dtype=np.uint8)\nprint(\"selector:\", cv2.bitwise_and(img, img, mask=m).tolist())\nprint(\"direct AND 1:\", cv2.bitwise_and(img, m).tolist())\nprint(\"direct AND 255:\", cv2.bitwise_and(img, m * 255).tolist())\na = np.array([[255, 0, 255]], dtype=np.uint8)\nb = np.array([[0, 255, 255]], dtype=np.uint8)\nprint(\"OR:\", cv2.bitwise_or(a, b).tolist())\nprint(\"XOR:\", cv2.bitwise_xor(a, b).tolist())",
+    "output": "selector: [[50, 0, 127]]\ndirect AND 1: [[0, 0, 1]]\ndirect AND 255: [[50, 0, 127]]\nOR: [[255, 255, 255]]\nXOR: [[255, 255, 0]]",
+    "lines": [
+      "With mask=m, bitwise_and computes img AND img at selected locations, which preserves the original values. Unselected locations in this newly allocated output are zero.",
+      "With bitwise_and(img, m), m is an operand rather than a selector. A value of 1 preserves only the final bit. A value of 255 has eight 1 bits, so AND preserves any uint8 image value."
+    ],
+    "mistakes": [
+      "Using img & mask01 to select grayscale pixels: it keeps only one bit. Use a nonzero selection mask argument, or a correctly encoded 0/255 operand.",
+      "Using Python and/or on whole NumPy arrays: use elementwise or OpenCV operations.",
+      "Using ~mask01 expecting 0/1: uint8 NOT maps 0 to 255 and 1 to 254. For a 0/1 logical complement, use 1 - mask01."
+    ],
+    "question": "Why can mask=mask01 preserve a value of 50 while img & mask01 loses it?",
+    "task": "With image [50, 200, 127] and selector [1, 0, 1], enter the selected output.",
+    "answer": "50,0,127",
+    "rubric": "Distinguish the mask argument from an operand. Independently create two 0/255 masks, compute their intersection/union, and explain each output position.",
+    "practice": {
+      "prompt": "Write select_values(values, mask): copy a value for any nonzero mask entry, otherwise return 0.",
+      "starter": "def select_values(values, mask):\n    pass",
+      "solution": "def select_values(values, mask):\n    return [v if m != 0 else 0 for v,m in zip(values,mask)]",
+      "checks": [
+        {
+          "name": "1 selects original value",
+          "code": "assert select_values([50,200,127],[1,0,1]) == [50,0,127]"
+        },
+        {
+          "name": "255 is also nonzero",
+          "code": "assert select_values([80,9],[255,0]) == [80,0]"
+        }
+      ]
+    }
+  },
+  {
+    "topicId": "980f5291-9c15-46e1-b1a5-a81549d1c165",
+    "slug": "erosion-915d6380",
+    "title": "Erosion",
+    "subjectSlug": "what-is-an-image-9243452e",
+    "kind": "erosion",
+    "understand": [
+      "Foreground is 1; background is 0. Erosion keeps a foreground pixel only when every active position of a small pattern fits within foreground. A thin feature can vanish. This can remove small bright specks, but can also damage useful thin structure.",
+      "That pattern is the structuring element. Its 1 entries are active checks; its 0 entries are ignored. A 3×3 square checks nine positions. A 3×3 cross checks the centre and its four side neighbours. We place its centre on the output location.",
+      "You already have kernel and padding notes. Here the pattern asks an all-foreground question; it does not compute a weighted average."
+    ],
+    "mechanism": [
+      "Binary mask → centre the structuring element → inspect active neighbours → take their minimum → write one output pixel.",
+      "For [1,1,1; 1,1,1; 1,1,0], a square sees one zero. Minimum is 0, so the centre is removed. With nine ones, minimum is 1 and the centre survives.",
+      "Outside the image, the default binary demonstration uses a neutral value: 1 for erosion. It does not force the minimum down. The explicit outside=0 option instead treats missing neighbours as background. Border choices can change edge pixels."
+    ],
+    "worked": [
+      "Start with a 5×5 foreground square inside a 7×7 background. A 3×3 square leaves a 3×3 foreground interior."
+    ],
+    "code": "import numpy as np\nimport cv2\nm = np.zeros((7, 7), dtype=np.uint8)\nm[1:6, 1:6] = 1\nk = np.ones((3, 3), dtype=np.uint8)\nout = cv2.erode(m, k, borderType=cv2.BORDER_CONSTANT)\nprint(\"before:\", int(m.sum()))\nprint(\"after:\", int(out.sum()))\nprint(out.tolist())",
+    "output": "before: 25\nafter: 9\n[[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 1, 1, 0, 0], [0, 0, 1, 1, 1, 0, 0], [0, 0, 1, 1, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]]",
+    "lines": [
+      "ones creates the nine active checks; dtype uint8 is supported by OpenCV. erode uses the default centred anchor and one iteration.",
+      "We deliberately leave borderValue at OpenCV’s default neutral value. For explicit zero outside, pass borderValue=0. The interactive calculation offers both."
+    ],
+    "mistakes": [
+      "Calling erosion an average: [1,1,1;1,1,1;1,1,0] has average 8/9 but erosion outputs 0.",
+      "Treating zeros in the structuring element as required background: they are ignored, not background tests.",
+      "Assuming all foreground is useful: a thin valid feature can disappear along with noise."
+    ],
+    "question": "How does erosion decide whether the centre pixel survives?",
+    "task": "A 3×3 square contains eight ones and one zero. Enter the erosion output.",
+    "answer": "0",
+    "rubric": "Say “all active positions must be foreground.” Independently erode a 5×5 solid square and explain why only nine positions survive with a 3×3 square.",
+    "practice": {
+      "prompt": "Write erosion_value(active_values): output 1 only if every supplied value is 1. The supplied list contains active positions only.",
+      "starter": "def erosion_value(active_values):\n    pass",
+      "solution": "def erosion_value(active_values):\n    return int(all(v == 1 for v in active_values))",
+      "checks": [
+        {
+          "name": "A single zero removes centre",
+          "code": "assert erosion_value([1,1,1,1,1,1,1,1,0]) == 0"
+        },
+        {
+          "name": "All checked positions pass",
+          "code": "assert erosion_value([1]*9) == 1"
+        }
+      ]
+    }
+  },
+  {
+    "topicId": "9eb24f33-e752-48b5-b54a-e5b40028d924",
+    "slug": "dilation-89fc6bb1",
+    "title": "Dilation",
+    "subjectSlug": "what-is-an-image-9243452e",
+    "kind": "dilation",
+    "understand": [
+      "Dilation marks an output pixel foreground when any active neighbour is foreground. It expands bright regions and can join nearby pieces. That can bridge a broken mask, but can also merge two objects you wanted to keep separate.",
+      "The structuring element decides which neighbours can contribute. A square reaches diagonal neighbours in one step; a cross reaches the four side directions. Our elements are symmetric, with their anchor at the centre.",
+      "Expansion describes the result; the exact rule is maximum over the active positions. A zero input at the output location can become one because of a neighbouring one."
+    ],
+    "mechanism": [
+      "Binary mask → place the element → inspect active neighbours → take their maximum → write one output pixel.",
+      "For [0,0,0; 0,0,1; 0,0,0], maximum is 1, so the centre becomes foreground. If every active value is 0, output is 0.",
+      "Neutral outside values for dilation are 0 in this binary example. They do not introduce foreground. Use the shape switch to see what a single selected pixel can reach."
+    ],
+    "worked": [
+      "One foreground point becomes a 3×3 block with a square, or a five-pixel plus with a cross."
+    ],
+    "code": "import numpy as np\nimport cv2\nm = np.zeros((5, 5), dtype=np.uint8)\nm[2, 2] = 1\nfor name, shape in [(\"square\", cv2.MORPH_RECT), (\"cross\", cv2.MORPH_CROSS)]:\n    k = cv2.getStructuringElement(shape, (3, 3))\n    out = cv2.dilate(m, k)\n    print(name, \"foreground:\", int(out.sum()))\n    print(out.tolist())",
+    "output": "square foreground: 9\n[[0, 0, 0, 0, 0], [0, 1, 1, 1, 0], [0, 1, 1, 1, 0], [0, 1, 1, 1, 0], [0, 0, 0, 0, 0]]\ncross foreground: 5\n[[0, 0, 0, 0, 0], [0, 0, 1, 0, 0], [0, 1, 1, 1, 0], [0, 0, 1, 0, 0], [0, 0, 0, 0, 0]]",
+    "lines": [
+      "getStructuringElement returns a pattern with the requested shape. (3, 3) is width and height. dilate performs one maximum operation per output location.",
+      "Both elements include the centre. Their different active positions explain the output counts: nine versus five."
+    ],
+    "mistakes": [
+      "Assuming dilation detects new evidence: it adds pixels by a geometric rule, not by recognising a hand.",
+      "Forgetting that nearby objects can merge when they expand.",
+      "Expecting a cross and square to produce the same corners."
+    ],
+    "question": "Why can a background centre become foreground during dilation?",
+    "task": "One isolated centre pixel is dilated once with a 3×3 cross. Enter the foreground count.",
+    "answer": "5",
+    "rubric": "Explain the any-active-neighbour rule. Independently verify the square and cross outputs, including their diagonal difference.",
+    "practice": {
+      "prompt": "Write dilation_value(active_values): output 1 if any supplied value is 1.",
+      "starter": "def dilation_value(active_values):\n    pass",
+      "solution": "def dilation_value(active_values):\n    return int(any(v == 1 for v in active_values))",
+      "checks": [
+        {
+          "name": "Neighbour can supply foreground",
+          "code": "assert dilation_value([0,0,0,0,0,1,0,0,0]) == 1"
+        },
+        {
+          "name": "No foreground",
+          "code": "assert dilation_value([0]*9) == 0"
+        }
+      ]
+    }
+  },
+  {
+    "topicId": "ffa0820e-3538-407a-bf94-3ec7fe408a1a",
+    "slug": "opening-b3d6a87d",
+    "title": "Opening",
+    "subjectSlug": "what-is-an-image-9243452e",
+    "kind": "opening",
+    "understand": [
+      "Opening is erosion followed by dilation with the same structuring element. First remove foreground that cannot fit the pattern; then expand the survivors. Small foreground specks may disappear while larger regions regain much of their size.",
+      "It is not “shrink then undo.” Once erosion removes an isolated speck completely, the following dilation has no surviving pixel from which to rebuild it.",
+      "Opening is useful for cleaning a binary mask when foreground specks are smaller than meaningful regions. It can also remove valid narrow features, so a kernel is a modelling choice, not a guaranteed improvement."
+    ],
+    "mechanism": [
+      "Input → erode → inspect surviving foreground → dilate those survivors → cleaned mask.",
+      "A 3×3 solid block becomes one centre pixel under square erosion. Dilation of that survivor restores its 3×3 block. An isolated point becomes empty during erosion and stays empty.",
+      "Step through the stages. Edit a pixel, then observe which structures survive. Both stages use the same shape and border convention."
+    ],
+    "worked": [
+      "Create a 3×3 block and one separated speck. Show both intermediate and final foreground counts."
+    ],
+    "code": "import numpy as np\nimport cv2\nm = np.zeros((7, 7), dtype=np.uint8)\nm[2:5, 2:5] = 1\nm[0, 0] = 1\nk = np.ones((3, 3), dtype=np.uint8)\ne = cv2.erode(m, k)\nout = cv2.dilate(e, k)\nprint(\"input, eroded, opened:\", int(m.sum()), int(e.sum()), int(out.sum()))\nprint(\"speck:\", int(out[0, 0]))\nprint(\"matches morphologyEx:\", bool(np.array_equal(out, cv2.morphologyEx(m, cv2.MORPH_OPEN, k))))",
+    "output": "input, eroded, opened: 10 1 9\nspeck: 0\nmatches morphologyEx: True",
+    "lines": [
+      "e stores the intermediate erosion result; out dilates that result rather than the original mask.",
+      "morphologyEx with MORPH_OPEN expresses the same two-stage operation. array_equal checks every position, not just the count."
+    ],
+    "mistakes": [
+      "Reversing the order: dilation then erosion is closing.",
+      "Expecting all removed pixels to return: an erased isolated speck has no seed left.",
+      "Judging only total pixel count: inspect which pixels remain, because equally sized masks can have different shapes."
+    ],
+    "question": "Why does dilation in opening not restore a completely removed speck?",
+    "task": "A 3×3 block plus one separated point is opened with a 3×3 square. Enter the final foreground count.",
+    "answer": "9",
+    "rubric": "Name erosion then dilation, and identify the survivor that rebuilds the block. Independently confirm the speck is gone and every pixel matches morphologyEx.",
+    "practice": {
+      "prompt": "Use the supplied one_pass helper to implement opening_mask(a). Explain the order aloud before running.",
+      "starter": "def one_pass(a, operation):\n    # Square 3x3, centred; neutral outside: 1 for erosion, 0 for dilation.\n    h,w=len(a),len(a[0])\n    out=[]\n    for y in range(h):\n        row=[]\n        for x in range(w):\n            values=[a[yy][xx] if 0<=yy<h and 0<=xx<w else int(operation=='erosion')\n                    for yy in range(y-1,y+2) for xx in range(x-1,x+2)]\n            row.append(min(values) if operation=='erosion' else max(values))\n        out.append(row)\n    return out\n\ndef opening_mask(a):\n    pass",
+      "solution": "def one_pass(a, operation):\n    # Square 3x3, centred; neutral outside: 1 for erosion, 0 for dilation.\n    h,w=len(a),len(a[0])\n    out=[]\n    for y in range(h):\n        row=[]\n        for x in range(w):\n            values=[a[yy][xx] if 0<=yy<h and 0<=xx<w else int(operation=='erosion')\n                    for yy in range(y-1,y+2) for xx in range(x-1,x+2)]\n            row.append(min(values) if operation=='erosion' else max(values))\n        out.append(row)\n    return out\n\ndef opening_mask(a):\n    return one_pass(one_pass(a,\"erosion\"),\"dilation\")",
+      "checks": [
+        {
+          "name": "Correct composition",
+          "code": "a=[[0]*7 for _ in range(7)]\nfor y in range(2,5):\n    for x in range(2,5):\n        a[y][x]=1\na[0][0]=1\nassert opening_mask(a) == one_pass(one_pass(a,\"erosion\"),\"dilation\")"
+        },
+        {
+          "name": "Empty foreground",
+          "code": "assert opening_mask([[0]*5 for _ in range(5)]) == [[0]*5 for _ in range(5)]"
+        }
+      ]
+    }
+  },
+  {
+    "topicId": "50069ec7-1903-4567-8bb2-9a76c9deb01a",
+    "slug": "closing-5cd45826",
+    "title": "Closing",
+    "subjectSlug": "what-is-an-image-9243452e",
+    "kind": "closing",
+    "understand": [
+      "Closing is dilation followed by erosion using the same element. Expansion can connect nearby foreground and cover small background holes; erosion then reduces the expanded boundary.",
+      "A hole is background enclosed by foreground. A small hole may fill because dilation introduces foreground there, and the following erosion may still find a full neighbourhood. Large gaps may survive.",
+      "This is useful when a binary object should be solid but has small missing regions. It can also join separate objects. It does not know which connections are correct."
+    ],
+    "mechanism": [
+      "Input → dilate → inspect the filled or bridged regions → erode → closed mask.",
+      "In a 3×3 foreground square with its centre missing, a 3×3 dilation covers that centre. Erosion then retains it because the surrounding expanded neighbourhood is foreground.",
+      "Use neutral outside values to match the default binary OpenCV example. Choose outside=0 to explore edge effects, and do not assume every border convention preserves objects that touch the frame."
+    ],
+    "worked": [
+      "Fill a one-pixel hole. Compare explicit dilation-then-erosion with the OpenCV closing operation."
+    ],
+    "code": "import numpy as np\nimport cv2\nm = np.zeros((7, 7), dtype=np.uint8)\nm[2:5, 2:5] = 1\nm[3, 3] = 0\nk = np.ones((3, 3), dtype=np.uint8)\nd = cv2.dilate(m, k)\nout = cv2.erode(d, k)\nprint(\"input, dilated, closed:\", int(m.sum()), int(d.sum()), int(out.sum()))\nprint(\"centre before/after:\", int(m[3, 3]), int(out[3, 3]))\nprint(\"matches morphologyEx:\", bool(np.array_equal(out, cv2.morphologyEx(m, cv2.MORPH_CLOSE, k))))",
+    "output": "input, dilated, closed: 8 25 9\ncentre before/after: 0 1\nmatches morphologyEx: True",
+    "lines": [
+      "The intermediate d is a 5×5 block away from the frame. The following erosion restores a 3×3 block with the hole filled.",
+      "MORPH_CLOSE runs dilation then erosion. Border effects can matter when a region touches the frame; inspect them separately with the border switch."
+    ],
+    "mistakes": [
+      "Calling closing “remove bright specks”: opening is the usual starting operation for foreground specks.",
+      "Assuming closing always restores exactly the original outer boundary, especially at image edges.",
+      "Using different elements between the two stages without documenting that change."
+    ],
+    "question": "How does closing differ from opening in both order and purpose?",
+    "task": "A background centre is surrounded by foreground. If the dilation stage makes that entire 3×3 neighbourhood foreground, what will erosion write at its centre?",
+    "answer": "1",
+    "rubric": "Explain dilation then erosion and the filled neighbourhood. Independently compare neutral and zero borders on an object touching the frame.",
+    "practice": {
+      "prompt": "Use the supplied one_pass helper to implement closing_mask(a). Explain the order aloud before running.",
+      "starter": "def one_pass(a, operation):\n    # Square 3x3, centred; neutral outside: 1 for erosion, 0 for dilation.\n    h,w=len(a),len(a[0])\n    out=[]\n    for y in range(h):\n        row=[]\n        for x in range(w):\n            values=[a[yy][xx] if 0<=yy<h and 0<=xx<w else int(operation=='erosion')\n                    for yy in range(y-1,y+2) for xx in range(x-1,x+2)]\n            row.append(min(values) if operation=='erosion' else max(values))\n        out.append(row)\n    return out\n\ndef closing_mask(a):\n    pass",
+      "solution": "def one_pass(a, operation):\n    # Square 3x3, centred; neutral outside: 1 for erosion, 0 for dilation.\n    h,w=len(a),len(a[0])\n    out=[]\n    for y in range(h):\n        row=[]\n        for x in range(w):\n            values=[a[yy][xx] if 0<=yy<h and 0<=xx<w else int(operation=='erosion')\n                    for yy in range(y-1,y+2) for xx in range(x-1,x+2)]\n            row.append(min(values) if operation=='erosion' else max(values))\n        out.append(row)\n    return out\n\ndef closing_mask(a):\n    return one_pass(one_pass(a,\"dilation\"),\"erosion\")",
+      "checks": [
+        {
+          "name": "Correct composition",
+          "code": "a=[[0]*7 for _ in range(7)]\nfor y in range(2,5):\n    for x in range(2,5):\n        a[y][x]=1\na[3][3]=0\nassert closing_mask(a) == one_pass(one_pass(a,\"dilation\"),\"erosion\")"
+        },
+        {
+          "name": "Empty foreground",
+          "code": "assert closing_mask([[0]*5 for _ in range(5)]) == [[0]*5 for _ in range(5)]"
+        }
+      ]
+    }
+  },
+  {
+    "topicId": "e91b8ad9-c7e7-4dc0-a254-dbf6b8a2ce8a",
+    "slug": "morphological-gradient-dc2fc805",
+    "title": "Morphological Gradient",
+    "subjectSlug": "what-is-an-image-9243452e",
+    "kind": "gradient",
+    "understand": [
+      "The morphological gradient highlights the transition around a foreground region. For a binary mask it is the dilated mask minus the eroded mask. This is different from a Sobel intensity gradient, which you already have notes for.",
+      "Dilation supplies an expanded region. Erosion supplies a smaller interior. Their difference keeps the band between them. With a 3×3 element, the band can include pixels both inside and outside the original boundary.",
+      "It is useful to inspect a mask boundary. It is not automatically a one-pixel outline or an ordered contour path."
+    ],
+    "mechanism": [
+      "Input → compute dilation and erosion separately → subtract erosion from dilation at each location → boundary band.",
+      "At an interior location, dilation=1 and erosion=1, so output=0. Near the edge, dilation=1 and erosion=0, so output=1. Far outside, both are 0, so output=0.",
+      "Compare the two intermediate grids before viewing the difference. No subtraction is performed between unrelated images."
+    ],
+    "worked": [
+      "A 3×3 block, away from the frame, expands to 5×5 and erodes to one pixel. The gradient contains 25 - 1 = 24 foreground pixels."
+    ],
+    "code": "import numpy as np\nimport cv2\nm = np.zeros((7, 7), dtype=np.uint8)\nm[2:5, 2:5] = 1\nk = np.ones((3, 3), dtype=np.uint8)\nd = cv2.dilate(m, k)\ne = cv2.erode(m, k)\ng = cv2.subtract(d, e)\nprint(\"dilation, erosion, gradient:\", int(d.sum()), int(e.sum()), int(g.sum()))\nprint(\"centre:\", int(g[3, 3]))\nprint(\"matches morphologyEx:\", bool(np.array_equal(g, cv2.morphologyEx(m, cv2.MORPH_GRADIENT, k))))",
+    "output": "dilation, erosion, gradient: 25 1 24\ncentre: 0\nmatches morphologyEx: True",
+    "lines": [
+      "cv2.subtract subtracts each pair of corresponding values. Here d is never smaller than e, so the binary result is nonnegative.",
+      "The empty centre demonstrates that the gradient removes the common interior, not all foreground."
+    ],
+    "mistakes": [
+      "Reversing subtraction on uint8: negative values may clip or wrap depending on the library operation.",
+      "Calling the output an ordered contour: it is still a raster grid.",
+      "Expecting a fixed one-pixel thickness: the structuring element and boundary shape affect the band."
+    ],
+    "question": "Why is the centre of a solid block absent from its morphological gradient?",
+    "task": "A block has dilated area 25 and eroded area 1. Enter the gradient foreground count.",
+    "answer": "24",
+    "rubric": "Explain per-pixel dilation minus erosion. Independently compute both intermediate masks and compare all gradient pixels with MORPH_GRADIENT.",
+    "practice": {
+      "prompt": "Write gradient_values(dilated, eroded): subtract corresponding values; inputs are flat equal-length binary arrays.",
+      "starter": "def gradient_values(dilated, eroded):\n    pass",
+      "solution": "def gradient_values(dilated, eroded):\n    return [d-e for d,e in zip(dilated,eroded)]",
+      "checks": [
+        {
+          "name": "Interior and edge",
+          "code": "assert gradient_values([1,1,0],[1,0,0]) == [0,1,0]"
+        },
+        {
+          "name": "Empty input",
+          "code": "assert gradient_values([],[]) == []"
+        }
+      ]
+    }
+  },
+  {
+    "topicId": "f9de1f9a-146b-45bd-a5f5-e6b14741b835",
+    "slug": "connected-components-and-labels-9e991a73",
+    "title": "Connected Components and Labels",
+    "subjectSlug": "what-is-an-image-9243452e",
+    "kind": "components",
+    "understand": [
+      "A connected component is a group of foreground pixels joined by allowed neighbour steps. Labelling gives each separate group an integer ID. Background gets label 0; foreground groups get positive labels.",
+      "With 4-connectivity, a step may go up, down, left or right. With 8-connectivity, diagonal steps are allowed too. Two pixels touching only at a corner are separate under 4-connectivity and connected under 8-connectivity.",
+      "This helps count or measure separate mask regions. Label numbers are IDs, not brightness, size or confidence. Different correct algorithms can assign different numbers to the same regions."
+    ],
+    "mechanism": [
+      "Binary mask → find an unlabelled foreground pixel → visit its allowed foreground neighbours → assign one label → repeat for the next group.",
+      "For [1,0; 0,1], the first point cannot reach the second using side steps: two components. Allow diagonal steps and it can: one component.",
+      "Click pixels and switch connectivity below. Compare memberships and region sizes, rather than treating a particular label number as a semantic class."
+    ],
+    "worked": [
+      "The OpenCV return count includes the background label, so subtract one for the foreground-component count."
+    ],
+    "code": "import numpy as np\nimport cv2\nm = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 0]], dtype=np.uint8)\nfor conn in (4, 8):\n    n, labels, stats, centroids = cv2.connectedComponentsWithStats(m, connectivity=conn)\n    print(\"connectivity\", conn, \"components\", n - 1)\n    print(\"areas:\", sorted(stats[1:, cv2.CC_STAT_AREA].tolist()))\n    print(\"same label:\", bool(labels[0, 0] == labels[1, 1]))",
+    "output": "connectivity 4 components 2\nareas: [1, 1]\nsame label: False\nconnectivity 8 components 1\nareas: [2]\nsame label: True",
+    "lines": [
+      "stats has one row per label; CC_STAT_AREA selects pixel count. stats[1:] excludes background.",
+      "The centroid is the mean x and mean y of a component’s pixels. We do not need centroid calculation to understand connectivity."
+    ],
+    "mistakes": [
+      "Using n as the foreground count: n includes label 0.",
+      "Assuming equal numeric labels across algorithms: compare the connected groups instead.",
+      "Using coloured label output as grayscale intensities: the colours are just a display aid."
+    ],
+    "question": "When does changing 4-connectivity to 8-connectivity merge groups?",
+    "task": "For [1,0;0,1], enter the component counts under 4-connectivity,8-connectivity.",
+    "answer": "2,1",
+    "rubric": "Explain diagonal contact. Independently label a mask containing both touching and separated pixels; report foreground counts and sorted component areas.",
+    "practice": {
+      "prompt": "Write neighbours4(x, y, width, height): return valid side-neighbour (x,y) tuples; exclude diagonals and the centre.",
+      "starter": "def neighbours4(x, y, width, height):\n    pass",
+      "solution": "def neighbours4(x,y,width,height):\n    return [(xx,yy) for xx,yy in [(x-1,y),(x+1,y),(x,y-1),(x,y+1)]\n            if 0 <= xx < width and 0 <= yy < height]",
+      "checks": [
+        {
+          "name": "Centre has four neighbours",
+          "code": "assert set(neighbours4(1,1,3,3)) == {(0,1),(2,1),(1,0),(1,2)}"
+        },
+        {
+          "name": "Corner stays in bounds",
+          "code": "assert set(neighbours4(0,0,3,3)) == {(1,0),(0,1)}"
+        }
+      ]
+    }
+  },
+  {
+    "topicId": "c8a029ff-f0fa-4613-a29a-fc9feb721479",
+    "slug": "removing-small-regions-from-binary-masks-d88d83e9",
+    "title": "Removing Small Regions from Binary Masks",
+    "subjectSlug": "what-is-an-image-9243452e",
+    "kind": "regions",
+    "understand": [
+      "Removing small regions means labelling connected foreground groups, counting each group’s pixels, then deleting whole groups below a chosen minimum area. It is a size rule, not proof that a region is noise.",
+      "Unlike opening, this operation can preserve a thin but large component. It does not change the shape of kept components. Connectivity still matters: two diagonal pieces may count as one larger group under 8-connectivity.",
+      "For a toy hand mask, this could remove an isolated foreground speck. Real research parameters must follow the approved source-only development protocol; this page does not tune them on dorsal data."
+    ],
+    "mechanism": [
+      "Binary mask → label components → count each area → keep label when area ≥ minimum → reconstruct a 0/1 output mask.",
+      "For component areas [1, 3, 4] and minimum 3, reject the one-pixel group and keep the three- and four-pixel groups. The output has 3 + 4 = 7 foreground pixels.",
+      "Use the threshold slider below. Equality is kept. Label 0 is always excluded, even when the background is the largest region."
+    ],
+    "worked": [
+      "Build three separated regions with areas 1, 3 and 4. Reconstruct the kept mask using component labels."
+    ],
+    "code": "import numpy as np\nimport cv2\nm = np.zeros((7, 7), dtype=np.uint8)\nm[0, 0] = 1\nm[2:4, 4:6] = 1\nm[5, 1:4] = 1\nn, labels, stats, _ = cv2.connectedComponentsWithStats(m, connectivity=8)\nminimum = 3\nout = np.zeros_like(m)\nareas = stats[1:, cv2.CC_STAT_AREA]\nfor label in range(1, n):\n    if stats[label, cv2.CC_STAT_AREA] >= minimum:\n        out[labels == label] = 1\nprint(\"component areas:\", sorted(areas.tolist()))\nprint(\"kept pixels:\", int(out.sum()))\nprint(\"removed pixels:\", int(m.sum() - out.sum()))",
+    "output": "component areas: [1, 3, 4]\nkept pixels: 7\nremoved pixels: 1",
+    "lines": [
+      "range(1, n) deliberately skips background. labels == label creates a Boolean selector for that entire region.",
+      "Assigning 1 copies its membership, preserving the kept region’s shape. The rule is ≥, so a size exactly equal to minimum survives."
+    ],
+    "mistakes": [
+      "Keeping the largest label number instead of the largest area.",
+      "Accidentally keeping background: always exclude label 0.",
+      "Confusing pixel area with cv2.contourArea: polygon area and foreground pixel count can differ."
+    ],
+    "question": "How can area filtering preserve a thin region that opening removes?",
+    "task": "For areas [1,3,4] and minimum 3 with ≥, enter the total kept pixels.",
+    "answer": "7",
+    "rubric": "Explain whole-component selection and equality. Independently test minimum 1, minimum 3 and a minimum larger than every region.",
+    "practice": {
+      "prompt": "Write keep_labels(labels, areas, minimum): return a flat 0/1 mask, keeping only nonzero labels with area >= minimum. areas[label] gives its area.",
+      "starter": "def keep_labels(labels, areas, minimum):\n    pass",
+      "solution": "def keep_labels(labels, areas, minimum):\n    return [int(label != 0 and areas[label] >= minimum) for label in labels]",
+      "checks": [
+        {
+          "name": "Exclude background, keep equality",
+          "code": "assert keep_labels([0,1,2,3],[100,1,3,4],3) == [0,0,1,1]"
+        },
+        {
+          "name": "Remove all too small",
+          "code": "assert keep_labels([1,2],[20,1,2],3) == [0,0]"
+        }
+      ]
+    }
+  },
+  {
+    "topicId": "2175607e-6a90-44e0-8e03-6e6f28b51667",
+    "slug": "contours-findcontours-d85aa8d6",
+    "title": "Contours (findContours)",
+    "subjectSlug": "what-is-an-image-9243452e",
+    "kind": "contours",
+    "understand": [
+      "A contour is an ordered list of boundary points. A binary mask says which locations are foreground; a contour describes a boundary as a path. Each OpenCV point is (x, y), meaning column then row.",
+      "findContours can return outer boundaries and boundaries around holes. A retrieval mode decides which boundaries and relationships to keep. RETR_EXTERNAL keeps only the outermost contours; RETR_TREE keeps nested boundaries and their hierarchy.",
+      "An approximation mode decides how many points describe each path. CHAIN_APPROX_NONE keeps all boundary steps. CHAIN_APPROX_SIMPLE compresses straight horizontal, vertical and diagonal runs to their endpoints. It is not “keep only four corners” for every shape."
+    ],
+    "mechanism": [
+      "0/255 uint8 mask → select retrieval mode → trace boundary paths → optionally compress straight runs → inspect point coordinates and hierarchy.",
+      "For a filled 3×3 square at rows/columns 1 through 3, SIMPLE can describe the exterior with four points. NONE records eight boundary pixels. The foreground contains nine pixels, so neither point count is its pixel area.",
+      "Choose a preset and actual OpenCV options below. Every displayed path comes from the reference implementation for that preset. Step through points to connect (x, y) to the image grid; no general contour algorithm is being approximated in the browser."
+    ],
+    "worked": [
+      "Compare point count, pixel count and polygon area for a small rectangle. Point order/start may vary across versions; the boundary is what matters."
+    ],
+    "code": "import numpy as np\nimport cv2\nm = np.zeros((5, 5), dtype=np.uint8)\nm[1:4, 1:4] = 255\nfor name, method in [(\"NONE\", cv2.CHAIN_APPROX_NONE), (\"SIMPLE\", cv2.CHAIN_APPROX_SIMPLE)]:\n    contours, hierarchy = cv2.findContours(m.copy(), cv2.RETR_EXTERNAL, method)\n    c = contours[0]\n    print(name, \"contours\", len(contours), \"points\", len(c))\n    print(\"polygon area:\", float(cv2.contourArea(c)))\nprint(\"foreground pixels:\", int(np.count_nonzero(m)))",
+    "output": "NONE contours 1 points 8\npolygon area: 4.0\nSIMPLE contours 1 points 4\npolygon area: 4.0\nforeground pixels: 9",
+    "lines": [
+      "findContours returns contours and a hierarchy array in current OpenCV. Each c contains points shaped N×1×2; c.reshape(-1, 2) exposes (x, y) pairs.",
+      "The square’s polygon spans coordinates 1 to 3 in each direction, so its area is (3 - 1) × (3 - 1) = 4. That differs from the nine selected pixel centres.",
+      "A hierarchy entry is [next sibling, previous sibling, first child, parent]; -1 means none. A hole contour may trace foreground pixels surrounding the hole, not the empty pixel centres."
+    ],
+    "mistakes": [
+      "Indexing the image with (x, y): use image[y, x].",
+      "Expecting RETR_EXTERNAL to report inner holes: use an appropriate hierarchy-aware mode.",
+      "Using contour point count or contourArea as component pixel area.",
+      "Assuming a one-pixel component must have positive polygon area: degenerate contours can have area 0."
+    ],
+    "question": "Why can a 3×3 filled square have nine foreground pixels but polygon area four?",
+    "task": "A 3×3 filled square uses CHAIN_APPROX_SIMPLE. Enter its exterior point count.",
+    "answer": "4",
+    "rubric": "Distinguish pixel centres, boundary points and polygon area. Independently compare EXTERNAL/TREE on a ring, explain parent/child links, and compare NONE/SIMPLE without assuming point order.",
+    "practice": {
+      "prompt": "Write to_indices(points): convert each OpenCV (x,y) point into its NumPy (row,column) index.",
+      "starter": "def to_indices(points):\n    pass",
+      "solution": "def to_indices(points):\n    return [(y,x) for x,y in points]",
+      "checks": [
+        {
+          "name": "Nonsymmetric coordinates",
+          "code": "assert to_indices([(3,1),(1,4)]) == [(1,3),(4,1)]"
+        },
+        {
+          "name": "Empty path",
+          "code": "assert to_indices([]) == []"
+        }
+      ]
+    }
+  }
+]
