@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, ChevronDown, Circle, CircleDot, Maximize2, Minimize2, Search } from 'lucide-react';
 import { LessonNotes } from '@/components/study-now/lesson-notes';
+import pilotLessons from '@/lib/pilot-lessons.json';
 import { LessonPreparation } from '@/components/study-now/lesson-preparation';
 import { createClient } from '@/lib/supabase';
 import { internshipCurriculum, internshipTopicKey, type InternshipPriority } from '@/lib/internship-curriculum';
@@ -263,7 +264,10 @@ export default function StudyNowPage() {
                 </button>
               )}
             </div>
-            {!link && (
+            {process.env.NEXT_PUBLIC_INTERACTIVE_PILOT === '1' && pilotLessons.some(l => l.key === shown.key) && (
+              <Link href={`/study-now/pilot?topic=${shown.key}`} className={btnPrimary}>Preview interactive pilot lesson <ArrowRight size={16} aria-hidden="true" /></Link>
+            )}
+            {!link && !(process.env.NEXT_PUBLIC_INTERACTIVE_PILOT === '1' && pilotLessons.some(l => l.key === shown.key)) && (
               <p className="mt-2 text-sm text-[var(--muted)]">
                 No built interactive lesson for this topic; it stays in your roadmap. Notes below are your saved content.
               </p>

@@ -1,0 +1,31 @@
+{
+  "status": "preview-only; no database import",
+  "featureFlag": "NEXT_PUBLIC_INTERACTIVE_PILOT=1",
+  "route": "/study-now/pilot?topic=<topic_key>",
+  "lessons": [
+    {
+      "id": "M07-T01",
+      "topic_key": "internship-v1-m07-t001",
+      "topic_title": "Pixels, image coordinates, width/height and resolution",
+      "depth": "L2",
+      "needs": "Python lists, NumPy shape and indexing",
+      "content": "lessons/M07-T01.md"
+    },
+    {
+      "id": "M07-T07",
+      "topic_key": "internship-v1-m07-t007",
+      "topic_title": "Kernels, filtering, convolution and border modes",
+      "depth": "L2",
+      "needs": "M07-T01–T06; multiplying, adding and averaging",
+      "content": "lessons/M07-T07.md"
+    },
+    {
+      "id": "M11-T05",
+      "topic_key": "internship-v1-m11-t005",
+      "topic_title": "FAR/FMR versus FRR/FNMR and TAR",
+      "depth": "L3",
+      "needs": "M11-T01–T04; genuine/impostor scores and thresholding",
+      "content": "lessons/M11-T05.md"
+    }
+  ]
+}
