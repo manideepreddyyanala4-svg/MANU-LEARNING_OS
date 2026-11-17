@@ -1,3 +1,5 @@
+import { InterviewFoundation } from '@/components/learning/interview-foundation';
+import { numpyInterview } from '@/lib/interview-foundations';
 import Link from 'next/link';
 import type { Route } from 'next';
 import { ArrowLeft, ArrowRight, ChevronRight, Code2 } from 'lucide-react';
@@ -85,6 +87,8 @@ export default async function NumPyCodeLesson({ params }: { params: Promise<{ le
                 )}
               </nav>
             </header>
+
+            <InterviewFoundation brief={numpyInterview[current.id]} />
 
             {examples.map((example, i) => {
               const color = colors[i % colors.length];
