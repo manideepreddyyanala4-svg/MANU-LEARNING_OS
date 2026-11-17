@@ -5,9 +5,10 @@ import '@blocknote/react/style.css';
 import { BlockNoteView } from '@blocknote/shadcn';
 import { getDefaultReactSlashMenuItems, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
 import type { PartialBlock } from '@blocknote/core';
+import { Cv10Enhancement } from '@/components/learning/cv10/enhancement';
 import { PythonLessonLab } from '@/components/python-lesson-lab';
 import { useTheme } from 'next-themes';
-import { useEffect, useMemo, useRef, useState, type ChangeEvent, type ReactNode } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState, type ChangeEvent, type ReactNode } from 'react';
 import {
   Bold,
   Check,
@@ -420,7 +421,7 @@ export function DocumentCanvas({
   };
 
   if (!editable) {
-    return <StudyDocument blocks={initialContent} onStartEdit={onStartEdit} learningGuide={learningGuide} />;
+    return <StudyDocument interactiveTopicId={topicId} blocks={initialContent} onStartEdit={onStartEdit} learningGuide={learningGuide} />;
   }
 
   const isEmpty = editor.document.length === 1 && !textOf(editor.document as PartialBlock[]);
@@ -635,10 +636,12 @@ export type StudyImage = {
 };
 
 export function StudyDocument({
+  interactiveTopicId = '',
   blocks,
   onStartEdit,
   learningGuide = false,
 }: {
+  interactiveTopicId?: string;
   blocks: PartialBlock[];
   onStartEdit?: () => void;
   learningGuide?: boolean;
@@ -735,6 +738,7 @@ export function StudyDocument({
               );
             }
             return (
+              <Fragment key={block.id ?? index}>
               <StudyBlock
                 key={block.id ?? index}
                 block={block}
@@ -744,6 +748,8 @@ export function StudyDocument({
                   setActiveImageIndex(idx >= 0 ? idx : 0);
                 }}
               />
+              <Cv10Enhancement topicId={interactiveTopicId} blockId={block.id} />
+              </Fragment>
             );
           })
         ) : (
