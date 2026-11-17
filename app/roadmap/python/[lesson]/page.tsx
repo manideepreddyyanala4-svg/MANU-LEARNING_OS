@@ -1,3 +1,5 @@
+import { InterviewFoundation } from '@/components/learning/interview-foundation';
+import { pythonInterview } from '@/lib/interview-foundations';
 import Link from 'next/link';
 import type { Route } from 'next';
 import { ArrowLeft, ArrowRight, ChevronRight, Code2 } from 'lucide-react';
@@ -57,6 +59,8 @@ export default async function PythonCodeLesson({ params }: { params: Promise<{ l
                 )}
               </nav>
             </header>
+
+            <InterviewFoundation brief={pythonInterview[current.id]} />
 
             {examples.map((example, i) => {
               const color = colors[i % colors.length];
