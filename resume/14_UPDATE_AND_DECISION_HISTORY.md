@@ -12,6 +12,7 @@ This history preserves changes in interpretation; originals outside this folder 
 | 2026-11-19 new skill report | ONNX was reported in older ASE audit, not verified directly. | C202; no longer describe it as entirely absent across all known evidence. Proficiency still VERIFY FIRST. |
 | 2026-11-19 source portability | Removed absolute machine paths/private library links and retained private-evidence IDs. | C204; see archive provenance and private-source policy. |
 | 2026-11-19 push gate | Vercel connection found; current tool response does not expose branch auto-deploy exclusion. | C206. Preserve local commit unless a deployment-free push is established. No configuration changed. |
+| 2026-11-19 publication route | User instructed publication now; select a named snapshot tag instead of website-connected branch push. | C207/R13. Remote confirmation and post-publication deployment check required; main remains unchanged. |
 
 ## How to update one decision
 1. Add a dated source record with exact section/function/row and inspection scope.

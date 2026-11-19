@@ -23,8 +23,8 @@ This folder prepares a later resume task. It contains research, candidate fragme
 | [08 Tailoring](08_ROLE_SPECIFIC_TAILORING.md) | CV/ML, Python/software, RAG/agent, data-processing, QA/testing. |
 | [09 Format/language](09_ATS_FORMAT_AND_LANGUAGE.md) | Channel-specific and vendor-specific guidance; conditional English/Chinese/layout choices. |
 | [10 Include/exclude decisions](10_INCLUDE_EXCLUDE_DECISIONS.md) | Quick decision index linked to individual claims. |
-| [11 Claim ledger](11_CLAIM_TO_SOURCE_LEDGER.csv) | 120 unique claim IDs, including 48 candidate-line records. |
-| [12 Source register](12_RESEARCH_SOURCE_REGISTER.csv) | 76 source IDs; original URLs or safe private-evidence references, inspection depth and dates. |
+| [11 Claim ledger](11_CLAIM_TO_SOURCE_LEDGER.csv) | 121 unique claim IDs, including 48 candidate-line records. |
+| [12 Source register](12_RESEARCH_SOURCE_REGISTER.csv) | 77 source IDs; original URLs or safe private-evidence references, inspection depth and dates. |
 | [13 Conflicts](13_CONFLICTS_AND_UNVERIFIED_CLAIMS.md) | Preserve contrary sources, outdated interpretations and missing primary records. |
 | [14 Update history](14_UPDATE_AND_DECISION_HISTORY.md) | Stable changes, reasons and evidence-update procedure. |
 | [15 Future creation guide](15_FUTURE_RESUME_CREATION_GUIDE.md) | Plain-language answers and later draft-validation procedure. |
@@ -33,7 +33,7 @@ This folder prepares a later resume task. It contains research, candidate fragme
 ## What can be trusted for what
 Source truth, personal contribution and strategy are separate. Prefer current applicable official instructions for a job; prefer original personal records for a personal assertion. Preserve secondary AI audits as secondary even if repeated. A private source is retained under its ID and exact section/function description, not replaced by an invented public URL (C204).
 
-Claim classifications: INFERENCE 15; PRIMARY VERIFIED 32; CONFLICTED 4; SECONDARY SUPPORTED 18; USER-REPORTED 12; NOT VERIFIED 39. These are classifications of all findings, not counts of verified resume achievements. All 48 personal candidate-line fragments remain VERIFY FIRST, CONDITIONAL or EXCLUDE. No approved personal achievement or publication citation exists yet (C044).
+Claim classifications: INFERENCE 16; PRIMARY VERIFIED 32; CONFLICTED 4; SECONDARY SUPPORTED 18; USER-REPORTED 12; NOT VERIFIED 39. These are classifications of all findings, not counts of verified resume achievements. All 48 personal candidate-line fragments remain VERIFY FIRST, CONDITIONAL or EXCLUDE. No approved personal achievement or publication citation exists yet (C044).
 
 ## Important unresolved and superseded items
 - Graduation is [confirmed month] 2027 pending resolution of latest June versus older July report (C201).
@@ -66,7 +66,8 @@ COMPLETE means addressed at the stated inspection depth, not independently verif
 | Public privacy review | COMPLETE | No machine paths/private library IDs/raw research records added; stable private references. |
 | Existing repo career-document reconciliation | COMPLETE | R01–R03; C201–C203. |
 | Documentation-only Git scope | COMPLETE | Changes confined to resume/; validate before commit. |
-| Safe GitHub push | BLOCKED | C206; no verified documentation-branch auto-deploy exclusion. |
+| Documentation-branch push | BLOCKED | C206; no verified documentation-branch auto-deploy exclusion. |
+| Tagged GitHub snapshot | CONDITIONAL | C207; publish only the named tag, leaving branch/main refs unchanged. |
 
 ## Maintenance and future tailoring (C038/C043/C044/C073)
 Read the current JD and form; distinguish mandatory/preferred/duty text. Select verified claim IDs and preserve contribution/AI-assistance boundaries. Change emphasis, not facts. Add original records before upgrading a personal line. Record date, old/new decision and reason in 14; keep superseded evidence traceable. Validate every final resume line against the ledger, then export/inspect formatting only in a separately authorized resume task.
@@ -75,6 +76,11 @@ Read the current JD and form; distinguish mandatory/preferred/duty text. Select 
 The repository is public (C205). Original private source files remain outside GitHub; the archive contains safe summaries/extracts. No website, lessons, dependencies, roadmap, configuration or deployment settings were changed.
 
 A linked Vercel project and existing Vercel commit status were observed. Current tools did not reveal a branch-specific auto-deploy exclusion, and the inspected repository contains no documented exclusion for this branch. Vercel defaults can deploy branch pushes. Under the explicit no-deployment instruction, preserve the local commit without pushing unless a safe exclusion is established (C206). Do not infer that a docs branch or a generic CI-skip marker guarantees this.
+
+### Tagged publication route (C207)
+Following the instruction to publish now, use the named snapshot tag `resume-knowledge-base-2026-11-19` rather than pushing a website-connected branch. The inspected GitHub workflows filter pushes to named branches and have no tag-deployment trigger. Vercel's tag deployment guide describes a separately configured Actions/CLI route; no such route was added or run. This is an evidence-informed route, not a claim that every Git integration ignores tags. Verify the remote tag/commit and check deployment records after publishing.
+
+Canonical snapshot entry point: [resume knowledge base](https://github.com/manideepreddyyanala4-svg/MANU-LEARNING_OS/tree/resume-knowledge-base-2026-11-19/resume). Future updates should use a new dated snapshot tag, or a documentation branch after branch deployment exclusion is established. Do not overwrite an existing tag silently.
 
 ## Executed structural validation
 2026-11-19: 24 documentation/data files; 76 unique source IDs; 120 unique claim IDs; 48 candidate-line records; zero unconditionally approved personal lines. Required fields, source-ID references, relative Markdown links, local curated source paths and privacy-pattern checks passed. The three historical data extracts retain 58/162/44 rows respectively. Validation proves these structural properties, not the truth of every source or personal proficiency. Git scope must remain resume/ only.
