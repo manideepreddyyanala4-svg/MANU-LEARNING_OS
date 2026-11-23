@@ -1,38 +1,26 @@
-# Resume evidence collection status — 2026-11-19
+# Resume evidence status
 
-This is a public-safe status and **not** a completed resume or disclosure authorization. Dates and findings are scoped to the evidence inspected on 2026-11-19. Private primary records are retained separately; do not paste or upload them here.
+**Current assessment dated November 23, 2026.** This file keeps the November 19 status path for existing links. The original four-document update is preserved in Git history. The [claim ledger](11_CLAIM_TO_SOURCE_LEDGER.csv) and [line review](17_LINE_BY_LINE_CLAIM_VERIFICATION.csv) control individual claims.
 
-## Current focus
+| Area | Status | What a later session can rely on |
+|---|---|---|
+| Canonical evidence and archive | READY | Recovered the original 29-file base, 24 historical snapshots and review records. The publishable documents share one directory. Private originals retain exact wording. |
+| Personal name, contact and admission | CONDITIONAL | Resume originals and official correspondence support the professional-name record and past admission. Confirm contact details and identity spelling privately when drafting. |
+| Education and eligibility | CONDITIONAL | June 2027 is the current candidate-reported expected graduation. Current enrollment, official transcripts and GPA scale remain to verify. A government issuance notice exists. The actual permit start/end dates and how paid RA hours count remain unresolved. |
+| Research role and outcomes | CONDITIONAL | Current supervisor guidance and working reports were inspected. Require individual attribution, approval of employer wording, and a corrected final evaluation freeze before using metrics. |
+| Unpublished research evidence | BLOCKED | External use requires written clearance. A submitted author block and a future presenter assignment are distinct from a completed presentation and published citation. |
+| EvidenceOps source and CI | READY | Pinned public code and original run support artifact descriptions. |
+| EvidenceOps personal skills | CONDITIONAL | Verify owned changes and a practical demonstration for each claimed skill. Earlier resume statements are historical. |
+| Publications | CONDITIONAL | Publisher verifies 2023 bibliography. Confirm the individual contribution before describing technical work. Keep restricted research out of external material until cleared. |
+| Taiwan platforms and ATS procedure | READY | Reusable one-page workflow and form-specific checks. The later submitted document still needs extraction and visual verification. |
+| Job shortlist | CONDITIONAL | Current dated listings and role-level constraints. Candidate eligibility, pay where unpublished, and availability are confirmed separately for each role. |
+| Application history | CONDITIONAL | Read receipts, direct replies and user-entered states stay in the private tracker. Portal-only message content and unreturned outcomes remain unknown. |
+| Interview evidence | CONDITIONAL | Checks are ready. Understanding, coding ability and project ownership are unassessed until demonstrated. |
 
-- Target roles: computer vision/image processing, AI/ML, Python/AI software, RAG/agent development, data processing and software testing/QA internships in Taiwan.
-- Prioritize Taichung and realistic schedules; other locations depend on commute, language, paid terms and eligibility. No specific historical job listing is guaranteed to remain open.
-- Only two active technical project evidence sources: university RGB dorsal-hand research and **EvidenceOps / Agent Reliability Lab**.
-- No numeric lab results, dataset counts, current benchmark claims or unpublished research text are approved for external disclosure by this document.
+## Private records needed for the remaining gates
 
-## Publicly checkable technical evidence
-
-| Evidence | What it supports | What it does **not** support |
-| --- | --- | --- |
-| [EvidenceOps public source](https://github.com/manideepreddyyanala4-svg/LLM-RAG) at commit `3e919f9b740e3c5516c40a77072c42c59e22e70c` | Existence of retrieval, RAG, bounded tool, API, database and testing code at that revision | Personal authorship of each component; live model quality; production deployment; independent proficiency |
-| [EvidenceOps successful GitHub Actions run](https://github.com/manideepreddyyanala4-svg/LLM-RAG/actions/runs/43042149127) | The tracked offline-test job and PostgreSQL/pgvector smoke-test job both completed successfully | Real-world accuracy, full security guarantees, candidate knowledge; the precise pass/skip count requires source run-log verification |
-| [Published 2023 article](https://www.ijcaonline.org/archives/volume185/number23/32830-2023922959/) (DOI `10.5120/ijca2023922959`) | Published bibliographic authorship as shown by the journal | Exact individual coding/research contribution |
-
-**Unpublished lab project:** Private faculty records support academic research participation, but publication/disclosure permissions apply. Do not reproduce project-specific methods, paper title, results, raw images, emails, or unpublished descriptions here. The researcher must obtain an advisor-approved external description before including restricted details in employer-facing materials.
-
-## Candidate-specific records still needed
-
-| Priority | Evidence required | Why |
-| --- | --- | --- |
-| Blocking for detailed research disclosure | Advisor-approved public description and actual individual research contribution record | Avoid sharing restricted/unpublished work |
-| Blocking before claiming specific work eligibility | Current valid permit, conditions, and authoritative clarification of hours including relevant RA work | Check legality of each proposed internship schedule |
-| Important | Current enrollment / graduation confirmation and official transcript if GPA will be listed | Correct degree dates and academic metrics |
-| Important | Original task/script evidence supporting each research experience bullet | Avoid attributing team and AI work incorrectly |
-| Important | Personal EvidenceOps explanation/change history and test provenance | Separate repository capability from individual proficiency |
-| Conditional | Final research manifests, protocols and run logs | Only required if numerical achievements are intended |
-| Important | Private reconciled application/outcome tracker | Prevent duplicating applications and misreading automatic email statuses |
-
-## Evidence collection result
-
-**Open, conditionally ready for cautious planning — not approved for final resume drafting or submission.** All selected future statements must be checked against private original evidence. Unverified numerical achievements should be omitted, not guessed. No interview understanding assessment has been conducted.
-
-See [claim gates](22_CLAIM_APPROVAL_AND_INTERVIEW_GATES.md) and [private evidence policy](23_PRIVATE_APPLICATION_AND_SOURCE_POLICY.md).
+- A current enrollment certificate and official transcripts for any claimed GPA. The November 7 master and November 11 resume use one scale, while the ITRI version uses a different scale.
+- The issued permit's actual dates, work classification or weekly obligations for the RA appointment, and the class and vacation schedule applicable to the job.
+- A dated record of personal research and EvidenceOps contributions, such as a commit, report section, controlled test or approved role record that the applicant can explain.
+- For any restricted conference detail, written external-description permission. For final research figures, supervisor-confirmed subject/session corrections, frozen results and supporting logs. These figures are optional for a future resume.
+- The November 7 file is the six-bullet historical wording source. The November 11 variant and the ITRI formatting reference are comparison sources. All versions remain behind factual and disclosure gates.

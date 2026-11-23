@@ -1,28 +1,15 @@
-# Private job applications and research evidence — retention policy
+# Private application and source policy
 
-**The Manu Learning OS GitHub repository is public.** It is not the storage location for raw application, university, permit, unpublished laboratory or private email evidence.
+The GitHub repository is public. Use scoped source IDs in [the register](12_RESEARCH_SOURCE_REGISTER.csv), dated public job facts, claim decisions, and source categories. Keep application dates and statuses, raw or quoted messages, contact details, academic and permit records, restricted research, images, logs and original resumes in owner-controlled private records. November 19 originals and review records are preserved privately.
 
-## Keep outside public GitHub
+## Application reconciliation
 
-- Employer messages, 104 account exports, application dates and detailed job-by-job personal statuses.
-- Passport/ARC, work permit documents or identifiers; admission and academic originals.
-- Professor emails, unpublished work, experiment logs, images and confidential code/data.
-- Personal phone/email/address not expressly approved for public listing.
-- Private ChatGPT Library links, personal Gmail links or local machine paths.
+- Use the private ManuOS job-preparation tracker. Match exact employer, role, platform and submission date. Resolve bilingual aliases against an original record. Treat a missing date or ambiguous role as unresolved where it prevents deduplication.
+- Save the approved record owner and the exact original role. Use `applied` when the tracker only has submission or read evidence. Record the read event and date in its notes, because the UI has no read-only state. A generic platform or employer notification is an acknowledgment or message signal. Check original message content before assigning interview, rejection or offer.
+- Preserve any user-defined status, notes and date. If a direct reply uses a different role name from the posting, keep the direct evidence and leave the exact role match unresolved unless a common application reference establishes it.
+- For additions, restrict data to the authenticated owner, perform a dry-run deduplication against current tracker rows, and apply additions together. Read back counts and verify old user-entered rows are preserved. New platform events can then update the same application by source and dates. Historical unrelated applications and unauthenticated/portal-only items stay in their source records until the exact role and outcome can be reconciled.
+- Check postings and the actual employer form again at application time. Never add private application outcomes, personal identifiers, account links or records to a public shortlist.
 
-Private records should remain in a secure owner-controlled location. This public index may store only the **category of evidence, its verification status, and its next verification step**, never a copy of restricted data.
+## Research and authorship
 
-## Interpretation safeguards
-
-- An application-read notification means only that the application was marked read. It is not an interview, shortlisting, rejection or offer.
-- An automated application acknowledgment proves receipt, not selection.
-- A thank-you email header or a notification about a message does not establish the employer's actual decision without reading the underlying message.
-- An open-looking posting may have changed; use a fresh official job page before preparing a tailored resume or applying.
-- Confirm onsite hours, pay, eligibility and language individually rather than assuming acceptance of international students.
-- Save each private application's company, role, date, channel, status, evidence link, latest follow-up and next action in a separate private tracker; avoid duplicate submissions.
-
-## Updating the full knowledge base
-
-The full 29-file candidate resume knowledge base currently exists in the owner's local Codex documentation branch, not on public GitHub. Merge **only privacy-cleared** research into that same `resume/` directory. Source IDs for private originals should be abstract, with no sensitive link or quoted contents. Preserve revisions/claim status changes.
-
-Never push raw evidence or publish confidential professor instructions.
+Use [the project guide](07_PROJECTS_AND_RESEARCH_CLAIMS.md) for approved technical scope. Before employer-facing use of restricted work, get written approval for the wording, audience and any metrics, visuals or links. Retain the exact restricted original only through the authorized private source.
