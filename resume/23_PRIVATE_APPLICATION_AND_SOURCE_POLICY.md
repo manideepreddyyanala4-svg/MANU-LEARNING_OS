@@ -13,3 +13,11 @@ The GitHub repository is public. Use scoped source IDs in [the register](12_RESE
 ## Research and authorship
 
 Use [the project guide](07_PROJECTS_AND_RESEARCH_CLAIMS.md) for approved technical scope. Before employer-facing use of restricted work, get written approval for the wording, audience and any metrics, visuals or links. Retain the exact restricted original only through the authorized private source.
+
+## Career workspace storage
+
+Use the existing [ManuOS Job Preparation](https://manu-learning-os.vercel.app/job-preparation) interface. Resumes and other career documents belong to the private Supabase buckets `manu-resumes` and `manu-job-files`. Account authentication and owner-scoped policies govern upload, retrieval and removal. Both buckets cap files at 20 MiB and accept the formats shown by the corresponding upload control.
+
+Store one original per owner and file digest. In the document's evidence editor, record the matching source and claim IDs from [the source register](12_RESEARCH_SOURCE_REGISTER.csv) and [claim ledger](11_CLAIM_TO_SOURCE_LEDGER.csv). Use historical status for original resume versions, then choose a current version explicitly when appropriate. A verified document does not independently approve an achievement for a resume. Current application dates and private evidence/follow-up notes belong to the application record.
+
+Apply and verify the linked career-storage migration before releasing its interface from the review branch. Validate real owner upload, authenticated retrieval, duplicate rejection, deletion, anonymous access denial and cross-account isolation with disposable files before adding private originals. Keep original documents out of GitHub and deployment files. The private source records remain authoritative until a matching canonical original is verified in the career workspace.

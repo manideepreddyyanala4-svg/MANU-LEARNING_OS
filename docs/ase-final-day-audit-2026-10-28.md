@@ -21,7 +21,7 @@
 ## Critical corrections
 
 - **Q22–Q23:** Removed 3,140 raw-image count, 157 volunteer count, and 1,600/80 paper data figures because independent original records were not available. Do not conflate ROI paper evaluation with broader verification research.
-- **Q31:** Removed historical EER values 3.53%, 5.33%, 14.57%, which were not verifiable from supplied primary logs.
+- **Q31:** Removed historical unpublished metrics pending verification and disclosure approval.
 - **Q17, Q29–Q30:** Avoid claiming that normal RGB images are equivalent to NIR vein measurements or that the published LAWNet architecture was invented by the candidate.
 - **Q26:** 0.857 mean IoU measures ROI localization, not biometric recognition success.
 - **Q37–Q38:** Mobile data collection ≠ completed smartphone recognition; the AIAT 2026 presentation has not yet happened.

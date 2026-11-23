@@ -51,3 +51,9 @@ Source classifications distinguish advice as attributable advice from personal v
 - Applied the two-project scope. Older competing project rows now mark archive provenance only. Dorsal results and conference details remain private. The exact three historical resume versions were recovered and the historical six-bullet source was identified.
 - Rechecked the original EvidenceOps run and source. Prior tag/push proposals are superseded by the existing documentation branch. Validate new deployment state against its exact commit.
 - Added a dated public job shortlist, reconciled available notification evidence in the private tracker, and updated the existing readiness notes, interview matrix and drafting instructions.
+
+## Career storage integration review
+
+- Added private career buckets, authenticated owner policies, and evidence metadata and file-digest deduplication to the existing document records.
+- Connected that storage to the existing Job Preparation interface and exposed the recorded application date and follow-up notes there.
+- Removed private-source links, personal application details and unpublished figures from current copies of the earlier public audit and affected interview archive. Earlier Git revisions retain their original content. Any history cleanup requires separate approval.

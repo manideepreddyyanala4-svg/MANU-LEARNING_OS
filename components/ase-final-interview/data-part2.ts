@@ -350,9 +350,8 @@ export const interviewCategoriesPart2: InterviewCategory[] = [
         "number": 150,
         "priority": "PREPARE",
         "question": "What is one verified baseline result you can defend?",
-        "answer": "In the frozen LAWNet target evaluation, cross-session EER was about 14.57 percent. Same-session indoor EER was about 3.53 percent. The gap is the main problem I am studying.",
-        "note": "User-supplied frozen target results: indoor 3.53%, outdoor 5.33%, cross-session 14.57% EER. These are not the published NTUST-IW results or a new-model improvement.",
-        "memory": "FROZEN → 3.53% → 14.57%",
+        "answer": "Use a benchmark only after its evaluation protocol, personal contribution, and permission to share are confirmed.",
+        "memory": "PROTOCOL → EVIDENCE → APPROVAL",
         "story": "session-gap",
         "seconds": "15–20 sec"
       },
@@ -360,8 +359,8 @@ export const interviewCategoriesPart2: InterviewCategory[] = [
         "number": 151,
         "priority": "PREPARE",
         "question": "How much worse is cross-session than same-session?",
-        "answer": "Cross-session EER is about 14.57%, compared with about 3.53% indoors and 5.33% outdoors for same-session testing. This large gap is why cross-session generalization is my main problem.",
-        "memory": "3.53 / 5.33 → 14.57",
+        "answer": "Compare genuine and impostor scores under the two protocols and explain the likely impact of capture changes. Use a public example if numerical results are required.",
+        "memory": "SAME SESSION → CROSS SESSION",
         "story": "session-gap",
         "seconds": "10–15 sec"
       },

@@ -29,6 +29,18 @@ import { Page, Card, Empty } from '@/components/ui';
 import { AseDay1InterviewPrep } from '@/components/ase-day1-interview-prep';
 import { createClient } from '@/lib/supabase';
 import { requireUser } from '@/lib/learning';
+import {
+  careerDocumentError,
+  careerStorage,
+  downloadCareerDocument,
+  evidenceStatuses,
+  removeCareerDocument,
+  storeCareerDocument,
+  type CareerDocument,
+  type CareerDocumentTable,
+  type EvidenceStatus,
+} from '@/lib/career-documents';
+
 
 type Company = { id: string; name: string; website: string | null };
 type Application = {
@@ -37,16 +49,10 @@ type Application = {
   status: string;
   location: string;
   company_id: string | null;
-  created_at?: string;
+  applied_on: string | null;
+  notes: string;
 };
-type Resume = {
-  id: string;
-  original_filename: string;
-  storage_path: string;
-  version_label: string;
-  is_current: boolean;
-  created_at: string;
-};
+type Resume = CareerDocument & { version_label: string; is_current: boolean };
 type Category = { id: string; name: string };
 type InterviewNote = {
   id: string;
@@ -55,13 +61,17 @@ type InterviewNote = {
   category_id: string | null;
   created_at: string;
 };
-type JobFile = {
-  id: string;
-  original_filename: string;
-  storage_path: string;
-  application_id: string | null;
-  created_at: string;
-};
+type JobFile = CareerDocument & { application_id: string | null };
+
+function EvidenceSummary({ document }: { document: CareerDocument }) {
+  return (
+    <p className="mt-1 break-words text-xs text-[var(--muted)]">
+      Evidence <span className="capitalize">{document.evidence_status ?? 'unreviewed'}</span>
+      {!!document.source_ids?.length && <> · Sources {document.source_ids.join(', ')}</>}
+      {!!document.claim_ids?.length && <> · Claims {document.claim_ids.join(', ')}</>}
+    </p>
+  );
+}
 
 const statuses = [
   'saved',
@@ -110,13 +120,17 @@ export default function JobPreparation() {
   const [appCompanyId, setAppCompanyId] = useState('');
   const [appLocation, setAppLocation] = useState('');
   const [appStatus, setAppStatus] = useState<StatusType>('saved');
+  const [appDate, setAppDate] = useState('');
+  const [appNotes, setAppNotes] = useState('');
 
   const [companyModalOpen, setCompanyModalOpen] = useState(false);
   const [companyName, setCompanyName] = useState('');
   const [companyWebsite, setCompanyWebsite] = useState('');
 
-  const [resumeModalOpen, setResumeModalOpen] = useState(false);
-  const [resumeVersion, setResumeVersion] = useState('v1.0');
+  const [evidenceEditor, setEvidenceEditor] = useState<{ table: CareerDocumentTable; id: string } | null>(null);
+  const [evidenceStatus, setEvidenceStatus] = useState<EvidenceStatus>('unreviewed');
+  const [sourceIds, setSourceIds] = useState('');
+  const [claimIds, setClaimIds] = useState('');
 
   const [noteModalOpen, setNoteModalOpen] = useState(false);
   const [noteTitle, setNoteTitle] = useState('');
@@ -142,7 +156,7 @@ export default function JobPreparation() {
         c.from('companies').select('id,name,website').order('name'),
         c
           .from('applications')
-          .select('id,role,status,location,company_id,created_at')
+          .select('id,role,status,location,company_id,applied_on,notes')
           .order('created_at', { ascending: false }),
         c.from('resumes').select('*').order('created_at', { ascending: false }),
         c.from('interview_categories').select('id,name').order('created_at'),
@@ -187,6 +201,8 @@ export default function JobPreparation() {
             company_id: appCompanyId || null,
             location: appLocation.trim(),
             status: appStatus,
+            applied_on: appDate || null,
+            notes: appNotes,
           })
           .eq('id', editingApp.id);
         if (error) throw error;
@@ -197,6 +213,8 @@ export default function JobPreparation() {
           company_id: appCompanyId || null,
           location: appLocation.trim(),
           status: appStatus,
+            applied_on: appDate || null,
+            notes: appNotes,
         });
         if (error) throw error;
       }
@@ -206,6 +224,8 @@ export default function JobPreparation() {
       setAppCompanyId('');
       setAppLocation('');
       setAppStatus('saved');
+      setAppDate('');
+      setAppNotes('');
       await load();
     } catch (e) {
       setMessage(e instanceof Error ? e.message : 'Failed to save application');
@@ -282,72 +302,104 @@ export default function JobPreparation() {
     });
   }
 
-  // Resumes CRUD
-  async function handleResumeUpload(file: File) {
-    const c = createClient();
-    if (!c) return;
+  async function uploadDocument(table: CareerDocumentTable, file: File) {
+    if (busy) return;
+    const client = createClient();
+    if (!client) return;
     setBusy(true);
+    setMessage('');
     try {
-      const u = await requireUser();
-      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-      const path = `${u.id}/${crypto.randomUUID()}-${safeName}`;
-      const up = await c.storage.from('manu-resumes').upload(path, file);
-      if (up.error) throw up.error;
-
-      // Reset existing currents
-      await c
-        .from('resumes')
-        .update({ is_current: false })
-        .eq('user_id', u.id);
-
-      const { error } = await c.from('resumes').insert({
-        user_id: u.id,
-        original_filename: file.name,
-        storage_path: path,
-        version_label: resumeVersion.trim() || 'v1.0',
-        is_current: true,
-      });
-      if (error) throw error;
-      setResumeModalOpen(false);
-      setResumeVersion('v1.0');
+      const user = await requireUser();
+      await storeCareerDocument(client, table, user.id, file);
       await load();
-    } catch (e) {
-      setMessage(e instanceof Error ? e.message : 'Resume upload failed');
+    } catch (error) {
+      setMessage(careerDocumentError(error));
     } finally {
       setBusy(false);
     }
   }
 
-  async function setResumeCurrent(r: Resume) {
-    const c = createClient();
-    const u = await requireUser();
-    await c!.from('resumes').update({ is_current: false }).eq('user_id', u.id);
-    await c!.from('resumes').update({ is_current: true }).eq('id', r.id);
-    await load();
+  async function setResumeCurrent(resume: Resume) {
+    const client = createClient();
+    if (!client) return;
+    setMessage('');
+    try {
+      const { error } = await client.rpc('set_my_current_resume', { resume_id: resume.id });
+      if (error) throw error;
+      await load();
+    } catch (error) {
+      setMessage(careerDocumentError(error));
+    }
   }
 
-  async function downloadResume(r: Resume) {
-    const c = createClient();
-    if (!c) return;
-    const { data } = await c.storage
-      .from('manu-resumes')
-      .createSignedUrl(r.storage_path, 300, { download: r.original_filename });
-    if (data?.signedUrl) window.open(data.signedUrl, '_blank', 'noopener,noreferrer');
+  async function downloadDocument(table: CareerDocumentTable, document: CareerDocument) {
+    const client = createClient();
+    if (!client) return;
+    setMessage('');
+    try {
+      await downloadCareerDocument(client, table, document);
+    } catch (error) {
+      setMessage(careerDocumentError(error));
+    }
   }
 
-  function confirmDeleteResume(r: Resume) {
+  function confirmDeleteDocument(table: CareerDocumentTable, document: CareerDocument) {
     setDeleteDialog({
       open: true,
-      title: `Delete Resume: ${r.version_label}`,
-      description: `Permanently delete ${r.original_filename}?`,
+      title: 'Delete career document',
+      description: `Permanently delete ${document.original_filename} and its evidence links?`,
       onConfirm: async () => {
-        const c = createClient();
-        await c!.storage.from('manu-resumes').remove([r.storage_path]);
-        await c!.from('resumes').delete().eq('id', r.id);
-        await load();
-        setDeleteDialog((d) => ({ ...d, open: false }));
+        const client = createClient();
+        if (!client || busy) return;
+        setBusy(true);
+        setMessage('');
+        try {
+          await removeCareerDocument(client, table, document);
+          setDeleteDialog((d) => ({ ...d, open: false }));
+          await load();
+        } catch (error) {
+          setDeleteDialog((d) => ({ ...d, open: false }));
+          setMessage(careerDocumentError(error));
+        } finally {
+          setBusy(false);
+        }
       },
     });
+  }
+
+  function editEvidence(table: CareerDocumentTable, document: CareerDocument) {
+    setEvidenceStatus(document.evidence_status ?? 'unreviewed');
+    setSourceIds(document.source_ids?.join(', ') ?? '');
+    setClaimIds(document.claim_ids?.join(', ') ?? '');
+    setEvidenceEditor({ table, id: document.id });
+  }
+
+  async function saveEvidence() {
+    const client = createClient();
+    if (!client || !evidenceEditor || busy) return;
+    setBusy(true);
+    setMessage('');
+    try {
+      const parseIds = (value: string) => [...new Set(value.toUpperCase().split(/[;,\s]+/).filter(Boolean))];
+      const sources = parseIds(sourceIds);
+      const claims = parseIds(claimIds);
+      if (sources.some((id) => !/^[A-Z][0-9]{2}$/.test(id)) || claims.some((id) => !/^C[0-9]{3}$/.test(id))) {
+        throw new Error('Use source IDs such as V01 and claim IDs such as C314.');
+      }
+      const { error } = await client.from(evidenceEditor.table).update({
+        evidence_status: evidenceStatus,
+        source_ids: sources,
+        claim_ids: claims,
+      }).eq('id', evidenceEditor.id).select('id').single();
+      if (error) throw error;
+      setEvidenceEditor(null);
+      await load();
+    } catch (error) {
+      setEvidenceEditor(null);
+      setMessage(careerDocumentError(error));
+    } finally {
+      setBusy(false);
+    }
   }
 
   // Interview Notes CRUD
@@ -390,53 +442,6 @@ export default function JobPreparation() {
     });
   }
 
-  // Job Files Upload
-  async function handleJobFileUpload(file: File) {
-    const c = createClient();
-    if (!c) return;
-    try {
-      const u = await requireUser();
-      const safe = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-      const path = `${u.id}/${crypto.randomUUID()}-${safe}`;
-      const up = await c.storage.from('manu-job-files').upload(path, file);
-      if (up.error) throw up.error;
-      const { error } = await c.from('job_files').insert({
-        user_id: u.id,
-        original_filename: file.name,
-        storage_path: path,
-        application_id: null,
-      });
-      if (error) throw error;
-      await load();
-    } catch (e) {
-      setMessage(e instanceof Error ? e.message : 'Job file upload failed');
-    }
-  }
-
-  async function downloadJobFile(f: JobFile) {
-    const c = createClient();
-    if (!c) return;
-    const { data } = await c.storage
-      .from('manu-job-files')
-      .createSignedUrl(f.storage_path, 300, { download: f.original_filename });
-    if (data?.signedUrl) window.open(data.signedUrl, '_blank', 'noopener,noreferrer');
-  }
-
-  function confirmDeleteJobFile(f: JobFile) {
-    setDeleteDialog({
-      open: true,
-      title: `Delete File: ${f.original_filename}`,
-      description: 'Permanently remove this file from job storage?',
-      onConfirm: async () => {
-        const c = createClient();
-        await c!.storage.from('manu-job-files').remove([f.storage_path]);
-        await c!.from('job_files').delete().eq('id', f.id);
-        await load();
-        setDeleteDialog((d) => ({ ...d, open: false }));
-      },
-    });
-  }
-
   // Computed Filters
   const filteredApps = useMemo(() => {
     return apps.filter((a) => {
@@ -453,7 +458,7 @@ export default function JobPreparation() {
     (a) => a.status === 'applied' || a.status === 'screening' || a.status === 'interview'
   ).length;
 
-  const currentResume = resumes.find((r) => r.is_current) ?? resumes[0];
+  const currentResume = resumes.find((r) => r.is_current);
 
   return (
     <Page
@@ -470,6 +475,8 @@ export default function JobPreparation() {
                 setAppCompanyId('');
                 setAppLocation('');
                 setAppStatus('saved');
+                setAppDate('');
+                setAppNotes('');
                 setAppModalOpen(true);
               }}
               className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-xs transition hover:bg-[var(--accent-hover)]"
@@ -494,11 +501,13 @@ export default function JobPreparation() {
               <Upload size={14} /> Upload New Resume
               <input
                 type="file"
-                accept=".pdf,.docx,.doc"
+                accept={careerStorage.resumes.accept}
+                disabled={busy}
                 className="sr-only"
                 onChange={(e) => {
                   const f = e.target.files?.[0];
-                  if (f) void handleResumeUpload(f);
+                  e.currentTarget.value = '';
+                  if (f) void uploadDocument('resumes', f);
                 }}
               />
             </label>
@@ -521,10 +530,13 @@ export default function JobPreparation() {
               <Upload size={14} /> Upload Job Document
               <input
                 type="file"
+                accept={careerStorage.job_files.accept}
+                disabled={busy}
                 className="sr-only"
                 onChange={(e) => {
                   const f = e.target.files?.[0];
-                  if (f) void handleJobFileUpload(f);
+                  e.currentTarget.value = '';
+                  if (f) void uploadDocument('job_files', f);
                 }}
               />
             </label>
@@ -532,6 +544,14 @@ export default function JobPreparation() {
         </div>
       }
     >
+      <a
+        href="https://github.com/manideepreddyyanala4-svg/MANU-LEARNING_OS/tree/docs/resume-evidence-2026-11-19/resume"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mb-4 inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--accent)] hover:underline"
+      >
+        Resume evidence and Taiwan internship shortlist <ExternalLink size={13} />
+      </a>
       {message && (
         <p role="alert" className="mb-6 rounded-xl bg-red-50 p-3 text-xs font-semibold text-red-600 dark:bg-red-950/20">
           {message}
@@ -560,6 +580,8 @@ export default function JobPreparation() {
               setAppCompanyId('');
               setAppLocation('');
               setAppStatus('saved');
+              setAppDate('');
+              setAppNotes('');
               setAppModalOpen(true);
             }}
             className="rounded-xl bg-[var(--accent)] px-4 py-2.5 text-xs font-bold text-[var(--on-accent)]"
@@ -725,6 +747,12 @@ export default function JobPreparation() {
                                 </a>
                               )}
                             </div>
+                            {a.notes && (
+                              <details className="mt-2 text-xs text-[var(--muted)]">
+                                <summary className="cursor-pointer font-medium">Evidence & follow-up</summary>
+                                <p className="mt-1 whitespace-pre-wrap break-words">{a.notes}</p>
+                              </details>
+                            )}
                           </td>
                           <td className="py-3.5 px-4 text-[var(--muted)]">
                             {a.location || 'Remote / Unspecified'}
@@ -743,7 +771,7 @@ export default function JobPreparation() {
                             </select>
                           </td>
                           <td className="py-3.5 px-4 text-[var(--muted)]">
-                            {a.created_at ? new Date(a.created_at).toLocaleDateString() : '—'}
+                            {a.applied_on ?? '—'}
                           </td>
                           <td className="py-3.5 px-4 text-right">
                             <div className="inline-flex items-center gap-1">
@@ -754,6 +782,8 @@ export default function JobPreparation() {
                                   setAppCompanyId(a.company_id ?? '');
                                   setAppLocation(a.location ?? '');
                                   setAppStatus(a.status as StatusType);
+                                  setAppDate(a.applied_on ?? '');
+                                  setAppNotes(a.notes ?? '');
                                   setAppModalOpen(true);
                                 }}
                                 aria-label="Edit application"
@@ -793,6 +823,8 @@ export default function JobPreparation() {
                       setAppCompanyId('');
                       setAppLocation('');
                       setAppStatus('saved');
+                      setAppDate('');
+                      setAppNotes('');
                       setAppModalOpen(true);
                     }}
                     className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-xs"
@@ -851,6 +883,8 @@ export default function JobPreparation() {
                         setAppCompanyId(c.id);
                         setAppLocation('');
                         setAppStatus('saved');
+                        setAppDate('');
+                        setAppNotes('');
                         setActiveTab('applications');
                         setAppModalOpen(true);
                       }}
@@ -904,10 +938,10 @@ export default function JobPreparation() {
                   </p>
                 </div>
                 <button
-                  onClick={() => void downloadResume(currentResume)}
+                  onClick={() => void downloadDocument('resumes', currentResume)}
                   className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[var(--on-accent)] shadow-xs hover:bg-[var(--accent-hover)] transition shrink-0"
                 >
-                  <Download size={14} /> Download PDF
+                  <Download size={14} /> Download
                 </button>
               </div>
             </div>
@@ -935,6 +969,7 @@ export default function JobPreparation() {
                         <p className="text-xs text-[var(--muted)]">
                           {r.original_filename} · {new Date(r.created_at).toLocaleDateString()}
                         </p>
+                        <EvidenceSummary document={r} />
                       </div>
                     </div>
 
@@ -948,13 +983,21 @@ export default function JobPreparation() {
                         </button>
                       )}
                       <button
-                        onClick={() => void downloadResume(r)}
+                        onClick={() => void downloadDocument('resumes', r)}
                         className="grid h-7 w-7 place-items-center rounded-lg text-[var(--muted)] hover:bg-black/5 hover:text-[var(--fg)]"
                       >
                         <Download size={14} />
                       </button>
                       <button
-                        onClick={() => confirmDeleteResume(r)}
+                        onClick={() => editEvidence('resumes', r)}
+                        aria-label="Edit document evidence"
+                        className="grid h-7 w-7 place-items-center rounded-lg text-[var(--muted)] hover:bg-black/5"
+                      >
+                        <Pencil size={14} />
+                      </button>
+                      <button
+                        aria-label="Delete document"
+                        onClick={() => confirmDeleteDocument('resumes', r)}
                         className="grid h-7 w-7 place-items-center rounded-lg text-red-500 hover:bg-red-50"
                       >
                         <Trash2 size={14} />
@@ -967,7 +1010,7 @@ export default function JobPreparation() {
               <Empty
                 icon={<FileCheck2 size={20} />}
                 title="No resumes uploaded"
-                description="Upload tailored PDF versions of your resume for software & research applications."
+                description="Store original PDF or Word resume versions. Choose which version is current."
               />
             )}
           </div>
@@ -1123,17 +1166,26 @@ export default function JobPreparation() {
                         <p className="text-xs text-[var(--muted)]">
                           Uploaded {new Date(f.created_at).toLocaleDateString()}
                         </p>
+                        <EvidenceSummary document={f} />
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <button
-                        onClick={() => void downloadJobFile(f)}
+                        onClick={() => void downloadDocument('job_files', f)}
                         className="inline-flex items-center gap-1 rounded-lg border border-[var(--line)] bg-[var(--surface)] px-2.5 py-1 text-xs font-semibold text-[var(--fg)]"
                       >
                         <Download size={13} /> Download
                       </button>
                       <button
-                        onClick={() => confirmDeleteJobFile(f)}
+                        onClick={() => editEvidence('job_files', f)}
+                        aria-label="Edit document evidence"
+                        className="grid h-7 w-7 place-items-center rounded-lg text-[var(--muted)] hover:bg-black/5"
+                      >
+                        <Pencil size={14} />
+                      </button>
+                      <button
+                        aria-label="Delete document"
+                        onClick={() => confirmDeleteDocument('job_files', f)}
                         className="grid h-7 w-7 place-items-center rounded-lg text-red-500 hover:bg-red-50"
                       >
                         <Trash2 size={13} />
@@ -1243,6 +1295,17 @@ export default function JobPreparation() {
                   />
                 </div>
               </div>
+
+              <label className="block font-bold text-[var(--fg)]">
+                Applied date
+                <input type="date" value={appDate} onChange={(e) => setAppDate(e.target.value)}
+                  className="mt-1 block w-full rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3 text-xs" />
+              </label>
+              <label className="block font-bold text-[var(--fg)]">
+                Evidence and follow-up
+                <textarea rows={3} value={appNotes} onChange={(e) => setAppNotes(e.target.value)}
+                  className="mt-1 block w-full rounded-xl border border-[var(--line)] bg-[var(--bg)] p-3 text-xs" />
+              </label>
 
               <div className="mt-6 flex justify-end gap-2.5 pt-4 border-t border-[var(--line)]">
                 <button
@@ -1415,6 +1478,44 @@ export default function JobPreparation() {
       )}
 
       {/* Delete Confirmation Modal */}
+      {evidenceEditor && (
+        <div className="fixed inset-0 z-50 grid place-items-center overflow-y-auto bg-black/50 p-4">
+          <form
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="career-evidence-heading"
+            onSubmit={(e) => { e.preventDefault(); void saveEvidence(); }}
+            className="w-full max-w-sm space-y-4 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 text-sm"
+          >
+            <h2 id="career-evidence-heading" className="font-bold">Document evidence</h2>
+            <label className="block">
+              Verification status
+              <select value={evidenceStatus} onChange={(e) => setEvidenceStatus(e.target.value as EvidenceStatus)}
+                className="mt-1 block w-full rounded-lg border border-[var(--line)] bg-[var(--bg)] p-2 capitalize">
+                {evidenceStatuses.map((status) => <option key={status} value={status}>{status}</option>)}
+              </select>
+            </label>
+            <label className="block">
+              Source IDs
+              <input value={sourceIds} onChange={(e) => setSourceIds(e.target.value)} placeholder="V01, N02"
+                className="mt-1 block w-full rounded-lg border border-[var(--line)] bg-[var(--bg)] p-2" />
+            </label>
+            <label className="block">
+              Claim IDs
+              <input value={claimIds} onChange={(e) => setClaimIds(e.target.value)} placeholder="C314, C329"
+                className="mt-1 block w-full rounded-lg border border-[var(--line)] bg-[var(--bg)] p-2" />
+            </label>
+            <div className="flex justify-end gap-3">
+              <button type="button" disabled={busy} onClick={() => setEvidenceEditor(null)}>Cancel</button>
+              <button type="submit" disabled={busy}
+                className="rounded-lg bg-[var(--accent)] px-3 py-2 font-semibold text-[var(--on-accent)]">
+                Save evidence
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
       {deleteDialog.open && (
         <div
           role="presentation"
@@ -1446,6 +1547,7 @@ export default function JobPreparation() {
               </button>
               <button
                 onClick={() => void deleteDialog.onConfirm()}
+                disabled={busy}
                 className="rounded-xl bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-700 transition"
               >
                 Delete
