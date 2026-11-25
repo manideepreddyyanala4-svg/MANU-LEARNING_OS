@@ -52,6 +52,12 @@ Source classifications distinguish advice as attributable advice from personal v
 - Rechecked the original EvidenceOps run and source. Prior tag/push proposals are superseded by the existing documentation branch. Validate new deployment state against its exact commit.
 - Added a dated public job shortlist, reconciled available notification evidence in the private tracker, and updated the existing readiness notes, interview matrix and drafting instructions.
 
+## November 25, 2026 EvidenceOps audit reconciliation
+
+- Compared EvidenceOps [PR #2](https://github.com/manideepreddyyanala4-svg/LLM-RAG/pull/2) with 06, 07, 11, 12, 17 and 18 on this documentation branch. Existing IDs and claim decisions remain in place. Updated 07 and 06 only where the audit added a useful clarification.
+- C029/P01 retains the verified retrieval boundary. Hybrid uses bilingual keyword and semantic vector rankings through RRF; BM25 is separate. C132/C308/V02 retain the pinned 84-test result with 76 passes and 8 skips, and C328/V02 retains the passing synthetic PostgreSQL/pgvector smoke job.
+- The project's Ollama case results remain project-reported without independently reproduced raw output. Claude is credited in core commits. C128–C131 and C134–C138 still require attributable personal contributions and proficiency evidence. Production, security and answer-accuracy claims remain unapproved.
+
 ## Career storage integration review
 
 - Added private career buckets, authenticated owner policies, and evidence metadata and file-digest deduplication to the existing document records.

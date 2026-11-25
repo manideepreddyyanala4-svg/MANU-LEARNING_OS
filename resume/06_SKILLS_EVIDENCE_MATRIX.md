@@ -17,13 +17,13 @@ C202/N02 establish historical ONNX wording only. Use ONNX as a personal skill af
 | scikit-learn | ML/data roles | No direct personally owned implementation identified | NOT VERIFIED | VERIFY FIRST C140 |
 | SQL | Software/data roles | L05 SQLite persistence; query proficiency not tested | Partially documented | VERIFY FIRST C137 |
 | SQLite | Local application storage | L05 Persistence; database.py connection locations found | Documented personal proficiency unconfirmed | VERIFY FIRST C137 |
-| PostgreSQL, pgvector | Backend/vector adapters | L05 adapter; P05 CI service configuration | Documented, live checks not performed | VERIFY FIRST C138 |
+| PostgreSQL, pgvector | Backend/vector adapters | L05 adapter; P05 CI service configuration; V02 passing synthetic PostgreSQL/pgvector smoke job | Adapter and CI check verified; personal proficiency unconfirmed | VERIFY FIRST C138 |
 | FastAPI | API/software roles | P03 role checks directly read; other routes in L05 | Artifact demonstrated; personal ability unconfirmed | VERIFY FIRST C131/C137 |
 | RAG / grounded answering | Logitech historical J42; RAG family | P02 run_agent calls grounded_answer; L05 generation/claim checks | Artifact partial source verification, authorship unknown | VERIFY FIRST C113/C128 |
 | Lexical/BM25/cosine/RRF | Retrieval roles | P01 functions directly read | Artifact PRIMARY VERIFIED; personal skill unconfirmed | VERIFY FIRST C129/C136 |
 | Agent tool sequencing | Agent/reliability roles | P02 available_actions/tool_arguments | Artifact PRIMARY VERIFIED; contribution unknown | VERIFY FIRST C130 |
 | MCP | Agent roles | P02 and pinned mcp_server.py code re-read/hash matched; four stdio tools | Implementation verified; no fresh live run or personal assessment | VERIFY FIRST C136 |
-| Ollama | Local inference application | L05 model adapter/configuration | Documented but current inference not verified | VERIFY FIRST C138 |
+| Ollama | Local inference application | L05 model adapter/configuration; EvidenceOps PR #2 audit reports local-model case runs | Project-reported Ollama results lack independently reproduced raw evaluation output; personal proficiency unconfirmed | VERIFY FIRST C138 |
 | Testing | Appier C021; historical QA roles | P04 log, P05 workflow, L05 mocked boundary | Artifact log verified; author/mastery unknown | CONDITIONAL C132 |
 | Git | Shared engineering requirements | L05 history report; no current checkout | Documented, no personal workflow observed | VERIFY FIRST C138 |
 | Linux | Shared/robotics roles | Job demand and L06 learning gap | Planned/learning or unknown | VERIFY FIRST C138 |
